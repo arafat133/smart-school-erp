@@ -1,51 +1,8 @@
 @echo off
-chcp 65001 > nul
-cls
-echo ==============================================================================
-echo       🏫 نظام المدارس السحابي الآمن - أداة النشر السحابي التلقائي الشامل
-echo ==============================================================================
-echo.
-echo [1/4] جاري التحقق من أداة GitHub CLI...
-
-where gh >nul 2>nul
-if %errorlevel% neq 0 (
-    echo [!] جاري تحديث مسار النظام للتعرف على gh...
-    set "PATH=%PATH%;C:\Program Files\GitHub CLI\"
-)
-
-echo [2/4] فحص حالة تسجيل الدخول في GitHub...
-gh auth status >nul 2>nul
+cd /d "%~dp0"
+python deploy_to_cloud.py
 if %errorlevel% neq 0 (
     echo.
-    echo --------------------------------------------------------------------------
-    echo [!] أنت غير مسجل الدخول في GitHub حالياً.
-    echo [!] سيتم فتح المتصفح الآن لتسجيل الدخول برمز الأمان بضغطة زر واحدة.
-    echo --------------------------------------------------------------------------
-    echo.
-    gh auth login --web --git-protocol https --skip-ssh-key
+    echo An error occurred. Press any key to exit...
+    pause > nul
 )
-
-echo.
-echo [3/4] جاري إنشاء المستودع السحابي ورفع الكود كاملاً (Push)...
-gh repo create smart-school-erp --public --source=. --remote=origin --push
-if %errorlevel% neq 0 (
-    echo.
-    echo [i] إذا كان المستودع موجوداً مسبقاً، سيتم رفع التحديثات مباشرة:
-    git push -u origin main
-)
-
-echo.
-echo ==============================================================================
-echo [4/4] تم رفع المشروع إلى GitHub بنجاح تام!
-echo ==============================================================================
-echo.
-echo جاري فتح منصات الاستضافة السحابية بضغطة زر واحدة للنشر الفوري:
-echo 1. فتح Vercel لربط الواجهة الأمامية ونشرها...
-start https://vercel.com/new
-echo 2. فتح Render لتشغيل الباك إند وقاعدة البيانات مجاناً...
-start https://dashboard.render.com/blueprints/new
-echo.
-echo ==============================================================================
-echo تهانينا! نظام المدارس السحابي أصبح جاهزاً بالكامل على السحابة.
-echo اضغط أي زر للخروج...
-pause > nul
