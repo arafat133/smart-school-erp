@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}بوابة Admin — Smart School ERP{% endblock %}
+{% block sidebar %}{% include 'partials/_sidebar_admin.html' %}{% endblock %}
+{% block page_container %}
+    
+    
+    
+    
+    
+    
+    
+    {% include 'modules/system_admin/pg_saas_admin.html' %}
+    {% include 'modules/system_admin/pg_admin_password.html' %}
+    
+    
+    
+    
+    
+    
+    {% include 'modules/system_admin/pg_school_info.html' %}
+    {% include 'modules/system_admin/pg_users.html' %}
+    {% include 'modules/system_admin/pg_audit.html' %}
+    {% include 'modules/system_admin/pg_cyber_soc.html' %}
+    {% include 'modules/academic_setup/pg_stages.html' %}
+    {% include 'modules/academic_setup/pg_subjects.html' %}
+    {% include 'modules/academic_setup/pg_subject_distribution.html' %}
+    {% include 'modules/academic_setup/pg_classrooms.html' %}
+    {% include 'modules/academic_setup/pg_class_times.html' %}
+    {% include 'modules/academic_setup/pg_timetable_builder.html' %}
+    {% include 'modules/academic_setup/pg_required_docs.html' %}
+    {% include 'modules/academic_setup/pg_fee_categories.html' %}
+    {% include 'modules/academic_setup/pg_discount_categories.html' %}
+    {% include 'modules/academic_setup/pg_installment_plans.html' %}
+    {% include 'modules/academic_setup/pg_grade_fees.html' %}
+    {% include 'modules/academic_setup/pg_sections.html' %}
+    {% include 'modules/students/pg_students.html' %}
+    {% include 'modules/students/pg_parents.html' %}
+    {% include 'modules/students/pg_student_docs.html' %}
+    {% include 'modules/students/pg_section_distribution.html' %}
+    {% include 'modules/students/pg_enrollment.html' %}
+    {% include 'modules/students/pg_attendance.html' %}
+    {% include 'modules/students/pg_student_tree.html' %}
+    {% include 'modules/finance/pg_currencies.html' %}
+    {% include 'modules/hr/pg_guarantors.html' %}
+    {% include 'modules/hr/pg_teacher_subjects.html' %}
+    {% include 'modules/hr/pg_emp_notices.html' %}
+    {% include 'modules/exams/pg_exam_halls.html' %}
+    {% include 'modules/exams/pg_seat_numbers.html' %}
+    {% include 'modules/exams/pg_secret_numbers.html' %}
+    {% include 'modules/exams/pg_hall_distribution.html' %}
+    {% include 'modules/exams/pg_roll_call.html' %}
+    {% include 'modules/exams/pg_seat_cards.html' %}
+    {% include 'modules/exams/pg_substitute.html' %}
+    {% include 'modules/tools/pg_activity_types.html' %}
+    {% include 'modules/tools/pg_activity_supervisors.html' %}
+    {% include 'modules/tools/pg_activity_enrollment.html' %}
+    {% include 'modules/tools/pg_activity_reports.html' %}
+    {% include 'modules/transport/pg_transport_routes.html' %}
+    {% include 'modules/transport/pg_buses.html' %}
+    {% include 'modules/transport/pg_transport_enrollment.html' %}
+    {% include 'modules/finance/pg_finance_reports.html' %}
+    {% include 'modules/finance/pg_demand_letters.html' %}
+    {% include 'modules/inventory/pg_item_categories.html' %}
+    {% include 'modules/inventory/pg_inventory_items.html' %}
+    {% include 'modules/inventory/pg_supply_orders.html' %}
+    {% include 'modules/inventory/pg_issue_orders.html' %}
+    {% include 'modules/inventory/pg_suppliers.html' %}
+    {% include 'modules/inventory/pg_inventory_reports.html' %}
+    {% include 'modules/reports/pg_custom_reports.html' %}
+    {% include 'modules/reports/pg_sms_settings.html' %}
+    {% include 'modules/reports/pg_sms_send.html' %}
+    {% include 'modules/reports/pg_sms_templates.html' %}
+    {% include 'modules/tools/pg_sms_balance.html' %}
+    {% include 'modules/reports/pg_monthly_report.html' %}
+    {% include 'modules/reports/pg_semester_report.html' %}
+    {% include 'modules/reports/pg_class_details.html' %}
+    {% include 'modules/reports/pg_top_students.html' %}
+    {% include 'modules/reports/pg_success_rate_subject.html' %}
+    {% include 'modules/tools/pg_success_rate_section.html' %}
+    {% include 'modules/reports/pg_control_reports.html' %}
+    {% include 'modules/tools/pg_admin_messages.html' %}
+    {% include 'modules/tools/pg_shortcuts.html' %}
+    {% include 'modules/tools/pg_faq.html' %}
+    {% include 'modules/tools/pg_dictionary.html' %}
+    {% include 'modules/tools/pg_personal_info.html' %}
+    {% include 'modules/exams/pg_exam_schedule.html' %}
+    {% include 'modules/tools/pg_schedule.html' %}
+    {% include 'modules/tools/pg_promotion.html' %}
+    {% include 'modules/hr/pg_employees.html' %}
+    {% include 'modules/hr/pg_emp_contracts.html' %}
+    {% include 'modules/hr/pg_emp_attendance.html' %}
+    {% include 'modules/hr/pg_emp_advances.html' %}
+    {% include 'modules/hr/pg_payroll.html' %}
+    {% include 'modules/exams/pg_homework_tracker.html' %}
+    {% include 'modules/exams/pg_certificates.html' %}
+    {% include 'modules/exams/pg_results.html' %}
+    {% include 'modules/exams/pg_grading.html' %}
+    {% include 'modules/transport/pg_activities.html' %}
+    {% include 'modules/transport/pg_transport.html' %}
+    {% include 'modules/academic_setup/pg_academic_calendar.html' %}
+    {% include 'modules/academic_setup/pg_academic_years.html' %}
+    {% include 'modules/finance/pg_chart_accounts.html' %}
+    {% include 'modules/finance/pg_checks.html' %}
+    {% include 'modules/finance/pg_banks.html' %}
+    {% include 'modules/finance/pg_cashboxes.html' %}
+    {% include 'modules/students/pg_student_register.html' %}
+    {% include 'modules/students/pg_promotion_workflow.html' %}
+    {% include 'modules/students/pg_discontinued.html' %}
+    {% include 'modules/students/pg_class_notes.html' %}
+    {% include 'modules/hr/pg_performance_eval.html' %}
+    {% include 'modules/hr/pg_leave_management.html' %}
+    {% include 'modules/system_admin/pg_audit_trail.html' %}
+    {% include 'modules/finance/pg_closings.html' %}
+    {% include 'modules/finance/pg_cashbox_inventory.html' %}
+    {% include 'modules/finance/pg_cost_centers.html' %}
+    {% include 'modules/finance/pg_account_ceiling.html' %}
+    {% include 'modules/finance/pg_student_account.html' %}
+    {% include 'modules/finance/pg_vouchers.html' %}
+    {% include 'modules/finance/pg_journal.html' %}
+    {% include 'modules/tools/pg_sync_center.html' %}
+    {% include 'modules/tools/pg_announcements_hub.html' %}
+    {% include 'modules/tools/pg_predictive_analytics.html' %}
+    {% include 'modules/system_admin/pg_db_management.html' %}
+    {% include 'modules/system_admin/pg_archive.html' %}
+    {% include 'modules/system_admin/pg_alerts.html' %}
+    {% include 'modules/system_admin/pg_system_settings.html' %}
+{% endblock %}
+{% block page_scripts %}
+    <script src="/assets/js/modules/academic_setup.js"></script>
+    <script src="/assets/js/modules/dashboard.js"></script>
+    <script src="/assets/js/modules/exams.js"></script>
+    <script src="/assets/js/modules/finance.js"></script>
+    <script src="/assets/js/modules/hr.js"></script>
+    <script src="/assets/js/modules/inventory.js"></script>
+    <script src="/assets/js/modules/parent_portal.js"></script>
+    <script src="/assets/js/modules/reports.js"></script>
+    <script src="/assets/js/modules/students.js"></script>
+    <script src="/assets/js/modules/system_admin.js"></script>
+    <script src="/assets/js/modules/tools.js"></script>
+    <script src="/assets/js/modules/transport.js"></script>
+{% endblock %}

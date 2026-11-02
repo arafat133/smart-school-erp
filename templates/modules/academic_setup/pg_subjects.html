@@ -1,0 +1,74 @@
+<div class="page" id="pg-subjects">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-book"></i> إدارة المواد الدراسية والمناهج (Subjects & Curriculum Management)</h2>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="stats-row" style="margin-bottom:16px;">
+                        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-book" style="color:#3b82f6;margin-left:6px;"></i> إجمالي المواد</h3>
+                                <p style="color:#60a5fa;font-weight:800;font-size:1.2rem;" id="subjTotal">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">عدد المواد المسجلة</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #10b981;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-star" style="color:#10b981;margin-left:6px;"></i> مواد أساسية</h3>
+                                <p style="color:#34d399;font-weight:800;font-size:1.2rem;" id="subjCore">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">المواد الإلزامية</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-puzzle-piece" style="color:#f59e0b;margin-left:6px;"></i> مواد اختيارية</h3>
+                                <p style="color:#fbbf24;font-weight:800;font-size:1.2rem;" id="subjElective">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">المواد الاختيارية</small>
+                            </div>
+                        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" style="justify-content:space-between;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+        <div style="display:flex;gap:10px;flex:1;max-width:560px;flex-wrap:wrap;">
+            <div class="search-box" style="flex:1;min-width:240px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchSubjects" placeholder="بحث في المواد الدراسية..." oninput="renderSubjectsGrid()">
+            </div>
+            <select id="filterSubjectCategory" onchange="renderSubjectsGrid()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#cbd5e1;padding:8px 14px;border-radius:8px;outline:none;cursor:pointer;font-family:inherit;">
+                <option value="all">كل تصنيفات المواد</option>
+                <option value="علمية">مواد علمية وتطبيقية</option>
+                <option value="لغات">لغات وآداب</option>
+                <option value="إسلامية">علوم شرعية وإسلامية</option>
+                <option value="حاسوب">حاسوب وذكاء اصطناعي</option>
+                <option value="اجتماعية">دراسات اجتماعية</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('subjects')"><i class="fa-solid fa-plus"></i> إضافة مادة دراسية جديدة</button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i class="fa-solid fa-print"></i> طباعة</button>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود المادة</th>
+                    <th>اسم المادة</th>
+                    <th>النوع</th>
+                    <th>المرحلة</th>
+                    <th>عدد الحصص الأسبوعية</th>
+                    <th>الدرجة القصوى</th>
+                    <th>المعلم</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-subjects-grid"></tbody>
+        </table>
+    </div>
+</div>

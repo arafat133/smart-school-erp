@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تقرير التحقيق الجنائي الرقمي - CERT-SOC-1793225473</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0b1120; color: #f8fafc; padding: 40px; margin: 0; }
+        .sheet { background: #0f172a; max-width: 850px; margin: auto; padding: 40px; border-radius: 16px; border: 1px solid #1e293b; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); position: relative; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155; padding-bottom: 20px; }
+        .logo { font-size: 26px; font-weight: bold; color: #38bdf8; }
+        .badge { background: #dc2626; color: white; padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: bold; }
+        h2 { color: #e2e8f0; font-size: 18px; margin-top: 25px; border-right: 4px solid #38bdf8; padding-right: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        th, td { padding: 12px; text-align: right; border-bottom: 1px solid #1e293b; }
+        th { color: #94a3b8; width: 30%; }
+        td { color: #f1f5f9; font-weight: 500; }
+        .code-box { background: #020617; border: 1px solid #334155; padding: 12px; border-radius: 8px; font-family: monospace; color: #fca5a5; word-break: break-all; margin-top: 8px; }
+        .seal-box { background: rgba(56, 189, 248, 0.05); border: 1px dashed #38bdf8; padding: 16px; border-radius: 12px; margin-top: 30px; font-family: monospace; font-size: 12px; color: #7dd3fc; }
+        .stamp { display: inline-block; border: 3px double #22c55e; color: #22c55e; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 14px; text-align: center; transform: rotate(-5deg); float: left; }
+        @media print {
+            body { background: white; color: black; padding: 0; }
+            .sheet { box-shadow: none; border: none; padding: 20px; width: 100%; }
+            .badge { background: black; color: white; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <div class="stamp">✅ نظام محمي 100%<br>ZERO DATA BREACH</div>
+        <div class="header">
+            <div>
+                <div class="logo">🏫 مدرسة السحاب الذكية - مركز العمليات السيبرانية SOC</div>
+                <div style="color: #64748b; font-size: 13px; margin-top: 5px;">تقرير الأدلة الجنائية الرقمية وتحليل الهجمات (Digital Forensics Report)</div>
+            </div>
+            <div>
+                <span class="badge">🔴 إنذار أمني محبط</span>
+            </div>
+        </div>
+
+        <h2>1. بطاقة الهجوم والتوثيق الزمني</h2>
+        <table>
+            <tr><th>رقم السجل الجنائي:</th><td><code>CERT-SOC-1793225473</code></td></tr>
+            <tr><th>توقيت الرصد بالملي ثانية:</th><td><code>2026-10-29 01:11:13</code></td></tr>
+            <tr><th>تصنيف الهجوم (MITRE ATT&CK):</th><td><code>CRYPTO_TAMPERING - T1190</code></td></tr>
+            <tr><th>المسار المستهدف:</th><td><code>AES-256-GCM Decryption Core</code></td></tr>
+            <tr><th>عنوان المهاجم (Attacker IP):</th><td><code>Database-Storage-Engine</code></td></tr>
+        </table>
+
+        <h2>2. الدليل الجنائي للحمولة المحظورة (Malicious Payload)</h2>
+        <div class="code-box">فشل التحقق من توقيع المصادقة AEAD (تلاعب مباشر بالبيانات): </div>
+
+        <h2>3. التقييم الدفاعي وحالة البنية التحتية</h2>
+        <table>
+            <tr><th>حالة جدار الحماية:</th><td>✅ تم إسقاط الحزمة ومنع دخولها لقاعدة البيانات فورياً.</td></tr>
+            <tr><th>تشفير البيانات الساكنة:</th><td>✅ تشفير AES-256-GCM سليم 100% وتواقيع AEAD متطابقة.</td></tr>
+            <tr><th>سلسلة الكتل للشهادات:</th><td>✅ كتل Blockchain سليمة ومطابقة للهاش الأصلي.</td></tr>
+            <tr><th>النتيجة النهائية:</th><td>🛡️ <b>تم إحباط الهجوم بالكامل وبدون أي تسريب بيانات.</b></td></tr>
+        </table>
+
+        <div class="seal-box">
+            <b>🔐 الختم الرقمي للأدلة الجنائية (Cryptographic Evidence Seal):</b><br>
+            SHA-256 Digest: 2efdcd82e3f481a1be68245cdc7593ae95da356160a5b71a5b1d20a70b8eb2fe<br>
+            <i>تم التوثيق والمصادقة تلقائياً عبر Cyber Guardian AI Security Agent v2.5.</i>
+        </div>
+    </div>
+</body>
+</html>

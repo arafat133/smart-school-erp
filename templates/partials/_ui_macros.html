@@ -1,0 +1,66 @@
+{# ==========================================================================
+   🏛️ SMART SCHOOL ERP - REUSABLE UI COMPONENT MACROS (JINJA2)
+   ========================================================================== #}
+
+{# 1. Standard Page Header Macro #}
+{% macro page_header(icon, title_ar, title_en="", back_target="pg-dashboard") -%}
+<div class="page-header">
+    <button class="btn-back" onclick="goTo('{{ back_target }}')" title="الرجوع للرئيسية">
+        <i class="fa-solid fa-arrow-right"></i>
+    </button>
+    <h2>
+        <i class="fa-solid {{ icon }}"></i> {{ title_ar }} {% if title_en %}<span class="en-title">({{ title_en }})</span>{% endif %}
+    </h2>
+</div>
+{%- endmacro %}
+
+{# 2. Standard Stat Card Macro #}
+{% macro stat_card(label, count_id, icon, color="#3b82f6", desc="", default_val="0") -%}
+<div class="stat-card" style="border-right: 4px solid {{ color }};">
+    <div class="stat-info">
+        <h3><i class="fa-solid {{ icon }}" style="color: {{ color }}; margin-left: 6px;"></i> {{ label }}</h3>
+        <p style="color: {{ color }};" id="{{ count_id }}">{{ default_val }}</p>
+        {% if desc %}<small>{{ desc }}</small>{% endif %}
+    </div>
+</div>
+{%- endmacro %}
+
+{# 3. Standard Toolbar Macro #}
+{% macro toolbar(search_id, search_placeholder="بحث...", add_btn_label="", add_btn_form="", add_btn_icon="fa-plus", show_print=True) -%}
+<div class="toolbar">
+    {% if search_id %}
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="{{ search_id }}" placeholder="{{ search_placeholder }}">
+    </div>
+    {% endif %}
+    <div class="toolbar-actions" style="display:flex; gap:8px; flex-wrap:wrap;">
+        {% if add_btn_label %}
+        <button class="btn-add" {% if add_btn_form %}onclick="openForm('{{ add_btn_form }}')"{% endif %}>
+            <i class="fa-solid {{ add_btn_icon }}"></i> {{ add_btn_label }}
+        </button>
+        {% endif %}
+        {% if show_print %}
+        <button class="btn-add btn-print" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+            <i class="fa-solid fa-print"></i> طباعة السجل
+        </button>
+        {% endif %}
+    </div>
+</div>
+{%- endmacro %}
+
+{# 4. Standard Data Table Wrapper Macro #}
+{% macro data_table(grid_id, columns=[]) -%}
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                {% for col in columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody id="{{ grid_id }}"></tbody>
+    </table>
+</div>
+{%- endmacro %}

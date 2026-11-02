@@ -1,0 +1,71 @@
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo"><i class="fa-solid fa-shield-halved" style="color:#38bdf8;"></i></div>
+        <h2><i class="fa-solid fa-server"></i> بوابة مدير النظام (SaaS)</h2>
+        <button class="btn-sidebar-close" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+        <!-- Top Direct SaaS Dashboard Link -->
+        <a href="#" class="nav-item direct-item active" onclick="goTo('pg-saas-admin')"
+            style="margin-bottom:12px;background:linear-gradient(135deg,rgba(14,165,233,0.25),rgba(2,132,199,0.25));border:1px solid rgba(56,189,248,0.4);border-radius:12px;color:#fff;">
+            <i class="fa-solid fa-gauge-high" style="color:#38bdf8;"></i>
+            <span>لوحة التحكم السحابية (SaaS)</span>
+        </a>
+
+        <!-- Section 1: Multi-Tenancy & School Management -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-network-wired" style="color:#38bdf8;"></i> <span>إدارة المدارس والاشتراكات</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-saas-admin')"><i class="fa-solid fa-building-columns"></i> دليل المدارس والفروع</a>
+                <a href="#" onclick="goTo('pg-school-info')"><i class="fa-solid fa-id-card-clip"></i> بيانات المنشأة والتراخيص</a>
+            </div>
+        </div>
+
+        <!-- Section 2: Database & System Security -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-database" style="color:#10b981;"></i> <span>قواعد البيانات والأمان السيادي</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-cyber-soc')" style="color:#38bdf8;font-weight:bold;"><i class="fa-solid fa-shield-virus" style="color:#38bdf8;"></i> مركز العمليات السيبرانية SOC 🤖</a>
+                <a href="#" onclick="goTo('pg-db-management')"><i class="fa-solid fa-cloud-arrow-up"></i> النسخ الاحتياطي والصيانة</a>
+                <a href="#" onclick="goTo('pg-audit-trail')"><i class="fa-solid fa-clock-rotate-left"></i> سجل العمليات (Audit Trail)</a>
+                <a href="#" onclick="goTo('pg-admin-password')"><i class="fa-solid fa-key"></i> أمان وكلمات مرور المشرفين</a>
+            </div>
+        </div>
+
+        <!-- Section 3: Users & Access Control (RBAC) -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-users-gear" style="color:#8b5cf6;"></i> <span>المستخدمون ومصفوفة الصلاحيات</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-users')"><i class="fa-solid fa-user-shield"></i> دليل المستخدمين والصلاحيات</a>
+                <a href="#" onclick="goTo('pg-personal-info')"><i class="fa-solid fa-fingerprint"></i> جلسات الأمان النشطة</a>
+            </div>
+        </div>
+
+        <!-- Section 4: Engine Configuration & Automated Triggers -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-sliders" style="color:#f59e0b;"></i> <span>تهيئة النظام والمحركات الذكية</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-system-settings')"><i class="fa-solid fa-gear"></i> إعدادات المنظومة العامة</a>
+                <a href="#" onclick="goTo('pg-alerts')"><i class="fa-solid fa-bell"></i> محرك التنبيهات الذكية</a>
+                <a href="#" onclick="goTo('pg-archive')"><i class="fa-solid fa-box-archive"></i> الأرشيف الإلكتروني الشامل</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
+    </div>
+</aside>

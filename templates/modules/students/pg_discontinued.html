@@ -1,0 +1,93 @@
+<div class="page" id="pg-discontinued">
+    <!-- 1. الترويسة القياسية وزر الرجوع (Page Header) -->
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <h2>
+            <i class="fa-solid fa-user-xmark" style="color:#ef4444;"></i> 
+            سجل الطلاب غير المستمرين (Discontinued & Withdrawn Students)
+        </h2>
+    </div>
+
+    <!-- 2. بطاقات المؤشرات والإحصائيات الحيوية للطلاب غير المستمرين (KPI Cards) -->
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-user-xmark" style="color:#ef4444;margin-left:6px;"></i> إجمالي غير المستمرين</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="discTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إجمالي ملفات المنسحبين والمنقطعين 🔴</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #f97316;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-right-from-bracket" style="color:#f97316;margin-left:6px;"></i> انسحاب ونقل لمدارس أخرى</h3>
+                <p style="color:#fb923c;font-weight:900;font-size:1.3rem;" id="discTransferred">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">طلاب نُقلت ملفاتهم رسمياً 🟠</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-user-slash" style="color:#f59e0b;margin-left:6px;"></i> انقطاع وغياب مستمر</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="discDropped">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">انقطعوا دون سحب الملف 🟡</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-user-check" style="color:#10b981;margin-left:6px;"></i> حالات أعيد قيدها</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="discReinstated">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">استعادوا قيدهم الدراسي 🟢</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. شريط الفلاتر والأدوات والعمليات (Toolbar & Actions) -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:200px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchDiscontinued" placeholder="بحث باسم الطالب، رقم القيد، سبب الانقطاع، أو المدرسة..." oninput="renderDiscontinuedList()">
+            </div>
+            <select id="filterDiscType" onchange="renderDiscontinuedList()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة أنواع الحالات</option>
+                <option value="انسحاب">انسحاب ونقل لمدرسة أخرى</option>
+                <option value="انقطاع">انقطاع وغياب متواصل</option>
+                <option value="سفر">سفر خارج البلاد</option>
+                <option value="إعادة قيد">حالات أعيد قيدها</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('discontinued')" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+                <i class="fa-solid fa-user-minus"></i> توثيق حالة انقطاع / انسحاب
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة سجل غير المستمرين
+            </button>
+        </div>
+    </div>
+
+    <!-- 4. جدول سجل الطلاب غير المستمرين (10 أعمدة قياسية) -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم القيد</th>
+                    <th>اسم الطالب الرباعي</th>
+                    <th>الصف والشعبة السابقة</th>
+                    <th>نوع وحالة الانقطاع</th>
+                    <th>تاريخ التوثيق</th>
+                    <th>سبب عدم الاستمرار</th>
+                    <th>المدرسة والجهة المنقول إليها</th>
+                    <th>براءة الذمة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-discontinued-grid"></tbody>
+        </table>
+    </div>
+</div>

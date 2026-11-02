@@ -1,0 +1,87 @@
+<div class="page" id="pg-parent-homework">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-book-bookmark" style="color:#38bdf8;"></i> الواجبات المدرسية والمهام اليومية (Homework & Assignments)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-list-check" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الواجبات المسندة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;">18 واجب</p>
+                <small style="color:var(--muted);font-size:0.75rem;">خلال الفصل الحالي 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> تم تسليمها وتصحيحها</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">16 واجب</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بدرجة كاملة (10/10) 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock-rotate-left" style="color:#f59e0b;margin-left:6px;"></i> واجبات اليوم المطلوبة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;">2 واجب</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تسليم غداً صباحاً 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;margin-left:6px;"></i> واجبات متأخرة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">0 واجب</p>
+                <small style="color:var(--muted);font-size:0.75rem;">لا يوجد أي تأخير 🟢</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="color:#f8fafc;font-size:1.05rem;margin:0;"><i class="fa-solid fa-clipboard-list"></i> جدول المهام والواجبات المدرسية المطلوبة</h3>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>المادة الدراسية</th>
+                    <th>عنوان وموضوع الواجب</th>
+                    <th>الصفحات والتمارين المطلوبة</th>
+                    <th>تاريخ الإسناد</th>
+                    <th>آخر موعد للتسليم</th>
+                    <th>معلم المادة</th>
+                    <th>الدرجة المستحقة</th>
+                    <th>حالة التسليم</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-parent-homework-grid">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td><strong style="color:#f8fafc;">الرياضيات المتقدمة</strong></td>
+                    <td><strong>حل تمارين الاشتقاق وقاعدة السلسلة</strong></td>
+                    <td style="color:#cbd5e1;">ص 45 - تمرين (3، 4، 7)</td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-09-01</td>
+                    <td style="font-family:monospace;color:#fbbf24;font-weight:800;">2026-09-02 (غداً)</td>
+                    <td style="color:#a78bfa;">أ. عبد الرحمن الصبري</td>
+                    <td style="color:#34d399;font-weight:800;">-- / 10</td>
+                    <td><span class="badge badge-warning">مطلوب للتسليم غداً 🟡</span></td>
+                    <td>
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📎 تحميل ورقة عمل الرياضيات ص 45');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-download"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td><strong style="color:#f8fafc;">اللغة الإنجليزية</strong></td>
+                    <td><strong>Unit 1 Reading & Vocabulary Essay</strong></td>
+                    <td style="color:#cbd5e1;">Workbook p. 12 Ex. A, B</td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-09-01</td>
+                    <td style="font-family:monospace;color:#fbbf24;font-weight:800;">2026-09-02 (غداً)</td>
+                    <td style="color:#a78bfa;">أ. محمود الدبعي</td>
+                    <td style="color:#34d399;font-weight:800;">-- / 10</td>
+                    <td><span class="badge badge-warning">مطلوب للتسليم غداً 🟡</span></td>
+                    <td>
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📎 تحميل نص القراءة باللغة الإنجليزية');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-download"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

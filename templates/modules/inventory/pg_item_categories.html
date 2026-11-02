@@ -1,0 +1,79 @@
+<div class="page" id="pg-item-categories">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-boxes-stacked" style="color:#38bdf8;"></i> تصنيفات وفئات الأصناف والمخزون (Item Categories & Classifications)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-layer-group" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الفئات والتصنيفات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="catTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">شُعب وتصنيفات معتمدة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> فئات نشطة ومفعلة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="catActive">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بحركات صرف وتوريد جارية 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-boxes-packing" style="color:#8b5cf6;margin-left:6px;"></i> أصناف مندرجة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="catLinkedItems">0 صنف</p>
+                <small style="color:var(--muted);font-size:0.75rem;">مرتبطة بالفئات 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-basket-shopping" style="color:#f59e0b;margin-left:6px;"></i> اللوازم الاستهلاكية</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="catConsumable">0 فئات</p>
+                <small style="color:var(--muted);font-size:0.75rem;">قرطاسية ومستهلكات يومية 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchItemCat" placeholder="بحث باسم الفئة أو الكود..." oninput="renderItemCategoriesGrid()">
+            </div>
+            <select id="filterCatType" onchange="renderItemCategoriesGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة أنواع الفئات</option>
+                <option value="أصول ثابتة">أصول ثابتة 🏢</option>
+                <option value="قرطاسية">قرطاسية ومطبوعات 📚</option>
+                <option value="أجهزة معملية">أجهزة معملية وتقنية 🔬</option>
+                <option value="زي مدرسي">زي مدرسي وكتب 👕</option>
+                <option value="أثاث">أثاث وتجهيزات 🪑</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('item_category')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> إضافة فئة تصنيف جديدة
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة دليل التصنيفات
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود الفئة</th>
+                    <th>اسم فئة التصنيف</th>
+                    <th>طبيعة الصنف</th>
+                    <th>عدد الأصناف</th>
+                    <th>المخزن المخصص</th>
+                    <th>المسؤول المخزني</th>
+                    <th>سياسة الجرد</th>
+                    <th>حالة الفئة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-item-categories-grid"></tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}بوابة أولياء الأمور — Smart School ERP{% endblock %}
+{% block sidebar %}{% include 'partials/_sidebar_parent.html' %}{% endblock %}
+{% block page_container %}
+    {% include 'modules/parent_portal/pg_parent_dashboard.html' %}
+    {% include 'modules/parent_portal/pg_parent_profile.html' %}
+    {% include 'modules/parent_portal/pg_parent_grades.html' %}
+    {% include 'modules/parent_portal/pg_parent_homework.html' %}
+    {% include 'modules/parent_portal/pg_parent_attendance.html' %}
+    {% include 'modules/parent_portal/pg_parent_timetable.html' %}
+    {% include 'modules/parent_portal/pg_parent_exams.html' %}
+    {% include 'modules/parent_portal/pg_parent_fees.html' %}
+    {% include 'modules/parent_portal/pg_parent_transport.html' %}
+    {% include 'modules/parent_portal/pg_parent_activities.html' %}
+    {% include 'modules/parent_portal/pg_parent_notices.html' %}
+    {% include 'modules/parent_portal/pg_parent_complaints.html' %}
+
+
+{% endblock %}
+
+{% block page_scripts %}
+    <script src="/assets/js/modules/parent_portal.js"></script>
+{% endblock %}

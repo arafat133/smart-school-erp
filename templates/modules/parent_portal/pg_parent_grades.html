@@ -1,0 +1,95 @@
+<div class="page" id="pg-parent-grades">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-award" style="color:#38bdf8;"></i> النتائج والمحصلات والشهادات (Grades & Report Cards)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-calculator" style="color:#3b82f6;margin-left:6px;"></i> المجموع الكلي للدرجات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;">795 / 800</p>
+                <small style="color:var(--muted);font-size:0.75rem;">المحصلة المعتمدة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-percent" style="color:#10b981;margin-left:6px;"></i> النسبة المئوية (%)</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">99.38%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">ممتاز مع مرتبة الشرف 🏆</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-crown" style="color:#f59e0b;margin-left:6px;"></i> الترتيب على المدرسة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;">المركز الأول 🥇</p>
+                <small style="color:var(--muted);font-size:0.75rem;">على مستوى الثالث الثانوي 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-book" style="color:#8b5cf6;margin-left:6px;"></i> المواد المقررة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;">8 مواد</p>
+                <small style="color:var(--muted);font-size:0.75rem;">ناجح بكافة المواد 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="color:#f8fafc;font-size:1.05rem;margin:0;"><i class="fa-solid fa-table"></i> كشف درجات ومحصلات الطالب التفصيلي</h3>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>اسم المادة الدراسية</th>
+                    <th>أعمال السنة (20)</th>
+                    <th>الشفوي والواجبات (10)</th>
+                    <th>الاختبار التحريري (70)</th>
+                    <th>المجموع النهائي (100)</th>
+                    <th>التقدير العام</th>
+                    <th>معلم المادة</th>
+                    <th>ملاحظات المعلم</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-parent-grades-grid">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td><strong style="color:#f8fafc;">القرآن الكريم والتربية الإسلامية</strong></td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">20</td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">10</td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">70</td>
+                    <td style="color:#34d399;font-family:monospace;font-weight:900;font-size:1.05rem;text-align:center;">100</td>
+                    <td><span class="badge badge-success">ممتاز 🟢</span></td>
+                    <td style="color:#a78bfa;">أ. وفاء الحكيمي</td>
+                    <td style="color:#38bdf8;">إتقان كامل للتلاوة والأحكام</td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('🌟 تفوق في مادة التربية الإسلامية');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-star"></i></button></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td><strong style="color:#f8fafc;">الرياضيات المتقدمة (تفاضل وتكامل)</strong></td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">20</td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">10</td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">69</td>
+                    <td style="color:#34d399;font-family:monospace;font-weight:900;font-size:1.05rem;text-align:center;">99</td>
+                    <td><span class="badge badge-success">ممتاز 🟢</span></td>
+                    <td style="color:#a78bfa;">أ. عبد الرحمن الصبري</td>
+                    <td style="color:#38bdf8;">حلول نموذجية وسرعة بديهة</td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('🌟 تفوق في مادة الرياضيات');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-star"></i></button></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">3</td>
+                    <td><strong style="color:#f8fafc;">الكيمياء العامة والعضوية</strong></td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">20</td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">10</td>
+                    <td style="color:#cbd5e1;font-family:monospace;text-align:center;">69</td>
+                    <td style="color:#34d399;font-family:monospace;font-weight:900;font-size:1.05rem;text-align:center;">99</td>
+                    <td><span class="badge badge-success">ممتاز 🟢</span></td>
+                    <td style="color:#a78bfa;">أ. سمير منصور الأهدل</td>
+                    <td style="color:#38bdf8;">تميز بالمعمل والتجارب</td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('🌟 تفوق في مادة الكيمياء');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-star"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

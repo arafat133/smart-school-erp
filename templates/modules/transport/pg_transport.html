@@ -1,0 +1,139 @@
+<div class="page" id="pg-transport" style="padding-bottom:60px;">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+            <div>
+                <h2 style="margin:0;font-size:1.35rem;color:#f8fafc;display:flex;align-items:center;gap:8px;">
+                    <i class="fa-solid fa-bus" style="color:#fb923c;"></i>
+                    <span>سجل تشغيل ومتابعة الحافلات المدرسية (School Bus Fleet & Operation Log)</span>
+                </h2>
+                <p style="margin:4px 0 0;color:#94a3b8;font-size:0.85rem;">جدول الحافلات المدرسية، أطقم القيادة والإشراف، مواعيد الانطلاق والوصول، وحالة الجاهزية الفنية</p>
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('bus')" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fa-solid fa-plus"></i> إضافة حافلة جديدة
+            </button>
+        </div>
+    </div>
+
+    <!-- 4 Operation KPI Cards -->
+    <div class="stats-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px;">
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #10b981;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-bus" style="color:#10b981;margin-left:6px;"></i> إجمالي الحافلات النشطة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.4rem;margin:0;" id="trackLiveBuses">6 حافلات</p>
+                <small style="color:#64748b;font-size:0.75rem;">جاهزة وفي الخدمة 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #3b82f6;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-circle-check" style="color:#3b82f6;margin-left:6px;"></i> خطوط السير المعتمدة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.4rem;margin:0;" id="trackCompletedTrips">6 مسارات</p>
+                <small style="color:#64748b;font-size:0.75rem;">تغطي أمانة العاصمة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #f59e0b;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-users" style="color:#f59e0b;margin-left:6px;"></i> الطلاب المشتركين بالنقل</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.4rem;margin:0;" id="trackAtStops">145 طالباً</p>
+                <small style="color:#64748b;font-size:0.75rem;">موزعين على الحافلات 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #8b5cf6;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-shield-halved" style="color:#8b5cf6;margin-left:6px;"></i> الجاهزية والفحص الفني</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.4rem;margin:0;" id="trackAvgSpeed">100%</p>
+                <small style="color:#64748b;font-size:0.75rem;">فحص السلامة الدوري مجاز 🟣</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchTracking" placeholder="بحث برقم الحافلة، الخط، أو السائق..." oninput="renderTransportTrackingGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('📲 تم إرسال رسائل تذكير بمواعيد الحافلات لأولياء الأمور عبر WhatsApp');" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fa-brands fa-whatsapp"></i> إرسال تذكير المواعيد
+            </button>
+        </div>
+    </div>
+
+    <!-- Fleet Table -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:50px;text-align:center;">#</th>
+                    <th>كود الحافلة ورقم اللوحة</th>
+                    <th>خط السير المعتمد</th>
+                    <th>السائق المشرف</th>
+                    <th>المشرفة المرافقة</th>
+                    <th>موعد الانطلاق الصباحي</th>
+                    <th>موعد الانصراف</th>
+                    <th>سعة الحافلة والركاب</th>
+                    <th>الحالة التشغيلية</th>
+                    <th style="width:100px;text-align:center;">إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-transport-tracking-grid">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td>
+                        <strong style="color:#f8fafc;">حافلة 01</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">لوحة: 12450 / أمانة</small>
+                    </td>
+                    <td><strong style="color:#38bdf8;">خط حدة — الستين الغربي</strong></td>
+                    <td style="color:#34d399;">صالح ناصر القاضي (777123456)</td>
+                    <td style="color:#c084fc;">أ. مريم السقاف (771987654)</td>
+                    <td style="font-family:monospace;color:#fbbf24;">06:30 ص</td>
+                    <td style="font-family:monospace;color:#38bdf8;">01:30 م</td>
+                    <td><span class="badge badge-info" style="font-family:monospace;">28 / 30 راكب</span></td>
+                    <td><span class="badge badge-success">في الخدمة 🟢</span></td>
+                    <td style="text-align:center;">
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📋 تفاصيل مسار الحافلة 01');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td>
+                        <strong style="color:#f8fafc;">حافلة 02</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">لوحة: 18921 / أمانة</small>
+                    </td>
+                    <td><strong style="color:#38bdf8;">خط الأصبحي — بيت بوس</strong></td>
+                    <td style="color:#34d399;">محمد عبد الله عثمان (771223344)</td>
+                    <td style="color:#c084fc;">أ. فاطمة الحبيشي</td>
+                    <td style="font-family:monospace;color:#fbbf24;">06:35 ص</td>
+                    <td style="font-family:monospace;color:#38bdf8;">01:30 م</td>
+                    <td><span class="badge badge-info" style="font-family:monospace;">26 / 30 راكب</span></td>
+                    <td><span class="badge badge-success">في الخدمة 🟢</span></td>
+                    <td style="text-align:center;">
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📋 تفاصيل مسار الحافلة 02');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">3</td>
+                    <td>
+                        <strong style="color:#f8fafc;">حافلة 03</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">لوحة: 22019 / أمانة</small>
+                    </td>
+                    <td><strong style="color:#38bdf8;">خط الدائري — بغداد</strong></td>
+                    <td style="color:#34d399;">علي قاسم الرعيني (773445566)</td>
+                    <td style="color:#c084fc;">أ. سمية الشامي</td>
+                    <td style="font-family:monospace;color:#fbbf24;">06:40 ص</td>
+                    <td style="font-family:monospace;color:#38bdf8;">01:30 م</td>
+                    <td><span class="badge badge-info" style="font-family:monospace;">29 / 30 راكب</span></td>
+                    <td><span class="badge badge-success">في الخدمة 🟢</span></td>
+                    <td style="text-align:center;">
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📋 تفاصيل مسار الحافلة 03');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

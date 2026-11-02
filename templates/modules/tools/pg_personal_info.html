@@ -1,0 +1,155 @@
+<div class="page" id="pg-personal-info">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-address-card" style="color:#38bdf8;"></i> الملف الشخصي للمستخدم وإعدادات الأمان (User Profile & Account Security)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-user-shield" style="color:#3b82f6;margin-left:6px;"></i> نوع الحساب والصلاحية</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="profRole">مدير عام النظام 🛡️</p>
+                <small style="color:var(--muted);font-size:0.75rem;">صلاحيات إدارية كاملة (Super Admin) 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-shield-check" style="color:#10b981;margin-left:6px;"></i> حالة التحقق والأمان</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="profSec">موثق ومحمي 🔒</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تشفير SHA-256 و 2FA 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock-rotate-left" style="color:#8b5cf6;margin-left:6px;"></i> آخر تسجيل دخول</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="profLastLogin">اليوم 08:30 ص</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عبر متصفح آمن 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-desktop" style="color:#f59e0b;margin-left:6px;"></i> الجلسات النشطة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="profActiveSessions">1 جهاز نشط</p>
+                <small style="color:var(--muted);font-size:0.75rem;">جهاز العمل المكتبي 🟡</small>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Profile Card & Actions -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:16px;margin-bottom:20px;">
+        <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;">
+            <h3 style="color:#38bdf8;margin-bottom:14px;font-size:1.05rem;"><i class="fa-solid fa-user-pen"></i> البيانات الشخصية والوظيفية</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div><label style="color:#94a3b8;font-size:0.8rem;">الاسم الرباعي الكامل:</label><div style="font-weight:800;color:#f8fafc;">أ. عبد الرحمن أحمد الصبري</div></div>
+                <div><label style="color:#94a3b8;font-size:0.8rem;">البريد الإلكتروني المعتمد:</label><div style="font-weight:700;color:#60a5fa;font-family:monospace;">admin@smartschool.edu.ye</div></div>
+                <div><label style="color:#94a3b8;font-size:0.8rem;">رقم الهاتف الشخصي:</label><div style="font-weight:700;color:#fbbf24;font-family:monospace;">+967 777 123 456</div></div>
+                <div><label style="color:#94a3b8;font-size:0.8rem;">المسمى الوظيفي والقسم:</label><div style="font-weight:700;color:#34d399;">مدير الشؤون الأكاديمية والتقنية</div></div>
+            </div>
+        </div>
+        <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;">
+            <h3 style="color:#38bdf8;margin-bottom:14px;font-size:1.05rem;"><i class="fa-solid fa-shield-halved"></i> إجراءات الحساب والأمان</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <button class="btn-add" onclick="openForm('change_password')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);width:100%;justify-content:center;">
+                    <i class="fa-solid fa-key"></i> تغيير كلمة المرور
+                </button>
+                <button class="btn-add" onclick="open2faSetupModal()" style="background:linear-gradient(135deg,#10b981,#059669);width:100%;justify-content:center;">
+                    <i class="fa-solid fa-mobile-screen-button"></i> تفعيل التحقق بخطوتين (2FA)
+                </button>
+                <button class="btn-add" onclick="if(typeof toggleTheme==='function')toggleTheme();" style="background:linear-gradient(135deg,#6366f1,#4f46e5);width:100%;justify-content:center;">
+                    <i class="fa-solid fa-moon"></i> تبديل المظهر (داكن / فاتح)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security & Login History Table -->
+    <div class="toolbar" style="margin-bottom:12px;">
+        <h3 style="color:#f8fafc;font-size:1rem;margin:0;"><i class="fa-solid fa-clock-rotate-left"></i> سجل جلسات الأمان وتسجيل الدخول (10 أعمدة قياسية)</h3>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم الجلسة</th>
+                    <th>تاريخ ووقت الدخول</th>
+                    <th>عنوان الآي بي (IP)</th>
+                    <th>المتصفح ونظام التشغيل</th>
+                    <th>نوع الجهاز</th>
+                    <th>الموقع الجغرافي</th>
+                    <th>مدة الجلسة</th>
+                    <th>حالة الجلسة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-personal-info-grid"></tbody>
+        </table>
+    </div>
+
+    <!-- 2FA Setup Modal -->
+    <div id="modal2faSetup" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:9999;justify-content:center;align-items:center;padding:16px;backdrop-filter:blur(8px);">
+        <div style="background:var(--surface,#1e293b);border:1px solid rgba(16,185,129,0.4);border-radius:20px;max-width:560px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.6);overflow:hidden;position:relative;animation:modalFadeIn 0.3s ease;">
+            <!-- Modal Header -->
+            <div style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(5,150,105,0.2));border-bottom:1px solid rgba(16,185,129,0.3);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background:rgba(16,185,129,0.2);display:flex;justify-content:center;align-items:center;color:#34d399;font-size:1.2rem;">
+                        <i class="fa-solid fa-mobile-screen-lock"></i>
+                    </div>
+                    <div>
+                        <h3 style="color:#f8fafc;font-size:1.15rem;font-weight:800;margin:0;">المصادقة الثنائية (Google Authenticator 2FA)</h3>
+                        <small style="color:#94a3b8;font-size:0.75rem;">حماية حركة الصناديق وتعديل درجات الكنترول برمز متغير كل 30 ثانية</small>
+                    </div>
+                </div>
+                <button onclick="close2faSetupModal()" style="background:none;border:none;color:#94a3b8;font-size:1.2rem;cursor:pointer;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div style="padding:24px;max-height:80vh;overflow-y:auto;">
+                <!-- Step 1: Scan QR -->
+                <div style="text-align:center;margin-bottom:18px;">
+                    <p style="color:#f8fafc;font-size:0.9rem;font-weight:700;margin-bottom:8px;">1. افتح تطبيق Google Authenticator وامسح الرمز أدناه:</p>
+                    <div style="background:#fff;padding:8px;border-radius:12px;display:inline-block;box-shadow:0 0 20px rgba(16,185,129,0.3);">
+                        <img id="qr2faImg" src="" alt="2FA QR Code" style="width:160px;height:160px;display:block;">
+                    </div>
+                </div>
+
+                <!-- Step 2: Manual Key -->
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:18px;text-align:center;">
+                    <span style="color:#94a3b8;font-size:0.8rem;display:block;margin-bottom:4px;">أو أدخل المفتاح السري يدوياً في التطبيق:</span>
+                    <code id="txt2faSecret" style="color:#38bdf8;font-family:monospace;font-size:1.05rem;font-weight:800;letter-spacing:1.5px;user-select:all;">...جاري التحميل...</code>
+                </div>
+
+                <!-- Step 3: Verify Code -->
+                <div style="margin-bottom:18px;">
+                    <label style="display:block;color:#f8fafc;font-size:0.85rem;font-weight:700;margin-bottom:6px;">2. أدخل الرمز المكون من 6 أرقام لتأكيد التفعيل:</label>
+                    <div style="display:flex;gap:8px;">
+                        <input type="text" id="input2faCode" maxlength="6" placeholder="000000" style="flex:1;text-align:center;font-family:monospace;font-size:1.4rem;letter-spacing:6px;font-weight:900;padding:10px;border-radius:10px;border:1px solid rgba(16,185,129,0.4);background:rgba(0,0,0,0.4);color:#34d399;outline:none;">
+                        <button onclick="verifyAndActivate2FA()" class="btn-add" style="background:linear-gradient(135deg,#10b981,#059669);padding:10px 20px;font-size:0.9rem;font-weight:800;">
+                            <i class="fa-solid fa-check"></i> تأكيد التفعيل
+                        </button>
+                    </div>
+                    <div id="msg2faResult" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;font-size:0.85rem;text-align:center;"></div>
+                </div>
+
+                <!-- Step 4: Emergency Backup Codes -->
+                <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;">
+                    <span style="color:#fbbf24;font-size:0.8rem;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> مفاتيح استرداد الطوارئ (احتفظ بها في مكان آمن):
+                    </span>
+                    <div id="box2faBackupCodes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-family:monospace;font-size:0.8rem;color:#cbd5e1;text-align:center;">
+                        <span style="background:rgba(255,255,255,0.05);padding:4px;border-radius:4px;">A1B2-C3D4</span>
+                        <span style="background:rgba(255,255,255,0.05);padding:4px;border-radius:4px;">E5F6-G7H8</span>
+                        <span style="background:rgba(255,255,255,0.05);padding:4px;border-radius:4px;">J9K0-L1M2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.08);padding:14px 24px;display:flex;justify-content:flex-end;">
+                <button onclick="close2faSetupModal()" class="btn-add" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:8px 18px;font-size:0.85rem;">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

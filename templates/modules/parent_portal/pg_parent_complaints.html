@@ -1,0 +1,74 @@
+<div class="page" id="pg-parent-complaints">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-comments" style="color:#38bdf8;"></i> صندوق الرسائل والمقترحات والشكاوى المباشرة (Inquiries & Complaints)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-inbox" style="color:#3b82f6;margin-left:6px;"></i> إجمالي التذاكر المرسلة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;">2 تذكرة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">استفسارات ومقترحات 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> تم الرد والمعالجة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">2 تم الرد</p>
+                <small style="color:var(--muted);font-size:0.75rem;">معالجة كاملة 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock-rotate-left" style="color:#8b5cf6;margin-left:6px;"></i> متوسط سرعة الرد</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;">خلال ساعتين</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تجاوب فوري من الإدارة 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-headset" style="color:#f59e0b;margin-left:6px;"></i> خدمة أولياء الأمور</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;">متاح 24/7</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عبر البوابة والواتساب 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="color:#f8fafc;font-size:1.05rem;margin:0;"><i class="fa-solid fa-ticket"></i> سجل التذاكر والاستفسارات المفتوحة</h3>
+        <button class="btn-add" onclick="openForm('parent_ticket')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+            <i class="fa-solid fa-plus"></i> إرسال استفسار / مقترح جديد
+        </button>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم التذكرة</th>
+                    <th>موضوع الاستفسار / الشكوى</th>
+                    <th>الجهة الموجه إليها</th>
+                    <th>تاريخ الإرسال</th>
+                    <th>نص الرسالة</th>
+                    <th>رد الإدارة / المعلم</th>
+                    <th>تاريخ الرد</th>
+                    <th>حالة التذكرة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td><code style="color:#60a5fa;font-weight:800;">TCK-2026-04</code></td>
+                    <td><strong>استفسار بخصوص موعد أولمبياد الرياضيات</strong></td>
+                    <td style="color:#a78bfa;">مشرف الأنشطة العلمية</td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-08-29</td>
+                    <td style="color:#cbd5e1;">نود الاستفسار عن جدول تدريبات أولمبياد الرياضيات.</td>
+                    <td style="color:#34d399;font-weight:700;">تم تحديد الموعد كل ثلاثاء وخميس بعد الدوام، وتم تسليم الطالب الخطة.</td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-08-29</td>
+                    <td><span class="badge badge-success">تم الرد والإغلاق 🟢</span></td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('💬 تفاصيل التذكرة والرد الرسمي');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-eye"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

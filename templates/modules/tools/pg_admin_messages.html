@@ -1,0 +1,77 @@
+<div class="page" id="pg-admin-messages">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-tower-broadcast" style="color:#38bdf8;"></i> بث التعاميم والرسائل الإدارية العاجلة (Administrative Broadcasts & Urgent Circulars)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-bullhorn" style="color:#3b82f6;margin-left:6px;"></i> إجمالي التعاميم الصادرة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="admMsgTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إعلانات إدارية رسمية 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-check-double" style="color:#10b981;margin-left:6px;"></i> رسائل مقروءة ومؤكدة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="admMsgRead">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تم تأكيد استلامها 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;margin-left:6px;"></i> تعاميم عاجلة وحرجة</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="admMsgUrgent">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">أولوية قصوى 🔴</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-bolt" style="color:#8b5cf6;margin-left:6px;"></i> سرعة وصول التعميم</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="admMsgSpeed">&lt; 5 ثوانٍ</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بث فوري مباشر 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchAdminMsg" placeholder="بحث في أرشيف التعاميم الإدارية..." oninput="renderAdminMessagesGrid()">
+            </div>
+            <select id="filterMsgPriority" onchange="renderAdminMessagesGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة درجات الأهمية</option>
+                <option value="عاجل">عاجل جداً وحرج 🔴</option>
+                <option value="هام">هام 🟡</option>
+                <option value="عادي">عادي 🟢</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('admin_broadcast')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> إصدار وبث تعميم جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة سجل التعاميم
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم التعميم</th>
+                    <th>عنوان التعميم / الموضوع</th>
+                    <th>درجة الأهمية</th>
+                    <th>الجهة المستهدفة</th>
+                    <th>المرسل / الصلاحية</th>
+                    <th>تاريخ ووقت البث</th>
+                    <th>نسبة الاطلاع</th>
+                    <th>حالة التعميم</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-admin-messages-grid"></tbody>
+        </table>
+    </div>
+</div>

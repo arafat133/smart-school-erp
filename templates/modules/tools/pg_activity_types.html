@@ -1,0 +1,20 @@
+<div class="page" id="pg-activity-types">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-icons"></i> دليل أنواع الأنشطة</h2>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input
+                                id="searchActivitytypes" placeholder="بحث..." oninput="renderActivitytypes()"></div>
+                        <button class="btn-add" onclick="openForm('activity-types')"><i class="fa-solid fa-plus"></i>
+                            إضافة</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                        <thead>
+                                <tr><th>#</th><th>نوع النشاط</th><th>وصف ونطاق الأنشطة</th><th>الفئة</th><th>رسوم الاشتراك</th><th>المشرف المسؤول</th><th>الحالة</th><th>الإجراءات</th></tr>
+                            </thead>
+                        <tbody id="tbl-activity-types"></tbody>
+                        </table>
+                    </div>
+                </div>

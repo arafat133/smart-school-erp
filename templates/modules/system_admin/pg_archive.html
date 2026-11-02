@@ -1,0 +1,204 @@
+<div class="page" id="pg-archive">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+            <h2 style="margin:0;font-size:1.35rem;font-weight:800;color:#f8fafc;display:flex;align-items:center;gap:10px;">
+                <i class="fa-solid fa-box-archive" style="color:#38bdf8;"></i> الأرشيف الإلكتروني وإدارة الوثائق السيادية (Electronic Archive)
+            </h2>
+        </div>
+        <div class="header-actions" style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openNewArchiveModal()" style="background:linear-gradient(135deg,#0284c7,#0369a1);box-shadow:0 4px 15px rgba(2,132,199,0.35);">
+                <i class="fa-solid fa-plus"></i> أرشفة وإضافة وثيقة جديدة
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 4px 15px rgba(99,102,241,0.35);">
+                <i class="fa-solid fa-print"></i> طباعة سجل الأرشيف
+            </button>
+        </div>
+    </div>
+
+    <!-- 2️⃣ KPI Cards for Archive -->
+    <div class="stats-row" style="margin-bottom:22px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-folder-open" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الوثائق المؤرشفة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="statArchiveTotalDocs">5 وثائق رسمية</p>
+                <small style="color:var(--muted);font-size:0.75rem;">مشفرة ومفهرسة رقمياً برمز فريد</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-shield-halved" style="color:#ef4444;margin-left:6px;"></i> وثائق سرية للغاية</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="statArchiveTopSecret">3 وثائق سيادية 🔴</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تتطلب صلاحيات عليا لفتحها</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-cloud-arrow-up" style="color:#10b981;margin-left:6px;"></i> سلامة الأرشيف السحابي</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="statArchiveSafety">100% مؤمن 🟢</p>
+                <small style="color:var(--muted);font-size:0.75rem;">نسخ احتياطي متعدد المواقع وتشفير AES</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3️⃣ Toolbar & Filters -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex:1;max-width:720px;">
+            <div class="search-box" style="flex:1;min-width:240px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchArchive" placeholder="🔍 بحث في الأرشيف بالعنوان، الوسوم، الرقم المرجعي..." oninput="renderArchiveGrid()">
+            </div>
+            <select id="filterArchiveCategory" onchange="renderArchiveGrid()" style="padding:10px 14px;background:rgba(30,41,59,0.85);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#f8fafc;font-family:inherit;font-size:0.86rem;cursor:pointer;">
+                <option value="">كافة التصنيفات</option>
+                <option value="الوثائق السيادية والترخيص">الوثائق السيادية والترخيص</option>
+                <option value="الشؤون القانونية والعقارات">الشؤون القانونية والعقارات</option>
+                <option value="اللوائح التنظيمية والأكاديميا">اللوائح التنظيمية والأكاديميا</option>
+                <option value="محاضر وقرارات الإدارة">محاضر وقرارات الإدارة</option>
+                <option value="الشؤون المالية والتدقيق">الشؤون المالية والتدقيق</option>
+            </select>
+            <select id="filterArchiveSecurity" onchange="renderArchiveGrid()" style="padding:10px 14px;background:rgba(30,41,59,0.85);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#f8fafc;font-family:inherit;font-size:0.86rem;cursor:pointer;">
+                <option value="">كافة درجات السرية</option>
+                <option value="سري للغاية">سري للغاية 🔴</option>
+                <option value="سري">سري 🔴</option>
+                <option value="خاص بالإدارة">خاص بالإدارة 🟡</option>
+                <option value="عادي">عادي 🟢</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 4️⃣ Archive Data Table -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:110px;">رمز الوثيقة</th>
+                    <th>عنوان الوثيقة والوسوم</th>
+                    <th>التصنيف</th>
+                    <th>الرقم المرجعي</th>
+                    <th>الصيغة</th>
+                    <th>درجة السرية</th>
+                    <th>تاريخ الأرشفة</th>
+                    <th>المؤرشف المسؤول</th>
+                    <th style="text-align:center;width:130px;">إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-archive-grid">
+                <!-- Dynamically populated by renderArchiveGrid() -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5️⃣ Modal: Add & Archive New Document -->
+    <div id="modalNewArchiveDoc" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.82);z-index:9999;justify-content:center;align-items:center;padding:16px;backdrop-filter:blur(8px);">
+        <div style="background:var(--surface,#1e293b);border:1px solid rgba(56,189,248,0.35);border-radius:20px;max-width:680px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.65);overflow:hidden;position:relative;animation:modalFadeIn 0.3s ease;">
+            
+            <!-- Modal Header -->
+            <div style="background:linear-gradient(135deg,rgba(14,165,233,0.2),rgba(2,132,199,0.2));border-bottom:1px solid rgba(56,189,248,0.3);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.2);display:flex;justify-content:center;align-items:center;color:#38bdf8;font-size:1.2rem;">
+                        <i class="fa-solid fa-box-archive"></i>
+                    </div>
+                    <div>
+                        <h3 style="color:#f8fafc;font-size:1.15rem;font-weight:800;margin:0;">أرشفة وإضافة وثيقة جديدة (Archive Document)</h3>
+                        <small style="color:#94a3b8;font-size:0.75rem;">إيداع مستند سيادي مشفر في قاعدة بيانات الأرشيف المركزي</small>
+                    </div>
+                </div>
+                <button onclick="closeNewArchiveModal()" style="background:none;border:none;color:#94a3b8;font-size:1.2rem;cursor:pointer;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Modal Form Body -->
+            <form id="formNewArchiveDoc" onsubmit="saveNewArchiveDoc(event); return false;" style="padding:22px;max-height:80vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;">
+                
+                <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;">
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">رمز الوثيقة:</label>
+                        <input type="text" id="newDocCode" readonly value="" placeholder="رمز الوثيقة" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:rgba(0,0,0,0.4);color:#60a5fa;font-family:monospace;font-weight:800;">
+                    </div>
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">عنوان الوثيقة الرسمي: <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="newDocTitle" required placeholder="مثال: ترخيص الفرع الثاني، عقد إيجار الملاعب، قرار التعيين الوزاري..." style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-family:inherit;">
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">الرقم المرجعي الحكومي / العقدي:</label>
+                        <input type="text" id="newDocRef" placeholder="مثال: LIC-MOE-2026-9901" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-family:monospace;">
+                    </div>
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">تصنيف الوثيقة (Category):</label>
+                        <select id="newDocCategory" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0f172a;color:#fff;font-family:inherit;">
+                            <option value="الوثائق السيادية والترخيص">الوثائق السيادية والتراخيص الوزارية</option>
+                            <option value="الشؤون القانونية والعقارات">الشؤون القانونية والعقود العقارية</option>
+                            <option value="اللوائح التنظيمية والأكاديميا">اللوائح التنظيمية والكنترول</option>
+                            <option value="محاضر وقرارات الإدارة">محاضر وقرارات مجلس الإدارة</option>
+                            <option value="الشؤون المالية والتدقيق">التقارير المالية والتدقيق المحاسبي</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">درجة السرية والأمان:</label>
+                        <select id="newDocSecurity" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0f172a;color:#fff;font-family:inherit;">
+                            <option value="سري للغاية 🔴">سري للغاية 🔴 (صلاحيات عليا فقط)</option>
+                            <option value="سري جداً 🔴">سري جداً 🔴</option>
+                            <option value="سري 🔴">سري 🔴</option>
+                            <option value="خاص بالإدارة 🟡">خاص بالإدارة 🟡</option>
+                            <option value="عادي 🟢">عادي 🟢 (عام للموظفين)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">صيغة ونوع الملف:</label>
+                        <select id="newDocFormat" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0f172a;color:#fff;font-family:inherit;">
+                            <option value="PDF (ممسوح ضوئياً 📄)">PDF (ممسوح ضوئياً 📄)</option>
+                            <option value="PDF (رقمي مدمج 📄)">PDF (رقمي أصلي 📄)</option>
+                            <option value="DOCX (أصلي 📄)">DOCX (مستند وورد 📄)</option>
+                            <option value="XLSX (ميزانية 📊)">XLSX (جدول بيانات 📊)</option>
+                            <option value="صورة مصدقة (PNG/JPG 🖼️)">صورة مصدقة (PNG/JPG 🖼️)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- File Upload Field -->
+                <div>
+                    <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">رفع الملف المرفق (File Upload):</label>
+                    <div style="border:2px dashed rgba(56,189,248,0.35);border-radius:10px;padding:16px;text-align:center;background:rgba(0,0,0,0.25);cursor:pointer;" onclick="document.getElementById('newDocFileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.8rem;color:#38bdf8;margin-bottom:6px;"></i>
+                        <div style="color:#f8fafc;font-size:0.88rem;font-weight:700;">انقر لاختيار الملف من جهازك (أو اسحبه هنا)</div>
+                        <small style="color:#94a3b8;font-size:0.75rem;">يدعم صيغ PDF, DOCX, PNG, JPG بحد أقصى 25MB - يُشفر بـ AES-256</small>
+                        <input type="file" id="newDocFileInput" style="display:none;" onchange="
+                            const fn = this.files[0]?.name;
+                            if (fn) document.getElementById('selectedFileName').textContent = '📄 الملف المحدد: ' + fn;
+                        ">
+                        <div id="selectedFileName" style="color:#34d399;font-weight:700;font-size:0.85rem;margin-top:6px;"></div>
+                    </div>
+                </div>
+
+                <!-- Hashtags and Archivist -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">الوسوم والكلمات الدلالية (Hashtags):</label>
+                        <input type="text" id="newDocHashtags" placeholder="#ترخيص #وزارة #عقد_2026" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-family:inherit;">
+                    </div>
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">المؤرشف المسؤول:</label>
+                        <input type="text" id="newDocArchivist" readonly value="" placeholder="اسم الموثق / الأرشيفي" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:rgba(0,0,0,0.4);color:#94a3b8;font-family:inherit;">
+                    </div>
+                </div>
+
+                <!-- Modal Actions -->
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:14px;">
+                    <button type="button" onclick="closeNewArchiveModal()" style="background:rgba(255,255,255,0.08);color:#cbd5e1;border:1px solid rgba(255,255,255,0.15);padding:10px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">
+                        إلغاء
+                    </button>
+                    <button type="submit" style="background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 15px rgba(2,132,199,0.4);">
+                        <i class="fa-solid fa-save"></i> حفظ وأرشفة الوثيقة
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

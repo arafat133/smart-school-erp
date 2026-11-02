@@ -1,0 +1,64 @@
+<!-- ==================== 🤖 AI SMART CHATBOT FLOATING WIDGET (PARENTS PORTAL ONLY) ==================== -->
+<div id="aiChatWidget">
+    <!-- Floating Launcher Button -->
+    <button class="ai-chat-launcher" id="btnOpenAiChatbot" onclick="toggleAiChatWindow()" title="المساعد الذكي لولي الأمر">
+        <span class="pulse-ring"></span>
+        <i class="fa-solid fa-robot"></i>
+        <span class="unread-badge" id="aiChatUnreadBadge">AI</span>
+    </button>
+
+    <!-- Expandable Chat Window -->
+    <div class="ai-chat-window" id="aiChatWindow">
+        <!-- Header -->
+        <div class="ai-chat-header">
+            <div class="ai-chat-title-group">
+                <div class="ai-chat-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div>
+                    <div class="ai-chat-title">المساعد الذكي لولي الأمر</div>
+                    <div class="ai-chat-status">متصل ويجيب فوراً (AI Online)</div>
+                </div>
+            </div>
+            <div class="ai-chat-header-actions">
+                <button class="ai-chat-btn-icon" onclick="clearAiChatHistory()" title="مسح المحادثة"><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="ai-chat-btn-icon" onclick="toggleAiChatWindow()" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <!-- Messages Body -->
+        <div class="ai-chat-body" id="aiChatBody">
+            <div class="ai-msg-row bot">
+                <div class="ai-msg-bubble">
+                    مرحباً بك يا ولي أمر الطالب! 👋 أنا <strong>المساعد الذكي لمدرسة المتفوقين الأهلية</strong>.
+                    <br>أنا متصل لحظياً بالنظام ويمكنني الإجابة فورياً عن:
+                    <ul style="margin:6px 0 6px 18px;padding:0;font-size:0.82rem;line-height:1.6;">
+                        <li>💰 الرسوم والمبالغ المتبقية وسندات السداد</li>
+                        <li>📊 كشوفات الدرجات والنتائج والمعدل والترتيب</li>
+                        <li>📅 جدول ومواعيد الاختبارات الشهرية والفصلية</li>
+                        <li>📝 سجل الحضور والغياب والتأخر الصباحي</li>
+                        <li>🕒 جدول الحصص الأسبوعي وتوزيع المواد</li>
+                        <li>🚌 باص المدرسة والمواصلات وخط السير</li>
+                    </ul>
+                    كيف يمكنني مساعدتك الآن؟ اختر من الردود السريعة أدناه أو اكتب سؤالك 👇
+                    <div class="ai-msg-time">الآن</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reply Chips -->
+        <div class="ai-quick-replies" id="aiQuickReplies">
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('fees')">💰 كم الرسوم المتبقية؟</button>
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('grades')">📊 كشف درجات ابني</button>
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('exams')">📅 جدول الاختبارات القادمة</button>
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('attendance')">📝 سجل الحضور والغياب</button>
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('schedule')">🕒 جدول الحصص اليوم</button>
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('bus')">🚌 باص المدرسة وخط السير</button>
+            <button type="button" class="ai-chip" onclick="sendAiQuickReply('advisor')">👤 التواصل مع الإدارة</button>
+        </div>
+
+        <!-- Input Bar -->
+        <form class="ai-chat-input-bar" id="aiChatForm" onsubmit="handleAiChatSubmit(event)">
+            <input type="text" id="aiChatInput" class="ai-chat-input" placeholder="اكتب استفسارك هنا باللغة العربية..." autocomplete="off">
+            <button type="submit" class="ai-btn-send" title="إرسال"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+    </div>
+</div>

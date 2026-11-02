@@ -1,0 +1,78 @@
+<div class="page" id="pg-suppliers">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-truck-field" style="color:#38bdf8;"></i> سجل الموردين والشركات المعتمدة (Suppliers & Vendors Directory)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-building" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الموردين والشركات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="suppTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">شركات مسجلة بالدليل 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> موردون نشطون ومعتمدون</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="suppActive">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">شركاء توريد موثوقون 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-hand-holding-dollar" style="color:#8b5cf6;margin-left:6px;"></i> التعاملات المالية</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="suppTotalDeals">0 ر.ي</p>
+                <small style="color:var(--muted);font-size:0.75rem;">حجم التوريدات الإجمالية 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock-rotate-left" style="color:#f59e0b;margin-left:6px;"></i> مستحقات آجلة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="suppPendingPayments">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">فواتير قيد السداد 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchSuppliers" placeholder="بحث باسم المورد، الشركة، أو النشاط..." oninput="renderSuppliersGrid()">
+            </div>
+            <select id="filterSuppField" onchange="renderSuppliersGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة مجالات التوريد</option>
+                <option value="تقنية">تقنية وأجهزة حاسوب</option>
+                <option value="قرطاسية">قرطاسية ومطابع</option>
+                <option value="أثاث">أثاث وتجهيزات</option>
+                <option value="زي مدرسي">زي مدرسي ونسيج</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('supplier')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> إضافة مورد / شركة جديدة
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة دليل الموردين
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود المورد</th>
+                    <th>اسم الشركة / المورد</th>
+                    <th>المجال ونوع البضاعة</th>
+                    <th>مسؤول المبيعات</th>
+                    <th>رقم الهاتف</th>
+                    <th>المدينة والعنوان</th>
+                    <th>رصيد الحساب الجاري</th>
+                    <th>حالة الاعتماد</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-suppliers-grid"></tbody>
+        </table>
+    </div>
+</div>

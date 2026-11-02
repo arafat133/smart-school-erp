@@ -1,0 +1,114 @@
+<div class="page" id="pg-schedule">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-table-columns"></i> الجدول الدراسي</h2>
+                    </div>
+                    <div class="toolbar" style="justify-content:space-between; display:flex;">
+                        <div style="display:flex;gap:10px;">
+                            <div class="search-box">
+                                <select id="scheduleStageFilter" onchange="renderSchedule()">
+                                    <option value="">المرحلة</option>
+                                    <option value="الأساسية">الأساسية</option>
+                                    <option value="الثانوية">الثانوية</option>
+                                </select>
+                            </div>
+                            <div class="search-box">
+                                <select id="scheduleSectionFilter" onchange="renderSchedule()">
+                                    <option value="">الشعبة</option>
+                                    <option value="أ">أ</option>
+                                    <option value="ب">ب</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <span class="badge"
+                                style="background:var(--primary);color:white;padding:5px 10px;border-radius:6px;cursor:pointer;"
+                                onclick="openModal('termModal')"><i class="fa-solid fa-calendar-check"></i> <span
+                                    id="currentTermSchedule">الفصل الدراسي الأول</span></span>
+                            <button class="btn-add" onclick="triggerOfficialPrint()"><i class="fa-solid fa-print"></i>
+                                طباعة</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper" style="margin-bottom:20px;">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fa-solid fa-calendar-day"></i> اليوم / الحصة</th>
+                                    <th><i class="fa-solid fa-circle"></i> الأولى</th>
+                                    <th><i class="fa-solid fa-circle"></i> الثانية</th>
+                                    <th><i class="fa-solid fa-circle"></i> الثالثة</th>
+                                    <th><i class="fa-solid fa-circle"></i> الرابعة</th>
+                                    <th><i class="fa-solid fa-circle"></i> الخامسة</th>
+                                    <th><i class="fa-solid fa-circle"></i> السادسة</th>
+                                    <th><i class="fa-solid fa-circle"></i> السابعة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>السبت</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>الأحد</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>الإثنين</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>الثلاثاء</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>الأربعاء</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><i class="fa-solid fa-book-open"></i> المادة</th>
+                                    <th><i class="fa-solid fa-hashtag"></i> المدرس</th>
+                                    <th><i class="fa-solid fa-circle"></i> الفصل</th>
+                                    <th><i class="fa-solid fa-calendar-day"></i> اليوم</th>
+                                    <th><i class="fa-solid fa-clock"></i> الحصة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-schedule-list"></tbody>
+                        </table>
+                    </div>
+                </div>

@@ -1,0 +1,71 @@
+<div class="page" id="pg-supply-orders">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-truck-ramp-box" style="color:#38bdf8;"></i> أوامر وفواتير التوريد المخزني والشراء (Supply & Purchase Orders)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-invoice" style="color:#3b82f6;margin-left:6px;"></i> إجمالي أوامر التوريد</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="supplyTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">فواتير وسندات توريد 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> أوامر مستلمة ومفحوصة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="supplyReceived">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">دخلت المخزن رسمياً 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-truck" style="color:#f59e0b;margin-left:6px;"></i> قيد التوريد والشحن</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="supplyPending">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بانتظار وصول الشحنة 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-money-bill-wave" style="color:#8b5cf6;margin-left:6px;"></i> إجمالي قيمة المشتريات</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="supplyTotalValue">0 ر.ي</p>
+                <small style="color:var(--muted);font-size:0.75rem;">التكلفة المالية الإجمالية 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchSupplyOrders" placeholder="بحث برقم السند، المورد، أو الفاتورة..." oninput="renderSupplyOrdersGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('supply_order')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> إنشاء أمر توريد / شراء جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة سندات التوريد
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم أمر التوريد</th>
+                    <th>اسم المورد / الشركة</th>
+                    <th>تاريخ التوريد</th>
+                    <th>المخزن المستلم</th>
+                    <th>الأصناف الموردة</th>
+                    <th>إجمالي القيمة</th>
+                    <th>رقم فاتورة الشراء</th>
+                    <th>حالة الاستلام</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-supply-orders-grid"></tbody>
+        </table>
+    </div>
+</div>

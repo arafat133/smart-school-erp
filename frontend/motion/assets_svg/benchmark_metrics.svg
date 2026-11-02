@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="100%" height="100%">
+  <defs>
+    <filter id="cardShadow2" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="300" rx="20" fill="#11131A"/>
+
+  <!-- Card 1: 1.8s Timetable Generation -->
+  <g transform="translate(30, 30)">
+    <rect width="280" height="240" rx="16" fill="#181B26" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#cardShadow2)"/>
+    <!-- Top indicator line -->
+    <rect x="0" y="0" width="280" height="4" rx="2" fill="#10B981"/>
+    <!-- Icon Circle -->
+    <circle cx="140" cy="60" r="26" fill="rgba(16,185,129,0.12)"/>
+    <path d="M140 46 L140 60 L149 69" stroke="#10B981" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <circle cx="140" cy="60" r="16" stroke="#10B981" stroke-width="2.5" fill="none"/>
+    <!-- Value -->
+    <text x="140" y="128" font-family="'Tajawal', sans-serif" font-size="44" font-weight="800" fill="#10B981" text-anchor="middle">1.8s</text>
+    <!-- Label -->
+    <text x="140" y="162" font-family="'Tajawal', sans-serif" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle">زمن إعداد الجدول الأسبوعي</text>
+    <!-- Subtitle -->
+    <text x="140" y="194" font-family="'Tajawal', sans-serif" font-size="12" font-weight="500" fill="#94A3B8" text-anchor="middle">تقليص 99.8% مقارنة بالطريقة اليدوية</text>
+    <rect x="75" y="208" width="130" height="22" rx="11" fill="rgba(16,185,129,0.12)"/>
+    <text x="140" y="223" font-family="'Tajawal', sans-serif" font-size="11" font-weight="700" fill="#34D399" text-anchor="middle">خوارزمية CSP الذكية</text>
+  </g>
+
+  <!-- Card 2: 38ms API Response Time -->
+  <g transform="translate(340, 30)">
+    <rect width="280" height="240" rx="16" fill="#181B26" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#cardShadow2)"/>
+    <rect x="0" y="0" width="280" height="4" rx="2" fill="#3B82F6"/>
+    <!-- Lightning Icon Circle -->
+    <circle cx="140" cy="60" r="26" fill="rgba(59,130,246,0.12)"/>
+    <path d="M142 46 L130 62 L139 62 L136 74 L150 56 L141 56 Z" fill="#3B82F6"/>
+    <!-- Value -->
+    <text x="140" y="128" font-family="'Tajawal', sans-serif" font-size="44" font-weight="800" fill="#3B82F6" text-anchor="middle">38ms</text>
+    <!-- Label -->
+    <text x="140" y="162" font-family="'Tajawal', sans-serif" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle">زمن استجابة الخادم API</text>
+    <!-- Subtitle -->
+    <text x="140" y="194" font-family="'Tajawal', sans-serif" font-size="12" font-weight="500" fill="#94A3B8" text-anchor="middle">استجابة فائقة السرعة غير متزامنة</text>
+    <rect x="75" y="208" width="130" height="22" rx="11" fill="rgba(59,130,246,0.12)"/>
+    <text x="140" y="223" font-family="'Tajawal', sans-serif" font-size="11" font-weight="700" fill="#60A5FA" text-anchor="middle">FastAPI Architecture</text>
+  </g>
+
+  <!-- Card 3: 0% Accounting Errors -->
+  <g transform="translate(650, 30)">
+    <rect width="280" height="240" rx="16" fill="#181B26" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#cardShadow2)"/>
+    <rect x="0" y="0" width="280" height="4" rx="2" fill="#F59E0B"/>
+    <!-- Balance Scale Icon Circle -->
+    <circle cx="140" cy="60" r="26" fill="rgba(245,158,11,0.12)"/>
+    <path d="M140 48 L140 72 M126 54 L154 54 M126 54 L120 66 M126 54 L132 66 M154 54 L148 66 M154 54 L160 66" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <!-- Value -->
+    <text x="140" y="128" font-family="'Tajawal', sans-serif" font-size="44" font-weight="800" fill="#F59E0B" text-anchor="middle">0%</text>
+    <!-- Label -->
+    <text x="140" y="162" font-family="'Tajawal', sans-serif" font-size="16" font-weight="700" fill="#F8FAFC" text-anchor="middle">تصفير الأخطاء المحاسبية</text>
+    <!-- Subtitle -->
+    <text x="140" y="194" font-family="'Tajawal', sans-serif" font-size="12" font-weight="500" fill="#94A3B8" text-anchor="middle">قيد اليومية المزدوج المتوازن آلياً</text>
+    <rect x="75" y="208" width="130" height="22" rx="11" fill="rgba(245,158,11,0.12)"/>
+    <text x="140" y="223" font-family="'Tajawal', sans-serif" font-size="11" font-weight="700" fill="#FBBF24" text-anchor="middle">Σ مدين = Σ دائن</text>
+  </g>
+</svg>

@@ -1,0 +1,1059 @@
+/* ============================================================================
+   SMART SCHOOL ERP — MODERN CLEAN ENTERPRISE DESIGN SYSTEM (UI v2.0)
+   Standard: Modern Clean Enterprise 2025 (Linear / Notion Inspired)
+   Direction: RTL Native Support | Typography: Tajawal
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   1. DESIGN TOKENS & CSS VARIABLES
+   ---------------------------------------------------------------------------- */
+:root {
+    /* Brand & Primary Accents (Clean Solid Colors, No Neon) */
+    --primary: #3B82F6;                  /* Blue-500 */
+    --primary-hover: #2563EB;            /* Blue-600 */
+    --primary-subtle: rgba(59, 130, 246, 0.08);
+    --secondary: #64748B;                /* Slate-500 */
+    --secondary-hover: #475569;          /* Slate-600 */
+    --accent: #6366F1;                   /* Indigo-500 */
+
+    /* Functional Accents */
+    --success: #10B981;                  /* Emerald-500 */
+    --success-subtle: rgba(16, 185, 129, 0.12);
+    --warning: #F59E0B;                  /* Amber-500 */
+    --warning-subtle: rgba(245, 158, 11, 0.12);
+    --danger: #EF4444;                   /* Red-500 */
+    --danger-subtle: rgba(239, 68, 68, 0.12);
+    --info: #0EA5E9;                     /* Sky-500 */
+    --info-subtle: rgba(14, 165, 233, 0.12);
+
+    /* Dark Mode Defaults (Base Theme: #11131A) */
+    --bg-main: #11131A;
+    --bg-surface: #181B26;
+    --bg-surface-elevated: #1E2230;
+    --bg-sidebar: #0E1017;
+    --bg-header: #141722;
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --bg-card-hover: rgba(255, 255, 255, 0.07);
+    
+    /* Clean Solid Borders */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.05);
+    --border-focus: #3B82F6;
+
+    /* High Contrast Text */
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+
+    /* Soft Geometric Shadows (No Diffuse Glows) */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+
+    /* Clean Geometry Constants */
+    --sidebar-w: 270px;
+    --header-h: 60px;
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+}
+
+/* Light Theme Variables */
+body.light-theme, [data-theme="light"], .light-mode {
+    --bg-main: #F8FAFC;
+    --bg-surface: #FFFFFF;
+    --bg-surface-elevated: #F1F5F9;
+    --bg-sidebar: #FFFFFF;
+    --bg-header: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8FAFC;
+
+    --border: #E2E8F0;
+    --border-subtle: #EDF2F7;
+    --border-focus: #2563EB;
+
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ----------------------------------------------------------------------------
+   2. THE 5 MASTER UTILITY CLASSES (Design Anchor Point)
+   ---------------------------------------------------------------------------- */
+
+/* 1. Master Card Base */
+.card-base,
+.stat-card,
+.form-card,
+.table-wrapper,
+.chart-card,
+.login-section,
+.student-id-card,
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 2. Master Table Base */
+.table-base,
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    text-align: right;
+    color: var(--text-primary);
+}
+
+/* 3. Master Button Base */
+.btn-base,
+.btn-add,
+.btn-primary,
+.btn-danger,
+.btn-ghost,
+.btn-action,
+.btn-sm,
+.btn-back,
+.btn-save,
+.btn-cancel,
+.btn-delete,
+.btn-edit,
+.tab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.12s ease;
+}
+.btn-base:active,
+.btn-primary:active,
+.btn-add:active {
+    transform: translateY(1px);
+}
+
+/* 4. Master Badge Base */
+.badge-base,
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.3;
+    border: 1px solid transparent;
+}
+.badge::before,
+.badge-base::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* 5. Master Input Base */
+.input-base,
+.form-control,
+.fg input,
+.fg select,
+.fg textarea,
+.input-group input,
+.search-box input {
+    width: 100%;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input-base:focus,
+.form-control:focus,
+.fg input:focus,
+.fg select:focus,
+.fg textarea:focus,
+.input-group input:focus,
+.search-box input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px var(--primary-subtle);
+}
+
+/* ----------------------------------------------------------------------------
+   3. GLOBAL RESET & BASE TYPOGRAPHY
+   ---------------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 15px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Tajawal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    direction: rtl;
+    text-align: right;
+    overflow-x: hidden;
+    letter-spacing: 0.1px;
+}
+
+/* Background shapes: Subtle & Elegant (No intense neon blur) */
+.bg-shape {
+    display: none; /* Removed neon glow shapes for extreme clean enterprise aesthetic */
+}
+
+/* Clean Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+p, span, label, small {
+    color: var(--text-secondary);
+}
+
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+/* FontAwesome icon alignment */
+i.fa-solid, i.fa-regular, i.fa-brands, i.fas, i.far, i.fab {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+    font-style: normal !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+}
+
+/* ----------------------------------------------------------------------------
+   4. LAYOUT: APP CONTAINER, HEADER & SIDEBAR
+   ---------------------------------------------------------------------------- */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--bg-main);
+}
+
+/* Top Header */
+.top-header {
+    height: var(--header-h);
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-menu {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.btn-menu:hover {
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+}
+
+.breadcrumb {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.breadcrumb i {
+    color: var(--primary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Global Search */
+.global-search-wrap {
+    position: relative;
+    max-width: 260px;
+}
+.global-search-wrap input {
+    padding: 7px 32px 7px 10px;
+    font-size: 0.85rem;
+}
+.global-search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 280px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+}
+
+/* Notification Bell */
+.notif-bell {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    position: relative;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.notif-bell:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+.notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--danger);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Theme Toggle Button */
+#btnThemeToggle {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+#btnThemeToggle:hover {
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+}
+
+/* School Tenant Badge */
+#schoolTenantBadge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-subtle);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* User Profile Badge */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 6px;
+}
+.user-profile .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+.user-details h3 {
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+.user-details .badge {
+    font-size: 0.7rem;
+    padding: 1px 6px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-w);
+    background: var(--bg-sidebar);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    z-index: 105;
+}
+
+.sidebar-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+}
+.sidebar-logo i {
+    color: var(--primary);
+    font-size: 1.3rem;
+}
+
+.sidebar-nav {
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.nav-section {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    padding: 10px 12px 4px;
+    letter-spacing: 0.5px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.nav-item:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+.nav-item.active {
+    background: var(--primary-subtle);
+    color: var(--primary);
+    font-weight: 800;
+}
+.nav-item.active i {
+    color: var(--primary);
+}
+
+.sub-menu {
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    padding-right: 28px;
+    margin: 2px 0 4px;
+    border-right: 1px solid var(--border);
+}
+.sub-menu.open {
+    display: flex;
+}
+.sub-menu a {
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+.sub-menu a:hover {
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+}
+.sub-menu a.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ----------------------------------------------------------------------------
+   5. PAGES & KPI STAT CARDS
+   ---------------------------------------------------------------------------- */
+.page-container {
+    padding: 22px;
+    flex: 1;
+}
+
+.page {
+    display: none;
+}
+.page.active {
+    display: block;
+    animation: simpleFadeIn 0.2s ease;
+}
+@keyframes simpleFadeIn {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.page-header h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.page-header h2 i {
+    color: var(--primary);
+}
+
+/* KPI Stat Cards Grid */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-right: 3px solid var(--primary); /* Clean solid border indicator */
+}
+.stat-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Circular Solid Icon Container */
+.stat-card > i,
+.stat-card .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.stat-info {
+    flex: 1;
+}
+.stat-info h3 {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+.stat-info p,
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+.stat-info small {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ----------------------------------------------------------------------------
+   6. DATA TABLES & TOOLBARS (Extreme Clarity)
+   ---------------------------------------------------------------------------- */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    padding: 0;
+    margin-bottom: 22px;
+}
+
+.data-table thead th {
+    background: var(--bg-surface-elevated);
+    color: var(--text-muted);
+    padding: 14px 16px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: right;
+}
+
+.data-table tbody tr {
+    transition: background-color 0.15s ease;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Clean Solid Row Hover (No Neon Glow) */
+.data-table tbody tr:hover {
+    background-color: var(--primary-subtle);
+    box-shadow: inset 2px 0 0 var(--primary); /* 2px solid accent border */
+}
+
+.data-table tbody td {
+    padding: 14px 16px;
+    font-size: 0.92rem;
+    vertical-align: middle;
+    color: var(--text-primary);
+}
+
+/* Consolidated Pill Badges (Solid with clean dot, no pulsing) */
+.badge-success {
+    background: var(--success-subtle);
+    color: var(--success);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+.badge-success::before {
+    background-color: var(--success);
+}
+
+.badge-info, .badge-secondary {
+    background: var(--primary-subtle);
+    color: var(--primary);
+    border-color: rgba(59, 130, 246, 0.25);
+}
+.badge-info::before, .badge-secondary::before {
+    background-color: var(--primary);
+}
+
+.badge-warning {
+    background: var(--warning-subtle);
+    color: var(--warning);
+    border-color: rgba(245, 158, 11, 0.25);
+}
+.badge-warning::before {
+    background-color: var(--warning);
+}
+
+.badge-danger {
+    background: var(--danger-subtle);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.25);
+}
+.badge-danger::before {
+    background-color: var(--danger);
+}
+
+/* ----------------------------------------------------------------------------
+   7. BUTTONS SYSTEM (Consolidated Solid Style)
+   ---------------------------------------------------------------------------- */
+.btn-primary,
+.btn-add,
+.btn-save {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+.btn-primary:hover,
+.btn-add:hover,
+.btn-save:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.btn-danger,
+.btn-delete {
+    background-color: var(--danger-subtle);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.25);
+}
+.btn-danger:hover,
+.btn-delete:hover {
+    background-color: var(--danger);
+    color: #ffffff;
+    border-color: var(--danger);
+}
+
+.btn-ghost,
+.btn-back,
+.btn-cancel,
+.btn-close {
+    background-color: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+.btn-ghost:hover,
+.btn-back:hover,
+.btn-cancel:hover,
+.btn-close:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.btn-action {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+.btn-action:hover {
+    background: var(--primary-subtle);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+/* ----------------------------------------------------------------------------
+   8. FORMS & INPUT CONTROLS
+   ---------------------------------------------------------------------------- */
+.fg, .input-group {
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.fg label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 12px center;
+    background-size: 14px;
+    padding-left: 36px !important;
+}
+
+/* ----------------------------------------------------------------------------
+   9. MODALS & SLIDE-OVER DRAWERS
+   ---------------------------------------------------------------------------- */
+.modal,
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px); /* Max 8px blur allowed */
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 1000;
+}
+
+.modal.show,
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 640px;
+    overflow: hidden;
+    animation: modalScaleIn 0.2s ease;
+}
+@keyframes modalScaleIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+    background: var(--bg-surface-elevated);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.modal-header h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.modal-actions {
+    background: var(--bg-surface-elevated);
+    border-top: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* ----------------------------------------------------------------------------
+   10. TABS, TOASTS & UTILITY COMPONENTS
+   ---------------------------------------------------------------------------- */
+.tab-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+}
+.tab-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* Toasts */
+#toastBox {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+    animation: toastSlide 0.25s ease;
+}
+@keyframes toastSlide {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Clean Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+/* ----------------------------------------------------------------------------
+   11. RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+   ---------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+    .btn-menu {
+        display: inline-flex;
+    }
+    .sidebar {
+        position: fixed;
+        right: -280px;
+        transition: right 0.25s ease;
+    }
+    .sidebar.open {
+        right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 14px 10px;
+    }
+    .stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .stat-card {
+        padding: 14px 16px;
+    }
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .toolbar > * {
+        width: 100%;
+    }
+    .global-search-wrap {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    .sidebar, .top-header, .toolbar, .no-print, .btn-base, .btn-add, #toastBox {
+        display: none !important;
+    }
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    .table-wrapper, .data-table {
+        border: 1px solid #000000 !important;
+        box-shadow: none !important;
+    }
+    .data-table thead th {
+        background: #f0f0f0 !important;
+        color: #000000 !important;
+    }
+}
+\n\n/* Permanent Session Lock Suppression */\n.session-lock, #sessionLockOverlay, .session-lock-box {\n    display: none !important;\n    visibility: hidden !important;\n    pointer-events: none !important;\n}\n
+/* Strict Page Isolation (Only active page is displayed) */
+.page {
+    display: none !important;
+}
+.page.active {
+    display: block !important;
+}

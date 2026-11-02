@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="60%" stop-color="#bae6fd" />
+      <stop offset="100%" stop-color="#f0f9ff" />
+    </linearGradient>
+    <linearGradient id="wallGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+    <linearGradient id="brickGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4c1d95" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect x="0" y="0" width="700" height="270" fill="url(#skyGrad)" />
+  <!-- Mountains in background -->
+  <polygon points="0,270 90,180 220,270" fill="#94a3b8" opacity="0.35" />
+  <polygon points="180,270 310,160 450,270" fill="#94a3b8" opacity="0.25" />
+  <polygon points="400,270 540,175 700,270" fill="#94a3b8" opacity="0.3" />
+
+  <!-- Ground / Courtyard -->
+  <rect x="0" y="270" width="700" height="130" fill="#334155" />
+  <polygon points="0,300 700,300 700,400 0,400" fill="#1e293b" />
+  <line x1="0" y1="350" x2="700" y2="350" stroke="#f8fafc" stroke-width="2" stroke-dasharray="25,20" />
+
+  <!-- Lawns & Landscaping -->
+  <rect x="15" y="260" width="120" height="35" rx="6" fill="#15803d" />
+  <rect x="565" y="260" width="120" height="35" rx="6" fill="#15803d" />
+  <!-- Decorative Palm Trees -->
+  <path d="M 60,260 Q 62,210 65,170" stroke="#78350f" stroke-width="7" fill="none" />
+  <circle cx="65" cy="165" r="22" fill="#16a34a" />
+  <circle cx="50" cy="160" r="18" fill="#15803d" />
+  <circle cx="80" cy="160" r="18" fill="#15803d" />
+  
+  <path d="M 630,260 Q 628,210 625,170" stroke="#78350f" stroke-width="7" fill="none" />
+  <circle cx="625" cy="165" r="22" fill="#16a34a" />
+  <circle cx="610" cy="160" r="18" fill="#15803d" />
+  <circle cx="640" cy="160" r="18" fill="#15803d" />
+
+  <!-- Main Academic Building Structure -->
+  <!-- Left Wing -->
+  <rect x="90" y="110" width="170" height="160" fill="url(#wallGrad)" stroke="#94a3b8" stroke-width="2" />
+  <!-- Right Wing -->
+  <rect x="440" y="110" width="170" height="160" fill="url(#wallGrad)" stroke="#94a3b8" stroke-width="2" />
+  <!-- Center Main Block -->
+  <rect x="230" y="80" width="240" height="190" fill="url(#wallGrad)" stroke="#94a3b8" stroke-width="2" />
+  <!-- Roof cornice -->
+  <rect x="80" y="100" width="540" height="12" fill="url(#brickGrad)" />
+  <rect x="220" y="70" width="260" height="14" fill="url(#brickGrad)" />
+
+  <!-- Pediment / Header -->
+  <polygon points="350,25 210,70 490,70" fill="url(#brickGrad)" stroke="#cbd5e1" stroke-width="1.5" />
+  <!-- School Name Sign on Pediment -->
+  <rect x="240" y="45" width="220" height="22" rx="4" fill="#0f172a" />
+  <text x="350" y="60" font-family="'Cairo', sans-serif" font-size="10.5" font-weight="bold" fill="#f8fafc" text-anchor="middle">مدارس الرشيد الأهلية النموذجية</text>
+
+  <!-- Clock Tower on Center -->
+  <circle cx="350" cy="115" r="18" fill="#ffffff" stroke="#4c1d95" stroke-width="3" />
+  <line x1="350" y1="115" x2="350" y2="104" stroke="#0f172a" stroke-width="2" />
+  <line x1="350" y1="115" x2="358" y2="115" stroke="#0f172a" stroke-width="2" />
+
+  <!-- Yemeni Flags on Wings -->
+  <!-- Flag 1 (Left) -->
+  <line x1="120" y1="100" x2="120" y2="45" stroke="#94a3b8" stroke-width="3" />
+  <rect x="120" y="45" width="26" height="6" fill="#ce1126" />
+  <rect x="120" y="51" width="26" height="6" fill="#ffffff" />
+  <rect x="120" y="57" width="26" height="6" fill="#000000" />
+  <!-- Flag 2 (Right) -->
+  <line x1="580" y1="100" x2="580" y2="45" stroke="#94a3b8" stroke-width="3" />
+  <rect x="580" y="45" width="26" height="6" fill="#ce1126" />
+  <rect x="580" y="51" width="26" height="6" fill="#ffffff" />
+  <rect x="580" y="57" width="26" height="6" fill="#000000" />
+
+  <!-- Windows Grid -->
+  <!-- Left Wing Windows -->
+  <g fill="url(#glassGrad)" stroke="#64748b" stroke-width="1.5">
+    <rect x="110" y="130" width="30" height="40" rx="3" />
+    <rect x="160" y="130" width="30" height="40" rx="3" />
+    <rect x="210" y="130" width="30" height="40" rx="3" />
+    <rect x="110" y="195" width="30" height="40" rx="3" />
+    <rect x="160" y="195" width="30" height="40" rx="3" />
+    <rect x="210" y="195" width="30" height="40" rx="3" />
+  </g>
+  <!-- Right Wing Windows -->
+  <g fill="url(#glassGrad)" stroke="#64748b" stroke-width="1.5">
+    <rect x="460" y="130" width="30" height="40" rx="3" />
+    <rect x="510" y="130" width="30" height="40" rx="3" />
+    <rect x="560" y="130" width="30" height="40" rx="3" />
+    <rect x="460" y="195" width="30" height="40" rx="3" />
+    <rect x="510" y="195" width="30" height="40" rx="3" />
+    <rect x="560" y="195" width="30" height="40" rx="3" />
+  </g>
+  <!-- Center Windows & Main Entrance Portico -->
+  <g fill="url(#glassGrad)" stroke="#64748b" stroke-width="1.5">
+    <rect x="280" y="145" width="40" height="45" rx="3" />
+    <rect x="380" y="145" width="40" height="45" rx="3" />
+  </g>
+
+  <!-- Grand Entrance Columns & Portal -->
+  <rect x="285" y="200" width="130" height="70" fill="#0f172a" />
+  <path d="M 285,200 Q 350,170 415,200 Z" fill="#0f172a" />
+  <!-- Glass Doors -->
+  <rect x="325" y="215" width="50" height="55" fill="url(#glassGrad)" stroke="#f8fafc" stroke-width="1.5" />
+  <line x1="350" y1="215" x2="350" y2="270" stroke="#ffffff" stroke-width="2" />
+  <!-- Columns -->
+  <rect x="275" y="190" width="12" height="80" fill="#f8fafc" stroke="#94a3b8" />
+  <rect x="413" y="190" width="12" height="80" fill="#f8fafc" stroke="#94a3b8" />
+
+  <!-- School Bus Parked at Right Courtyard -->
+  <g transform="translate(480, 290)">
+    <!-- Bus Body -->
+    <rect x="0" y="0" width="140" height="50" rx="8" fill="#eab308" stroke="#ca8a04" stroke-width="2" />
+    <!-- Black stripe -->
+    <rect x="0" y="25" width="140" height="8" fill="#0f172a" />
+    <text x="70" y="32" font-family="'Cairo', sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">حافلة مدرسية • SCHOOL BUS</text>
+    <!-- Windows -->
+    <rect x="10" y="6" width="22" height="15" rx="2" fill="#0284c7" />
+    <rect x="38" y="6" width="22" height="15" rx="2" fill="#0284c7" />
+    <rect x="66" y="6" width="22" height="15" rx="2" fill="#0284c7" />
+    <rect x="94" y="6" width="22" height="15" rx="2" fill="#0284c7" />
+    <!-- Wheels -->
+    <circle cx="30" cy="50" r="12" fill="#0f172a" stroke="#64748b" stroke-width="2" />
+    <circle cx="30" cy="50" r="5" fill="#e2e8f0" />
+    <circle cx="110" cy="50" r="12" fill="#0f172a" stroke="#64748b" stroke-width="2" />
+    <circle cx="110" cy="50" r="5" fill="#e2e8f0" />
+    <!-- Headlight -->
+    <polygon points="140,25 145,28 140,32" fill="#fbbf24" />
+  </g>
+
+  <!-- Modern Campus Badge Badge at Bottom-Left -->
+  <rect x="25" y="320" width="210" height="60" rx="8" fill="rgba(15,23,42,0.92)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+  <text x="38" y="342" font-family="'Cairo', sans-serif" font-size="12" font-weight="900" fill="#38bdf8">📍 الحرم المدرسي الرئيسي</text>
+  <text x="38" y="360" font-family="'Cairo', sans-serif" font-size="10" font-weight="700" fill="#f8fafc">صنعاء — الحي الدبلوماسي</text>
+  <text x="38" y="374" font-family="monospace" font-size="9" fill="#fbbf24">كود المنشأة: SCH-SAN-04</text>
+</svg>

@@ -1,0 +1,64 @@
+<div class="page" id="pg-cost-centers">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-building-columns"></i> مراكز التكلفة والأقسام المالية (Cost Centers & Financial Departments)</h2>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="stats-row" style="margin-bottom:16px;">
+                        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-building" style="color:#3b82f6;margin-left:6px;"></i> إجمالي المراكز</h3>
+                                <p style="color:#60a5fa;font-weight:800;font-size:1.2rem;" id="ccTotal">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">عدد مراكز التكلفة</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #10b981;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> مراكز نشطة</h3>
+                                <p style="color:#34d399;font-weight:800;font-size:1.2rem;" id="ccActive">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">المراكز العاملة</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #ef4444;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-arrow-trend-down" style="color:#ef4444;margin-left:6px;"></i> إجمالي المصروفات</h3>
+                                <p style="color:#f87171;font-weight:800;font-size:1.2rem;" id="ccExpenses">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">مجموع مصروفات المراكز</small>
+                            </div>
+                        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" style="justify-content:space-between;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+        <div class="search-box" style="flex:1;max-width:360px;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchCostcenters" placeholder="بحث في مراكز التكلفة..." oninput="renderCostCentersGrid()">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('cost-centers')"><i class="fa-solid fa-plus"></i> إضافة مركز تكلفة جديد</button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i class="fa-solid fa-print"></i> طباعة</button>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود المركز</th>
+                    <th>اسم المركز</th>
+                    <th>القسم التابع</th>
+                    <th>المسؤول</th>
+                    <th>الميزانية</th>
+                    <th>المصروفات</th>
+                    <th>المتبقي</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-cost-centers-grid"></tbody>
+        </table>
+    </div>
+</div>

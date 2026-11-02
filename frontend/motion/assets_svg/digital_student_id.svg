@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cardBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065F46"/>
+      <stop offset="50%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#064E3B"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Card Body -->
+  <rect x="20" y="20" width="380" height="560" rx="24" fill="url(#cardBgGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="2" filter="url(#cardShadow)"/>
+
+  <!-- Card Header -->
+  <text x="210" y="70" font-family="'Tajawal', sans-serif" font-size="20" font-weight="800" fill="#FFFFFF" text-anchor="middle">بطاقة الهوية الرقمية للطالب</text>
+  <text x="210" y="94" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#A7F3D0" text-anchor="middle" letter-spacing="1">STUDENT DIGITAL NFC IDENTITY</text>
+
+  <!-- Student Photo Frame Mockup -->
+  <rect x="135" y="120" width="150" height="150" rx="75" fill="#1E2230" stroke="#34D399" stroke-width="4"/>
+  <!-- User Silhouette -->
+  <circle cx="210" cy="170" r="32" fill="#6EE7B7"/>
+  <path d="M165 245 C165 205, 255 205, 255 245 Z" fill="#6EE7B7"/>
+
+  <!-- Student Details -->
+  <text x="210" y="310" font-family="'Tajawal', sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="middle">محمد عبدالله الشهري</text>
+  <text x="210" y="338" font-family="'Tajawal', sans-serif" font-size="15" font-weight="700" fill="#E2E8F0" text-anchor="middle">الصف: الأول الثانوي — شُعبة (أ)</text>
+  <text x="210" y="362" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#A7F3D0" text-anchor="middle">ID: 44101 | 2026/2027</text>
+
+  <!-- High-Fidelity QR Code Mockup -->
+  <g transform="translate(145, 385)">
+    <!-- White QR base -->
+    <rect width="130" height="130" rx="12" fill="#FFFFFF"/>
+    <!-- QR Corner Targets -->
+    <rect x="10" y="10" width="32" height="32" fill="#064E3B"/>
+    <rect x="16" y="16" width="20" height="20" fill="#FFFFFF"/>
+    <rect x="20" y="20" width="12" height="12" fill="#064E3B"/>
+
+    <rect x="88" y="10" width="32" height="32" fill="#064E3B"/>
+    <rect x="94" y="16" width="20" height="20" fill="#FFFFFF"/>
+    <rect x="98" y="20" width="12" height="12" fill="#064E3B"/>
+
+    <rect x="10" y="88" width="32" height="32" fill="#064E3B"/>
+    <rect x="16" y="94" width="20" height="20" fill="#FFFFFF"/>
+    <rect x="20" y="98" width="12" height="12" fill="#064E3B"/>
+
+    <!-- Data Blocks Pattern -->
+    <rect x="52" y="15" width="8" height="24" fill="#064E3B"/>
+    <rect x="68" y="15" width="12" height="8" fill="#064E3B"/>
+    <rect x="48" y="48" width="34" height="34" rx="4" fill="#10B981"/>
+    <!-- Small logo in center -->
+    <circle cx="65" cy="65" r="10" fill="#FFFFFF"/>
+    <polygon points="65,58 59,62 65,66 71,62" fill="#064E3B"/>
+
+    <rect x="15" y="52" width="18" height="8" fill="#064E3B"/>
+    <rect x="25" y="68" width="8" height="12" fill="#064E3B"/>
+    <rect x="92" y="52" width="24" height="10" fill="#064E3B"/>
+    <rect x="88" y="70" width="12" height="10" fill="#064E3B"/>
+    <rect x="52" y="92" width="20" height="12" fill="#064E3B"/>
+    <rect x="80" y="98" width="18" height="8" fill="#064E3B"/>
+    <rect x="106" y="92" width="12" height="24" fill="#064E3B"/>
+  </g>
+
+  <!-- Security Verification Footer -->
+  <text x="210" y="546" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#A7F3D0" text-anchor="middle" letter-spacing="1.2">ENCRYPTED AES-256 DIGITAL SIGNATURE</text>
+</svg>

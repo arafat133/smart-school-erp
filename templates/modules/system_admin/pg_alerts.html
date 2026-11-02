@@ -1,0 +1,207 @@
+<div class="page" id="pg-alerts">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+            <h2 style="margin:0;font-size:1.35rem;font-weight:800;color:#f8fafc;display:flex;align-items:center;gap:10px;">
+                <i class="fa-solid fa-bell" style="color:#fbbf24;"></i> مركز التنبيهات الذكية والإشعارات التلقائية (Automated Alerts)
+            </h2>
+        </div>
+        <div class="header-actions" style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openNewAlertModal()" style="background:linear-gradient(135deg,#0284c7,#0369a1);box-shadow:0 4px 15px rgba(2,132,199,0.35);">
+                <i class="fa-solid fa-plus"></i> إضافة قاعدة تنبيه ذكية جديدة
+            </button>
+            <button class="btn-add" onclick="sendAllScheduledAlerts()" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 15px rgba(16,185,129,0.35);">
+                <i class="fa-solid fa-paper-plane"></i> إرسال التنبيهات المجدولة الآن
+            </button>
+        </div>
+    </div>
+
+    <!-- 2️⃣ KPI Cards for Alerts -->
+    <div class="stats-row" style="margin-bottom:22px;">
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-robot" style="color:#10b981;margin-left:6px;"></i> قواعد التنبيه النشطة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="statAlertActiveRules">5 قواعد آلية 🟢</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تعمل على مدار 24/7 لمراقبة أحداث النظام</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-paper-plane" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الرسائل المرسلة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="statAlertTotalSent">1,191 إشعار</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عبر WhatsApp و SMS والتطبيق</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-bolt" style="color:#f59e0b;margin-left:6px;"></i> نسبة الوصول والتسليم</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="statAlertDeliveryRate">99.4% ناجح ⚡</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تكامل مباشر مع بوابات الاتصال السحابية</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3️⃣ Toolbar & Filters -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex:1;max-width:680px;">
+            <div class="search-box" style="flex:1;min-width:240px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchAlerts" placeholder="🔍 بحث باسم قاعدة التنبيه، الرمز، أو قناة الإرسال..." oninput="renderAlertsGrid()">
+            </div>
+            <select id="filterAlertChannel" onchange="renderAlertsGrid()" style="padding:10px 14px;background:rgba(30,41,59,0.85);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#f8fafc;font-family:inherit;font-size:0.86rem;cursor:pointer;">
+                <option value="">كافة قنوات الإرسال</option>
+                <option value="WhatsApp">WhatsApp 📱</option>
+                <option value="SMS">رسائل SMS القصيرة</option>
+                <option value="Push">إشعارات التطبيق Push 🔔</option>
+            </select>
+            <select id="filterAlertStatus" onchange="renderAlertsGrid()" style="padding:10px 14px;background:rgba(30,41,59,0.85);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#f8fafc;font-family:inherit;font-size:0.86rem;cursor:pointer;">
+                <option value="">كافة الحالات</option>
+                <option value="نشط">نشط ومفعل 🟢</option>
+                <option value="معطل">معطل مؤقتاً ⏸️</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة تقرير التنبيهات
+            </button>
+        </div>
+    </div>
+
+    <!-- 4️⃣ Alerts Data Table -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:120px;">رمز التنبيه</th>
+                    <th>عنوان وقاعدة التنبيه</th>
+                    <th>المستهدفون</th>
+                    <th>شرط الإطلاق</th>
+                    <th>قناة الإرسال</th>
+                    <th>الحالة</th>
+                    <th>آخر إرسال</th>
+                    <th style="text-align:center;width:170px;">إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-alerts-grid">
+                <!-- Dynamically populated by renderAlertsGrid() -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5️⃣ Modal: Add New Alert Rule Form -->
+    <div id="modalNewAlertRule" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.82);z-index:9999;justify-content:center;align-items:center;padding:16px;backdrop-filter:blur(8px);">
+        <div style="background:var(--surface,#1e293b);border:1px solid rgba(56,189,248,0.35);border-radius:20px;max-width:680px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.65);overflow:hidden;position:relative;animation:modalFadeIn 0.3s ease;">
+            
+            <!-- Modal Header -->
+            <div style="background:linear-gradient(135deg,rgba(14,165,233,0.2),rgba(2,132,199,0.2));border-bottom:1px solid rgba(56,189,248,0.3);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.2);display:flex;justify-content:center;align-items:center;color:#38bdf8;font-size:1.2rem;">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <div>
+                        <h3 style="color:#f8fafc;font-size:1.15rem;font-weight:800;margin:0;">إضافة قاعدة تنبيه ذكية جديدة (Add Alert Rule)</h3>
+                        <small style="color:#94a3b8;font-size:0.75rem;">ضبط إشعار تلقائي يُبث فور تحقق الحدث في المنظومة</small>
+                    </div>
+                </div>
+                <button onclick="closeNewAlertModal()" style="background:none;border:none;color:#94a3b8;font-size:1.2rem;cursor:pointer;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Modal Form Body -->
+            <form id="formNewAlertRule" onsubmit="saveNewAlertRule(event); return false;" style="padding:22px;max-height:80vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;">
+                
+                <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;">
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">رمز التنبيه:</label>
+                        <input type="text" id="newAlertCode" readonly value="" placeholder="كود التنبيه" style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:rgba(0,0,0,0.4);color:#60a5fa;font-family:monospace;font-weight:800;">
+                    </div>
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">عنوان وقاعدة التنبيه: <span style="color:#ef4444;">*</span></label>
+                        <input type="text" id="newAlertTitle" required placeholder="مثال: تنبيه تأخر الحافلة المدرسية، إشعار مخالفة سلوكية..." style="width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-family:inherit;">
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">الفئة المستهدفة (Target Audience):</label>
+                        <select id="newAlertAudience" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0f172a;color:#fff;font-family:inherit;">
+                            <option value="👥 أولياء أمور الطلاب المتغيبين">أولياء أمور الطلاب المتغيبين</option>
+                            <option value="👥 أولياء الأمور ذوي المبالغ المستحقة">أولياء الأمور ذوي المبالغ المستحقة</option>
+                            <option value="👥 كافة أولياء الأمور">كافة أولياء الأمور</option>
+                            <option value="👥 كافة طلاب المدرسة">كافة طلاب المدرسة</option>
+                            <option value="👥 المعلمون وأعضاء هيئة التدريس">المعلمون وأعضاء هيئة التدريس</option>
+                            <option value="👥 المحاسبون والشؤون المالية">المحاسبون والشؤون المالية</option>
+                            <option value="👥 سائقو ومشرفو الحافلات">سائقو ومشرفو الحافلات</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">شرط الإطلاق الآلي (Trigger Condition):</label>
+                        <select id="newAlertTrigger" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0f172a;color:#fff;font-family:inherit;">
+                            <option value="⚡ عند تسجيل غياب صباحي في شيت الحضور">عند تسجيل غياب صباحي في شيت الحضور</option>
+                            <option value="⚡ قبل موعد استحقاق القسط المالي بـ 7 أيام">قبل موعد استحقاق القسط المالي بـ 7 أيام</option>
+                            <option value="⚡ عند رصد مخالفة أو ملاحظة صفية للطالب">عند رصد مخالفة أو ملاحظة صفية للطالب</option>
+                            <option value="⚡ عند انطلاق رحلة الحافلة المدرسية">عند انطلاق رحلة الحافلة المدرسية</option>
+                            <option value="⚡ عند اعتماد ونشر درجات وشهادات الاختبارات">عند اعتماد ونشر درجات وشهادات الاختبارات</option>
+                            <option value="⚡ يدوي (عند طلب المشرف فقط)">يدوي (عند طلب المشرف فقط)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Channels checkboxes -->
+                <div>
+                    <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">قنوات الإرسال المعتمدة:</label>
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;background:rgba(0,0,0,0.25);padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+                        <label style="display:flex;align-items:center;gap:6px;color:#34d399;font-size:0.88rem;cursor:pointer;">
+                            <input type="checkbox" id="chkChanWhatsapp" checked> WhatsApp API 📱
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;color:#38bdf8;font-size:0.88rem;cursor:pointer;">
+                            <input type="checkbox" id="chkChanSms" checked> رسائل SMS قصيرة
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;color:#fbbf24;font-size:0.88rem;cursor:pointer;">
+                            <input type="checkbox" id="chkChanPush" checked> إشعارات التطبيق Push 🔔
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;color:#c084fc;font-size:0.88rem;cursor:pointer;">
+                            <input type="checkbox" id="chkChanEmail"> البريد الإلكتروني Email
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Variables Toolbar -->
+                <div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                        <label style="color:#cbd5e1;font-size:0.85rem;font-weight:700;">نص الرسالة التلقائي مع متغيرات ذكية: <span style="color:#ef4444;">*</span></label>
+                        <span style="color:#94a3b8;font-size:0.75rem;">انقر لإدراج المتغير في النص:</span>
+                    </div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+                        <button type="button" onclick="insertAlertTag('{اسم_الطالب}')" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;">{اسم_الطالب}</button>
+                        <button type="button" onclick="insertAlertTag('{الصف}')" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;">{الصف}</button>
+                        <button type="button" onclick="insertAlertTag('{المبلغ_المستحق}')" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;">{المبلغ_المستحق}</button>
+                        <button type="button" onclick="insertAlertTag('{تاريخ_اليوم}')" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;">{تاريخ_اليوم}</button>
+                        <button type="button" onclick="insertAlertTag('{اسم_المدرسة}')" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;">{اسم_المدرسة}</button>
+                    </div>
+                    <textarea id="newAlertTemplate" rows="4" required placeholder="نحيطكم علماً بأن الطالب {اسم_الطالب} في الصف {الصف}..." style="width:100%;box-sizing:border-box;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-family:inherit;font-size:0.9rem;resize:vertical;line-height:1.5;"></textarea>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label style="display:block;color:#cbd5e1;font-size:0.85rem;font-weight:700;margin-bottom:6px;">حالة التفعيل:</label>
+                    <select id="newAlertStatus" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:#0f172a;color:#fff;font-family:inherit;">
+                        <option value="نشط ومفعل 🟢">نشط ومفعل 🟢</option>
+                        <option value="معطل مؤقتاً ⏸️">معطل مؤقتاً ⏸️</option>
+                    </select>
+                </div>
+
+                <!-- Modal Actions -->
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:10px;border-top:1px dashed rgba(255,255,255,0.1);padding-top:14px;">
+                    <button type="button" onclick="closeNewAlertModal()" style="background:rgba(255,255,255,0.08);color:#cbd5e1;border:1px solid rgba(255,255,255,0.15);padding:10px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">
+                        إلغاء
+                    </button>
+                    <button type="submit" style="background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 15px rgba(2,132,199,0.4);">
+                        <i class="fa-solid fa-save"></i> حفظ واعتماد قاعدة التنبيه
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

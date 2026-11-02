@@ -1,0 +1,71 @@
+<div class="page" id="pg-custom-reports">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-file-invoice" style="color:#38bdf8;"></i> منشئ ومصمم التقارير المخصصة (Custom Report Designer & Builder)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-circle-plus" style="color:#3b82f6;margin-left:6px;"></i> التقارير المصممة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="repCustomTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">نماذج تقارير جاهزة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-arrow-down" style="color:#10b981;margin-left:6px;"></i> تقارير مصدّرة اليوم</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="repCustomExported">14 تقرير</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عمليات استخراج منجزة 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-database" style="color:#8b5cf6;margin-left:6px;"></i> الجداول المتاحة للربط</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="repCustomDBs">12 جدول</p>
+                <small style="color:var(--muted);font-size:0.75rem;">قواعد بيانات النظام 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock" style="color:#f59e0b;margin-left:6px;"></i> تقارير مجدولة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="repCustomScheduled">3 تقارير</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إرسال آلي بالبريد 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchCustomReports" placeholder="بحث في التقارير المصممة..." oninput="renderCustomReportsGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('custom_report')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> تصميم تقرير جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> تصدير وطباعة
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود التقرير</th>
+                    <th>عنوان التقرير المخصص</th>
+                    <th>مصدر البيانات والجداول</th>
+                    <th>الحقول المختارة</th>
+                    <th>شروط الفلترة</th>
+                    <th>صيغة التصدير</th>
+                    <th>تاريخ آخر توليد</th>
+                    <th>حالة التقرير</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-custom-reports-grid"></tbody>
+        </table>
+    </div>
+</div>

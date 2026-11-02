@@ -1,0 +1,89 @@
+<div class="page" id="pg-student-tree">
+    <!-- 1. الترويسة القياسية وزر الرجوع (Page Header) -->
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <h2>
+            <i class="fa-solid fa-diagram-project" style="color:#38bdf8;"></i> 
+            الشجرة التنظيمية للطلاب (Student Organization Tree)
+        </h2>
+    </div>
+
+    <!-- 2. بطاقات المؤشرات والإحصائيات الهيكلية (KPI Cards) -->
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-layer-group" style="color:#3b82f6;margin-left:6px;"></i> إجمالي المراحل</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="stTotal">4</p>
+                <small style="color:var(--muted);font-size:0.75rem;">المراحل التعليمية النشطة (تمهيدي، أساسي أول، أساسي عليا، ثانوي) 🔵</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-list-ol" style="color:#10b981;margin-left:6px;"></i> إجمالي الصفوف</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="stGrades">14</p>
+                <small style="color:var(--muted);font-size:0.75rem;">مجموع الصفوف الدراسية المعتمدة 🟢</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-users" style="color:#f59e0b;margin-left:6px;"></i> إجمالي الطلاب الموزعين</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="stStudents">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عدد الطلاب المقيدين والموزعين فعلياً داخل الشعب والفصول 🟡</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. شريط الأدوات والعمليات وأزرار التحكم (Toolbar) -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div class="search-box" style="flex:1;max-width:380px;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchStudenttree" placeholder="بحث باسم المرحلة، الصف، الشعبة، المشرف، أو الطالب..." oninput="renderStudentTreeGrid()">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="toggleAllTreeNodes(true)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#f8fafc;">
+                <i class="fa-solid fa-folder-open"></i> توسيع الكل
+            </button>
+            <button class="btn-add" onclick="toggleAllTreeNodes(false)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#f8fafc;">
+                <i class="fa-solid fa-folder"></i> طي الكل
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة الهيكل التنظيمي
+            </button>
+        </div>
+    </div>
+
+    <!-- 4. الهيكل الهرمي للشجرة التنظيمية (4 مستويات أكاديمية متداخلة) -->
+    <div class="form-card" style="margin-bottom:20px;padding:18px;background:linear-gradient(135deg,rgba(30,41,59,0.7),rgba(15,23,42,0.85));border:1px solid rgba(255,255,255,0.08);border-radius:14px;">
+        <h3 style="font-size:1.05rem;color:#f8fafc;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-sitemap" style="color:#38bdf8;"></i> 
+            الشجرة الأكاديمية التفاعلية للطلاب (المستويات: مرحلة ⟵ صف ⟵ شعبة ⟵ طلاب)
+        </h3>
+        <div id="studentTreeViewContainer" style="display:flex;flex-direction:column;gap:8px;">
+            <!-- Tree dynamically rendered here -->
+        </div>
+    </div>
+
+    <!-- 5. جدول البيانات الإحصائي والتوزيع الميداني (Data Table - 9 أعمدة) -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>المرحلة التعليمية</th>
+                    <th>الصف الدراسي</th>
+                    <th>الشعبة</th>
+                    <th>عدد الطلاب</th>
+                    <th>المشرف / رائد الفصل</th>
+                    <th>القاعة والمبنى</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-student-tree-grid"></tbody>
+        </table>
+    </div>
+</div>

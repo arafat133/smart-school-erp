@@ -1,0 +1,77 @@
+<div class="page" id="pg-sms-send">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-paper-plane" style="color:#38bdf8;"></i> إرسال وبث الرسائل والإشعارات الفورية (Broadcast SMS & WhatsApp Sender)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-tower-broadcast" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الرسائل المرسلة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="smsSentTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">حملات وإشعارات صادرة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> تم تسليمها بنجاح</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="smsDelivered">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">وصلت لأولياء الأمور 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-coins" style="color:#8b5cf6;margin-left:6px;"></i> رصيد الرسائل المتبقي</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="smsBalance">4,850 رسالة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">باقة الرسائل المتاحة 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock-rotate-left" style="color:#f59e0b;margin-left:6px;"></i> في قائمة الانتظار</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="smsQueued">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إشعارات مجدولة 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchSmsSend" placeholder="بحث في أرشيف الرسائل الصادرة..." oninput="renderSmsSendGrid()">
+            </div>
+            <select id="filterSmsChannel" onchange="renderSmsSendGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة قنوات الإرسال</option>
+                <option value="SMS">رسائل نصية SMS 📱</option>
+                <option value="WhatsApp">واتساب WhatsApp 💬</option>
+                <option value="App">إشعار التطبيق 🔔</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('sms_campaign')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-paper-plane"></i> بث حملة رسائل جديدة
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة سجل الإرسال
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود الحملة</th>
+                    <th>عنوان الرسالة / الغرض</th>
+                    <th>القناة المستخدمة</th>
+                    <th>الفئة المستهدفة</th>
+                    <th>عدد المستقبلين</th>
+                    <th>تاريخ ووقت الإرسال</th>
+                    <th>معدل التسليم</th>
+                    <th>حالة البث</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-sms-send-grid"></tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="page" id="pg-banks">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-building-columns"></i> إدارة البنوك والحسابات المصرفية (Banks & Banking Accounts)</h2>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="stats-row" style="margin-bottom:16px;">
+                        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-building-columns" style="color:#3b82f6;margin-left:6px;"></i> عدد البنوك</h3>
+                                <p style="color:#60a5fa;font-weight:800;font-size:1.2rem;" id="bankTotal">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">البنوك المسجلة</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #10b981;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-wallet" style="color:#10b981;margin-left:6px;"></i> إجمالي الأرصدة</h3>
+                                <p style="color:#34d399;font-weight:800;font-size:1.2rem;" id="bankBalance">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">مجموع الأرصدة المصرفية</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+                            <div class="stat-info">
+                                <h3><i class="fa-solid fa-credit-card" style="color:#f59e0b;margin-left:6px;"></i> حسابات نشطة</h3>
+                                <p style="color:#fbbf24;font-weight:800;font-size:1.2rem;" id="bankActive">0</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">الحسابات المفتوحة</small>
+                            </div>
+                        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" style="justify-content:space-between;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+        <div style="display:flex;gap:10px;flex:1;max-width:560px;flex-wrap:wrap;">
+            <div class="search-box" style="flex:1;min-width:240px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchBanks" placeholder="بحث في البنوك والحسابات المصرفية..." oninput="renderBanksGrid()">
+            </div>
+            <select id="filterBankType" onchange="renderBanksGrid()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#cbd5e1;padding:8px 14px;border-radius:8px;outline:none;cursor:pointer;font-family:inherit;">
+                <option value="all">كل أنواع الحسابات</option>
+                <option value="جاري">حساب جاري</option>
+                <option value="توفير">حساب توفير واستثمار</option>
+                <option value="محفظة">محفظة دفع إلكترونية</option>
+                <option value="ودائع">حساب ودائع واعتمادات</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('banks')"><i class="fa-solid fa-plus"></i> إضافة بنك وحساب مصرفي جديد</button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i class="fa-solid fa-print"></i> طباعة</button>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود البنك</th>
+                    <th>اسم البنك</th>
+                    <th>رقم الحساب</th>
+                    <th>نوع الحساب</th>
+                    <th>الرصيد</th>
+                    <th>العملة</th>
+                    <th>الفرع</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-banks-grid"></tbody>
+        </table>
+    </div>
+</div>

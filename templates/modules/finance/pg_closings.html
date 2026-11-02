@@ -1,0 +1,93 @@
+<div class="page" id="pg-closings">
+                    <div class="page-header">
+                        <button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-folder-closed"></i> الإقفالات المحاسبية والفترات المالية (Financial Closings & Fiscal Periods)</h2>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="stats-row" style="margin-bottom:16px;">
+                        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+                            <div class="stat-info">
+                                <h3>إجمالي الإقفالات المعتمدة</h3>
+                                <p style="color:#60a5fa;font-weight:800;font-size:1.2rem;" id="clsTotalCount">4 إقفالات</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">فترات مقفلة ومرحلة 🔵</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #10b981;">
+                            <div class="stat-info">
+                                <h3>إجمالي المقبوضات المقفلة</h3>
+                                <p style="color:#34d399;font-weight:800;font-size:1.2rem;" id="clsTotalRevenue">18,500,000 YER</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">إيرادات الفترات السابقة 🟢</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #ef4444;">
+                            <div class="stat-info">
+                                <h3>إجمالي المصروفات المقفلة</h3>
+                                <p style="color:#f87171;font-weight:800;font-size:1.2rem;" id="clsTotalExpense">11,200,000 YER</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">نفقات الفترات السابقة 🔴</small>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+                            <div class="stat-info">
+                                <h3>صافي الفائض / الربح الدوري</h3>
+                                <p style="color:#fbbf24;font-weight:800;font-size:1.2rem;" id="clsNetSurplus">7,300,000 YER</p>
+                                <small style="color:var(--muted);font-size:0.75rem;">الفائض التراكمي المحقق 🟡</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar -->
+                    <div class="toolbar" style="justify-content:space-between;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;flex:1;">
+                            <div class="search-box" style="flex:1;max-width:320px;">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input id="searchClosing" placeholder="بحث برقم الإقفال، الفترة، المحاسب..."
+                                    oninput="renderClosingsGrid()">
+                            </div>
+                            <select id="filterClosingType" onchange="renderClosingsGrid()" style="width:160px;padding:8px 12px;border-radius:8px;background:rgba(15,23,42,0.85);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                                <option value="all">جميع الفترات</option>
+                                <option value="شهري">إقفال شهري 🔵</option>
+                                <option value="يومي">إقفال يومي صناديق 🟢</option>
+                                <option value="فصلي">إقفال فصلي 🟣</option>
+                                <option value="سنوي">إقفال سنوي ختامي 🟡</option>
+                            </select>
+                        </div>
+
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <button class="btn-add" onclick="openForm('closing')"
+                                style="background:linear-gradient(135deg,#3b82f6,#2563eb);"><i
+                                    class="fa-solid fa-plus"></i> تنفيذ إقفال مالي جديد</button>
+                            <button class="btn-add" onclick="triggerOfficialPrint()"
+                                style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i
+                                    class="fa-solid fa-print"></i> طباعة تقرير الإقفال</button>
+                        </div>
+                    </div>
+
+                    <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);padding:8px 14px;border-radius:8px;margin-bottom:12px;font-size:0.8rem;color:#60a5fa;display:flex;align-items:center;gap:8px;">
+                        <i class="fa-solid fa-lightbulb"></i> <span>💡 <strong>تفاعل ذكي متكامل:</strong> انقر مرتين (Double Click) على أي إقفال لمعاينته وتدقيق مجاميعه وميزان المراجعة، أو اضغط مطولاً (Long Press) لحذفه!</span>
+                    </div>
+
+                    <!-- Closings Table (12 Columns) -->
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>رقم أمر الإقفال</th>
+                                    <th>نوع الإقفال المحاسبي</th>
+                                    <th>الفترة المالية / الشهر</th>
+                                    <th>تاريخ بدء الفترة 📅</th>
+                                    <th>تاريخ نهاية الفترة 📅</th>
+                                    <th>إجمالي المقبوضات (+)</th>
+                                    <th>إجمالي المصروفات (-)</th>
+                                    <th>صافي الفائض الدوري</th>
+                                    <th>المحاسب المسؤول</th>
+                                    <th>حالة الإقفال</th>
+                                    <th>المرفق</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-closings-grid"></tbody>
+                        </table>
+                    </div>
+                </div>

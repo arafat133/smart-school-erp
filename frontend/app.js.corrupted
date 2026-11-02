@@ -1,0 +1,1473 @@
+// ==================== ط¥ط¹ط¯ط§ط¯ط§طھ ====================
+const API = "http://127.0.0.1:8000/api";
+let token = null, me = null;
+
+// ==================== ط§ظ„ط¨ظٹط§ظ†ط§طھ ط§ظ„ظ…ط­ظ„ظٹط© ====================
+const DB = {
+    stages: [
+        {id:1,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط£ظˆظ„",order:1},{id:2,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط«ط§ظ†ظٹ",order:2},
+        {id:3,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط«ط§ظ„ط«",order:3},{id:4,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط±ط§ط¨ط¹",order:4},
+        {id:5,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط®ط§ظ…ط³",order:5},{id:6,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط³ط§ط¯ط³",order:6},
+        {id:7,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط³ط§ط¨ط¹",order:7},{id:8,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط«ط§ظ…ظ†",order:8},
+        {id:9,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",order:9},
+        {id:10,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط«ط§ظ†ظˆظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط¹ط§ط´ط±",order:10},{id:11,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط«ط§ظ†ظˆظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط­ط§ط¯ظٹ ط¹ط´ط±",order:11},{id:12,stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط«ط§ظ†ظˆظٹط©",grade:"ط§ظ„طµظپ ط§ظ„ط«ط§ظ†ظٹ ط¹ط´ط±",order:12},
+    ],
+    sections: [
+        {id:1,name:"ط£",stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",capacity:40},
+        {id:2,name:"ط¨",stage:"ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©",grade:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",capacity:40},
+    ],
+    students: [], // ظٹطھظ… طھط­ظ…ظٹظ„ظ‡ط§ ظ…ظ† API
+    employees: [
+        {id:1,name:"ظ…ط­ظ…ط¯ ط£ط­ظ…ط¯ ط§ظ„ط¹ظ„ظˆظٹ",job:"ظ…ط¹ظ„ظ… ظپظٹط²ظٹط§ط،",phone:"777111222",specialty:"ظپظٹط²ظٹط§ط،",status:"ظ†ط´ط·"},
+        {id:2,name:"ط³ط¹ط§ط¯ ط¹ظ„ظٹ ط§ظ„ظ…ظ‚ط¨ظ„ظٹ",job:"ط¥ط¯ط§ط±ظٹط© ظ…ط§ظ„ظٹط©",phone:"777333444",specialty:"ظ…ط­ط§ط³ط¨ط©",status:"ظ†ط´ط·"},
+        {id:3,name:"ط®ط§ظ„ط¯ ط³ط¹ظٹط¯ ط§ظ„ط­ظ…ظٹط±ظٹ",job:"ظ…ط¹ظ„ظ… ط±ظٹط§ط¶ظٹط§طھ",phone:"777555666",specialty:"ط±ظٹط§ط¶ظٹط§طھ",status:"ظ†ط´ط·"},
+    ],
+    subjects: [
+        {id:1,code:"SUB-001",name:"ط§ظ„ط±ظٹط§ط¶ظٹط§طھ",stage:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",maxScore:100,minScore:50},
+        {id:2,code:"SUB-002",name:"ط§ظ„ظپظٹط²ظٹط§ط،",stage:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",maxScore:100,minScore:50},
+        {id:3,code:"SUB-003",name:"ط§ظ„ظ„ط؛ط© ط§ظ„ط¹ط±ط¨ظٹط©",stage:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",maxScore:100,minScore:50},
+        {id:4,code:"SUB-004",name:"ط§ظ„ظ„ط؛ط© ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط©",stage:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",maxScore:100,minScore:50},
+        {id:5,code:"SUB-005",name:"ط§ظ„ط¹ظ„ظˆظ…",stage:"ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹",maxScore:100,minScore:50},
+    ],
+    users: [
+        {id:1,username:"admin",role:"ظ…ط¯ظٹط± ط§ظ„ظ†ط¸ط§ظ…",status:"ظ†ط´ط·"},
+        {id:2,username:"teacher1",role:"ظ…ط¹ظ„ظ…",status:"ظ†ط´ط·"},
+        {id:3,username:"parent1",role:"ظˆظ„ظٹ ط£ظ…ط±",status:"ظ†ط´ط·"},
+    ],
+    enrollment: [],
+    receipts: [],
+    attendance: [],
+    audit: [],
+    // ===== ط§ظ„ظ…ط­ط§ط³ط¨ط© ط§ظ„ط¹ط§ظ…ط© =====
+    accounts: [
+        {id:'1',code:'1',name:'ط§ظ„ط£طµظˆظ„',parent:null,type:'ط±ط¦ظٹط³ظٹ',nature:'ظ…ط¯ظٹظ†',level:1},
+        {id:'11',code:'11',name:'ط§ظ„ط£طµظˆظ„ ط§ظ„ظ…طھط¯ط§ظˆظ„ط©',parent:'1',type:'ظپط±ط¹ظٹ',nature:'ظ…ط¯ظٹظ†',level:2},
+        {id:'111',code:'111',name:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',parent:'11',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:5000000},
+        {id:'112',code:'112',name:'ط§ظ„ط¨ظ†ظƒ',parent:'11',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:12000000},
+        {id:'113',code:'113',name:'ط§ظ„ط°ظ…ظ… ط§ظ„ظ…ط¯ظٹظ†ط© (ط£ظˆظ„ظٹط§ط، ط§ظ„ط£ظ…ظˆط±)',parent:'11',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:3500000},
+        {id:'12',code:'12',name:'ط§ظ„ط£طµظˆظ„ ط§ظ„ط«ط§ط¨طھط©',parent:'1',type:'ظپط±ط¹ظٹ',nature:'ظ…ط¯ظٹظ†',level:2},
+        {id:'121',code:'121',name:'ط§ظ„ط£ط«ط§ط« ظˆط§ظ„ظ…ط¹ط¯ط§طھ',parent:'12',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:8000000},
+        {id:'122',code:'122',name:'ط§ظ„ظ…ط¨ط§ظ†ظٹ',parent:'12',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:50000000},
+        {id:'2',code:'2',name:'ط§ظ„ط®طµظˆظ… (ط§ظ„ط§ظ„طھط²ط§ظ…ط§طھ)',parent:null,type:'ط±ط¦ظٹط³ظٹ',nature:'ط¯ط§ط¦ظ†',level:1},
+        {id:'21',code:'21',name:'ط§ظ„ط®طµظˆظ… ط§ظ„ظ…طھط¯ط§ظˆظ„ط©',parent:'2',type:'ظپط±ط¹ظٹ',nature:'ط¯ط§ط¦ظ†',level:2},
+        {id:'211',code:'211',name:'ط§ظ„ط°ظ…ظ… ط§ظ„ط¯ط§ط¦ظ†ط© (ط§ظ„ظ…ظˆط±ط¯ظˆظ†)',parent:'21',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:2000000},
+        {id:'212',code:'212',name:'ط§ظ„ط±ظˆط§طھط¨ ط§ظ„ظ…ط³طھط­ظ‚ط©',parent:'21',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:4500000},
+        {id:'22',code:'22',name:'ط­ظ‚ظˆظ‚ ط§ظ„ظ…ظ„ظƒظٹط©',parent:'2',type:'ظپط±ط¹ظٹ',nature:'ط¯ط§ط¦ظ†',level:2},
+        {id:'221',code:'221',name:'ط±ط£ط³ ط§ظ„ظ…ط§ظ„',parent:'22',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:60000000},
+        {id:'3',code:'3',name:'ط§ظ„ظ…طµط±ظˆظپط§طھ',parent:null,type:'ط±ط¦ظٹط³ظٹ',nature:'ظ…ط¯ظٹظ†',level:1},
+        {id:'31',code:'31',name:'ط§ظ„ظ…طµط±ظˆظپط§طھ ط§ظ„طھط´ط؛ظٹظ„ظٹط©',parent:'3',type:'ظپط±ط¹ظٹ',nature:'ظ…ط¯ظٹظ†',level:2},
+        {id:'311',code:'311',name:'ط§ظ„ط±ظˆط§طھط¨ ظˆط§ظ„ط£ط¬ظˆط±',parent:'31',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:15000000},
+        {id:'312',code:'312',name:'ط§ظ„ط¥ظٹط¬ط§ط±ط§طھ',parent:'31',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:3000000},
+        {id:'313',code:'313',name:'ط§ظ„طµظٹط§ظ†ط©',parent:'31',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:800000},
+        {id:'314',code:'314',name:'ظ…ط³طھظ„ط²ظ…ط§طھ ظ…ط¯ط±ط³ظٹط©',parent:'31',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:1200000},
+        {id:'32',code:'32',name:'ظ…طµط±ظˆظپط§طھ ط¥ط¯ط§ط±ظٹط©',parent:'3',type:'ظپط±ط¹ظٹ',nature:'ظ…ط¯ظٹظ†',level:2},
+        {id:'321',code:'321',name:'ظƒظ‡ط±ط¨ط§ط، ظˆظ…ط§ط،',parent:'32',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:600000},
+        {id:'322',code:'322',name:'ط§طھطµط§ظ„ط§طھ ظˆط¥ظ†طھط±ظ†طھ',parent:'32',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ظ…ط¯ظٹظ†',level:3,balance:200000},
+        {id:'4',code:'4',name:'ط§ظ„ط¥ظٹط±ط§ط¯ط§طھ',parent:null,type:'ط±ط¦ظٹط³ظٹ',nature:'ط¯ط§ط¦ظ†',level:1},
+        {id:'41',code:'41',name:'ط¥ظٹط±ط§ط¯ط§طھ ط§ظ„ط±ط³ظˆظ… ط§ظ„ط¯ط±ط§ط³ظٹط©',parent:'4',type:'ظپط±ط¹ظٹ',nature:'ط¯ط§ط¦ظ†',level:2},
+        {id:'411',code:'411',name:'ط±ط³ظˆظ… ط¯ط±ط§ط³ظٹط© - ط§ط¨طھط¯ط§ط¦ظٹ',parent:'41',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:18000000},
+        {id:'412',code:'412',name:'ط±ط³ظˆظ… ط¯ط±ط§ط³ظٹط© - ط¥ط¹ط¯ط§ط¯ظٹ',parent:'41',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:12000000},
+        {id:'413',code:'413',name:'ط±ط³ظˆظ… ط¯ط±ط§ط³ظٹط© - ط«ط§ظ†ظˆظٹ',parent:'41',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:8000000},
+        {id:'42',code:'42',name:'ط¥ظٹط±ط§ط¯ط§طھ ط£ط®ط±ظ‰',parent:'4',type:'ظپط±ط¹ظٹ',nature:'ط¯ط§ط¦ظ†',level:2},
+        {id:'421',code:'421',name:'ط±ط³ظˆظ… ظ…ظˆط§طµظ„ط§طھ',parent:'42',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:2500000},
+        {id:'422',code:'422',name:'ط±ط³ظˆظ… ط£ظ†ط´ط·ط©',parent:'42',type:'طھط­ظ„ظٹظ„ظٹ',nature:'ط¯ط§ط¦ظ†',level:3,balance:500000},
+    ],
+    cashboxes: [
+        {id:1,code:'CB-001',name:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',type:'ظ‚ط¨ط¶ ظˆطµط±ظپ',balance:5000000,manager:'admin'},
+        {id:2,code:'CB-002',name:'طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط³ظˆظ… ط§ظ„ط¯ط±ط§ط³ظٹط©',type:'ظ‚ط¨ط¶ ظپظ‚ط·',balance:2500000,manager:'ظ…ط­ط§ط³ط¨'},
+    ],
+    vreceipts: [
+        {id:1,number:'VR-001',date:'2025-09-10',fromAcc:'ط§ظ„ط°ظ…ظ… ط§ظ„ظ…ط¯ظٹظ†ط© (ط£ظˆظ„ظٹط§ط، ط§ظ„ط£ظ…ظˆط±)',toAcc:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',amount:500000,desc:'طھط­طµظٹظ„ ط±ط³ظˆظ… ط·ط§ظ„ط¨',method:'ظ†ظ‚ط¯ط§ظ‹',posted:true},
+        {id:2,number:'VR-002',date:'2025-09-15',fromAcc:'ط§ظ„ط°ظ…ظ… ط§ظ„ظ…ط¯ظٹظ†ط© (ط£ظˆظ„ظٹط§ط، ط§ظ„ط£ظ…ظˆط±)',toAcc:'ط§ظ„ط¨ظ†ظƒ',amount:1000000,desc:'طھط­طµظٹظ„ ط±ط³ظˆظ… ط¹ط¨ط± طھط­ظˆظٹظ„',method:'طھط­ظˆظٹظ„ ط¨ظ†ظƒظٹ',posted:true},
+    ],
+    vpayments: [
+        {id:1,number:'VP-001',date:'2025-09-30',fromAcc:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',toAcc:'ط§ظ„ط±ظˆط§طھط¨ ظˆط§ظ„ط£ط¬ظˆط±',amount:4500000,desc:'طµط±ظپ ط±ظˆط§طھط¨ ط´ظ‡ط± ط³ط¨طھظ…ط¨ط±',method:'ظ†ظ‚ط¯ط§ظ‹',posted:true},
+        {id:2,number:'VP-002',date:'2025-10-05',fromAcc:'ط§ظ„ط¨ظ†ظƒ',toAcc:'ظ…ط³طھظ„ط²ظ…ط§طھ ظ…ط¯ط±ط³ظٹط©',amount:300000,desc:'ط´ط±ط§ط، ظ…ط³طھظ„ط²ظ…ط§طھ ط¯ط±ط§ط³ظٹط©',method:'ط´ظٹظƒ',posted:false},
+    ],
+    journal: [
+        {id:1,number:'JE-001',date:'2025-09-01',desc:'ظ‚ظٹط¯ ط§ظپطھطھط§ط­ظٹ - ط±ط£ط³ ط§ظ„ظ…ط§ظ„',debitAcc:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',creditAcc:'ط±ط£ط³ ط§ظ„ظ…ط§ظ„',debit:60000000,credit:60000000,posted:true},
+        {id:2,number:'JE-002',date:'2025-09-10',desc:'طھط­طµظٹظ„ ط±ط³ظˆظ… ط¯ط±ط§ط³ظٹط©',debitAcc:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',creditAcc:'ط±ط³ظˆظ… ط¯ط±ط§ط³ظٹط© - ط¥ط¹ط¯ط§ط¯ظٹ',debit:500000,credit:500000,posted:true},
+        {id:3,number:'JE-003',date:'2025-09-30',desc:'طµط±ظپ ط±ظˆط§طھط¨',debitAcc:'ط§ظ„ط±ظˆط§طھط¨ ظˆط§ظ„ط£ط¬ظˆط±',creditAcc:'ط§ظ„طµظ†ط¯ظˆظ‚ ط§ظ„ط±ط¦ظٹط³ظٹ',debit:4500000,credit:4500000,posted:true},
+    ],
+    // ===== ط§ظ„ظƒظ†طھط±ظˆظ„ ظˆط§ظ„ط§ظ…طھط­ط§ظ†ط§طھ =====
+    grades: [],
+    schedule: [
+        {id:1,section:'ط§ظ„طھط§ط³ط¹ - ط£',day:'ط§ظ„ط£ط­ط¯',p1:'ط§ظ„ط±ظٹط§ط¶ظٹط§طھ',p2:'ط§ظ„ظپظٹط²ظٹط§ط،',p3:'ط§ظ„ظ‚ط±ط¢ظ†',p4:'ط§ظ„ظ„ط؛ط© ط§ظ„ط¹ط±ط¨ظٹط©',p5:'ط§ظ„ظ„ط؛ط© ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط©',p6:'ط§ظ„ط¹ظ„ظˆظ…'},
+        {id:2,section:'ط§ظ„طھط§ط³ط¹ - ط¨',day:'ط§ظ„ط£ط­ط¯',p1:'ط§ظ„ظپظٹط²ظٹط§ط،',p2:'ط§ظ„ط±ظٹط§ط¶ظٹط§طھ',p3:'ط§ظ„ظ„ط؛ط© ط§ظ„ط¹ط±ط¨ظٹط©',p4:'ط§ظ„ظ‚ط±ط¢ظ†',p5:'ط§ظ„ط¹ظ„ظˆظ…',p6:'ط§ظ„ظ„ط؛ط© ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط©'},
+    ],
+    substitutes: [
+        {id:1,date:'2025-10-10',day:'ط§ظ„ط£ط­ط¯',period:'ط§ظ„ط­طµط© 1',section:'ط§ظ„طھط§ط³ط¹ - ط£',absent:'ظ…ط­ظ…ط¯ ط£ط­ظ…ط¯ ط§ظ„ط¹ظ„ظˆظٹ',substitute:'ط®ط§ظ„ط¯ ط³ط¹ظٹط¯ ط§ظ„ط­ظ…ظٹط±ظٹ'}
+    ],
+    // ===== ط´ط¤ظˆظ† ط§ظ„ظ…ظˆط¸ظپظٹظ† =====
+    contracts: [
+        {id:1,empName:'ظ…ط­ظ…ط¯ ط£ط­ظ…ط¯ ط§ظ„ط¹ظ„ظˆظٹ',number:'C-001',salary:800000,startDate:'2025-08-01',status:'ط³ط§ط±ظٹ'},
+        {id:2,empName:'ط¹ط¨ط¯ط§ظ„ظ„ظ‡ ط³ط§ظ„ظ… ط§ظ„ظ…ط±ظٹ',number:'C-002',salary:500000,startDate:'2025-08-01',status:'ط³ط§ط±ظٹ'}
+    ],
+    empAttendance: [], // {id,date,empName,job,timeIn,timeOut,status}
+    advances: [
+        {id:1,date:'2025-10-15',empName:'ظ…ط­ظ…ط¯ ط£ط­ظ…ط¯ ط§ظ„ط¹ظ„ظˆظٹ',amount:50000,note:'ط³ظ„ظپط© ظ…ط³طھط¹ط¬ظ„ط©',deducted:false}
+    ],
+    payroll: [], // ظ…ط³ظٹط± ط§ظ„ط±ظˆط§طھط¨ ط§ظ„ظ…ط¹طھظ…ط¯
+    // ===== ط§ظ„ط£ظ†ط´ط·ط© ظˆط§ظ„ظ…ظˆط§طµظ„ط§طھ =====
+    activities: [
+        {id:1,name:'ط±ط­ظ„ط© ط¹ظ„ظ…ظٹط© ظ„ظ…ط¹ظ…ظ„ ط§ظ„ط±ظˆط¨ظˆطھط§طھ',type:'ط¹ظ„ظ…ظٹ',supervisor:'ظ…ط­ظ…ط¯ ط£ط­ظ…ط¯ ط§ظ„ط¹ظ„ظˆظٹ',date:'2025-11-01',participants:25}
+    ],
+    transport: [
+        {id:1,route:'ط®ط· ط­ط¯ط© - ط§ظ„ط³ط¨ط¹ظٹظ†',driver:'ط³ط§ظ„ظ… ط¹ط¨ط¯ط§ظ„ظ„ظ‡',bus:'ط­ط§ظپظ„ط© ط±ظ‚ظ… 1 (25 ط±ط§ظƒط¨)',fee:30000}
+    ],
+    // ===== ط§ظ„ظ…ط¯ط§ط±ط³ ط§ظ„ظ…ط´طھط±ظƒط© (Super Admin) =====
+    schools: [
+        {id: 1, name: 'ظ…ط¯ط±ط³ط© ط§ظ„ظ…طھظپظˆظ‚ظٹظ† ط§ظ„ط£ظ‡ظ„ظٹط©', status: 'ظ†ط´ط·', subscriptionEnd: '2026-08-01', usersCount: 150},
+        {id: 2, name: 'ظ…ط¯ط§ط±ط³ ط§ظ„ظ…ط³طھظ‚ط¨ظ„ ط§ظ„ط­ط¯ظٹط«ط©', status: 'ظ†ط´ط·', subscriptionEnd: '2026-09-15', usersCount: 300}
+    ]
+};
+let nextId = {stages:13,sections:3,subjects:6,users:4,employees:4,enrollment:1,receipts:1,cashboxes:3,vreceipts:3,vpayments:3,journal:4,schedule:3,substitutes:2,contracts:3,empAtt:1,advances:2,payroll:1,activities:2,transport:2,schools:3};
+
+// ==================== طھط³ط¬ظٹظ„ ط§ظ„ط¯ط®ظˆظ„ ====================
+document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn'), err = document.getElementById('loginError');
+    const uType = document.getElementById('userType').value;
+    const sId = document.getElementById('schoolId').value;
+    
+    btn.disabled = true; err.style.display = 'none';
+    try {
+        const fd = new URLSearchParams(); fd.append('username', document.getElementById('username').value); fd.append('password', document.getElementById('password').value);
+        const r = await fetch(`${API}/auth/login`, {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:fd});
+        if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'ظپط´ظ„'); }
+        token = (await r.json()).access_token;
+        const mr = await fetch(`${API}/auth/me`, {headers:{'Authorization':`Bearer ${token}`}}); me = await mr.json();
+        
+        document.getElementById('welcomeName').textContent = `ظ…ط±ط­ط¨ط§ظ‹طŒ ${me.username}`;
+        document.getElementById('userRole').textContent = uType === 'admin' ? 'ظ…ط¯ظٹط± ظ†ط¸ط§ظ… (Super Admin)' : (uType === 'school_admin' ? 'ظ…ط¯ظٹط± ظ…ط¯ط±ط³ط©' : 'ظ…ط¹ظ„ظ…');
+        
+        document.getElementById('loginWrapper').style.display = 'none';
+        document.getElementById('appLayout').style.display = 'flex';
+        
+        if (uType === 'admin') {
+              if (document.getElementById('megaMenuContainer')) document.getElementById('megaMenuContainer').style.display = 'none';
+              if (document.getElementById('saasMegaCard')) document.getElementById('saasMegaCard').style.display = 'block';
+              goTo('pg-saas-admin');
+          } else {
+              if (document.getElementById('megaMenuContainer')) document.getElementById('megaMenuContainer').style.display = 'flex';
+              if (document.getElementById('saasMegaCard')) document.getElementById('saasMegaCard').style.display = 'none';
+              await loadApiData(); refreshAll();
+              goTo('pg-home-menu');
+          }
+    } catch(e) { err.textContent = e.message; err.style.display = 'block'; }
+    finally { btn.disabled = false; }
+});
+function logout(e) { 
+    if(e) e.preventDefault(); 
+    token = null; me = null; 
+    document.getElementById('appLayout').style.display = 'none'; 
+    document.getElementById('loginWrapper').style.display = 'flex'; 
+    const err = document.getElementById('loginError');
+    if (err) err.style.display = 'none';
+}
+
+// ==================== طھط­ظ…ظٹظ„ ط¨ظٹط§ظ†ط§طھ API ====================
+async function loadApiData() {
+    try {
+        const r = await fetch(`${API}/finance/dashboard/students`, {headers:{'Authorization':`Bearer ${token}`}});
+        DB.students = await r.json();
+        // ط¥ظ†ط´ط§ط، ط¨ظٹط§ظ†ط§طھ ط§ظ„طھط³ط¬ظٹظ„ ظˆط§ظ„ط£ظ‚ط³ط§ط· ظ…ظ† ط¨ظٹط§ظ†ط§طھ ط§ظ„ط·ظ„ط§ط¨
+        DB.students.forEach((s, i) => {
+            const isPaid = s.financial_status === 'ظ…ط³ط¯ط¯';
+            DB.enrollment.push({id: i+1, studentId: s.id, studentName: s.full_name, year: '2025-2026', stage: 'ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©', grade: s.grade_level, section: 'ط£', fees: 500000, paid: isPaid ? 500000 : 150000, status: isPaid ? 'ظ…ط³ط¯ط¯' : 'ظ…طھط¹ط«ط±'});
+            if (isPaid) {
+                DB.receipts.push({id: i+1, number: `REC-${String(i+1).padStart(3,'0')}`, date: '2025-09-15', studentName: s.full_name, amount: 500000, method: 'ظ†ظ‚ط¯ط§ظ‹'});
+            }
+        });
+        nextId.enrollment = DB.enrollment.length + 1;
+        nextId.receipts = DB.receipts.length + 1;
+    } catch(e) { console.error(e); }
+}
+
+// ==================== ط§ظ„طھظ†ظ‚ظ„ ====================
+let history = ['pg-home-menu'];
+function goTo(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const pg = document.getElementById(id); if (pg) pg.classList.add('active');
+    
+    let t = id.replace('pg-','');
+    const btn = document.querySelector(`.mega-btn[onclick="goTo('${id}')"]`);
+    if(btn) t = btn.textContent.trim();
+    if(id === 'pg-dashboard') t = 'ظ„ظˆط­ط© ط§ظ„طھط­ظƒظ… ط§ظ„ط±ط¦ظٹط³ظٹط©';
+    if(id === 'pg-home-menu') t = 'ط§ظ„ظ‚ط§ط¦ظ…ط© ط§ظ„ط±ط¦ظٹط³ظٹط©';
+
+    document.getElementById('breadcrumb').innerHTML = `<i class="fa-solid fa-house" onclick="goTo('pg-home-menu')" style="cursor:pointer"></i> / ${t}`;
+    
+    if (history[history.length-1] !== id) history.push(id);
+    if (id === 'pg-dashboard') renderDashboard();
+    if (id === 'pg-attendance') initAttendance();
+    if (id === 'pg-student-tree') renderStudentTree();
+    if (id === 'pg-finance-reports') renderFinanceReport();
+    if (id === 'pg-grading') initGrading();
+}
+
+// Sidebar Navigation
+document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', e => { 
+    if(n.dataset.target) { e.preventDefault(); goTo(n.dataset.target); }
+}));
+document.querySelectorAll('.nav-group-toggle').forEach(btn => btn.addEventListener('click', () => btn.closest('.nav-group').classList.toggle('open')));
+document.getElementById('mobileMenuBtn')?.addEventListener('click', () => document.querySelector('.sidebar').classList.toggle('open'));
+document.getElementById('sidebarCloseBtn')?.addEventListener('click', () => document.querySelector('.sidebar').classList.remove('open'));
+
+// Mega Menu Navigation (Keep if still used elsewhere)
+document.querySelectorAll('.mega-header').forEach(header => {
+    header.addEventListener('click', () => {
+        const group = header.closest('.mega-group');
+        if (group) {
+            document.querySelectorAll('.mega-group').forEach(g => {
+                if(g !== group) g.classList.remove('open');
+            });
+            group.classList.toggle('open');
+        }
+    });
+});
+
+
+  // ==================== (Render) ====================
+function render(type) {
+    const renderers = { stages: renderStages, sections: renderSections, students: renderStudents, users: renderUsers, employees: renderEmployees, subjects: renderSubjects, enrollment: renderEnrollment, receipts: renderReceipts, audit: renderAudit, grading: renderGrading, results: renderResults, cashboxes: renderCashboxes, vreceipts: renderVReceipts, vpayments: renderVPayments, journal: renderJournal, substitute: renderSubstitute, contracts: renderContracts, advances: renderAdvances, activities: renderActivities, transport: renderTransport };
+    if (renderers[type]) renderers[type]();
+}
+function refreshAll() {
+    render('stages'); render('sections'); render('students'); render('users'); render('employees'); render('subjects');
+    render('enrollment'); render('receipts'); render('audit'); render('grading'); render('results');
+    render('cashboxes'); render('vreceipts'); render('vpayments'); render('journal'); render('substitute');
+    render('contracts'); render('advances'); render('activities'); render('transport');
+    if (document.getElementById('pg-dashboard').classList.contains('active')) renderDashboard();
+}
+
+let financeChart = null;
+function renderDashboard() {
+    // 1. ط§ظ„ط£ط±ظ‚ط§ظ…
+    if(document.getElementById('dTotalStudents')) document.getElementById('dTotalStudents').textContent = DB.students.length;
+    if(document.getElementById('dTotalEmp')) document.getElementById('dTotalEmp').textContent = DB.employees.length;
+    if(document.getElementById('dSubjects')) document.getElementById('dSubjects').textContent = DB.subjects.length;
+    if(document.getElementById('dStages')) document.getElementById('dStages').textContent = [...new Set(DB.stages.map(s=>s.stage))].length;
+    
+    let paidCount = DB.students.filter(e => e.financial_status === 'ظ…ط³ط¯ط¯').length;
+    let unpaidCount = DB.students.filter(e => e.financial_status !== 'ظ…ط³ط¯ط¯').length;
+    if(document.getElementById('dPaid')) document.getElementById('dPaid').textContent = paidCount;
+    if(document.getElementById('dUnpaid')) document.getElementById('dUnpaid').textContent = unpaidCount;
+    
+    // 2. ط³ط¬ظ„ ط§ظ„ط­ط±ظƒط§طھ
+    const al = document.getElementById('auditLogList');
+    if (al) {
+        al.innerHTML = '';
+        const recent = [...DB.audit].reverse().slice(0, 10);
+        if (recent.length === 0) al.innerHTML = '<p style="color:var(--muted);text-align:center">ظ„ط§ ظٹظˆط¬ط¯ ط­ط±ظƒط§طھ ط¨ط¹ط¯.</p>';
+        recent.forEach(r => {
+            al.innerHTML += `<div style="padding:10px;border-bottom:1px solid var(--border);font-size:0.9rem">
+                <div style="color:var(--primary);font-weight:700;margin-bottom:4px"><i class="fa-solid fa-user-shield"></i> ${r.user} <span style="float:left;color:var(--muted);font-weight:normal;font-size:0.8rem">${r.time}</span></div>
+                <div style="color:var(--text)"><span class="badge" style="background:var(--bg);color:var(--text);border:1px solid var(--border)">${r.action}</span> ${r.details}</div>
+            </div>`;
+        });
+    }
+    
+    // 3. ط§ظ„ط±ط³ظ… ط§ظ„ط¨ظٹط§ظ†ظٹ ط§ظ„ظ…ط§ظ„ظٹ
+    const ctx = document.getElementById('financeChart');
+    if (!ctx) return;
+    
+    let totalRevenues = DB.receipts.reduce((sum, r) => sum + r.amount, 0) + DB.vreceipts.reduce((sum, r) => sum + r.amount, 0);
+    let totalExpenses = DB.vpayments.reduce((sum, p) => sum + p.amount, 0);
+    let totalPayroll = DB.journal.filter(j => j.desc.includes('ط±ظˆط§طھط¨')).reduce((sum, j) => sum + j.debit, 0);
+    totalExpenses += totalPayroll;
+
+    if (financeChart) financeChart.destroy();
+    
+    financeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['ط§ظ„ط¥ظٹط±ط§ط¯ط§طھ', 'ط§ظ„ظ…طµط±ظˆظپط§طھ'],
+            datasets: [{
+                data: [totalRevenues, totalExpenses],
+                backgroundColor: ['#10b981', '#ef4444'],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: getComputedStyle(document.body).getPropertyValue('--text') } }
+            }
+        }
+    });
+}
+
+function renderStages() {
+    const q = (document.getElementById('searchStages')?.value||'').toLowerCase(), tb = document.getElementById('tbl-stages');
+    tb.innerHTML = ''; DB.stages.filter(s => s.stage.includes(q)||s.grade.includes(q)).forEach(s => {
+        tb.innerHTML += `<tr><td>${s.stage}</td><td>${s.grade}</td><td>${s.order}</td><td><div class="act"><button class="btn-edit" onclick="editItem('stage',${s.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('stage',${s.id},'${s.grade}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderSections() {
+    const q = (document.getElementById('searchSections')?.value||'').toLowerCase(), tb = document.getElementById('tbl-sections');
+    tb.innerHTML = ''; DB.sections.filter(s => s.name.includes(q)||s.grade.includes(q)).forEach(s => {
+        tb.innerHTML += `<tr><td>${s.name}</td><td>${s.stage}</td><td>${s.grade}</td><td>${s.capacity}</td><td><div class="act"><button class="btn-edit" onclick="editItem('section',${s.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('section',${s.id},'${s.name}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderStudents() {
+    const q = (document.getElementById('searchStudents')?.value||'').toLowerCase(), tb = document.getElementById('tbl-students');
+    tb.innerHTML = ''; DB.students.filter(s => s.full_name.toLowerCase().includes(q)||s.student_number.toLowerCase().includes(q)).forEach(s => {
+        const sc = s.financial_status==='ظ…ط³ط¯ط¯'?'status-paid':'status-unpaid', ic = s.financial_status==='ظ…ط³ط¯ط¯'?'âœ…':'âڑ ï¸ڈ';
+        tb.innerHTML += `<tr><td>${s.student_number}</td><td>${s.full_name}</td><td>${s.grade_level}</td><td class="${sc}">${ic} ${s.financial_status}</td><td><div class="act"><button class="btn-view2" onclick="viewReport('${s.id}')"><i class="fa-solid fa-file-lines"></i> ظ…ظ„ظپ</button><button class="btn-edit" onclick="editItem('student','${s.id}')"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('student','${s.id}','${s.full_name}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderUsers() {
+    const q = (document.getElementById('searchUsers')?.value||'').toLowerCase(), tb = document.getElementById('tbl-users');
+    tb.innerHTML = ''; DB.users.filter(u => u.username.includes(q)||u.role.includes(q)).forEach(u => {
+        tb.innerHTML += `<tr><td>${u.username}</td><td>${u.role}</td><td><span class="status-paid">${u.status}</span></td><td><div class="act"><button class="btn-edit" onclick="editItem('user',${u.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('user',${u.id},'${u.username}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderEmployees() {
+    const q = (document.getElementById('searchEmp')?.value||'').toLowerCase(), tb = document.getElementById('tbl-employees');
+    tb.innerHTML = ''; DB.employees.filter(e => e.name.includes(q)||e.job.includes(q)).forEach(e => {
+        tb.innerHTML += `<tr><td>${e.name}</td><td>${e.job}</td><td>${e.phone}</td><td>${e.specialty}</td><td><div class="act"><button class="btn-edit" onclick="editItem('employee',${e.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('employee',${e.id},'${e.name}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderSubjects() {
+    const q = (document.getElementById('searchSubjects')?.value||'').toLowerCase(), tb = document.getElementById('tbl-subjects');
+    tb.innerHTML = ''; DB.subjects.filter(s => s.name.includes(q)||s.code.includes(q)).forEach(s => {
+        tb.innerHTML += `<tr><td>${s.code}</td><td>${s.name}</td><td>${s.stage}</td><td>${s.maxScore}</td><td>${s.minScore}</td><td><div class="act"><button class="btn-edit" onclick="editItem('subject',${s.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('subject',${s.id},'${s.name}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderEnrollment() {
+    const q = (document.getElementById('searchEnroll')?.value||'').toLowerCase(), tb = document.getElementById('tbl-enrollment');
+    tb.innerHTML = ''; DB.enrollment.filter(e => e.studentName.includes(q)).forEach(e => {
+        const sc = e.status==='ظ…ط³ط¯ط¯'?'status-paid':'status-unpaid';
+        tb.innerHTML += `<tr><td>${e.studentName}</td><td>${e.year}</td><td>${e.stage}</td><td>${e.grade}</td><td>${e.section}</td><td>${e.fees.toLocaleString()}</td><td>${e.paid.toLocaleString()}</td><td class="${sc}">${e.status}</td><td><div class="act"><button class="btn-edit" onclick="editItem('enrollment',${e.id})"><i class="fa-solid fa-pen"></i></button></div></td></tr>`;
+    });
+}
+function renderReceipts() {
+    const q = (document.getElementById('searchReceipts')?.value||'').toLowerCase(), tb = document.getElementById('tbl-receipts');
+    tb.innerHTML = ''; DB.receipts.filter(r => r.studentName.includes(q)||r.number.includes(q)).forEach(r => {
+        tb.innerHTML += `<tr><td>${r.number}</td><td>${r.date}</td><td>${r.studentName}</td><td>${r.amount.toLocaleString()}</td><td>${r.method}</td><td><div class="act"><button class="btn-view2" onclick="toast('ط·ط¨ط§ط¹ط© ط§ظ„ط³ظ†ط¯...')"><i class="fa-solid fa-print"></i> ط·ط¨ط§ط¹ط©</button></div></td></tr>`;
+    });
+}
+function renderAudit() {
+    const q = (document.getElementById('searchAudit')?.value||'').toLowerCase(), tb = document.getElementById('tbl-audit');
+    tb.innerHTML = ''; DB.audit.filter(a => a.user.includes(q)||a.action.includes(q)||a.detail.includes(q)).forEach(a => {
+        tb.innerHTML += `<tr><td style="direction:ltr;text-align:right">${a.date}</td><td>${a.user}</td><td>${a.action}</td><td style="font-size:.75rem">${a.detail}</td></tr>`;
+    });
+}
+function renderResults() {
+    const q = (document.getElementById('searchResults')?.value||'').toLowerCase(), tb = document.getElementById('tbl-results');
+    tb.innerHTML = ''; DB.students.filter(s => s.full_name.toLowerCase().includes(q)).forEach(s => {
+        tb.innerHTML += `<tr><td>${s.full_name}</td><td>${s.grade_level}</td><td>--</td><td>--</td><td>--</td><td><button class="btn-view2" onclick="viewReport('${s.id}')"><i class="fa-solid fa-eye"></i> ط¹ط±ط¶</button></td></tr>`;
+    });
+}
+
+// ==================== ط³ط¬ظ„ ط§ظ„ط¹ظ…ظ„ظٹط§طھ ====================
+function addAudit(action, detail) {
+    DB.audit.unshift({date: new Date().toLocaleString('ar-EG'), user: me?.username||'system', action, detail});
+    render('audit');
+}
+
+// ==================== ط§ظ„ظ†ظ…ط§ط°ط¬ (Forms) ====================
+let formType = null, formEditId = null;
+const stageNames = ["ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©","ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©","ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط«ط§ظ†ظˆظٹط©"];
+function updateStageGrades(stage, selectedGrade = '') {
+    const gradesMap = {
+        "ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط§ط¨طھط¯ط§ط¦ظٹط©": ["ط§ظ„طµظپ ط§ظ„ط£ظˆظ„", "ط§ظ„طµظپ ط§ظ„ط«ط§ظ†ظٹ", "ط§ظ„طµظپ ط§ظ„ط«ط§ظ„ط«", "ط§ظ„طµظپ ط§ظ„ط±ط§ط¨ط¹", "ط§ظ„طµظپ ط§ظ„ط®ط§ظ…ط³", "ط§ظ„طµظپ ط§ظ„ط³ط§ط¯ط³"],
+        "ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©": ["ط§ظ„طµظپ ط§ظ„ط³ط§ط¨ط¹", "ط§ظ„طµظپ ط§ظ„ط«ط§ظ…ظ†", "ط§ظ„طµظپ ط§ظ„طھط§ط³ط¹"],
+        "ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط«ط§ظ†ظˆظٹط©": ["ط§ظ„طµظپ ط§ظ„ط£ظˆظ„ ط«ط§ظ†ظˆظٹ", "ط§ظ„طµظپ ط§ظ„ط«ط§ظ†ظٹ ط«ط§ظ†ظˆظٹ", "ط§ظ„طµظپ ط§ظ„ط«ط§ظ„ط« ط«ط§ظ†ظˆظٹ"]
+    };
+    const sel = document.getElementById('f_grade');
+    if (sel && gradesMap[stage]) {
+        sel.innerHTML = gradesMap[stage].map(g => `<option value="${g}" ${g === selectedGrade ? 'selected' : ''}>${g}</option>`).join('');
+    }
+}
+
+function openForm(type, editId = null) {
+    formType = type; formEditId = editId;
+    const form = document.getElementById('dynamicForm'), title = document.getElementById('formTitle');
+    let h = '';
+    if (type === 'school') {
+        const d = editId ? DB.schools.find(s=>s.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-school"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ظ…ط¯ط±ط³ط© (طھط±ط®ظٹطµ ظˆطھط£ط³ظٹط³)`;
+        h = `<div class="form-row"><div class="fg full"><label>ط§ط³ظ… ط§ظ„ظ…ط¯ط±ط³ط© ط§ظ„ط±ط³ظ…ظٹ (ط§ظ„طھط¬ط§ط±ظٹ) <span class="req">*</span></label><input id="f_name" value="${d.name||''}" placeholder="ظٹط¬ط¨ ط£ظ† ظٹط­ظ…ظ„ ط¯ظ„ط§ظ„ط© طھط¹ظ„ظٹظ…ظٹط© ظ…ط«ظ„: ظ…ط¯ط§ط±ط³ ... ط§ظ„ط£ظ‡ظ„ظٹط©"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط­ط§ظپط¸ط© / ط§ظ„ظ…ط¯ظٹط±ظٹط©</label><input id="f_gov" value="${d.gov||''}" placeholder="طµظ†ط¹ط§ط، - ط§ظ„ط³ط¨ط¹ظٹظ†"></div><div class="fg"><label>ظ…ظƒط§ظ† ط§ظ„ظ…ط¯ط±ط³ط© (ط§ظ„ط¹ظ†ظˆط§ظ†)</label><input id="f_loc" value="${d.loc||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط±ظƒط²</label><select id="f_center"><option ${d.center==='ط¨ظ†ظٹظ†'?'selected':''}>ط¨ظ†ظٹظ†</option><option ${d.center==='ط¨ظ†ط§طھ'?'selected':''}>ط¨ظ†ط§طھ</option><option ${d.center==='ظ…ط®طھظ„ط·'?'selected':''}>ظ…ط®طھظ„ط·</option></select></div><div class="fg"><label>ط´ط¹ط§ط± ط§ظ„ظ…ط¯ط±ط³ط©</label><input type="file" id="f_logo" accept="image/*"></div></div>
+        
+        <fieldset style="border:1px solid var(--border); border-radius:8px; padding:10px; margin-bottom:14px;"><legend style="color:var(--muted); font-size:0.85rem; padding:0 5px;">ظˆط²ط§ط±ط© ط§ظ„طµظ†ط§ط¹ط© ظˆط§ظ„طھط¬ط§ط±ط© (ط§ظ„ظ…طھط·ظ„ط¨ط§طھ ط§ظ„ط§ط³طھط«ظ…ط§ط±ظٹط©)</legend>
+        <div class="form-row"><div class="fg"><label>ظ†ظˆط¹ ط§ظ„ظƒظٹط§ظ†</label><select id="f_entity"><option ${d.entity==='ط´ط±ظƒط© ط°ط§طھ ظ…ط³ط¤ظˆظ„ظٹط© ظ…ط­ط¯ظˆط¯ط©'?'selected':''}>ط´ط±ظƒط© ط°ط§طھ ظ…ط³ط¤ظˆظ„ظٹط© ظ…ط­ط¯ظˆط¯ط©</option><option ${d.entity==='ظ…ظ†ط´ط£ط© ظپط±ط¯ظٹط©'?'selected':''}>ظ…ظ†ط´ط£ط© ظپط±ط¯ظٹط©</option></select></div><div class="fg"><label>ط±ط£ط³ ط§ظ„ظ…ط§ظ„ ط§ظ„طھط£ط³ظٹط³ظٹ</label><input type="number" id="f_capital" value="${d.capital||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>ط±ظ‚ظ… ط§ظ„ط³ط¬ظ„ ط§ظ„طھط¬ط§ط±ظٹ</label><input id="f_cr_num" value="${d.cr_num||''}"></div><div class="fg"><label>ط´ظ‡ط§ط¯ط© ط¨ظ†ظƒظٹط© / ط¶ظ…ط§ظ†ط©</label><input type="file" id="f_bank_cert" accept="image/*,.pdf"></div></div>
+        </fieldset>
+
+        <fieldset style="border:1px solid var(--border); border-radius:8px; padding:10px; margin-bottom:14px;"><legend style="color:var(--muted); font-size:0.85rem; padding:0 5px;">ظˆط²ط§ط±ط© ط§ظ„طھط±ط¨ظٹط© ظˆط§ظ„طھط¹ظ„ظٹظ… (ط§ظ„طھط±ط®ظٹطµ ظˆط§ظ„ظ…ط¨ظ†ظ‰)</legend>
+        <div class="form-row"><div class="fg full"><label>ط¨ظٹط§ظ†ط§طھ ط§ظ„ظ…ط¨ظ†ظ‰ (ظ…ط³ط§ط­ط© ط§ظ„ظپظ†ط§ط،طŒ ط¹ط¯ط¯ ط§ظ„ظپطµظˆظ„طŒ ط§ظ„ظ…ط±ط§ظپظ‚)</label><textarea id="f_building_info" style="height:60px;">${d.building_info||''}</textarea></div></div>
+        <div class="form-row"><div class="fg"><label>ظˆط«ظٹظ‚ط© ط§ظ„ظ…ظ„ظƒظٹط© / ط¹ظ‚ط¯ ط§ظ„ط¥ظٹط¬ط§ط±</label><input type="file" id="f_building_doc" accept="image/*,.pdf"></div><div class="fg"><label>ط§ظ„ط®ط·ط· ظˆط§ظ„ط¨ط±ط§ظ…ط¬ ط§ظ„طھط¹ظ„ظٹظ…ظٹط©</label><input type="file" id="f_plans" accept=".pdf,.doc,.docx"></div></div>
+        </fieldset>
+
+        <fieldset style="border:1px solid var(--border); border-radius:8px; padding:10px; margin-bottom:14px;"><legend style="color:var(--muted); font-size:0.85rem; padding:0 5px;">ط¨ظٹط§ظ†ط§طھ ط§ظ„ط¥ط¯ط§ط±ط© (طµط§ط­ط¨ ط§ظ„ظ…ظ†ط´ط£ط©طŒ ط§ظ„ظ…ط¯ظٹط±طŒ ط§ظ„ظˆظƒظ„ط§ط،)</legend>
+        <div class="form-row"><div class="fg"><label>ط§ط³ظ… طµط§ط­ط¨ ط§ظ„ظ…ظ†ط´ط£ط©</label><input id="f_owner" value="${d.owner||''}"></div><div class="fg"><label>ظ‡ظˆظٹط© ظˆظ…ط¤ظ‡ظ„ طµط§ط­ط¨ ط§ظ„ظ…ظ†ط´ط£ط©</label><input type="file" id="f_owner_doc" accept="image/*,.pdf"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ط³ظ… ظ…ط¯ظٹط± ط§ظ„ظ…ط¯ط±ط³ط©</label><input id="f_prin" value="${d.prin||''}"></div><div class="fg"><label>ظ‡ظˆظٹط© ظˆظ…ط¤ظ‡ظ„ ط§ظ„ظ…ط¯ظٹط± ظˆط§ظ„ظˆظƒظ„ط§ط،</label><input type="file" id="f_prin_doc" accept="image/*,.pdf"></div></div>
+        <div class="form-row"><div class="fg"><label>ط±ظ‚ظ… ط§ظ„ظ…ط¯ظٹط±</label><input id="f_prin_ph" value="${d.prin_ph||''}" maxlength="9"></div><div class="fg"><label>طµظˆط±ط© ط´ط®طµظٹط© ظ„ظ„ظ…ط¯ظٹط±</label><input type="file" id="f_prin_img" accept="image/*"></div></div>
+        </fieldset>`;
+    } else if (type === 'stage') {
+        const d = editId ? DB.stages.find(s=>s.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-layer-group"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ظ…ط±ط­ظ„ط©/طµظپ`;
+        h = `<div class="fg"><label>ط§ظ„ظ…ط±ط­ظ„ط©</label><select id="f_stage" onchange="updateStageGrades(this.value)">${stageNames.map(s=>`<option ${d.stage===s?'selected':''}>${s}</option>`).join('')}</select></div>
+        <div class="fg"><label>ط§ط³ظ… ط§ظ„طµظپ</label><select id="f_grade"><option value="${d.grade||''}">${d.grade||'-- ط§ط®طھط± ط§ظ„ظ…ط±ط­ظ„ط© ط£ظˆظ„ط§ظ‹ --'}</option></select></div>
+        <div class="fg"><label>ط§ظ„طھط±طھظٹط¨</label><input type="number" id="f_order" value="${d.order||DB.stages.length+1}"></div>`;
+        setTimeout(() => updateStageGrades(d.stage || stageNames[0], d.grade), 100);
+    } else if (type === 'section') {
+        const d = editId ? DB.sections.find(s=>s.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-table-cells"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ط´ط¹ط¨ط©`;
+        const grades = DB.stages.map(s=>`<option value="${s.grade}" data-stage="${s.stage}" ${d.grade===s.grade?'selected':''}>${s.stage} - ${s.grade}</option>`).join('');
+        h = `<div class="fg"><label>ط§ظ„طµظپ</label><select id="f_grade" onchange="document.getElementById('f_stage2').value=this.selectedOptions[0].dataset.stage">${grades}</select></div>
+        <input type="hidden" id="f_stage2" value="${d.stage||''}">
+        <div class="fg"><label>ط§ط³ظ… ط§ظ„ط´ط¹ط¨ط©</label><input id="f_name" value="${d.name||''}"></div>
+        <div class="fg"><label>ط§ظ„ط³ط¹ط© ط§ظ„ظ‚طµظˆظ‰</label><input type="number" id="f_cap" value="${d.capacity||40}"></div>`;
+    } else if (type === 'student') {
+        const d = editId ? DB.students.find(s=>s.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-user-graduate"></i> ${editId?'طھط¹ط¯ظٹظ„':'طھط³ط¬ظٹظ„'} ط·ط§ظ„ط¨`;
+        const lvlOpts = DB.stages.map(s=>`<option value="${s.grade}" ${d.grade_level===s.grade?'selected':''}>${s.stage} - ${s.grade}</option>`).join('');
+        h = `<div class="fg"><label>ط§ظ„ط§ط³ظ… ط§ظ„ط±ط¨ط§ط¹ظٹ ط§ظ„ط±ط³ظ…ظٹ <span class="req">*</span></label><input id="f_name" value="${d.full_name||''}"></div>
+        <div class="form-row"><div class="fg"><label>ط±ظ‚ظ… ط§ظ„ط·ط§ظ„ط¨ <span class="req">*</span></label><input id="f_num" value="${d.student_number||''}"></div><div class="fg"><label>ط§ظ„طµظپ <span class="req">*</span></label><select id="f_level">${lvlOpts}</select></div></div>
+        <div class="form-row"><div class="fg"><label>ط±ظ‚ظ… ظˆظ„ظٹ ط§ظ„ط£ظ…ط± 1 <span class="req">*</span></label><input id="f_ph1" value="${d.phone1||''}" maxlength="9"></div><div class="fg"><label>ط±ظ‚ظ… ظˆظ„ظٹ ط§ظ„ط£ظ…ط± 2</label><input id="f_ph2" value="${d.phone2||''}" maxlength="9"></div></div>
+        <div class="form-row"><div class="fg"><label>طھط§ط±ظٹط® ط§ظ„ظ…ظٹظ„ط§ط¯ <span class="req">*</span></label><input type="date" id="f_dob" value="${d.dob||''}"></div><div class="fg"><label>ظ…ط­ظ„ ط§ظ„ظ…ظٹظ„ط§ط¯</label><input id="f_pob" value="${d.pob||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط³ظƒظ†</label><input id="f_res" value="${d.residence||''}"></div><div class="fg"><label>ط§ظ„ط±ظ‚ظ… ط§ظ„ظˆط·ظ†ظٹ ظ„ظ„ط£ط¨ <span class="req">*</span></label><input id="f_nid" value="${d.natid||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط¬ظ†ط³ <span class="req">*</span></label><select id="f_gender"><option value="">--</option><option ${d.gender==='ط°ظƒط±'?'selected':''}>ط°ظƒط±</option><option ${d.gender==='ط£ظ†ط«ظ‰'?'selected':''}>ط£ظ†ط«ظ‰</option></select></div><div class="fg"><label>ط§ظ„ط¬ظ†ط³ظٹط©</label><input id="f_nat" value="${d.nationality||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط¨ط±ظٹط¯ ط§ظ„ط¥ظ„ظƒطھط±ظˆظ†ظٹ ظ„ظˆظ„ظٹ ط§ظ„ط£ظ…ط± <span class="req">*</span></label><input type="email" id="f_email" value="${d.email||''}" dir="ltr"></div><div class="fg"><label>طµظˆط±ط© ط§ظ„ط·ط§ظ„ط¨</label><input type="file" id="f_photo" accept="image/*"></div></div>`;
+    } else if (type === 'user') {
+        const d = editId ? DB.users.find(u=>u.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-user-lock"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ظ…ط³طھط®ط¯ظ…`;
+        h = `<div class="fg"><label>ط§ط³ظ… ط§ظ„ظ…ط³طھط®ط¯ظ…</label><input id="f_uname" value="${d.username||''}"></div>
+        <div class="fg"><label>ط§ظ„ط¯ظˆط±</label><select id="f_role"><option ${d.role==='ظ…ط¹ظ„ظ…'?'selected':''}>ظ…ط¹ظ„ظ…</option><option ${d.role==='ظˆظ„ظٹ ط£ظ…ط±'?'selected':''}>ظˆظ„ظٹ ط£ظ…ط±</option><option ${d.role==='ظ…ط­ط§ط³ط¨'?'selected':''}>ظ…ط­ط§ط³ط¨</option><option ${d.role==='ظ…ط´ط±ظپ ط§ظ„ط·ط§ط¨ظ‚'?'selected':''}>ظ…ط´ط±ظپ ط§ظ„ط·ط§ط¨ظ‚</option><option ${d.role==='ظ…ظˆط§ط±ط¯ ط¨ط´ط±ظٹط© (HR)'?'selected':''}>ظ…ظˆط§ط±ط¯ ط¨ط´ط±ظٹط© (HR)</option></select></div>
+        <div class="fg"><label>ظƒظ„ظ…ط© ط§ظ„ظ…ط±ظˆط± ${editId?'(ط§طھط±ظƒظ‡ط§ ظپط§ط±ط؛ط© ظ„ط¹ط¯ظ… ط§ظ„طھط؛ظٹظٹط±)':''}</label><input type="password" id="f_pass"></div>`;
+    } else if (type === 'employee') {
+        const d = editId ? DB.employees.find(e=>e.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-address-book"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ظ…ظˆط¸ظپ`;
+        h = `<div class="fg"><label>ط§ظ„ط§ط³ظ… ط§ظ„ظƒط§ظ…ظ„</label><input id="f_name" value="${d.name||''}"></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ظˆط¸ظٹظپط©</label><input id="f_job" value="${d.job||''}"></div><div class="fg"><label>ط§ظ„طھط®طµطµ</label><input id="f_spec" value="${d.specialty||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ظ‡ط§طھظپ</label><input id="f_phone" value="${d.phone||''}" maxlength="9"></div><div class="fg"><label>ط§ظ„ط­ط§ظ„ط©</label><select id="f_status"><option ${d.status==='ظ†ط´ط·'?'selected':''}>ظ†ط´ط·</option><option ${d.status==='ظ…ظˆظ‚ظˆظپ'?'selected':''}>ظ…ظˆظ‚ظˆظپ</option></select></div></div>
+        <div class="fg"><label>طµظˆط±ط© ط§ظ„ظ…ظˆط¸ظپ</label><input type="file" id="f_photo" accept="image/*"></div>`;
+    } else if (type === 'subject') {
+        const d = editId ? DB.subjects.find(s=>s.id===editId) : {};
+        const code = editId ? d.code : `SUB-${String(DB.subjects.reduce((m,s)=>{const n=parseInt(s.code.split('-')[1]); return n>m?n:m;},0)+1).padStart(3,'0')}`;
+        const grOpts = DB.stages.map(s=>`<option value="${s.grade}" data-stage="${s.stage}" ${d.stage===s.grade?'selected':''}>${s.stage} - ${s.grade}</option>`).join('');
+        title.innerHTML = `<i class="fa-solid fa-book"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ظ…ط§ط¯ط©`;
+        h = `<div class="fg"><label>ط±ظ…ط² ط§ظ„ظ…ط§ط¯ط© (طھظ„ظ‚ط§ط¦ظٹ)</label><input id="f_code" value="${code}" readonly style="opacity:.6"></div>
+        <div class="fg"><label>ط§ظ„ظ…ط±ط­ظ„ط©/ط§ظ„طµظپ</label><select id="f_stage" onchange="updateSubjectOptions(this)">${grOpts}</select></div>
+        <div class="fg"><label>ط§ط³ظ… ط§ظ„ظ…ط§ط¯ط©</label><select id="f_name"><option value="${d.name||''}">${d.name||'-- ط§ط®طھط± ط§ظ„ظ…ط±ط­ظ„ط© ط£ظˆظ„ط§ظ‹ --'}</option></select></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط¯ط±ط¬ط© ط§ظ„ط¹ط¸ظ…ظ‰</label><input type="number" id="f_max" value="${d.maxScore||100}"></div><div class="fg"><label>ط§ظ„ط¯ط±ط¬ط© ط§ظ„طµط؛ط±ظ‰ (ط§ظ„ظ†ط¬ط§ط­)</label><input type="number" id="f_min" value="${d.minScore||50}"></div></div>`;
+        setTimeout(() => updateSubjectOptions(document.getElementById('f_stage'), d.name), 100);
+    } else if (type === 'enrollment') {
+        const d = editId ? DB.enrollment.find(e=>e.id===editId) : {};
+        const stuOpts = DB.students.map(s=>`<option value="${s.full_name}" ${d.studentName===s.full_name?'selected':''}>${s.full_name}</option>`).join('');
+        const grOpts = DB.stages.map(s=>`<option value="${s.grade}" ${d.grade===s.grade?'selected':''}>${s.stage} - ${s.grade}</option>`).join('');
+        const secOpts = DB.sections.map(s=>`<option value="${s.name}" ${d.section===s.name?'selected':''}>${s.name}</option>`).join('');
+        title.innerHTML = `<i class="fa-solid fa-file-signature"></i> ${editId?'طھط¹ط¯ظٹظ„':'طھط³ط¬ظٹظ„'} ظپظٹ ط³ظ†ط© ط¯ط±ط§ط³ظٹط©`;
+        h = `<div class="fg"><label>ط§ظ„ط·ط§ظ„ط¨</label><select id="f_stu">${stuOpts}</select></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط³ظ†ط© ط§ظ„ط¯ط±ط§ط³ظٹط©</label><input id="f_year" value="${d.year||'2025-2026'}"></div><div class="fg"><label>ط§ظ„طµظپ</label><select id="f_grade">${grOpts}</select></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط´ط¹ط¨ط©</label><select id="f_sec">${secOpts}</select></div><div class="fg"><label>ط§ظ„ط±ط³ظˆظ… ط§ظ„ظ…ط·ظ„ظˆط¨ط©</label><input type="number" id="f_fees" value="${d.fees||500000}"></div></div>`;
+    } else if (type === 'receipt') {
+        const d = editId ? DB.receipts.find(r=>r.id===editId) : {};
+        const stuOpts = DB.students.map(s=>`<option ${d.studentName===s.full_name?'selected':''}>${s.full_name}</option>`).join('');
+        title.innerHTML = `<i class="fa-solid fa-receipt"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ط³ظ†ط¯ ظ‚ط¨ط¶`;
+        h = `<div class="fg"><label>ط§ظ„ط·ط§ظ„ط¨</label><select id="f_stu">${stuOpts}</select></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط¨ظ„ط؛ (ط±ظٹط§ظ„)</label><input type="number" id="f_amount" value="${d.amount||''}"></div><div class="fg"><label>ط·ط±ظٹظ‚ط© ط§ظ„ط¯ظپط¹</label><select id="f_method"><option ${d.method==='ظ†ظ‚ط¯ط§ظ‹'?'selected':''}>ظ†ظ‚ط¯ط§ظ‹</option><option ${d.method==='ط´ظٹظƒ'?'selected':''}>ط´ظٹظƒ</option><option ${d.method==='طھط­ظˆظٹظ„ ط¨ظ†ظƒظٹ'?'selected':''}>طھط­ظˆظٹظ„ ط¨ظ†ظƒظٹ</option></select></div></div>
+        <div class="fg"><label>ظ…ظ„ط§ط­ط¸ط§طھ</label><input id="f_notes" value="${d.notes||''}"></div>`;
+    } else if (type === 'contract') {
+        const d = editId ? DB.contracts.find(c=>c.id===editId) : {};
+        const empOpts = DB.employees.filter(e=>e.status==='ظ†ط´ط·').map(e=>`<option ${d.empName===e.name?'selected':''}>${e.name}</option>`).join('');
+        title.innerHTML = `<i class="fa-solid fa-file-contract"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ط¹ظ‚ط¯ ظ…ظˆط¸ظپ`;
+        h = `<div class="fg"><label>ط§ظ„ظ…ظˆط¸ظپ</label><select id="f_emp">${empOpts}</select></div>
+        <div class="form-row"><div class="fg"><label>ط±ظ‚ظ… ط§ظ„ط¹ظ‚ط¯</label><input id="f_cnum" value="${d.number||`C-${String(nextId.contracts).padStart(3,'0')}`}"></div><div class="fg"><label>ط§ظ„ط±ط§طھط¨ ط§ظ„ط£ط³ط§ط³ظٹ (ط±ظٹط§ظ„)</label><input type="number" id="f_salary" value="${d.salary||''}"></div></div>
+        <div class="form-row"><div class="fg"><label>طھط§ط±ظٹط® ط§ظ„ط¨ط¯ط§ظٹط©</label><input type="date" id="f_start" value="${d.startDate||new Date().toLocaleDateString('en-CA')}"></div><div class="fg"><label>ط­ط§ظ„ط© ط§ظ„ط¹ظ‚ط¯</label><select id="f_cstatus"><option ${d.status==='ط³ط§ط±ظٹ'?'selected':''}>ط³ط§ط±ظٹ</option><option ${d.status==='ظ…ظ†طھظ‡ظٹ'?'selected':''}>ظ…ظ†طھظ‡ظٹ</option></select></div></div>`;
+    } else if (type === 'advance') {
+        const empOpts = DB.employees.filter(e=>e.status==='ظ†ط´ط·').map(e=>`<option>${e.name}</option>`).join('');
+        title.innerHTML = `<i class="fa-solid fa-hand-holding-dollar"></i> طµط±ظپ ط³ظ„ظپط© ظ„ظ…ظˆط¸ظپ`;
+        h = `<div class="form-row"><div class="fg"><label>ط§ظ„طھط§ط±ظٹط®</label><input type="date" id="f_date" value="${new Date().toLocaleDateString('en-CA')}"></div><div class="fg"><label>ط§ظ„ظ…ظˆط¸ظپ</label><select id="f_emp">${empOpts}</select></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط¨ظ„ط؛ (ط±ظٹط§ظ„)</label><input type="number" id="f_amount"></div><div class="fg"><label>ط§ظ„ط¨ظٹط§ظ† / ظ…ظ„ط§ط­ط¸ط§طھ</label><input id="f_note" value="ط³ظ„ظپط© ط´ظ‡ط±ظٹط©"></div></div>`;
+    } else if (type === 'activity') {
+        const empOpts = DB.employees.filter(e=>e.status==='ظ†ط´ط·').map(e=>`<option>${e.name}</option>`).join('');
+        const d = editId ? DB.activities.find(a=>a.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-medal"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ظ†ط´ط§ط· ط·ظ„ط§ط¨ظٹ`;
+        h = `<div class="form-row"><div class="fg"><label>ط§ط³ظ… ط§ظ„ظ†ط´ط§ط·</label><input id="f_name" value="${d.name||''}"></div><div class="fg"><label>ط§ظ„ظ†ظˆط¹</label><select id="f_type"><option ${d.type==='ط¹ظ„ظ…ظٹ'?'selected':''}>ط¹ظ„ظ…ظٹ</option><option ${d.type==='ط±ظٹط§ط¶ظٹ'?'selected':''}>ط±ظٹط§ط¶ظٹ</option><option ${d.type==='ط«ظ‚ط§ظپظٹ'?'selected':''}>ط«ظ‚ط§ظپظٹ</option><option ${d.type==='طھط±ظپظٹظ‡ظٹ'?'selected':''}>طھط±ظپظٹظ‡ظٹ</option></select></div></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„طھط§ط±ظٹط®</label><input type="date" id="f_date" value="${d.date||new Date().toLocaleDateString('en-CA')}"></div><div class="fg"><label>ط§ظ„ظ…ط´ط±ظپ (ظ…ظˆط¸ظپ/ظ…ط¹ظ„ظ…)</label><select id="f_sup">${empOpts}</select></div></div>
+        <div class="fg"><label>ط¹ط¯ط¯ ط§ظ„ط·ظ„ط§ط¨ ط§ظ„ظ…ط´ط§ط±ظƒظٹظ† ط§ظ„ظ…طھظˆظ‚ط¹</label><input type="number" id="f_participants" value="${d.participants||''}"></div>`;
+    } else if (type === 'transport') {
+        const d = editId ? DB.transport.find(t=>t.id===editId) : {};
+        title.innerHTML = `<i class="fa-solid fa-route"></i> ${editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©'} ط®ط· ط³ظٹط±`;
+        h = `<div class="fg"><label>ط§ط³ظ… ط§ظ„ط®ط· / ط§ظ„ظ…ظ†ط·ظ‚ط©</label><input id="f_route" value="${d.route||''}"></div>
+        <div class="form-row"><div class="fg"><label>ط§ظ„ط³ط§ط¦ظ‚</label><input id="f_driver" value="${d.driver||''}"></div><div class="fg"><label>ط±ظ‚ظ… ط§ظ„ط­ط§ظپظ„ط© ظˆظˆطµظپظ‡ط§</label><input id="f_bus" value="${d.bus||''}"></div></div>
+        <div class="fg"><label>ط±ط³ظˆظ… ط§ظ„ط§ط´طھط±ط§ظƒ (ط±ظٹط§ظ„)</label><input type="number" id="f_fee" value="${d.fee||''}"></div>`;
+    }
+    form.innerHTML = h;
+    document.getElementById('formModal').classList.add('active');
+    // طھط·ط¨ظٹظ‚ ط§ظ„طھط­ظ‚ظ‚
+    requestAnimationFrame(() => {
+        if (type === 'student') { applyLetters('f_name'); applyPhone('f_ph1'); applyPhone('f_ph2'); applyNumbers('f_nid'); applyLetters('f_pob'); applyLetters('f_nat'); }
+        if (type === 'employee') { applyLetters('f_name'); applyPhone('f_phone'); }
+    });
+}
+
+function updateSubjectOptions(stageSelect, selectedName = null) {
+    const stageType = stageSelect.options[stageSelect.selectedIndex]?.dataset.stage || '';
+    const nameSelect = document.getElementById('f_name');
+    let subjects = [];
+    if (stageType.includes('ط§ط¨طھط¯ط§ط¦ظٹ')) subjects = ['ط§ظ„ظ‚ط±ط¢ظ† ط§ظ„ظƒط±ظٹظ…', 'ط§ظ„طھط±ط¨ظٹط© ط§ظ„ط¥ط³ظ„ط§ظ…ظٹط©', 'ط§ظ„ظ„ط؛ط© ط§ظ„ط¹ط±ط¨ظٹط©', 'ط§ظ„ط±ظٹط§ط¶ظٹط§طھ', 'ط§ظ„ط¹ظ„ظˆظ…', 'ط§ظ„طھط±ط¨ظٹط© ط§ظ„ظپظ†ظٹط©'];
+    else if (stageType.includes('ط¥ط¹ط¯ط§ط¯ظٹ') || stageType.includes('ظ…طھظˆط³ط·')) subjects = ['ط§ظ„ظ‚ط±ط¢ظ† ط§ظ„ظƒط±ظٹظ…', 'ط§ظ„طھط±ط¨ظٹط© ط§ظ„ط¥ط³ظ„ط§ظ…ظٹط©', 'ط§ظ„ظ„ط؛ط© ط§ظ„ط¹ط±ط¨ظٹط©', 'ط§ظ„ط±ظٹط§ط¶ظٹط§طھ', 'ط§ظ„ط¹ظ„ظˆظ…', 'ط§ظ„ظ„ط؛ط© ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط©', 'ط§ظ„ط§ط¬طھظ…ط§ط¹ظٹط§طھ', 'ط§ظ„ط­ط§ط³ظˆط¨'];
+    else if (stageType.includes('ط«ط§ظ†ظˆظٹ')) subjects = ['ط§ظ„ظ‚ط±ط¢ظ† ط§ظ„ظƒط±ظٹظ…', 'ط§ظ„طھط±ط¨ظٹط© ط§ظ„ط¥ط³ظ„ط§ظ…ظٹط©', 'ط§ظ„ظ„ط؛ط© ط§ظ„ط¹ط±ط¨ظٹط©', 'ط§ظ„ط±ظٹط§ط¶ظٹط§طھ', 'ط§ظ„ظپظٹط²ظٹط§ط،', 'ط§ظ„ظƒظٹظ…ظٹط§ط،', 'ط§ظ„ط£ط­ظٹط§ط،', 'ط§ظ„ظ„ط؛ط© ط§ظ„ط¥ظ†ط¬ظ„ظٹط²ظٹط©', 'ط§ظ„ط­ط§ط³ظˆط¨'];
+    else subjects = ['ظ…ط§ط¯ط© ط¹ط§ظ…ط©'];
+    
+    nameSelect.innerHTML = subjects.map(s => `<option ${s === selectedName ? 'selected' : ''}>${s}</option>`).join('');
+}
+
+function editItem(type, id) { openForm(type, id); }
+
+// ==================== ط­ظپط¸ ط§ظ„ظ†ظ…ط§ط°ط¬ ====================
+function saveForm() {
+    if (formType === 'school') {
+        const name = gv('f_name');
+        if (!name) return toast('ظٹط±ط¬ظ‰ ط¥ط¯ط®ط§ظ„ ط§ط³ظ… ط§ظ„ظ…ط¯ط±ط³ط©', 1);
+        const o = {
+            name: name, gov: gv('f_gov'), loc: gv('f_loc'), center: gv('f_center'),
+            entity: gv('f_entity'), capital: gv('f_capital'), cr_num: gv('f_cr_num'),
+            building_info: gv('f_building_info'), owner: gv('f_owner'),
+            prin: gv('f_prin'), prin_ph: gv('f_prin_ph'),
+            status: 'ظ†ط´ط·', subscriptionEnd: '2027-01-01', usersCount: 0
+        };
+        if (formEditId) {
+            const i = DB.schools.findIndex(s=>s.id===formEditId);
+            if (i >= 0) Object.assign(DB.schools[i], o);
+        } else {
+            o.id = nextId.schools++;
+            DB.schools.push(o);
+        }
+        renderSchools();
+        toast('طھظ… ط­ظپط¸ ط¨ظٹط§ظ†ط§طھ ط§ظ„ظ…ط¯ط±ط³ط© ط¨ظ†ط¬ط§ط­');
+    } else if (formType === 'stage') {
+        const o = {stage: gv('f_stage'), grade: gv('f_grade'), order: parseInt(gv('f_order'))||1};
+        if (!o.grade) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„طµظپ ظ…ط·ظ„ظˆط¨',1);
+        if (formEditId) { const i = DB.stages.findIndex(s=>s.id===formEditId); if(i>=0) Object.assign(DB.stages[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ طµظپ: '+o.grade); }
+        else { o.id = nextId.stages++; DB.stages.push(o); addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© طµظپ: '+o.grade); }
+        render('stages');
+    } else if (formType === 'section') {
+        const sel = document.getElementById('f_grade'), opt = sel.selectedOptions[0];
+        const o = {name: gv('f_name'), grade: sel.value, stage: opt.dataset.stage, capacity: parseInt(gv('f_cap'))||40};
+        if (!o.name) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„ط´ط¹ط¨ط© ظ…ط·ظ„ظˆط¨',1);
+        if (formEditId) { const i = DB.sections.findIndex(s=>s.id===formEditId); if(i>=0) Object.assign(DB.sections[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ط´ط¹ط¨ط©: '+o.name); }
+        else { o.id = nextId.sections++; DB.sections.push(o); addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© ط´ط¹ط¨ط©: '+o.name); }
+        render('sections');
+    } else if (formType === 'student') {
+        const name = gv('f_name'), num = gv('f_num'), ph1 = gv('f_ph1'), email = gv('f_email'), gender = gv('f_gender'), nid = gv('f_nid'), dob = gv('f_dob');
+        if (name.split(/\s+/).filter(p=>p).length < 4) return toast('âڑ ï¸ڈ ظٹط¬ط¨ ظƒطھط§ط¨ط© ط§ظ„ط§ط³ظ… ط§ظ„ط±ط¨ط§ط¹ظٹ',1);
+        if (!num) return toast('âڑ ï¸ڈ ط±ظ‚ظ… ط§ظ„ط·ط§ظ„ط¨ ظ…ط·ظ„ظˆط¨',1);
+        if (!ph1 || !/^7\d{8}$/.test(ph1)) return toast('âڑ ï¸ڈ ط±ظ‚ظ… ظˆظ„ظٹ ط§ظ„ط£ظ…ط± 1 ظٹط¬ط¨ 9 ط£ط±ظ‚ط§ظ… ظٹط¨ط¯ط£ ط¨ظ€ 7',1);
+        if (!dob) return toast('âڑ ï¸ڈ طھط§ط±ظٹط® ط§ظ„ظ…ظٹظ„ط§ط¯ ظ…ط·ظ„ظˆط¨',1);
+        if (!gender) return toast('âڑ ï¸ڈ ط§ط®طھط± ط§ظ„ط¬ظ†ط³',1);
+        if (!nid) return toast('âڑ ï¸ڈ ط§ظ„ط±ظ‚ظ… ط§ظ„ظˆط·ظ†ظٹ ظ…ط·ظ„ظˆط¨',1);
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('âڑ ï¸ڈ ط¨ط±ظٹط¯ ط¥ظ„ظƒطھط±ظˆظ†ظٹ طµط­ظٹط­ ظ…ط·ظ„ظˆط¨',1);
+        const o = {full_name:name, student_number:num, grade_level:gv('f_level'), phone1:ph1, phone2:gv('f_ph2'), dob, pob:gv('f_pob'), residence:gv('f_res'), natid:nid, gender, nationality:gv('f_nat'), email, financial_status:'ظ…ط³ط¯ط¯'};
+        if (formEditId) { const i = DB.students.findIndex(s=>s.id===formEditId); if(i>=0) Object.assign(DB.students[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ط·ط§ظ„ط¨: '+name); }
+        else { o.id = 'local-'+Date.now(); DB.students.push(o); addAudit('ط¥ط¶ط§ظپط©','طھط³ط¬ظٹظ„ ط·ط§ظ„ط¨: '+name); }
+        render('students'); refreshAll();
+    } else if (formType === 'user') {
+        const o = {username: gv('f_uname'), role: gv('f_role'), status: 'ظ†ط´ط·'};
+        if (!o.username) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„ظ…ط³طھط®ط¯ظ… ظ…ط·ظ„ظˆط¨',1);
+        if (formEditId) { const i = DB.users.findIndex(u=>u.id===formEditId); if(i>=0) Object.assign(DB.users[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ظ…ط³طھط®ط¯ظ…: '+o.username); }
+        else { o.id = nextId.users++; DB.users.push(o); addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© ظ…ط³طھط®ط¯ظ…: '+o.username); }
+        render('users');
+    } else if (formType === 'employee') {
+        const o = {name:gv('f_name'), job:gv('f_job'), phone:gv('f_phone'), specialty:gv('f_spec'), status:gv('f_status')};
+        if (!o.name) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„ظ…ظˆط¸ظپ ظ…ط·ظ„ظˆط¨',1);
+        if (formEditId) { const i = DB.employees.findIndex(e=>e.id===formEditId); if(i>=0) Object.assign(DB.employees[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ظ…ظˆط¸ظپ: '+o.name); }
+        else { o.id = nextId.employees++; DB.employees.push(o); addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© ظ…ظˆط¸ظپ: '+o.name); }
+        render('employees'); refreshAll();
+    } else if (formType === 'subject') {
+        const o = {code:gv('f_code'), name:gv('f_name'), stage:gv('f_stage'), maxScore:parseInt(gv('f_max'))||100, minScore:parseInt(gv('f_min'))||50};
+        if (!o.name) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„ظ…ط§ط¯ط© ظ…ط·ظ„ظˆط¨',1);
+        if (formEditId) { const i = DB.subjects.findIndex(s=>s.id===formEditId); if(i>=0) Object.assign(DB.subjects[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ظ…ط§ط¯ط©: '+o.name); }
+        else { o.id = nextId.subjects++; DB.subjects.push(o); addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© ظ…ط§ط¯ط©: '+o.name); }
+        render('subjects'); refreshAll();
+    } else if (formType === 'enrollment') {
+        const o = {studentName:gv('f_stu'), year:gv('f_year'), grade:gv('f_grade'), stage:'ط§ظ„ظ…ط±ط­ظ„ط© ط§ظ„ط¥ط¹ط¯ط§ط¯ظٹط©', section:gv('f_sec'), fees:parseInt(gv('f_fees'))||500000, paid:0, status:'ظ…طھط¹ط«ط±'};
+        if (formEditId) { const i = DB.enrollment.findIndex(e=>e.id===formEditId); if(i>=0) Object.assign(DB.enrollment[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ طھط³ط¬ظٹظ„: '+o.studentName); }
+        else { o.id = nextId.enrollment++; DB.enrollment.push(o); addAudit('طھط³ط¬ظٹظ„','طھط³ط¬ظٹظ„ ط·ط§ظ„ط¨ ظپظٹ ط³ظ†ط©: '+o.studentName); }
+        render('enrollment');
+    } else if (formType === 'receipt') {
+        const amt = parseInt(gv('f_amount'));
+        if (!amt || amt <= 0) return toast('âڑ ï¸ڈ ط£ط¯ط®ظ„ ظ…ط¨ظ„ط؛ طµط­ظٹط­',1);
+        if (formEditId) {
+            const i = DB.receipts.findIndex(r=>r.id===formEditId);
+            if (i>=0) {
+                DB.receipts[i].amount = amt;
+                DB.receipts[i].studentName = gv('f_stu');
+                DB.receipts[i].method = gv('f_method');
+                DB.receipts[i].notes = gv('f_notes');
+            }
+        } else {
+            const o = {id:nextId.receipts++, number:`REC-${String(nextId.receipts).padStart(3,'0')}`, date:new Date().toLocaleDateString('en-CA'), studentName:gv('f_stu'), amount:amt, method:gv('f_method'), notes:gv('f_notes')};
+            DB.receipts.push(o); addAudit('ط³ظ†ط¯ ظ‚ط¨ط¶',`ط³ظ†ط¯ ظ‚ط¨ط¶ ${o.number} - ${o.studentName} - ${amt.toLocaleString()} ط±ظٹط§ظ„`);
+        }
+        recalcEnrollments();
+        render('receipts'); render('enrollment');
+    }
+    closeModal('formModal');
+    toast(formEditId ? 'طھظ… ط§ظ„طھط¹ط¯ظٹظ„ ط¨ظ†ط¬ط§ط­ âœ…' : 'طھظ…طھ ط§ظ„ط¥ط¶ط§ظپط© ط¨ظ†ط¬ط§ط­ âœ…');
+}
+
+// ==================== ط§ظ„ط­ط°ظپ ====================
+let delType = null, delId = null;
+function delItem(type, id, name) { delType=type; delId=id; document.getElementById('deleteMessage').textContent=`ظ‡ظ„ ط£ظ†طھ ظ…طھط£ظƒط¯ ظ…ظ† ط­ط°ظپ "${name}"طں`; document.getElementById('deleteModal').classList.add('active'); }
+function confirmDel() {
+    if (delType === 'school') { DB.schools = DB.schools.filter(s=>s.id!==delId); renderSchools(); addAudit('ط­ط°ظپ','ط­ط°ظپ ظ…ط¯ط±ط³ط©'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ط¨ظ†ط¬ط§ط­'); return; }
+    if (delType === 'substitute') { DB.substitutes = DB.substitutes.filter(s=>s.id!==delId); render('substitute'); addAudit('ط­ط°ظپ','ط­ط°ظپ ط¨ط¯ظٹظ„'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ط¨ظ†ط¬ط§ط­'); return; }
+    if (delType === 'contract') { DB.contracts = DB.contracts.filter(c=>c.id!==delId); render('contracts'); addAudit('ط­ط°ظپ','ط­ط°ظپ ط¹ظ‚ط¯ ظ…ظˆط¸ظپ'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    if (delType === 'advance') { DB.advances = DB.advances.filter(a=>a.id!==delId); render('advances'); addAudit('ط­ط°ظپ','ط­ط°ظپ ط³ظ„ظپط©'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    if (delType === 'activity') { DB.activities = DB.activities.filter(a=>a.id!==delId); render('activities'); addAudit('ط­ط°ظپ','ط­ط°ظپ ظ†ط´ط§ط·'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    if (delType === 'transport') { DB.transport = DB.transport.filter(t=>t.id!==delId); render('transport'); addAudit('ط­ط°ظپ','ط­ط°ظپ ط®ط· ط³ظٹط±'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    if (delType === 'receipt') { DB.receipts = DB.receipts.filter(r=>r.id!==delId); recalcEnrollments(); render('receipts'); render('enrollment'); addAudit('ط­ط°ظپ','ط­ط°ظپ ط³ظ†ط¯ ظ‚ط¨ط¶'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    const map = {stage:'stages',section:'sections',student:'students',user:'users',employee:'employees',subject:'subjects'};
+    const key = map[delType];
+    if (key) { DB[key] = DB[key].filter(i => i.id !== delId); render(key.replace(/s$/,'')||key); addAudit('ط­ط°ظپ',`ط­ط°ظپ ظ…ظ† ${key}`); refreshAll(); }
+    closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ');
+}
+
+function recalcEnrollments() {
+    DB.enrollment.forEach(e => {
+        const recs = DB.receipts.filter(r => r.studentName === e.studentName);
+        e.paid = recs.reduce((sum, r) => sum + r.amount, 0);
+        e.status = e.paid >= e.fees ? 'ظ…ط³ط¯ط¯' : 'ظ…طھط¹ط«ط±';
+    });
+}
+
+// ==================== ط§ظ„طھظ‚ط±ظٹط± ====================
+async function viewReport(sid) {
+    document.getElementById('reportModal').classList.add('active');
+    document.getElementById('rptTitle').textContent = 'ط¬ط§ط±ظٹ ط§ظ„طھط­ظ…ظٹظ„...';
+    document.getElementById('rptBody').innerHTML = '<p style="text-align:center;color:var(--muted)">ط¬ط§ط±ظٹ ط§ظ„ط¬ظ„ط¨...</p>';
+    try {
+        const r = await fetch(`${API}/finance/dashboard/student/${sid}`, {headers:{'Authorization':`Bearer ${token}`}});
+        const d = await r.json(), s = d.student;
+        document.getElementById('rptTitle').textContent = `ط§ظ„طھظ‚ط±ظٹط±: ${s.full_name}`;
+        let html = `<div class="s-info"><div><span class="lbl">ط§ظ„ط§ط³ظ…</span>${s.full_name}</div><div><span class="lbl">ط§ظ„ط±ظ‚ظ…</span>${s.student_number}</div><div><span class="lbl">ط§ظ„طµظپ</span>${s.grade_level}</div><div><span class="lbl">ط§ظ„ظ…ظٹظ„ط§ط¯</span>${s.date_of_birth}</div><div><span class="lbl">ط§ظ„ط¬ظ†ط³</span>${s.gender}</div><div><span class="lbl">ط§ظ„ط¬ظ†ط³ظٹط©</span>${s.nationality}</div></div>`;
+        const fin = d.financial;
+        if (fin.payment_status && fin.payment_status.toLowerCase() !== 'paid') html += `<div class="alert danger"><i class="fa-solid fa-triangle-exclamation"></i> ${d.financial_message} (ط¨ط§ظ‚ظٹ: ${fin.remaining?.toLocaleString()} ط±ظٹط§ظ„)</div>`;
+        else html += `<div class="alert success"><i class="fa-solid fa-circle-check"></i> ${d.financial_message}</div>`;
+        if (d.blockchain_verified) html += `<div class="alert success"><i class="fa-solid fa-shield-halved"></i> ط§ظ„ط¨ظ„ظˆظƒط´ظٹظ†: طھظ… ط§ظ„طھط­ظ‚ظ‚ âœ…</div>`;
+        html += '<h4 style="margin:14px 0 8px;color:var(--muted)"><i class="fa-solid fa-graduation-cap"></i> ط§ظ„ط¯ط±ط¬ط§طھ</h4>';
+        d.grades.forEach(g => { html += `<div class="grade-row"><div><strong>${g.subject}</strong><br><span style="font-size:.65rem;color:var(--muted);font-family:monospace">${g.hash}</span></div><span class="grade-score">${g.score}</span></div>`; });
+        document.getElementById('rptBody').innerHTML = html;
+    } catch(e) { document.getElementById('rptTitle').textContent = 'ط®ط·ط£'; }
+}
+
+// ==================== ط§ظ„ط­ط¶ظˆط± ====================
+function initAttendance() {
+    const sel = document.getElementById('attStage');
+    sel.innerHTML = '<option value="">ظƒظ„ ط§ظ„طµظپظˆظپ</option>' + DB.stages.map(s=>`<option>${s.grade}</option>`).join('');
+    document.getElementById('attDate').value = new Date().toLocaleDateString('en-CA');
+    render('attendance');
+}
+function renderAttendance() { // called via render('attendance')
+    const grade = document.getElementById('attStage')?.value||'', tb = document.getElementById('tbl-attendance');
+    tb.innerHTML = '';
+    DB.students.filter(s => !grade || s.grade_level === grade).forEach(s => {
+        const existing = DB.attendance.find(a => a.sid === s.id && a.date === document.getElementById('attDate').value);
+        const st = existing ? existing.status : 'ط­ط§ط¶ط±';
+        tb.innerHTML += `<tr><td>${s.student_number}</td><td>${s.full_name}</td><td>${s.grade_level}</td><td><select class="att-select" data-sid="${s.id}"><option ${st==='ط­ط§ط¶ط±'?'selected':''}>ط­ط§ط¶ط±</option><option ${st==='ط؛ط§ط¦ط¨'?'selected':''}>ط؛ط§ط¦ط¨</option><option ${st==='ظ…طھط£ط®ط±'?'selected':''}>ظ…طھط£ط®ط±</option><option ${st==='ظ…ط¹ط°ظˆط±'?'selected':''}>ظ…ط¹ط°ظˆط±</option></select></td></tr>`;
+    });
+}
+// Override render for attendance
+const origRender = render;
+render = function(t) { if (t==='attendance') renderAttendance(); else origRender(t); };
+
+function saveAttendance() {
+    const date = document.getElementById('attDate').value;
+    document.querySelectorAll('.att-select').forEach(sel => {
+        const sid = sel.dataset.sid, existing = DB.attendance.findIndex(a => a.sid===sid && a.date===date);
+        if (existing >= 0) DB.attendance[existing].status = sel.value;
+        else DB.attendance.push({sid, date, status: sel.value});
+    });
+    addAudit('ط­ط¶ظˆط±','طھط³ط¬ظٹظ„ ط­ط¶ظˆط± ظٹظˆظ… '+date);
+    toast('طھظ… ط­ظپط¸ ط§ظ„ط­ط¶ظˆط± âœ…');
+}
+
+// ==================== ظƒط´ظپ ط­ط³ط§ط¨ ط·ط§ظ„ط¨ ====================
+function initStudentAccount() {
+    const selGrade = document.getElementById('accGrade');
+    selGrade.innerHTML = '<option value="">-- ظƒظ„ ط§ظ„طµظپظˆظپ --</option>' + DB.stages.map(s => `<option value="${s.grade}">${s.grade}</option>`).join('');
+    initStudentAccountStudents();
+}
+function initStudentAccountStudents(query = '') {
+    const grade = document.getElementById('accGrade').value;
+    const selStu = document.getElementById('accStudent');
+    const filtered = DB.students.filter(s => (!grade || s.grade_level === grade) && s.full_name.includes(query));
+    selStu.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„ط·ط§ظ„ط¨ --</option>' + filtered.map(s => `<option value="${s.id}">${s.full_name}</option>`).join('');
+    renderStudentAccount();
+}
+function renderStudentAccount() {
+    const sid = document.getElementById('accStudent').value, div = document.getElementById('studentAccountView');
+    if (!sid) { div.innerHTML = ''; return; }
+    const stu = DB.students.find(s=>s.id===sid);
+    const enr = DB.enrollment.find(e=>e.studentName===stu?.full_name);
+    const recs = DB.receipts.filter(r=>r.studentName===stu?.full_name);
+    let html = `<div class="s-info"><div><span class="lbl">ط§ظ„ط·ط§ظ„ط¨</span>${stu.full_name}</div><div><span class="lbl">ط§ظ„طµظپ</span>${stu.grade_level}</div></div>`;
+    if (enr) {
+        html += `<div class="stats-row"><div class="stat-card c-blue"><i class="fa-solid fa-money-bill"></i><div><span class="stat-number">${enr.fees.toLocaleString()}</span><span class="stat-label">ط§ظ„ط±ط³ظˆظ… ط§ظ„ظ…ط·ظ„ظˆط¨ط©</span></div></div><div class="stat-card c-green"><i class="fa-solid fa-check"></i><div><span class="stat-number">${enr.paid.toLocaleString()}</span><span class="stat-label">ط§ظ„ظ…ط³ط¯ط¯</span></div></div><div class="stat-card c-red"><i class="fa-solid fa-xmark"></i><div><span class="stat-number">${(enr.fees-enr.paid).toLocaleString()}</span><span class="stat-label">ط§ظ„ظ…طھط¨ظ‚ظٹ</span></div></div></div>`;
+    }
+    if (recs.length) {
+        html += '<h4 style="margin:14px 0 8px;color:var(--muted)"><i class="fa-solid fa-receipt"></i> ط³ظ†ط¯ط§طھ ط§ظ„ظ‚ط¨ط¶</h4><div class="table-wrapper"><table><thead><tr><th>ط§ظ„ط±ظ‚ظ…</th><th>ط§ظ„طھط§ط±ظٹط®</th><th>ط§ظ„ظ…ط¨ظ„ط؛</th><th>ط§ظ„ط·ط±ظٹظ‚ط©</th></tr></thead><tbody>';
+        recs.forEach(r => { html += `<tr><td>${r.number}</td><td>${r.date}</td><td>${r.amount.toLocaleString()}</td><td>${r.method}</td></tr>`; });
+        html += '</tbody></table></div>';
+    }
+    div.innerHTML = html;
+}
+
+// ==================== ط§ظ„طھظ‚ط§ط±ظٹط± ط§ظ„ظ…ط§ظ„ظٹط© ====================
+function renderFinanceReport() {
+    let totalRev=0, totalDebt=0;
+    const tb = document.getElementById('tbl-finance-report');
+    tb.innerHTML = '';
+    DB.enrollment.forEach(e => {
+        totalRev += e.paid; totalDebt += (e.fees - e.paid);
+        const sc = e.status==='ظ…ط³ط¯ط¯'?'status-paid':'status-unpaid';
+        tb.innerHTML += `<tr><td>${e.studentName}</td><td>${e.stage}</td><td>${e.fees.toLocaleString()}</td><td>${e.paid.toLocaleString()}</td><td>${(e.fees-e.paid).toLocaleString()}</td><td class="${sc}">${e.status}</td></tr>`;
+    });
+    document.getElementById('frRevenue').textContent = totalRev.toLocaleString();
+    document.getElementById('frDebt').textContent = totalDebt.toLocaleString();
+}
+
+// ==================== ط´ط¬ط±ط© ط§ظ„ط·ظ„ط§ط¨ ====================
+function buildTree() {
+    const c = document.getElementById('studentTree');
+    const stageGroups = {};
+    DB.stages.forEach(s => { if(!stageGroups[s.stage]) stageGroups[s.stage]=[]; stageGroups[s.stage].push(s.grade); });
+    let html = '';
+    for (const [stage, grades] of Object.entries(stageGroups)) {
+        html += `<div class="tree-node"><div class="tree-label" onclick="this.parentElement.classList.toggle('open')"><i class="fa-solid fa-folder"></i> ${stage}</div><div class="tree-children">`;
+        grades.forEach(g => {
+            const stus = DB.students.filter(s=>s.grade_level===g);
+            html += `<div class="tree-node"><div class="tree-label" onclick="this.parentElement.classList.toggle('open')"><i class="fa-solid fa-folder-open"></i> ${g} (${stus.length})</div><div class="tree-children">`;
+            stus.forEach(s => { html += `<div class="tree-node"><div class="tree-label"><i class="fa-solid fa-user"></i> ${s.full_name}</div></div>`; });
+            html += '</div></div>';
+        });
+        html += '</div></div>';
+    }
+    c.innerHTML = html || '<p style="color:var(--muted);text-align:center">ظ„ط§ طھظˆط¬ط¯ ط¨ظٹط§ظ†ط§طھ</p>';
+}
+
+// ==================== ط±طµط¯ ط§ظ„ط¯ط±ط¬ط§طھ ====================
+function initGrading() {
+    const ss = document.getElementById('grStage'), sb = document.getElementById('grSubject');
+    ss.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„طµظپ --</option>' + DB.stages.map(s=>`<option>${s.grade}</option>`).join('');
+    sb.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„ظ…ط§ط¯ط© --</option>';
+    ss.onchange = () => {
+        const stage = ss.value;
+        sb.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„ظ…ط§ط¯ط© --</option>' + DB.subjects.filter(s=>s.stage===stage).map(s=>`<option>${s.name}</option>`).join('');
+        renderGrading();
+    };
+    renderGrading();
+}
+function renderGrading() {
+    const grade = document.getElementById('grStage')?.value||'', subj = document.getElementById('grSubject')?.value||'', term = document.getElementById('grTerm')?.value||'ط§ظ„ظپطµظ„ ط§ظ„ط£ظˆظ„';
+    const tb = document.getElementById('tbl-grading');
+    tb.innerHTML = '';
+    if (!grade || !subj) { tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted)">ظٹط±ط¬ظ‰ ط§ط®طھظٹط§ط± ط§ظ„طµظپ ظˆط§ظ„ظ…ط§ط¯ط©</td></tr>'; return; }
+    
+    DB.students.filter(s => s.grade_level===grade).forEach(s => {
+        const g = DB.grades.find(x => x.sid===s.id && x.subj===subj && x.term===term) || {m1:0, m2:0, final:0, locked:false};
+        const total = (parseInt(g.m1)||0)+(parseInt(g.m2)||0)+(parseInt(g.final)||0);
+        const lockIcon = g.locked ? '<span style="color:var(--success)"><i class="fa-solid fa-shield-halved"></i> ظ…ط­ظ…ظٹ ط¨ط§ظ„ط¨ظ„ظˆظƒط´ظٹظ†</span>' : '<span style="color:var(--warning)"><i class="fa-solid fa-lock-open"></i> ظ…ط³ظˆط¯ط©</span>';
+        const readonly = g.locked ? 'readonly disabled style="opacity:0.6"' : '';
+        
+        tb.innerHTML += `<tr>
+            <td>${s.full_name}</td>
+            <td>${s.grade_level}</td>
+            <td><input type="number" class="gr-input m1" data-sid="${s.id}" value="${g.m1||''}" max="20" ${readonly}></td>
+            <td><input type="number" class="gr-input m2" data-sid="${s.id}" value="${g.m2||''}" max="20" ${readonly}></td>
+            <td><input type="number" class="gr-input final" data-sid="${s.id}" value="${g.final||''}" max="60" ${readonly}></td>
+            <td style="font-weight:700">${total}</td>
+            <td>${lockIcon}</td>
+        </tr>`;
+    });
+}
+function saveGrades() {
+    const grade = document.getElementById('grStage')?.value||'', subj = document.getElementById('grSubject')?.value||'', term = document.getElementById('grTerm')?.value||'ط§ظ„ظپطµظ„ ط§ظ„ط£ظˆظ„';
+    if (!grade || !subj) return toast('âڑ ï¸ڈ ظٹط±ط¬ظ‰ ط§ط®طھظٹط§ط± ط§ظ„طµظپ ظˆط§ظ„ظ…ط§ط¯ط©',1);
+    
+    const rows = document.querySelectorAll('#tbl-grading tr');
+    if (!rows.length) return;
+    
+    document.querySelectorAll('.gr-input.m1').forEach(inp => {
+        const sid = inp.dataset.sid;
+        const m1 = parseInt(inp.value)||0;
+        const m2 = parseInt(document.querySelector(`.gr-input.m2[data-sid="${sid}"]`).value)||0;
+        const final = parseInt(document.querySelector(`.gr-input.final[data-sid="${sid}"]`).value)||0;
+        
+        let g = DB.grades.find(x => x.sid===sid && x.subj===subj && x.term===term);
+        if (!g) { g = {id:'G-'+Date.now()+Math.random(), sid, subj, term}; DB.grades.push(g); }
+        if (!g.locked) {
+            g.m1 = m1; g.m2 = m2; g.final = final;
+            g.total = m1+m2+final;
+            g.locked = true; // Lock immediately on save to simulate blockchain commit
+        }
+    });
+    addAudit('ظƒظ†طھط±ظˆظ„',`ط±طµط¯ ظˆطھط´ظپظٹط± ط¯ط±ط¬ط§طھ ${subj} - ${grade} - ${term}`);
+    toast('طھظ… ط­ظپط¸ ط§ظ„ط¯ط±ط¬ط§طھ ظˆطھط´ظپظٹط±ظ‡ط§ ط¨ط§ظ„ط¨ظ„ظˆظƒط´ظٹظ† ًں›،ï¸ڈ');
+    renderGrading();
+}
+
+// ==================== ظ†طھط§ط¦ط¬ ط§ظ„ط·ظ„ط§ط¨ ====================
+function renderResults() {
+    const q = (document.getElementById('searchResults')?.value||'').toLowerCase(), tb = document.getElementById('tbl-results');
+    tb.innerHTML = '';
+    
+    // ط­ط³ط§ط¨ ظ†طھط§ط¦ط¬ ط§ظ„ط·ظ„ط§ط¨ ط§ظ„ظ…ط¬ظ…ط¹ط©
+    const results = DB.students.filter(s => s.full_name.toLowerCase().includes(q)).map(s => {
+        const sGrades = DB.grades.filter(g => g.sid === s.id);
+        const totalScore = sGrades.reduce((sum, g) => sum + (g.total||0), 0);
+        const maxPossible = sGrades.length * 100;
+        const percent = maxPossible > 0 ? (totalScore / maxPossible * 100).toFixed(1) : 0;
+        let rank = 'ظ…ظ…طھط§ط²'; if (percent < 90) rank = 'ط¬ظٹط¯ ط¬ط¯ط§ظ‹'; if (percent < 80) rank = 'ط¬ظٹط¯'; if (percent < 65) rank = 'ظ…ظ‚ط¨ظˆظ„'; if (percent < 50) rank = 'ط¶ط¹ظٹظپ';
+        return { ...s, totalScore, maxPossible, percent, rank };
+    }).sort((a,b) => b.totalScore - a.totalScore); // ظپط±ط² ط­ط³ط¨ ط§ظ„ظ…ط¬ظ…ظˆط¹ ظ„ظ„طھط±طھظٹط¨
+    
+    results.forEach((s, index) => {
+        tb.innerHTML += `<tr>
+            <td>${s.full_name}</td>
+            <td>${s.grade_level}</td>
+            <td style="font-weight:700">${s.totalScore} / ${s.maxPossible||0}</td>
+            <td>${s.percent}%</td>
+            <td style="color:${s.percent>=50?'var(--success)':'var(--danger)'}">${s.percent > 0 ? s.rank : '--'}</td>
+            <td>ط§ظ„ظ€ ${index+1}</td>
+            <td><button class="btn-view2" onclick="viewReport('${s.id}')"><i class="fa-solid fa-eye"></i> ط§ظ„طھظپط§طµظٹظ„</button></td>
+        </tr>`;
+    });
+}
+
+// ==================== ط§ظ„ط´ظ‡ط§ط¯ط§طھ ====================
+function initCertificates() {
+    const ss = document.getElementById('certStage');
+    ss.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„طµظپ --</option>' + DB.stages.map(s=>`<option>${s.grade}</option>`).join('');
+}
+function renderCertificates() {
+    const grade = document.getElementById('certStage')?.value||'', tb = document.getElementById('tbl-certificates');
+    tb.innerHTML = '';
+    if (!grade) return;
+    
+    DB.students.filter(s => s.grade_level===grade).forEach(s => {
+        const sGrades = DB.grades.filter(g => g.sid === s.id);
+        const totalScore = sGrades.reduce((sum, g) => sum + (g.total||0), 0);
+        const maxPossible = sGrades.length * 100;
+        const percent = maxPossible > 0 ? (totalScore / maxPossible * 100).toFixed(1) : 0;
+        
+        tb.innerHTML += `<tr>
+            <td>${s.full_name}</td>
+            <td>${s.grade_level}</td>
+            <td style="font-weight:700">${percent}%</td>
+            <td><span style="color:var(--success)"><i class="fa-solid fa-shield-halved"></i> ظ…ظˆط«ظ‚ط©</span></td>
+            <td><button class="btn-view2" style="background:rgba(139,92,246,.1);color:var(--accent)" onclick="toast('ط·ط¨ط§ط¹ط© ط´ظ‡ط§ط¯ط© '+ '${s.full_name}')"><i class="fa-solid fa-print"></i> ط·ط¨ط§ط¹ط©</button></td>
+        </tr>`;
+    });
+}
+
+// ==================== ط§ظ„ط¬ط¯ظˆظ„ ط§ظ„ط¯ط±ط§ط³ظٹ ====================
+function initSchedule() {
+    const ss = document.getElementById('schSection');
+    ss.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„ط´ط¹ط¨ط© --</option>' + DB.sections.map(s=>`<option>${s.grade} - ${s.name}</option>`).join('');
+}
+function renderSchedule() {
+    const sec = document.getElementById('schSection')?.value||'', tb = document.getElementById('tbl-schedule');
+    tb.innerHTML = '';
+    if (!sec) return;
+    
+    const sch = DB.schedule.filter(s => s.section === sec);
+    if (!sch.length) { tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted)">ظ„ط§ ظٹظˆط¬ط¯ ط¬ط¯ظˆظ„ ظ…ط¶ط§ظپ ظ„ظ‡ط°ظ‡ ط§ظ„ط´ط¹ط¨ط©</td></tr>'; return; }
+    
+    sch.forEach(s => {
+        tb.innerHTML += `<tr>
+            <td style="font-weight:700;color:var(--primary)">${s.day}</td>
+            <td>${s.p1}</td><td>${s.p2}</td><td>${s.p3}</td><td>${s.p4}</td><td>${s.p5}</td><td>${s.p6||'--'}</td>
+        </tr>`;
+    });
+}
+
+// ==================== ط§ظ„ظ…ط¯ط±ط³ ط§ظ„ط¨ط¯ظٹظ„ ====================
+function renderSubstitute() {
+    const q = (document.getElementById('searchSubstitute')?.value||'').toLowerCase(), tb = document.getElementById('tbl-substitute');
+    tb.innerHTML = '';
+    DB.substitutes.filter(s => s.absent.includes(q)||s.substitute.includes(q)||s.date.includes(q)).forEach(s => {
+        tb.innerHTML += `<tr><td>${s.date}</td><td>${s.day}</td><td>${s.period}</td><td>${s.section}</td><td style="color:var(--danger)">${s.absent}</td><td style="color:var(--success);font-weight:700">${s.substitute}</td><td><div class="act"><button class="btn-delete" onclick="delItem('substitute',${s.id},'ظ‡ط°ط§ ط§ظ„ط§ط­طھظٹط§ط·')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+
+// ==================== ط§ظ„طھط±ظپظٹط¹ ====================
+function initPromotion() {
+    const sf = document.getElementById('promoFrom'), st = document.getElementById('promoTo');
+    const opts = '<option value="">-- ط§ط®طھط± ط§ظ„طµظپ --</option>' + DB.stages.map(s=>`<option>${s.grade}</option>`).join('') + '<option>ط®ط±ظٹط¬</option>';
+    sf.innerHTML = opts; st.innerHTML = opts;
+    
+    sf.onchange = () => {
+        const grade = sf.value, tb = document.getElementById('tbl-promotion');
+        tb.innerHTML = '';
+        if (!grade) return;
+        DB.students.filter(s => s.grade_level===grade).forEach(s => {
+            const sGrades = DB.grades.filter(g => g.sid === s.id);
+            const totalScore = sGrades.reduce((sum, g) => sum + (g.total||0), 0);
+            const percent = sGrades.length > 0 ? (totalScore / (sGrades.length*100) * 100) : 0;
+            const isPass = percent >= 50;
+            tb.innerHTML += `<tr>
+                <td>${s.full_name}</td>
+                <td style="font-weight:700">${percent.toFixed(1)}%</td>
+                <td style="color:${isPass?'var(--success)':'var(--danger)'}"><i class="fa-solid ${isPass?'fa-check':'fa-xmark'}"></i> ${isPass?'ظ†ط§ط¬ط­':'ط±ط§ط³ط¨'}</td>
+            </tr>`;
+        });
+    };
+}
+function promoteStudents() {
+    const from = document.getElementById('promoFrom')?.value, to = document.getElementById('promoTo')?.value;
+    const msg = document.getElementById('promoMsg');
+    if (!from || !to || from===to) return toast('âڑ ï¸ڈ ظٹط±ط¬ظ‰ طھط­ط¯ظٹط¯ طµظپظˆظپ طµط­ظٹط­ط© ظ„ظ„طھط±ظپظٹط¹',1);
+    
+    let count = 0;
+    DB.students.forEach(s => {
+        if (s.grade_level === from) {
+            const sGrades = DB.grades.filter(g => g.sid === s.id);
+            const totalScore = sGrades.reduce((sum, g) => sum + (g.total||0), 0);
+            const percent = sGrades.length > 0 ? (totalScore / (sGrades.length*100) * 100) : 0;
+            if (percent >= 50) {
+                s.grade_level = to; // Promote!
+                count++;
+            }
+        }
+    });
+    
+    msg.style.display = 'block';
+    msg.innerHTML = `<i class="fa-solid fa-circle-check"></i> طھظ… طھط±ظپظٹط¹ <strong>${count}</strong> ط·ظ„ط§ط¨ ط¨ظ†ط¬ط§ط­ ظ…ظ† ${from} ط¥ظ„ظ‰ ${to}.`;
+    addAudit('ط´ط¤ظˆظ† ط·ظ„ط§ط¨',`طھط±ظپظٹط¹ ${count} ط·ظ„ط§ط¨ ظ…ظ† ${from} ط¥ظ„ظ‰ ${to}`);
+    toast('طھظ… طھط±ظپظٹط¹ ط§ظ„ط·ظ„ط§ط¨ ط¨ظ†ط¬ط§ط­ ًںژ‰');
+    
+    // طھط­ط¯ظٹط« ط§ظ„ط¬ط¯ظˆظ„
+    document.getElementById('promoFrom').onchange();
+    refreshAll();
+}
+
+// ==================== ط´ط¤ظˆظ† ط§ظ„ظ…ظˆط¸ظپظٹظ† ====================
+function renderContracts() {
+    const q = (document.getElementById('searchContracts')?.value||'').toLowerCase(), tb = document.getElementById('tbl-contracts');
+    tb.innerHTML = '';
+    DB.contracts.filter(c => c.empName.toLowerCase().includes(q) || c.number.toLowerCase().includes(q)).forEach(c => {
+        tb.innerHTML += `<tr><td>${c.empName}</td><td>${c.number}</td><td style="font-weight:700">${c.salary.toLocaleString()} ط±ظٹط§ظ„</td><td>${c.startDate}</td><td><span style="color:var(--success)"><i class="fa-solid fa-check"></i> ${c.status}</span></td><td><div class="act"><button class="btn-edit" onclick="editItem('contract',${c.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('contract',${c.id},'ط¹ظ‚ط¯ ${c.number}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderEmpAttendance() {
+    const date = document.getElementById('empAttDate')?.value, tb = document.getElementById('tbl-emp-attendance');
+    tb.innerHTML = '';
+    if (!date) return;
+    
+    DB.employees.filter(e=>e.status==='ظ†ط´ط·').forEach(e => {
+        let a = DB.empAttendance.find(x => x.date === date && x.empName === e.name);
+        if (!a) a = { timeIn: '08:00', timeOut: '13:00', status: 'ط­ط§ط¶ط±' }; // ط§ظپطھط±ط§ط¶ظٹ
+        tb.innerHTML += `<tr>
+            <td>${e.name}</td>
+            <td>${e.job}</td>
+            <td>ط§ظ„طµط¨ط§ط­ظٹ</td>
+            <td><input type="time" class="att-in" data-emp="${e.name}" value="${a.timeIn}"></td>
+            <td><input type="time" class="att-out" data-emp="${e.name}" value="${a.timeOut}"></td>
+            <td><select class="att-status" data-emp="${e.name}"><option ${a.status==='ط­ط§ط¶ط±'?'selected':''}>ط­ط§ط¶ط±</option><option ${a.status==='ط؛ط§ط¦ط¨'?'selected':''}>ط؛ط§ط¦ط¨</option><option ${a.status==='ط¥ط¬ط§ط²ط©'?'selected':''}>ط¥ط¬ط§ط²ط©</option></select></td>
+        </tr>`;
+    });
+}
+function saveEmpAttendance() {
+    const date = document.getElementById('empAttDate')?.value;
+    if (!date) return toast('âڑ ï¸ڈ ظٹط±ط¬ظ‰ طھط­ط¯ظٹط¯ ط§ظ„طھط§ط±ظٹط®',1);
+    
+    document.querySelectorAll('.att-status').forEach(sel => {
+        const emp = sel.dataset.emp, status = sel.value;
+        const timeIn = document.querySelector(`.att-in[data-emp="${emp}"]`).value;
+        const timeOut = document.querySelector(`.att-out[data-emp="${emp}"]`).value;
+        
+        let a = DB.empAttendance.find(x => x.date === date && x.empName === emp);
+        if (!a) { a = {id:nextId.empAtt++, date, empName:emp}; DB.empAttendance.push(a); }
+        a.timeIn = timeIn; a.timeOut = timeOut; a.status = status;
+    });
+    addAudit('ظ…ظˆط¸ظپظٹظ†', `ط­ظپط¸ ط­ط¶ظˆط± ط§ظ„ظ…ظˆط¸ظپظٹظ† ظ„ظٹظˆظ… ${date}`);
+    toast('طھظ… ط­ظپط¸ ط§ظ„ط­ط¶ظˆط± ط¨ظ†ط¬ط§ط­ âœ…');
+}
+
+function renderAdvances() {
+    const q = (document.getElementById('searchAdvances')?.value||'').toLowerCase(), tb = document.getElementById('tbl-advances');
+    tb.innerHTML = '';
+    DB.advances.filter(a => a.empName.toLowerCase().includes(q) || a.date.includes(q)).forEach(a => {
+        const badge = a.deducted ? `<span style="color:var(--success)"><i class="fa-solid fa-check"></i> ظ…ط®طµظˆظ…ط©</span>` : `<span style="color:var(--warning)"><i class="fa-solid fa-clock"></i> ط؛ظٹط± ظ…ط®طµظˆظ…ط©</span>`;
+        tb.innerHTML += `<tr><td>${a.date}</td><td>${a.empName}</td><td style="font-weight:700;color:var(--danger)">${a.amount.toLocaleString()} ط±ظٹط§ظ„</td><td>${a.note}</td><td>${badge}</td><td>${a.deducted?'--':`<div class="act"><button class="btn-delete" onclick="delItem('advance',${a.id},'ط³ظ„ظپط© ${a.empName}')"><i class="fa-solid fa-trash"></i></button></div>`}</td></tr>`;
+    });
+}
+
+function generatePayroll() {
+    const month = document.getElementById('payrollMonth')?.value, tb = document.getElementById('tbl-payroll');
+    tb.innerHTML = '';
+    if (!month) return;
+    
+    let totalNet = 0;
+    
+    DB.employees.filter(e=>e.status==='ظ†ط´ط·').forEach(e => {
+        // 1. ط§ظ„ط£ط³ط§ط³ظٹ
+        const contract = DB.contracts.find(c => c.empName === e.name && c.status === 'ط³ط§ط±ظٹ');
+        if (!contract) return; // ظ…ظˆط¸ظپ ط¨ط¯ظˆظ† ط¹ظ‚ط¯ ظ„ط§ ظٹظ†ط²ظ„ ظپظٹ ط§ظ„ظ…ط³ظٹط±
+        const basic = contract.salary;
+        
+        // 2. ط§ظ„ط³ظ„ظپظٹط§طھ ط؛ظٹط± ط§ظ„ظ…ط®طµظˆظ…ط© (ظ‚ط¨ظ„ ط£ظˆ ط®ظ„ط§ظ„ ظ‡ط°ط§ ط§ظ„ط´ظ‡ط±)
+        const activeAdvances = DB.advances.filter(a => a.empName === e.name && !a.deducted && a.date.startsWith(month));
+        const advancesSum = activeAdvances.reduce((sum,a) => sum + a.amount, 0);
+        
+        // 3. ط§ظ„ط؛ظٹط§ط¨ط§طھ (ظ„ط؛ط±ط¶ ط§ظ„ظ…ط­ط§ظƒط§ط©: ظ†ظپطھط±ط¶ ط®طµظ… ظٹظˆظ…ظٹط© ط¹ظ† ظƒظ„ ظٹظˆظ… ط؛ظٹط§ط¨)
+        const absences = DB.empAttendance.filter(a => a.empName === e.name && a.date.startsWith(month) && a.status === 'ط؛ط§ط¦ط¨');
+        const dailyRate = basic / 30;
+        const absentDeduct = Math.round(absences.length * dailyRate);
+        
+        // 4. ط§ظ„طµط§ظپظٹ
+        const net = basic - advancesSum - absentDeduct;
+        totalNet += net;
+        
+        tb.innerHTML += `<tr>
+            <td>${e.name}</td>
+            <td>${basic.toLocaleString()}</td>
+            <td>0</td>
+            <td style="color:var(--danger)">${advancesSum > 0 ? '-'+advancesSum.toLocaleString() : '0'}</td>
+            <td style="color:var(--danger)">${absentDeduct > 0 ? '-'+absentDeduct.toLocaleString() : '0'}</td>
+            <td style="font-weight:700;color:var(--primary)">${net.toLocaleString()}</td>
+        </tr>`;
+    });
+    
+    document.getElementById('prTotalNet').textContent = totalNet.toLocaleString();
+}
+
+function postPayroll() {
+    const month = document.getElementById('payrollMonth')?.value;
+    if (!month) return toast('âڑ ï¸ڈ ظٹط±ط¬ظ‰ طھط­ط¯ظٹط¯ ط§ظ„ط´ظ‡ط±',1);
+    if (!document.getElementById('tbl-payroll').innerHTML) return toast('âڑ ï¸ڈ ظ„ط§ ظٹظˆط¬ط¯ ظ…ط³ظٹط± ظ„ط§ط¹طھظ…ط§ط¯ظ‡',1);
+    
+    // طھط³ط¬ظٹظ„ ط§ظ„ظ‚ظٹظˆط¯
+    const netTxt = document.getElementById('prTotalNet').textContent.replace(/,/g,'');
+    const totalNet = parseInt(netTxt) || 0;
+    
+    if (totalNet > 0) {
+        DB.journal.push({id:nextId.journal++, number:`JE-${String(nextId.journal).padStart(3,'0')}`, date:new Date().toLocaleDateString('en-CA'), desc:`ط±ظˆط§طھط¨ ظˆط£ط¬ظˆط± ط´ظ‡ط± ${month}`, debitAcc:'ط§ظ„ط±ظˆط§طھط¨ ظˆط§ظ„ط£ط¬ظˆط±', creditAcc:'ط§ظ„ط±ظˆط§طھط¨ ط§ظ„ظ…ط³طھط­ظ‚ط©', debit:totalNet, credit:totalNet, posted:true});
+    }
+    
+    // طھطµظپظٹط± ط§ظ„ط³ظ„ظپظٹط§طھ ط§ظ„ظ…ط±طھط¨ط·ط© ط¨ط§ظ„ط´ظ‡ط±
+    DB.advances.filter(a => !a.deducted && a.date.startsWith(month)).forEach(a => a.deducted = true);
+    
+    addAudit('ظ…ظˆط¸ظپظٹظ† / ط­ط³ط§ط¨ط§طھ', `ط§ط¹طھظ…ط§ط¯ ظˆطھط±ط­ظٹظ„ ظ…ط³ظٹط± ط±ظˆط§طھط¨ ط´ظ‡ط± ${month}`);
+    toast('طھظ… ط§ط¹طھظ…ط§ط¯ ظ…ط³ظٹط± ط§ظ„ط±ظˆط§طھط¨ ظˆطھط±ط­ظٹظ„ظ‡ ظ„ظ„ظ‚ظٹظˆط¯ ط§ظ„ظ…ط­ط§ط³ط¨ظٹط© ًں’°');
+    
+    // ط¥ط¹ط§ط¯ط© ط§ظ„طھط­ظ…ظٹظ„ ظ„ط¥ط¸ظ‡ط§ط± طھط£ط«ظٹط± طھطµظپظٹط± ط§ظ„ط³ظ„ظپظٹط§طھ ط¥ظ† ط£ط±ط¯ظ†ط§
+    generatePayroll();
+}
+
+// ==================== ط§ظ„ط£ظ†ط´ط·ط© ظˆط§ظ„ظ…ظˆط§طµظ„ط§طھ ====================
+function renderActivities() {
+    const q = (document.getElementById('searchActivities')?.value||'').toLowerCase(), tb = document.getElementById('tbl-activities');
+    tb.innerHTML = '';
+    DB.activities.filter(a => a.name.toLowerCase().includes(q) || a.supervisor.toLowerCase().includes(q)).forEach(a => {
+        let typeIcon = '<i class="fa-solid fa-medal"></i>';
+        if (a.type === 'ط¹ظ„ظ…ظٹ') typeIcon = '<i class="fa-solid fa-flask text-blue-500"></i>';
+        if (a.type === 'ط±ظٹط§ط¶ظٹ') typeIcon = '<i class="fa-solid fa-futbol text-green-500"></i>';
+        if (a.type === 'ط«ظ‚ط§ظپظٹ') typeIcon = '<i class="fa-solid fa-book-open text-purple-500"></i>';
+        
+        tb.innerHTML += `<tr><td>${a.name}</td><td>${typeIcon} ${a.type}</td><td>${a.supervisor}</td><td>${a.date}</td><td><span style="font-weight:700">${a.participants}</span> ط·ط§ظ„ط¨</td><td><div class="act"><button class="btn-edit" onclick="editItem('activity',${a.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('activity',${a.id},'${a.name}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+function renderTransport() {
+    const q = (document.getElementById('searchTransport')?.value||'').toLowerCase(), tb = document.getElementById('tbl-transport');
+    tb.innerHTML = '';
+    DB.transport.filter(t => t.route.toLowerCase().includes(q) || t.driver.toLowerCase().includes(q)).forEach(t => {
+        tb.innerHTML += `<tr><td style="font-weight:700"><i class="fa-solid fa-route text-indigo-500"></i> ${t.route}</td><td><i class="fa-solid fa-id-card"></i> ${t.driver}</td><td>${t.bus}</td><td><span style="color:var(--success);font-weight:700">${t.fee.toLocaleString()} ط±ظٹط§ظ„</span> / ظپطµظ„</td><td><div class="act"><button class="btn-edit" onclick="editItem('transport',${t.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('transport',${t.id},'${t.route}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+
+// ==================== SAAS Super Admin ====================
+function renderSchools() {
+    const tb = document.getElementById('tbl-schools');
+    if (!tb) return;
+    tb.innerHTML = '';
+    DB.schools.forEach(s => {
+        const stat = s.status === 'ظ†ط´ط·' ? '<span style="color:var(--success)"><i class="fa-solid fa-circle-check"></i> ظ†ط´ط·</span>' : '<span style="color:var(--danger)"><i class="fa-solid fa-circle-xmark"></i> ظ…ظˆظ‚ظˆظپ</span>';
+        tb.innerHTML += `<tr><td>${s.id}</td><td style="font-weight:700"><i class="fa-solid fa-school text-indigo-500"></i> ${s.name}</td><td>${stat}</td><td>${s.subscriptionEnd}</td><td><span class="badge">${s.usersCount}</span></td><td><div class="act"><button class="btn-edit" onclick="alert('طھط¹ط¯ظٹظ„ ط§ط´طھط±ط§ظƒ ط§ظ„ظ…ط¯ط±ط³ط© (${s.name})')"><i class="fa-solid fa-pen"></i></button><button class="btn-danger" onclick="alert('ط¥ظٹظ‚ط§ظپ ط§ظ„ظ…ط¯ط±ط³ط© (${s.name})')" style="background:var(--danger);color:white"><i class="fa-solid fa-power-off"></i></button></div></td></tr>`;
+    });
+}
+function addSchoolPrompt() {
+    const n = prompt("ط£ط¯ط®ظ„ ط§ط³ظ… ط§ظ„ظ…ط¯ط±ط³ط© ط§ظ„ط¬ط¯ظٹط¯ط©:");
+    if (!n) return;
+    DB.schools.push({id: nextId.schools++, name: n, status: 'ظ†ط´ط·', subscriptionEnd: '2027-01-01', usersCount: 0});
+    renderSchools();
+    toast('طھظ…طھ ط¥ط¶ط§ظپط© ط§ظ„ظ…ط¯ط±ط³ط© ط¨ظ†ط¬ط§ط­!');
+}
+
+// ==================== ط£ط¯ظˆط§طھ ظ…ط³ط§ط¹ط¯ط© ====================
+function gv(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function toast(msg, isErr=false) { const t=document.getElementById('toastMsg'); document.getElementById('toastText').textContent=msg; t.style.background=isErr?'linear-gradient(135deg,#ef4444,#dc2626)':'linear-gradient(135deg,#10b981,#059669)'; t.classList.add('visible'); setTimeout(()=>t.classList.remove('visible'),2500); }
+function saveSchoolInfo() { addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ظ…ط¹ظ„ظˆظ…ط§طھ ط§ظ„ظ…ط¯ط±ط³ط©'); toast('طھظ… ط­ظپط¸ ظ…ط¹ظ„ظˆظ…ط§طھ ط§ظ„ظ…ط¯ط±ط³ط© âœ…'); }
+
+// ط§ظ„طھط­ظ‚ظ‚ ظ…ظ† ط§ظ„ظ…ط¯ط®ظ„ط§طھ
+function applyLetters(id){const el=document.getElementById(id);if(!el)return;el.addEventListener('input',()=>{el.value=el.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g,'');})}
+function applyPhone(id){const el=document.getElementById(id);if(!el)return;el.setAttribute('maxlength','9');el.addEventListener('input',()=>{let v=el.value.replace(/[^0-9]/g,'');if(v.length>0&&v[0]!=='7')v='7'+v.substring(1);el.value=v.substring(0,9);})}
+function applyNumbers(id){const el=document.getElementById(id);if(!el)return;el.addEventListener('input',()=>{el.value=el.value.replace(/[^0-9]/g,'');})}
+
+// ==================== ط§ظ„ظ…ط­ط§ط³ط¨ط© ط§ظ„ط¹ط§ظ…ط© ====================
+
+// --- ط¯ظ„ظٹظ„ ط§ظ„ط­ط³ط§ط¨ط§طھ (ط´ط¬ط±ط©) ---
+function buildAccountsTree() {
+    const container = document.getElementById('accountsTree');
+    function buildNode(parentId) {
+        const children = DB.accounts.filter(a => a.parent === parentId);
+        if (!children.length) return '';
+        let html = '';
+        children.forEach(a => {
+            const sub = buildNode(a.id);
+            const balStr = a.balance !== undefined ? `<span style="margin-right:auto;color:${a.nature==='ظ…ط¯ظٹظ†'?'var(--success)':'var(--danger)'};font-size:.8rem;font-weight:700">${(a.balance||0).toLocaleString()} ط±ظٹط§ظ„</span>` : '';
+            const typeClr = a.type==='ط±ط¦ظٹط³ظٹ'?'var(--warning)':a.type==='ظپط±ط¹ظٹ'?'var(--secondary)':'var(--muted)';
+            const icon = sub ? 'fa-folder' : 'fa-file-invoice-dollar';
+            html += `<div class="tree-node${sub?' ':' open'}">
+                <div class="tree-label" onclick="this.parentElement.classList.toggle('open')" style="gap:8px">
+                    <i class="fa-solid ${icon}" style="color:${typeClr}"></i>
+                    <span style="color:${typeClr};font-size:.7rem;font-weight:700">${a.code}</span>
+                    <span>${a.name}</span>
+                    ${balStr}
+                    <div class="act" style="margin-right:8px" onclick="event.stopPropagation()">
+                        <button class="btn-edit" onclick="editItem('account','${a.id}')" style="width:24px;height:24px;font-size:.65rem"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-delete" onclick="delItem('account','${a.id}','${a.name}')" style="width:24px;height:24px;font-size:.65rem"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                ${sub?'<div class="tree-children" style="display:block">'+sub+'</div>':''}
+            </div>`;
+        });
+        return html;
+    }
+    container.innerHTML = buildNode(null) || '<p style="color:var(--muted);text-align:center">ظ„ط§ طھظˆط¬ط¯ ط­ط³ط§ط¨ط§طھ</p>';
+}
+
+// --- ط§ظ„طµظ†ط§ط¯ظٹظ‚ ---
+function renderCashboxes() {
+    const q = (document.getElementById('searchCashboxes')?.value||'').toLowerCase(), tb = document.getElementById('tbl-cashboxes');
+    tb.innerHTML = ''; DB.cashboxes.filter(c => c.name.includes(q)||c.code.includes(q)).forEach(c => {
+        tb.innerHTML += `<tr><td>${c.code}</td><td>${c.name}</td><td>${c.type}</td><td style="font-weight:700;color:var(--success)">${c.balance.toLocaleString()}</td><td>${c.manager}</td><td><div class="act"><button class="btn-edit" onclick="editItem('cashbox',${c.id})"><i class="fa-solid fa-pen"></i></button><button class="btn-delete" onclick="delItem('cashbox',${c.id},'${c.name}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    });
+}
+
+// --- ط³ظ†ط¯ط§طھ ط§ظ„ظ‚ط¨ط¶ ---
+function renderVReceipts() {
+    const q = (document.getElementById('searchVReceipts')?.value||'').toLowerCase(), tb = document.getElementById('tbl-vreceipts');
+    tb.innerHTML = ''; DB.vreceipts.filter(v => v.desc.includes(q)||v.number.includes(q)||v.fromAcc.includes(q)).forEach(v => {
+        const st = v.posted ? '<span class="status-paid">ظ…ط±ط­ظ‘ظ„</span>' : '<span class="status-unpaid">ط؛ظٹط± ظ…ط±ط­ظ‘ظ„</span>';
+        tb.innerHTML += `<tr><td>${v.number}</td><td>${v.date}</td><td>${v.fromAcc}</td><td>${v.toAcc}</td><td style="font-weight:700">${v.amount.toLocaleString()}</td><td>${v.desc}</td><td>${v.method}</td><td>${st}</td><td><div class="act">${!v.posted?'<button class="btn-view2" onclick="postVoucher(\'vreceipts\','+v.id+')"><i class="fa-solid fa-check"></i> طھط±ط­ظٹظ„</button>':''}<button class="btn-view2" onclick="toast(\'ط·ط¨ط§ط¹ط© ط§ظ„ط³ظ†ط¯...\')" style="background:rgba(139,92,246,.1);color:var(--accent)"><i class="fa-solid fa-print"></i></button></div></td></tr>`;
+    });
+}
+
+// --- ط³ظ†ط¯ط§طھ ط§ظ„طµط±ظپ ---
+function renderVPayments() {
+    const q = (document.getElementById('searchVPayments')?.value||'').toLowerCase(), tb = document.getElementById('tbl-vpayments');
+    tb.innerHTML = ''; DB.vpayments.filter(v => v.desc.includes(q)||v.number.includes(q)||v.toAcc.includes(q)).forEach(v => {
+        const st = v.posted ? '<span class="status-paid">ظ…ط±ط­ظ‘ظ„</span>' : '<span class="status-unpaid">ط؛ظٹط± ظ…ط±ط­ظ‘ظ„</span>';
+        tb.innerHTML += `<tr><td>${v.number}</td><td>${v.date}</td><td>${v.fromAcc}</td><td>${v.toAcc}</td><td style="font-weight:700">${v.amount.toLocaleString()}</td><td>${v.desc}</td><td>${v.method}</td><td>${st}</td><td><div class="act">${!v.posted?'<button class="btn-view2" onclick="postVoucher(\'vpayments\','+v.id+')"><i class="fa-solid fa-check"></i> طھط±ط­ظٹظ„</button>':''}<button class="btn-view2" onclick="toast(\'ط·ط¨ط§ط¹ط© ط§ظ„ط³ظ†ط¯...\')" style="background:rgba(139,92,246,.1);color:var(--accent)"><i class="fa-solid fa-print"></i></button></div></td></tr>`;
+    });
+}
+
+// --- ط§ظ„ظ‚ظٹظˆط¯ ط§ظ„ظٹظˆظ…ظٹط© ---
+function renderJournal() {
+    const q = (document.getElementById('searchJournal')?.value||'').toLowerCase(), tb = document.getElementById('tbl-journal');
+    tb.innerHTML = ''; DB.journal.filter(j => j.desc.includes(q)||j.number.includes(q)).forEach(j => {
+        const st = j.posted ? '<span class="status-paid">ظ…ط±ط­ظ‘ظ„</span>' : '<span class="status-unpaid">ط؛ظٹط± ظ…ط±ط­ظ‘ظ„</span>';
+        tb.innerHTML += `<tr><td>${j.number}</td><td>${j.date}</td><td>${j.desc}</td><td style="font-weight:700">${j.debit.toLocaleString()}</td><td style="font-weight:700">${j.credit.toLocaleString()}</td><td>${st}</td><td><div class="act">${!j.posted?'<button class="btn-view2" onclick="postJournal('+j.id+')"><i class="fa-solid fa-check"></i> طھط±ط­ظٹظ„</button>':''}<button class="btn-edit" onclick="editItem('journalEntry',${j.id})"><i class="fa-solid fa-pen"></i></button></div></td></tr>`;
+    });
+}
+
+// --- طھط±ط­ظٹظ„ ---
+function postVoucher(type, id) {
+    const v = DB[type].find(v=>v.id===id);
+    if(v){v.posted=true; addAudit('طھط±ط­ظٹظ„','طھط±ط­ظٹظ„ ط³ظ†ط¯ '+v.number); toast('طھظ… ط§ظ„طھط±ط­ظٹظ„ âœ…'); render(type);}
+}
+function postJournal(id) {
+    const j = DB.journal.find(j=>j.id===id);
+    if(j){j.posted=true; addAudit('طھط±ط­ظٹظ„','طھط±ط­ظٹظ„ ظ‚ظٹط¯ '+j.number); toast('طھظ… طھط±ط­ظٹظ„ ط§ظ„ظ‚ظٹط¯ âœ…'); render('journal');}
+}
+
+// --- ظ†ظ…ط§ط°ط¬ ط§ظ„ظ…ط­ط§ط³ط¨ط© ظپظٹ openForm ---
+const origOpenForm = openForm;
+openForm = function(type, editId = null) {
+    if (['account','cashbox','vreceipt','vpayment','journalEntry'].includes(type)) {
+        formType = type; formEditId = editId;
+        const form = document.getElementById('dynamicForm'), title = document.getElementById('formTitle');
+        const accOpts = DB.accounts.filter(a=>a.type==='طھط­ظ„ظٹظ„ظٹ').map(a=>`<option value="${a.name}">${a.code} - ${a.name}</option>`).join('');
+        let h = '';
+        if (type === 'account') {
+            const d = editId ? DB.accounts.find(a=>a.id===editId) : {};
+            const parentOpts = DB.accounts.filter(a=>a.type!=='طھط­ظ„ظٹظ„ظٹ').map(a=>`<option value="${a.id}" ${d.parent===a.id?'selected':''}>${a.code} - ${a.name}</option>`).join('');
+            title.innerHTML = '<i class="fa-solid fa-sitemap"></i> ' + (editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©') + ' ط­ط³ط§ط¨';
+            h = `<div class="fg"><label>ط§ظ„ط­ط³ط§ط¨ ط§ظ„ط£ط¨</label><select id="f_parent"><option value="">(ط­ط³ط§ط¨ ط±ط¦ظٹط³ظٹ)</option>${parentOpts}</select></div>
+            <div class="form-row"><div class="fg"><label>ط±ظ‚ظ… ط§ظ„ط­ط³ط§ط¨ <span class="req">*</span></label><input id="f_code" value="${d.code||''}"></div><div class="fg"><label>ط§ط³ظ… ط§ظ„ط­ط³ط§ط¨ <span class="req">*</span></label><input id="f_name" value="${d.name||''}"></div></div>
+            <div class="form-row"><div class="fg"><label>ط§ظ„ظ†ظˆط¹</label><select id="f_type"><option ${d.type==='ط±ط¦ظٹط³ظٹ'?'selected':''}>ط±ط¦ظٹط³ظٹ</option><option ${d.type==='ظپط±ط¹ظٹ'?'selected':''}>ظپط±ط¹ظٹ</option><option ${d.type==='طھط­ظ„ظٹظ„ظٹ'?'selected':''}>طھط­ظ„ظٹظ„ظٹ</option></select></div><div class="fg"><label>ط§ظ„ط·ط¨ظٹط¹ط©</label><select id="f_nature"><option ${d.nature==='ظ…ط¯ظٹظ†'?'selected':''}>ظ…ط¯ظٹظ†</option><option ${d.nature==='ط¯ط§ط¦ظ†'?'selected':''}>ط¯ط§ط¦ظ†</option></select></div></div>
+            ${d.type==='طھط­ظ„ظٹظ„ظٹ'||!editId?'<div class="fg"><label>ط§ظ„ط±طµظٹط¯ ط§ظ„ط§ظپطھطھط§ط­ظٹ</label><input type="number" id="f_balance" value="'+(d.balance||0)+'"></div>':''}`;
+        } else if (type === 'cashbox') {
+            const d = editId ? DB.cashboxes.find(c=>c.id===editId) : {};
+            title.innerHTML = '<i class="fa-solid fa-vault"></i> ' + (editId?'طھط¹ط¯ظٹظ„':'ط¥ط¶ط§ظپط©') + ' طµظ†ط¯ظˆظ‚';
+            h = `<div class="form-row"><div class="fg"><label>ط±ظ…ط² ط§ظ„طµظ†ط¯ظˆظ‚</label><input id="f_code" value="${d.code||'CB-'+String(nextId.cashboxes).padStart(3,'0')}"></div><div class="fg"><label>ط§ط³ظ… ط§ظ„طµظ†ط¯ظˆظ‚ <span class="req">*</span></label><input id="f_name" value="${d.name||''}"></div></div>
+            <div class="form-row"><div class="fg"><label>ط§ظ„ظ†ظˆط¹</label><select id="f_type"><option ${d.type==='ظ‚ط¨ط¶ ظˆطµط±ظپ'?'selected':''}>ظ‚ط¨ط¶ ظˆطµط±ظپ</option><option ${d.type==='ظ‚ط¨ط¶ ظپظ‚ط·'?'selected':''}>ظ‚ط¨ط¶ ظپظ‚ط·</option><option ${d.type==='طµط±ظپ ظپظ‚ط·'?'selected':''}>طµط±ظپ ظپظ‚ط·</option></select></div><div class="fg"><label>ط§ظ„ظ…ط³ط¤ظˆظ„</label><input id="f_mgr" value="${d.manager||''}"></div></div>
+            <div class="fg"><label>ط§ظ„ط±طµظٹط¯ ط§ظ„ط­ط§ظ„ظٹ</label><input type="number" id="f_balance" value="${d.balance||0}"></div>`;
+        } else if (type === 'vreceipt') {
+            title.innerHTML = '<i class="fa-solid fa-arrow-down"></i> ط³ظ†ط¯ ظ‚ط¨ط¶ ط¬ط¯ظٹط¯';
+            h = `<div class="fg"><label>ظ…ظ† ط­ط³ط§ط¨ (ط§ظ„ظ…ط¯ظٹظ†)</label><select id="f_from">${accOpts}</select></div>
+            <div class="fg"><label>ط¥ظ„ظ‰ ط­ط³ط§ط¨ (ط§ظ„ط¯ط§ط¦ظ†)</label><select id="f_to">${accOpts}</select></div>
+            <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط¨ظ„ط؛ (ط±ظٹط§ظ„) <span class="req">*</span></label><input type="number" id="f_amount"></div><div class="fg"><label>ط·ط±ظٹظ‚ط© ط§ظ„ط¯ظپط¹</label><select id="f_method"><option>ظ†ظ‚ط¯ط§ظ‹</option><option>ط´ظٹظƒ</option><option>طھط­ظˆظٹظ„ ط¨ظ†ظƒظٹ</option></select></div></div>
+            <div class="fg"><label>ط§ظ„ط¨ظٹط§ظ†</label><input id="f_desc" placeholder="ظˆطµظپ ط§ظ„ط¹ظ…ظ„ظٹط©"></div>`;
+        } else if (type === 'vpayment') {
+            title.innerHTML = '<i class="fa-solid fa-arrow-up"></i> ط³ظ†ط¯ طµط±ظپ ط¬ط¯ظٹط¯';
+            h = `<div class="fg"><label>ظ…ظ† ط­ط³ط§ط¨ (ط§ظ„ط¯ط§ط¦ظ†)</label><select id="f_from">${accOpts}</select></div>
+            <div class="fg"><label>ط¥ظ„ظ‰ ط­ط³ط§ط¨ (ط§ظ„ظ…ط¯ظٹظ†)</label><select id="f_to">${accOpts}</select></div>
+            <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط¨ظ„ط؛ (ط±ظٹط§ظ„) <span class="req">*</span></label><input type="number" id="f_amount"></div><div class="fg"><label>ط·ط±ظٹظ‚ط© ط§ظ„ط¯ظپط¹</label><select id="f_method"><option>ظ†ظ‚ط¯ط§ظ‹</option><option>ط´ظٹظƒ</option><option>طھط­ظˆظٹظ„ ط¨ظ†ظƒظٹ</option></select></div></div>
+            <div class="fg"><label>ط§ظ„ط¨ظٹط§ظ†</label><input id="f_desc" placeholder="ظˆطµظپ ط§ظ„ط¹ظ…ظ„ظٹط©"></div>`;
+        } else if (type === 'journalEntry') {
+            const d = editId ? DB.journal.find(j=>j.id===editId) : {};
+            title.innerHTML = '<i class="fa-solid fa-book-open"></i> ' + (editId?'طھط¹ط¯ظٹظ„':'ط¥ظ†ط´ط§ط،') + ' ظ‚ظٹط¯ ظٹظˆظ…ظٹ';
+            h = `<div class="fg"><label>ط§ظ„ط¨ظٹط§ظ† <span class="req">*</span></label><input id="f_desc" value="${d.desc||''}" placeholder="ظˆطµظپ ط§ظ„ظ‚ظٹط¯ ط§ظ„ظ…ط­ط§ط³ط¨ظٹ"></div>
+            <div class="fg"><label>ط§ظ„ط­ط³ط§ط¨ ط§ظ„ظ…ط¯ظٹظ†</label><select id="f_debitAcc">${DB.accounts.filter(a=>a.type==='طھط­ظ„ظٹظ„ظٹ').map(a=>`<option value="${a.name}" ${d.debitAcc===a.name?'selected':''}>${a.code} - ${a.name}</option>`).join('')}</select></div>
+            <div class="fg"><label>ط§ظ„ط­ط³ط§ط¨ ط§ظ„ط¯ط§ط¦ظ†</label><select id="f_creditAcc">${DB.accounts.filter(a=>a.type==='طھط­ظ„ظٹظ„ظٹ').map(a=>`<option value="${a.name}" ${d.creditAcc===a.name?'selected':''}>${a.code} - ${a.name}</option>`).join('')}</select></div>
+            <div class="form-row"><div class="fg"><label>ط§ظ„ظ…ط¨ظ„ط؛ ط§ظ„ظ…ط¯ظٹظ† <span class="req">*</span></label><input type="number" id="f_debit" value="${d.debit||''}"></div><div class="fg"><label>ط§ظ„ظ…ط¨ظ„ط؛ ط§ظ„ط¯ط§ط¦ظ† <span class="req">*</span></label><input type="number" id="f_credit" value="${d.credit||''}"></div></div>`;
+        }
+        form.innerHTML = h;
+        document.getElementById('formModal').classList.add('active');
+    } else {
+        origOpenForm(type, editId);
+    }
+};
+
+// --- ط­ظپط¸ ظ†ظ…ط§ط°ط¬ ط§ظ„ظ…ط­ط§ط³ط¨ط© ---
+const origSaveForm = saveForm;
+saveForm = function() {
+    if (formType === 'account') {
+        const code = gv('f_code'), name = gv('f_name');
+        if (!code || !name) return toast('âڑ ï¸ڈ ط±ظ‚ظ… ظˆط§ط³ظ… ط§ظ„ط­ط³ط§ط¨ ظ…ط·ظ„ظˆط¨ط§ظ†',1);
+        const o = {id: code, code, name, parent: gv('f_parent')||null, type: gv('f_type'), nature: gv('f_nature'), level: gv('f_parent') ? (DB.accounts.find(a=>a.id===gv('f_parent'))?.level||0)+1 : 1};
+        const balEl = document.getElementById('f_balance'); if (balEl) o.balance = parseInt(balEl.value)||0;
+        if (formEditId) { const i = DB.accounts.findIndex(a=>a.id===formEditId); if(i>=0) Object.assign(DB.accounts[i],o); addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ط­ط³ط§ط¨: '+name); }
+        else { DB.accounts.push(o); addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© ط­ط³ط§ط¨: '+code+' '+name); }
+        buildAccountsTree();
+    } else if (formType === 'cashbox') {
+        const o = {code:gv('f_code'),name:gv('f_name'),type:gv('f_type'),balance:parseInt(gv('f_balance'))||0,manager:gv('f_mgr')};
+        if (!o.name) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„طµظ†ط¯ظˆظ‚ ظ…ط·ظ„ظˆط¨',1);
+        if (formEditId) { const i=DB.cashboxes.findIndex(c=>c.id===formEditId);if(i>=0)Object.assign(DB.cashboxes[i],o);addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ طµظ†ط¯ظˆظ‚: '+o.name); }
+        else { o.id=nextId.cashboxes++;DB.cashboxes.push(o);addAudit('ط¥ط¶ط§ظپط©','ط¥ط¶ط§ظپط© طµظ†ط¯ظˆظ‚: '+o.name); }
+        render('cashboxes');
+    } else if (formType === 'vreceipt') {
+        const amt = parseInt(gv('f_amount'));
+        if (!amt||amt<=0) return toast('âڑ ï¸ڈ ط£ط¯ط®ظ„ ظ…ط¨ظ„ط؛ طµط­ظٹط­',1);
+        const o = {id:nextId.vreceipts++,number:`VR-${String(nextId.vreceipts).padStart(3,'0')}`,date:new Date().toLocaleDateString('en-CA'),fromAcc:gv('f_from'),toAcc:gv('f_to'),amount:amt,desc:gv('f_desc'),method:gv('f_method'),posted:false};
+        DB.vreceipts.push(o);
+        // ط£ظ†ط´ط¦ ظ‚ظٹط¯ ظٹظˆظ…ظٹ طھظ„ظ‚ط§ط¦ظٹ
+        DB.journal.push({id:nextId.journal++,number:`JE-${String(nextId.journal).padStart(3,'0')}`,date:o.date,desc:'ط³ظ†ط¯ ظ‚ط¨ط¶: '+o.desc,debitAcc:o.toAcc,creditAcc:o.fromAcc,debit:amt,credit:amt,posted:false});
+        addAudit('ط³ظ†ط¯ ظ‚ط¨ط¶',`${o.number} - ${amt.toLocaleString()} ط±ظٹط§ظ„`);
+        render('vreceipts');
+    } else if (formType === 'vpayment') {
+        const amt = parseInt(gv('f_amount'));
+        if (!amt||amt<=0) return toast('âڑ ï¸ڈ ط£ط¯ط®ظ„ ظ…ط¨ظ„ط؛ طµط­ظٹط­',1);
+        const o = {id:nextId.vpayments++,number:`VP-${String(nextId.vpayments).padStart(3,'0')}`,date:new Date().toLocaleDateString('en-CA'),fromAcc:gv('f_from'),toAcc:gv('f_to'),amount:amt,desc:gv('f_desc'),method:gv('f_method'),posted:false};
+        DB.vpayments.push(o);
+        DB.journal.push({id:nextId.journal++,number:`JE-${String(nextId.journal).padStart(3,'0')}`,date:o.date,desc:'ط³ظ†ط¯ طµط±ظپ: '+o.desc,debitAcc:o.toAcc,creditAcc:o.fromAcc,debit:amt,credit:amt,posted:false});
+        addAudit('ط³ظ†ط¯ طµط±ظپ',`${o.number} - ${amt.toLocaleString()} ط±ظٹط§ظ„`);
+        render('vpayments');
+    } else if (formType === 'journalEntry') {
+        const desc=gv('f_desc'),debit=parseInt(gv('f_debit')),credit=parseInt(gv('f_credit'));
+        if (!desc) return toast('âڑ ï¸ڈ ط§ظ„ط¨ظٹط§ظ† ظ…ط·ظ„ظˆط¨',1);
+        if (!debit||!credit) return toast('âڑ ï¸ڈ ط§ظ„ظ…ط¨ظ„ط؛ ظ…ط·ظ„ظˆط¨',1);
+        if (debit!==credit) return toast('âڑ ï¸ڈ ط§ظ„ظ…ط¨ظ„ط؛ ط§ظ„ظ…ط¯ظٹظ† ظٹط¬ط¨ ط£ظ† ظٹط³ط§ظˆظٹ ط§ظ„ط¯ط§ط¦ظ†',1);
+        const o = {desc,debitAcc:gv('f_debitAcc'),creditAcc:gv('f_creditAcc'),debit,credit,posted:false};
+        if (formEditId) { const i=DB.journal.findIndex(j=>j.id===formEditId);if(i>=0)Object.assign(DB.journal[i],o);addAudit('طھط¹ط¯ظٹظ„','طھط¹ط¯ظٹظ„ ظ‚ظٹط¯'); }
+        else { o.id=nextId.journal++;o.number=`JE-${String(nextId.journal).padStart(3,'0')}`;o.date=new Date().toLocaleDateString('en-CA');DB.journal.push(o);addAudit('ظ‚ظٹط¯ ظٹظˆظ…ظٹ','ط¥ظ†ط´ط§ط، ظ‚ظٹط¯: '+desc); }
+        render('journal');
+    } else if (formType === 'schedule') {
+        const o = {id:nextId.schedule++, section:gv('f_sec'), day:gv('f_day'), p1:gv('f_p1'), p2:gv('f_p2'), p3:gv('f_p3'), p4:gv('f_p4'), p5:gv('f_p5'), p6:gv('f_p6')};
+        DB.schedule.push(o); addAudit('ط¬ط¯ظˆظ„','ط¥ط¶ط§ظپط© ط¬ط¯ظˆظ„ ظٹظˆظ… '+o.day+' ظ„ط´ط¹ط¨ط© '+o.section);
+        const secSel = document.getElementById('schSection'); if(secSel) { secSel.value = o.section; renderSchedule(); }
+    } else if (formType === 'substitute') {
+        const o = {id:nextId.substitutes++, date:gv('f_date'), day:gv('f_day'), period:gv('f_period'), section:gv('f_sec'), absent:gv('f_absent'), substitute:gv('f_sub')};
+        DB.substitutes.push(o); addAudit('ط§ط­طھظٹط§ط·',`ط¥ط³ظ†ط§ط¯ ط§ط­طھظٹط§ط· ظ„ظ€ ${o.substitute} ط¨ط¯ظ„ط§ظ‹ ط¹ظ† ${o.absent}`);
+        render('substitute');
+    } else if (formType === 'activity') {
+        const o = {name:gv('f_name'), type:gv('f_type'), date:gv('f_date'), supervisor:gv('f_sup'), participants:parseInt(gv('f_participants'))||0};
+        if(!o.name) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„ظ†ط´ط§ط· ظ…ط·ظ„ظˆط¨',1);
+        if(formEditId) { const i=DB.activities.findIndex(a=>a.id===formEditId); if(i>=0) Object.assign(DB.activities[i],o); addAudit('طھط¹ط¯ظٹظ„',`طھط¹ط¯ظٹظ„ ظ†ط´ط§ط· ${o.name}`); }
+        else { o.id = nextId.activities++; DB.activities.push(o); addAudit('ط£ظ†ط´ط·ط©',`ط¥ط¶ط§ظپط© ظ†ط´ط§ط· ${o.name}`); }
+        render('activities');
+    } else if (formType === 'transport') {
+        const o = {route:gv('f_route'), driver:gv('f_driver'), bus:gv('f_bus'), fee:parseInt(gv('f_fee'))||0};
+        if(!o.route) return toast('âڑ ï¸ڈ ط§ط³ظ… ط§ظ„ط®ط· ظ…ط·ظ„ظˆط¨',1);
+        if(formEditId) { const i=DB.transport.findIndex(t=>t.id===formEditId); if(i>=0) Object.assign(DB.transport[i],o); addAudit('طھط¹ط¯ظٹظ„',`طھط¹ط¯ظٹظ„ ط®ط· ط³ظٹط± ${o.route}`); }
+        else { o.id = nextId.transport++; DB.transport.push(o); addAudit('ظ…ظˆط§طµظ„ط§طھ',`ط¥ط¶ط§ظپط© ط®ط· ط³ظٹط± ${o.route}`); }
+        render('transport');
+    } else {
+        origSaveForm(); return;
+    }
+    closeModal('formModal');
+    toast(formEditId ? 'طھظ… ط§ظ„طھط¹ط¯ظٹظ„ âœ…' : 'طھظ…طھ ط§ظ„ط¥ط¶ط§ظپط© âœ…');
+};
+
+// --- ط­ط°ظپ ط§ظ„ظ…ط­ط§ط³ط¨ط© ---
+const origConfirmDel = confirmDel;
+confirmDel = function() {
+    if (delType === 'account') { DB.accounts = DB.accounts.filter(a=>a.id!==delId); buildAccountsTree(); addAudit('ط­ط°ظپ','ط­ط°ظپ ط­ط³ط§ط¨'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    if (delType === 'cashbox') { DB.cashboxes = DB.cashboxes.filter(c=>c.id!==delId); render('cashboxes'); addAudit('ط­ط°ظپ','ط­ط°ظپ طµظ†ط¯ظˆظ‚'); closeModal('deleteModal'); toast('طھظ… ط§ظ„ط­ط°ظپ ًں—‘ï¸ڈ'); return; }
+    origConfirmDel();
+};
+
+// --- ظƒط´ظپ ط§ظ„ط­ط³ط§ط¨ ---
+function initAccStatement() {
+    const sel = document.getElementById('stmtAccount');
+    sel.innerHTML = '<option value="">-- ط§ط®طھط± ط§ظ„ط­ط³ط§ط¨ --</option>' + DB.accounts.filter(a=>a.type==='طھط­ظ„ظٹظ„ظٹ').map(a=>`<option value="${a.name}">${a.code} - ${a.name}</option>`).join('');
+}
+function renderAccStatement() {
+    const accName = document.getElementById('stmtAccount').value, div = document.getElementById('accStatementView');
+    if (!accName) { div.innerHTML=''; return; }
+    const acc = DB.accounts.find(a=>a.name===accName);
+    let html = `<div class="s-info"><div><span class="lbl">ط§ظ„ط­ط³ط§ط¨</span>${acc?.code} - ${accName}</div><div><span class="lbl">ط§ظ„ط·ط¨ظٹط¹ط©</span>${acc?.nature}</div><div><span class="lbl">ط§ظ„ط±طµظٹط¯</span>${(acc?.balance||0).toLocaleString()} ط±ظٹط§ظ„</div></div>`;
+    // ط¬ظ„ط¨ ظƒظ„ ط§ظ„ط­ط±ظƒط§طھ ط§ظ„ظ…طھط¹ظ„ظ‚ط© ط¨ظ‡ط°ط§ ط§ظ„ط­ط³ط§ط¨
+    const movements = [];
+    DB.journal.filter(j=>j.posted).forEach(j => {
+        if (j.debitAcc===accName) movements.push({date:j.date,desc:j.desc,debit:j.debit,credit:0,ref:j.number});
+        if (j.creditAcc===accName) movements.push({date:j.date,desc:j.desc,debit:0,credit:j.credit,ref:j.number});
+    });
+    if (movements.length) {
+        html += '<div class="table-wrapper"><table><thead><tr><th>ط§ظ„طھط§ط±ظٹط®</th><th>ط§ظ„ط¨ظٹط§ظ†</th><th>ط§ظ„ظ…ط±ط¬ط¹</th><th>ظ…ط¯ظٹظ†</th><th>ط¯ط§ط¦ظ†</th><th>ط§ظ„ط±طµظٹط¯</th></tr></thead><tbody>';
+        let running = acc?.balance || 0;
+        movements.forEach(m => {
+            running += m.debit - m.credit;
+            html += `<tr><td>${m.date}</td><td>${m.desc}</td><td>${m.ref}</td><td style="color:var(--success)">${m.debit?m.debit.toLocaleString():'-'}</td><td style="color:var(--danger)">${m.credit?m.credit.toLocaleString():'-'}</td><td style="font-weight:700">${running.toLocaleString()}</td></tr>`;
+        });
+        html += '</tbody></table></div>';
+    } else html += '<p style="color:var(--muted);text-align:center;padding:20px">ظ„ط§ طھظˆط¬ط¯ ط­ط±ظƒط§طھ ظ…ط±ط­ظ‘ظ„ط© ط¹ظ„ظ‰ ظ‡ط°ط§ ط§ظ„ط­ط³ط§ط¨</p>';
+    div.innerHTML = html;
+}
+
+// --- ظ…ظٹط²ط§ظ† ط§ظ„ظ…ط±ط§ط¬ط¹ط© ---
+function renderTrialBalance() {
+    const tb = document.getElementById('tbl-trial-balance');
+    let totalD=0, totalC=0;
+    tb.innerHTML = '';
+    DB.accounts.filter(a=>a.type==='طھط­ظ„ظٹظ„ظٹ').forEach(a => {
+        let d=0, c=0;
+        DB.journal.filter(j=>j.posted).forEach(j => {
+            if (j.debitAcc===a.name) d += j.debit;
+            if (j.creditAcc===a.name) c += j.credit;
+        });
+        // ط£ط¶ظپ ط§ظ„ط±طµظٹط¯ ط§ظ„ط§ظپطھطھط§ط­ظٹ
+        if (a.nature==='ظ…ط¯ظٹظ†') d += (a.balance||0); else c += (a.balance||0);
+        const bal = d - c;
+        totalD += d; totalC += c;
+        tb.innerHTML += `<tr><td>${a.code}</td><td>${a.name}</td><td style="color:var(--success)">${d.toLocaleString()}</td><td style="color:var(--danger)">${c.toLocaleString()}</td><td style="font-weight:700;color:${bal>=0?'var(--success)':'var(--danger)'}">${bal.toLocaleString()}</td></tr>`;
+    });
+    document.getElementById('tbTotalDebit').textContent = totalD.toLocaleString();
+    document.getElementById('tbTotalCredit').textContent = totalC.toLocaleString();
+}
+
+// --- ظ‚ط§ط¦ظ…ط© ط§ظ„ط¯ط®ظ„ ---
+function renderIncomeStmt() {
+    const div = document.getElementById('incomeStmtView');
+    // ط­ط³ط§ط¨ ط§ظ„ط¥ظٹط±ط§ط¯ط§طھ
+    let totalRev = 0, totalExp = 0;
+    const revAccs = DB.accounts.filter(a=>a.parent && (a.parent.startsWith('4')||DB.accounts.find(p=>p.id===a.parent)?.parent?.startsWith('4')) && a.type==='طھط­ظ„ظٹظ„ظٹ');
+    const expAccs = DB.accounts.filter(a=>a.parent && (a.parent.startsWith('3')||DB.accounts.find(p=>p.id===a.parent)?.parent?.startsWith('3')) && a.type==='طھط­ظ„ظٹظ„ظٹ');
+    
+    let html = '<h3 style="margin-bottom:12px;color:var(--success)"><i class="fa-solid fa-arrow-trend-up"></i> ط§ظ„ط¥ظٹط±ط§ط¯ط§طھ</h3><div class="table-wrapper"><table><thead><tr><th>ط§ظ„ط­ط³ط§ط¨</th><th>ط§ظ„ظ…ط¨ظ„ط؛ (ط±ظٹط§ظ„)</th></tr></thead><tbody>';
+    revAccs.forEach(a => { totalRev += (a.balance||0); html += `<tr><td>${a.code} - ${a.name}</td><td style="color:var(--success);font-weight:700">${(a.balance||0).toLocaleString()}</td></tr>`; });
+    html += `<tr style="background:rgba(16,185,129,.08)"><td style="font-weight:800">ط¥ط¬ظ…ط§ظ„ظٹ ط§ظ„ط¥ظٹط±ط§ط¯ط§طھ</td><td style="font-weight:800;color:var(--success)">${totalRev.toLocaleString()}</td></tr></tbody></table></div>`;
+    
+    html += '<h3 style="margin:20px 0 12px;color:var(--danger)"><i class="fa-solid fa-arrow-trend-down"></i> ط§ظ„ظ…طµط±ظˆظپط§طھ</h3><div class="table-wrapper"><table><thead><tr><th>ط§ظ„ط­ط³ط§ط¨</th><th>ط§ظ„ظ…ط¨ظ„ط؛ (ط±ظٹط§ظ„)</th></tr></thead><tbody>';
+    expAccs.forEach(a => { totalExp += (a.balance||0); html += `<tr><td>${a.code} - ${a.name}</td><td style="color:var(--danger);font-weight:700">${(a.balance||0).toLocaleString()}</td></tr>`; });
+    html += `<tr style="background:rgba(239,68,68,.08)"><td style="font-weight:800">ط¥ط¬ظ…ط§ظ„ظٹ ط§ظ„ظ…طµط±ظˆظپط§طھ</td><td style="font-weight:800;color:var(--danger)">${totalExp.toLocaleString()}</td></tr></tbody></table></div>`;
+    
+    const net = totalRev - totalExp;
+    html += `<div class="stats-row" style="margin-top:18px"><div class="stat-card ${net>=0?'c-green':'c-red'}"><i class="fa-solid ${net>=0?'fa-arrow-trend-up':'fa-arrow-trend-down'}"></i><div><span class="stat-number">${net.toLocaleString()}</span><span class="stat-label">${net>=0?'طµط§ظپظٹ ط§ظ„ط±ط¨ط­':'طµط§ظپظٹ ط§ظ„ط®ط³ط§ط±ط©'} (ط±ظٹط§ظ„)</span></div></div></div>`;
+    div.innerHTML = html;
+}
+
+// ==================== وظائف الطباعة ====================
+function printDiv(title, htmlContent) {
+    const w = window.open('', '_blank');
+    w.document.write(
+        <html dir="rtl">
+        <head>
+            <title>${title}</title>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+                body { font-family: 'Tajawal', sans-serif; padding: 20px; color: #333; }
+                .print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+                table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+                th { background: #f5f5f5; }
+                .stats-row { display: flex; justify-content: space-around; margin: 15px 0; }
+                .stat-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; flex: 1; margin: 0 10px; }
+                .s-info { display: flex; justify-content: space-between; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+                .s-info div { display: flex; flex-direction: column; }
+                .lbl { font-weight: bold; color: #666; font-size: 0.85em; margin-bottom: 5px; }
+                h4 { margin-top: 20px; }
+                @media print {
+                    button, .no-print { display: none !important; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="print-header">
+                <h2>${DB.schools[0]?.name || 'نظام الإدارة المدرسية'}</h2>
+                <h3>${title}</h3>
+                <p>تاريخ الطباعة: ${new Date().toLocaleDateString('en-CA')}</p>
+            </div>
+            ${htmlContent}
+            <script>setTimeout(()=>{window.print(); window.close();}, 500);</script>
+        </body>
+        </html>
+    );
+    w.document.close();
+}
+
+function printReceipt(id) {
+    const r = DB.receipts.find(x => x.id == id);
+    if (!r) return;
+    const html = 
+        <div style="border:2px dashed #ccc; padding:20px; border-radius:10px; max-width:500px; margin:auto; text-align:center;">
+            <h3 style="border-bottom:1px solid #eee; padding-bottom:10px;">سند قبض مالي رقم: ${r.number}</h3>
+            <p style="text-align:right;"><strong>التاريخ:</strong> ${r.date}</p>
+            <p style="text-align:right;"><strong>استلمنا من الطالب/ة:</strong> ${r.studentName}</p>
+            <p style="text-align:right;"><strong>مبلغ وقدره:</strong> ${r.amount.toLocaleString()} ريال</p>
+            <p style="text-align:right;"><strong>طريقة الدفع:</strong> ${r.method}</p>
+            ${r.notes ? <p style="text-align:right;"><strong>ملاحظات:</strong> ${r.notes}</p> : ''}
+            <br><br><br>
+            <div style="display:flex; justify-content:space-between; margin-top:30px;">
+                <span>توقيع المحاسب: ....................</span>
+                <span>توقيع المستلم: ....................</span>
+            </div>
+        </div>
+    ;
+    printDiv('سند قبض مالي', html);
+}
+
+function printStudentAccount() {
+    const sid = document.getElementById('accStudent').value;
+    if (!sid) return toast('يرجى اختيار طالب أولاً', 1);
+    const html = document.getElementById('studentAccountView').innerHTML;
+    printDiv('كشف حساب طالب', html);
+}
+
+function printFinanceReport() {
+    const html = 
+        <div class="stats-row">
+            <div class="stat-card"><h3>إجمالي التحصيل</h3><p>${document.getElementById('frRevenue').textContent} ريال</p></div>
+            <div class="stat-card"><h3>إجمالي المتأخرات</h3><p>${document.getElementById('frDebt').textContent} ريال</p></div>
+        </div>
+        <table>
+            <thead><tr><th>الطالب</th><th>المرحلة</th><th>الرسوم</th><th>المسدد</th><th>المتبقي</th><th>الحالة</th></tr></thead>
+            <tbody>${document.getElementById('tbl-finance-report').innerHTML}</tbody>
+        </table>
+    ;
+    printDiv('التقرير المالي الإجمالي', html);
+}

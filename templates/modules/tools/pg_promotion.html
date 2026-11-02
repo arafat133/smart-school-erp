@@ -1,0 +1,19 @@
+<div class="page" id="pg-promotion">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-arrow-up-right-dots"></i> ترفيع الطلاب</h2>
+                    </div>
+                    <div
+                        style="background:var(--card-bg);padding:20px;border-radius:12px;box-shadow:var(--shadow-sm);margin-bottom:20px;max-width:600px;margin:20px auto">
+                        <h3 style="color:var(--text);margin-bottom:15px;text-align:center"><i
+                                class="fa-solid fa-turn-up text-blue-500"></i> ترحيل الطلاب للعام الدراسي الجديد</h3>
+                        <p style="color:var(--muted);margin-bottom:20px;text-align:center">سيتم ترفيع الطلاب الناجحين
+                            إلى الصف التالي المختار.</p>
+                        <div class="form-row">
+                            <div class="fg"><label>من الصف (الحالي)</label><select id="promFrom"></select></div>
+                            <div class="fg"><label>إلى الصف (الجديد)</label><select id="promTo"></select></div>
+                        </div>
+                        <button class="btn-save" style="width:100%;font-size:1.1rem;padding:12px"
+                            onclick="executePromotion()"><i class="fa-solid fa-check"></i> تنفيذ الترفيع</button>
+                    </div>
+                </div>

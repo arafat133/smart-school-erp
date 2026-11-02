@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}نظام إدارة المدارس الشامل | ERP{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/images/schools/sch_01_logo.svg">
+    <meta name="description" content="نظام إدارة مدرسي شامل (ERP) سحابي آمن">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/assets/css/main.css?v=7.0">
+    {% block extra_css %}{% endblock %}
+</head>
+<body data-portal="{{ portal_type|default('school') }}">
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+
+    {% include 'partials/_login.html' %}
+
+    <div class="app-layout" id="appLayout" style="display:none;">
+        {% block sidebar %}{% endblock %}
+
+        <main class="main-content" id="mainContent">
+            {% include 'partials/_header.html' %}
+
+            <div class="page-container" id="pageContainer">
+                {% block page_container %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    {% include 'partials/_modals.html' %}
+    {% include 'partials/_toast.html' %}
+
+    {% if portal_type == 'parent' %}
+        {% include 'partials/_parent_ai_widget.html' %}
+    {% endif %}
+
+    <!-- Dedicated Isolated Print Root Container -->
+    <div id="officialPrintDocument" style="display:none;"></div>
+
+    <!-- Master High-Volume Multi-School Dataset (30 Schools, 3,000 Students, Staff, Transport) -->
+    <script src="/assets/js/data_30_schools.js?v=6.0"></script>
+    <script src="/assets/js/core.js?v=23.0"></script>
+    {% block page_scripts %}{% endblock %}
+</body>
+</html>

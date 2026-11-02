@@ -1,0 +1,878 @@
+import os
+import subprocess
+import sys
+
+html_content = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التوثيق الشامل لنظام المدارس السحابي الآمن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            font-size: 13px;
+        }
+        
+        .header-cover {
+            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.15);
+        }
+        .header-cover h1 {
+            font-size: 26px;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
+        }
+        .header-cover p {
+            font-size: 15px;
+            opacity: 0.95;
+            margin: 0;
+        }
+        .badge-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .badge-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .section-title {
+            color: #1e3a8a;
+            font-size: 18px;
+            font-weight: 800;
+            border-right: 5px solid #3b82f6;
+            padding-right: 12px;
+            margin: 35px 0 15px 0;
+            page-break-after: avoid;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+        .info-card h3 {
+            margin-top: 0;
+            color: #0f172a;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 12px;
+            page-break-inside: auto;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 9px 12px;
+            text-align: right;
+        }
+        th {
+            background-color: #1e3a8a;
+            color: white;
+            font-weight: 700;
+            font-size: 12.5px;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .module-header {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            border-right: 4px solid #0284c7;
+            page-break-after: avoid;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 24px;
+            font-weight: 900;
+            color: #1d4ed8;
+        }
+        .stat-box .label {
+            font-size: 12px;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-cover">
+        <h1>التوثيق الشامل لنظام المدارس السحابي الآمن</h1>
+        <p>دليل المعمارية، الواجهات التفاعلية، الحقول، والعمليات المحاسبية والأكاديمية</p>
+        <div class="badge-bar">
+            <div class="badge-item">إجمالي الواجهات: 85 واجهة</div>
+            <div class="badge-item">إجمالي الوحدات: 8 موديولات</div>
+            <div class="badge-item">توثيق البلوكشين (Blockchain)</div>
+            <div class="badge-item">نظام محاسبي ERP كامل</div>
+        </div>
+    </div>
+
+    <!-- 1. النظرة العامة والمعمارية -->
+    <div class="section-title">1. المعمارية الهيكلية والبنية التقنية للنظام</div>
+    <div class="info-card">
+        <p><strong>نظام المدارس السحابي الآمن (Secure Cloud School System)</strong> هو منصة سحابية شاملة ومصممة بتقنية تعدد المستأجرين (Multi-Tenant) لتشغيل المنظومة التعليمية والإدارية والمالية لعدة مدارس بشكل مستقّل وآمن.</p>
+        <ul>
+            <li><strong>الخلفية البرمجية (Backend):</strong> تعتمد على إطار <strong>FastAPI (Python)</strong> للتعامل مع API غير متزامن فائق السرعة، مع SQLAlchemy Async ORM ومحرك ترحيل قواعد البيانات Alembic.</li>
+            <li><strong>قاعدة البيانات (Database):</strong> PostgreSQL مع فصل كامل لبيانات المدارس برابط المعرف <code>school_id</code>.</li>
+            <li><strong>الأمان والتوثيق (Security & Auth):</strong> تشفير كلمات المرور بحسب معيار Bcrypt وتأمين الجلسات باستخدام <strong>JWT Tokens</strong>.</li>
+            <li><strong>التوثيق بالبلوكشين (Blockchain Verification):</strong> محرك تشفير مستقّل يولد بصمة رقمية (Hash) موثقة لشهادات الطلاب ودرجاتهم لمنع التزوير.</li>
+            <li><strong>الواجهة الأمامية (Frontend):</strong> تطبيق صفحة واحدة (SPA) باستعمال Vanilla JS & CSS المتقدم لدعم Glassmorphism و Responsive Design.</li>
+        </ul>
+    </div>
+
+    <!-- 2. إحصائيات الموديولات والواجهات -->
+    <div class="section-title">2. ملخص إحصائي للوحدات والواجهات (85 واجهة)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>رقم الموديول</th>
+                <th>اسم وحدة النظام</th>
+                <th>عدد الواجهات</th>
+                <th>نطاق التغطية الوظيفية</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>إدارة النظام والتهيئة العامة</td>
+                <td>10 واجهات</td>
+                <td>معلومات المدرسة، دليل المستخدمين، الترحيلات، سجل العمليات وقفل التعديلات.</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>النظام المحاسبي والمالي (ERP)</td>
+                <td>16 واجهة</td>
+                <td>دليل الحسابات، الصناديق، البنوك، سندات الصرف والقبض، القيود، والتقارير المالية.</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>التهيئات والمدخلات الأكاديمية</td>
+                <td>19 واجهة</td>
+                <td>السنوات، المراحل، الصفوف، الشعب، المواد، التقويم المدرسي، وفئات الرسوم.</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>إدارة الطلاب وشؤون التسجيل</td>
+                <td>13 واجهة</td>
+                <td>تسجيل الطلاب، شجرة الطلاب، أولياء الأمور، الترفيع، الحسابات المالية للطلاب.</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>الحضور، الامتحانات والشهادات (Blockchain)</td>
+                <td>10 واجهات</td>
+                <td>الغياب اليومي والحصص، رصد الدرجات، قفل الامتحانات، والتحقق بالبلوكشين.</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>الموارد البشرية والرواتب (HR)</td>
+                <td>8 واجهات</td>
+                <td>دليل الموظفين والمعلمين، الحضور، الإجازات، السلف، ومسير الرواتب.</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>الخدمات المدرسية والمرافقة</td>
+                <td>8 واجهات</td>
+                <td>النقل المدرسي والمسارات، المكتبة، المقصف، السجل الصحي، والأنشطة.</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>بوابة ولي الأمر واللوحات الرئيسية</td>
+                <td>7 واجهات</td>
+                <td>اللوحة الرئيسية للمدرسة، السحاب، وبوابة ولي الأمر بمختلف خدماتها.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 3. تفاصيل الموديولات والواجهات -->
+    <div class="section-title">3. التفاصيل الشاملة للواجهات والحقول والعمليات</div>
+
+    <!-- موديول 1 -->
+    <div class="module-header">الموديول 1: إدارة النظام والتهيئة العامة (10 واجهات)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>معلومات المدرسة (<code>pg-school-info</code>)</td>
+                <td>اسم المدرسة، المحافظة، المديرية، الموقع، بيانات المدير، مسؤول IT، الشعار.</td>
+                <td>حفظ التعديلات، تفعيل/تعطيل النظام، رفع الشعار الرسمي.</td>
+            </tr>
+            <tr>
+                <td>دليل المستخدمين (<code>pg-users</code>)</td>
+                <td>اسم المستخدم، كلمة السر، الدور (Role)، الهاتف، حالة التفعيل.</td>
+                <td>إضافة مستخدم جديد، تعديل الصلاحيات، إعادة تعيين كلمة المرور.</td>
+            </tr>
+            <tr>
+                <td>قفل العمليات (<code>pg-operation-lock</code>)</td>
+                <td>التاريخ المالي المسموح، حالة قفل التعديل الأكاديمي والمالي.</td>
+                <td>تحديد تاريخ قفل التعديل، قفل/فتح التعديلات الأكاديمية والمالية.</td>
+            </tr>
+            <tr>
+                <td>إعدادات النظام (<code>pg-system-settings</code>)</td>
+                <td>اللغة، السنة المالكة الافتراضية، خيارات الطباعة، التنبيهات.</td>
+                <td>تحديث الإعدادات العامة والتفضيلات البرمجية.</td>
+            </tr>
+            <tr>
+                <td>المحفوظات وسجل العمليات (<code>pg-audit</code>)</td>
+                <td>اسم المستخدم، نوع العملية، الوقت، عنوان IP، التفاصيل.</td>
+                <td>تصفية وتصفح سجل الأمان، تصدير كشف الحركات والتغييرات.</td>
+            </tr>
+            <tr>
+                <td>التنبيهات التلقائية (<code>pg-alerts</code>)</td>
+                <td>نصوص التنبيهات، الفئة المستهدفة، التاريخ والوقت.</td>
+                <td>إرسال تنبيه جماعي، جدولة الإشعارات.</td>
+            </tr>
+            <tr>
+                <td>الأرشيف (<code>pg-archive</code>)</td>
+                <td>الملفات المؤرشفة، سنة الأرشيف، نوع السجل.</td>
+                <td>استرجاع البيانات المؤرشفة، أرشفة سنة أكاديمية سابقة.</td>
+            </tr>
+            <tr>
+                <td>تغيير كلمة المرور (<code>pg-change-password</code>)</td>
+                <td>كلمة المرور الحالية، كلمة المرور الجديدة، تأكيد كلمة المرور.</td>
+                <td>حفظ وتحديث كلمة المرور.</td>
+            </tr>
+            <tr>
+                <td>إدارة الترحيلات (<code>pg-posting</code>)</td>
+                <td>القيود والسندات غير المرحّلة، الفترة المالية.</td>
+                <td>ترحيل العمليات الماليّة نهائياً للدفاتر، إلغاء الترحيل.</td>
+            </tr>
+            <tr>
+                <td>إدارة قواعد البيانات (<code>pg-db-management</code>)</td>
+                <td>حالة الاتصال، النسخ الاحتياطية، حجم البيانات.</td>
+                <td>إنشاء نسخة احتياطية (Backup)، استعادة البيانات (Restore).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 2 -->
+    <div class="module-header">الموديول 2: النظام المحاسبي والمالي الكامل ERP (16 واجهة)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>دليل الحسابات (<code>pg-chart-accounts</code>)</td>
+                <td>رمز الحساب، اسم الحساب، الحساب الأب، نوع الحساب (أصول، خصوم...).</td>
+                <td>إضافة حساب جديد، تعديل الحساب، تصفح الشجرة المحاسبية.</td>
+            </tr>
+            <tr>
+                <td>دليل العملات (<code>pg-currencies</code>)</td>
+                <td>اسم العملة، الرمز، سعر الصرف مقابل العملة الرئيسية.</td>
+                <td>إضافة عملة، تحديث سعر الصرف اليومي.</td>
+            </tr>
+            <tr>
+                <td>دليل الصناديق (<code>pg-cashboxes</code>)</td>
+                <td>اسم الصندوق، أمين الصندوق، الحساب المحاسبي المرتبط.</td>
+                <td>إنشاء صندوق جديد، تعيين أمين الخزينة.</td>
+            </tr>
+            <tr>
+                <td>مراكز التكلفة (<code>pg-cost-centers</code>)</td>
+                <td>رمز مركز التكلفة، اسم المركز، الحساب المرتبط.</td>
+                <td>إضافة/تعديل مراكز التكلفة لتوزيع المصروفات.</td>
+            </tr>
+            <tr>
+                <td>سند صرف (<code>pg-voucher-payment</code>)</td>
+                <td>رقم السند، التاريخ، الحساب المدين، طريقة الدفع، المبلغ، البيان.</td>
+                <td>حفظ السند، طباعة سند الصرف، الترحيل المحاسبي.</td>
+            </tr>
+            <tr>
+                <td>سند قبض (<code>pg-voucher-receipt</code>)</td>
+                <td>رقم السند، اسم الطالب/الحساب، المبلغ، طريقة الدفع، البيان.</td>
+                <td>تسجيل قسط/إيراد، إخراج إيصال قبض مطبوع.</td>
+            </tr>
+            <tr>
+                <td>القيود اليومية (<code>pg-journal</code>)</td>
+                <td>رقم القيد، أطراف القيد (مدين/دائن)، المبلغ، البيان، التاريخ.</td>
+                <td>إنشاء قيد محاسبي، توازن القيد، الترحيل.</td>
+            </tr>
+            <tr>
+                <td>جرد الصندوق (<code>pg-cashbox-inventory</code>)</td>
+                <td>الرصيد الدفتري، الفعلي، العجز/الزيادة.</td>
+                <td>مطابقة الصندوق، تسوية الفروقات المحاسبية.</td>
+            </tr>
+            <tr>
+                <td>الإقفالات المحاسبية (<code>pg-closings</code>)</td>
+                <td>السنة المالية، حساب الأرباح والخسائر.</td>
+                <td>إقفال الحسابات الشهرية والسنوية وتدوير الأرصدة.</td>
+            </tr>
+            <tr>
+                <td>دليل البنوك (<code>pg-banks</code>)</td>
+                <td>اسم البنك، رقم الحساب البنكي، الفرع، الآيبان (IBAN).</td>
+                <td>إضافة بنك، متابعة الحركة البنكية.</td>
+            </tr>
+            <tr>
+                <td>إدارة الشيكات (<code>pg-checks</code>)</td>
+                <td>رقم الشيك، البنك، المحرر، تاريخ الاستحقاق، الحالة.</td>
+                <td>تحصيل الشيك، تظهير، إرجاع شيك.</td>
+            </tr>
+            <tr>
+                <td>كشف الحساب (<code>pg-acc-statement</code>)</td>
+                <td>الفترة الزمنيّة، الحساب المستهدف، الحركة (مدين/دائن)، الرصيد.</td>
+                <td>استعراض كشف الحساب، تصدير PDF/Excel، الطباعة.</td>
+            </tr>
+            <tr>
+                <td>ميزان المراجعة (<code>pg-trial-balance</code>)</td>
+                <td>الحسابات، المجاميع (مدين/دائن)، الأرصدة.</td>
+                <td>توليد ميزان المراجعة بالأرصدة والمجاميع.</td>
+            </tr>
+            <tr>
+                <td>قائمة الدخل (<code>pg-income-stmt</code>)</td>
+                <td>الإيرادات الأكاديمية، المصروفات التشغيلية، صافي الربح.</td>
+                <td>حساب نتائج النشاط المالي للمدرسة.</td>
+            </tr>
+            <tr>
+                <td>قائمة المركز المالي (<code>pg-balance-sheet</code>)</td>
+                <td>إجمالي الأصول المتداولة والابتكارية، الخصوم وحقوق الملكية.</td>
+                <td>عرض الميزانية العمومية الشاملة.</td>
+            </tr>
+            <tr>
+                <td>تسقيف الحسابات (<code>pg-account-ceiling</code>)</td>
+                <td>اسم الحساب، سقف الائتمان المسموح، التنبيه.</td>
+                <td>تحديد وتعديل الحد الأقصى للمديونية.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 3 -->
+    <div class="module-header">الموديول 3: التهيئة والمدخلات الأكاديمية (19 واجهة)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>دليل السنوات (<code>pg-academic-years</code>)</td>
+                <td>السنة الأكاديمية (2025/2026)، تاريخ البداية والنهاية، الحالة.</td>
+                <td>إضافة سنة جديدة، تعيين السنة الحالية.</td>
+            </tr>
+            <tr>
+                <td>دليل الأقسام (<code>pg-departments</code>)</td>
+                <td>اسم القسم (بنين/بنات/لغات)، رئيس القسم.</td>
+                <td>إنشاء قسم تعليمي، ربطه بالكادر.</td>
+            </tr>
+            <tr>
+                <td>المراحل والصفوف (<code>pg-stages</code>)</td>
+                <td>المرحلة (أساسي/ثانوي)، اسم الصف، الترتيب.</td>
+                <td>إضافة مرحلة وصف وتحديد خصائص النجاح.</td>
+            </tr>
+            <tr>
+                <td>دليل الشعب (<code>pg-sections</code>)</td>
+                <td>اسم الشعبة (أ، ب، ج)، الصف المرتبط، السعة.</td>
+                <td>إنشاء شعبة، ربطها بالقاعة الدراسية.</td>
+            </tr>
+            <tr>
+                <td>دليل المواد (<code>pg-subjects</code>)</td>
+                <td>اسم المادة، الصف المخصص، الدرجة الكبرى والصغرى.</td>
+                <td>إضافة مادة دراسية وتوزيع درجاتها.</td>
+            </tr>
+            <tr>
+                <td>توزيع المواد (<code>pg-subject-distribution</code>)</td>
+                <td>المادة، الصف، اسم المعلم المكلف، عدد الحصص.</td>
+                <td>إسناد المواد للمعلمين.</td>
+            </tr>
+            <tr>
+                <td>الوثائق المطلوبة (<code>pg-required-docs</code>)</td>
+                <td>اسم الوثيقة (شهادة ميلاد، صور شخصية...)، الإلزامية.</td>
+                <td>تحديد قائمة وثائق القبول والتسجيل.</td>
+            </tr>
+            <tr>
+                <td>دليل الجنسيات (<code>pg-nationalities</code>)</td>
+                <td>اسم الجنسية، رمز الدولة.</td>
+                <td>إدارة قائمة الجنسيات المتاحة في التسجيل.</td>
+            </tr>
+            <tr>
+                <td>المخالفات السلوكية (<code>pg-violations-catalog</code>)</td>
+                <td>درجة المخالفة (بسيطة/متوسطة/جسام)، العقوبة المقررة.</td>
+                <td>إضافة فئات المخالفات والجزاءات التربوية.</td>
+            </tr>
+            <tr>
+                <td>سجل الزوار (<code>pg-visitors</code>)</td>
+                <td>اسم الزائر، الرقم القومي، سبب الزيارة، الشخص المستهدف.</td>
+                <td>تسجيل دخول وخروج الزوار.</td>
+            </tr>
+            <tr>
+                <td>التقويم المدرسي (<code>pg-academic-calendar</code>)</td>
+                <td>التاريخ، المناسبة (بدء الدراسة/امتحانات/إجازة).</td>
+                <td>إضافة وتعديل أحداث التقويم المدرسي.</td>
+            </tr>
+            <tr>
+                <td>القاعات الدراسية (<code>pg-classrooms</code>)</td>
+                <td>رقم القاعة، المبن، السعة الاستيعابية.</td>
+                <td>تخصيص القاعات للشعب الدراسية.</td>
+            </tr>
+            <tr>
+                <td>تدرج الصفوف (<code>pg-grade-progression</code>)</td>
+                <td>الصف الحالي، الصف التالي المترفع إليه الطالب.</td>
+                <td>ضبط مسار الترفيع التلقائي.</td>
+            </tr>
+            <tr>
+                <td>أنواع الدرجات (<code>pg-grade-types</code>)</td>
+                <td>نوع الاختيار (واجبات/شفهي/مواظبة/شهري/نهائي).</td>
+                <td>تحديد أوزان ونسب تقييم الدرجات.</td>
+            </tr>
+            <tr>
+                <td>دليل التقديرات (<code>pg-grade-ratings</code>)</td>
+                <td>التقدير (ممتاز/جيد جداً)، النسبة من-إلى.</td>
+                <td>ضبط سلم التقديرات الأكاديمي.</td>
+            </tr>
+            <tr>
+                <td>فئات الرسوم (<code>pg-fee-categories</code>)</td>
+                <td>نوع الرسم (رسوم دراسية/أنشطة/كتب/حافلة).</td>
+                <td>إضافة بند رسوم جديد.</td>
+            </tr>
+            <tr>
+                <td>فئات الخصم (<code>pg-discount-categories</code>)</td>
+                <td>اسم الخصم (تفوق/أخوة/أبناء عاملين)، النسبة/المبلغ.</td>
+                <td>تحديد قواعد وسياسات الخصومات.</td>
+            </tr>
+            <tr>
+                <td>فئات الأقساط (<code>pg-installment-plans</code>)</td>
+                <td>اسم الخطة، عدد الأقساط، مواعيد الاستحقاق.</td>
+                <td>بناء خطة السداد الدوري للأقساط.</td>
+            </tr>
+            <tr>
+                <td>رسوم الصفوف (<code>pg-grade-fees</code>)</td>
+                <td>الصف الدراسي، الرسوم الإجمالية، تفاصيل البنود.</td>
+                <td>ربط الرسوم المالية بالصفوف.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 4 -->
+    <div class="module-header">الموديول 4: إدارة الطلاب وشؤون التسجيل (13 واجهة)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>شجرة الطلاب (<code>pg-student-tree</code>)</td>
+                <td>المراحل، الصفوف، الشعب، قائمة الطلاب التفاعلية.</td>
+                <td>تصفح وتحديد موقع الطالب في الهيكل.</td>
+            </tr>
+            <tr>
+                <td>دليل الطلاب (<code>pg-students</code>)</td>
+                <td>اسم الطالب، الصف، الشعبة، ولي الأمر، الهاتف، الحالة.</td>
+                <td>إضافة طالب، تعديل البيانات، عرض الملف.</td>
+            </tr>
+            <tr>
+                <td>دليل أولياء الأمور (<code>pg-parents</code>)</td>
+                <td>اسم ولي الأمر، الرقم الوطني، الوظيفة، الهاتف، الأبناء.</td>
+                <td>تسجيل ولي أمر جديد، ربط الأبناء.</td>
+            </tr>
+            <tr>
+                <td>وثائق الطلاب (<code>pg-student-docs</code>)</td>
+                <td>قائمة المستندات المرفقة، حالة الاستلام (مكتمل/ناقص).</td>
+                <td>رفع صورة الوثيقة، تأكيد المراجعة.</td>
+            </tr>
+            <tr>
+                <td>توزيع الطلاب (<code>pg-section-distribution</code>)</td>
+                <td>قائمة الطلاب غير الموزعين، الشعب الدراسية.</td>
+                <td>توزيع الطلاب آلياً أو يدوياً على الشعب.</td>
+            </tr>
+            <tr>
+                <td>تحويل الطلاب (<code>pg-student-transfer</code>)</td>
+                <td>بيانات التحويل، المدرسة المنقول إليها، السبب.</td>
+                <td>إصدار إخلاء طرف ونقل الطالب.</td>
+            </tr>
+            <tr>
+                <td>فصل/انسحاب الطالب (<code>pg-student-withdrawal</code>)</td>
+                <td>تاريخ كف اليد/الانسحاب، الأسباب، التقرير.</td>
+                <td>إيقاف حساب الطالب وتجميد قيده.</td>
+            </tr>
+            <tr>
+                <td>خصومات الطلاب (<code>pg-student-discounts</code>)</td>
+                <td>اسم الطالب، نوع الخصم المطبق، المبلغ المخصوم.</td>
+                <td>تطبيق خصم مالي على طالب محدد.</td>
+            </tr>
+            <tr>
+                <td>أقساط الطلاب (<code>pg-student-installments</code>)</td>
+                <td>جدول الأقساط المستحقة، تواريخ الاستحقاق، الحالة.</td>
+                <td>اعتماد وتعديل مواعيد الأقساط.</td>
+            </tr>
+            <tr>
+                <td>حساب الطالب المالي (<code>pg-student-account</code>)</td>
+                <td>المطلوب، المدفوع، المتبقي، السندات الصادرة.</td>
+                <td>معاينة ذمة الطالب المالية وتسديد الرسوم.</td>
+            </tr>
+            <tr>
+                <td>كشوفات حسابات الطلاب (<code>pg-student-statements</code>)</td>
+                <td>حركة حساب الطالب المالية، تاريخ المعاملات.</td>
+                <td>طباعة وتصدير كشف حساب طالب.</td>
+            </tr>
+            <tr>
+                <td>السجل الأكاديمي للطالب (<code>pg-student-history</code>)</td>
+                <td>التاريخ الأكاديمي، الصفوف السابقة، نتائج السنوات.</td>
+                <td>استعراض مسار الطالب خلال السنوات.</td>
+            </tr>
+            <tr>
+                <td>بطاقات الطلاب (<code>pg-student-cards</code>)</td>
+                <td>صورة الطالب، الاسم، الكود، الشعبة، رمز الباركود.</td>
+                <td>طباعة البطاقات المدرسية الذكية.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 5 -->
+    <div class="module-header">الموديول 5: الحضور، الامتحانات والشهادات الموثقة بالبلوكشين (10 واجهات)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>الغياب اليومي (<code>pg-attendance-daily</code>)</td>
+                <td>التاريخ، الصف والشعبة، أسماء الطلاب، الحالة.</td>
+                <td>رصد الحضور/الغياب، إرسال رسائل لولي الأمر.</td>
+            </tr>
+            <tr>
+                <td>غياب الحصص (<code>pg-attendance-lessons</code>)</td>
+                <td>الحصة (1-7)، المادة، معلم الحصة، الغائبون.</td>
+                <td>تأكيد غياب الطالب في حصة محددة.</td>
+            </tr>
+            <tr>
+                <td>تقارير الحضور والغياب (<code>pg-attendance-reports</code>)</td>
+                <td>نسبة الحضور الإجمالية، أيام غياب الطالب.</td>
+                <td>توليد تقرير الغياب الإحصائي.</td>
+            </tr>
+            <tr>
+                <td>جدول الامتحانات (<code>pg-exam-schedule</code>)</td>
+                <td>المادة، التاريخ، موعد البداية، رقم القاعة.</td>
+                <td>نشر وتصدير جدول الامتحانات.</td>
+            </tr>
+            <tr>
+                <td>رصد الدرجات (<code>pg-grade-entry</code>)</td>
+                <td>المادة، الاختبار، الطلاب، الدرجة المستحقة.</td>
+                <td>رصد الدرجات، **توليد بصمة البلوكشين آلياً**.</td>
+            </tr>
+            <tr>
+                <td>قفل الدرجات (<code>pg-grade-locks</code>)</td>
+                <td>الصف، المادة، حالة القفل الأكاديمي.</td>
+                <td>قفل التعديل على نتائج اختبار معين.</td>
+            </tr>
+            <tr>
+                <td>النتائج والشهادات (<code>pg-results</code>)</td>
+                <td>المجموع، النسبة المئوية، التقدير، البصمة الرقمية.</td>
+                <td>طباعة كشوفات النتائج والشهادات.</td>
+            </tr>
+            <tr>
+                <td>التحقق بالبلوكشين (<code>pg-blockchain-verify</code>)</td>
+                <td>كود البصمة الرقمية (Hash)، بيانات الشهادة الأصيلة.</td>
+                <td>مطابقة الشفرة وتأكيد أصالة الشهادة.</td>
+            </tr>
+            <tr>
+                <td>الطلاب الأوائل (<code>pg-top-students</code>)</td>
+                <td>ترتيب الأوائل على مستوى الصف والمدرسة.</td>
+                <td>استخراج كشف وتكريم المتفوقين.</td>
+            </tr>
+            <tr>
+                <td>الواجبات المنزلية (<code>pg-homework</code>)</td>
+                <td>عنوان الواجب، المادة، التفاصيل، آخر موعد للتسليم.</td>
+                <td>إضافة واجب مدرسي وإرساله للطلاب.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 6 -->
+    <div class="module-header">الموديول 6: الموارد البشرية والرواتب HR (8 واجهات)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>دليل الموظفين (<code>pg-employees</code>)</td>
+                <td>اسم الموظف، المسمى الوظيفي، المؤهل، الراتب الأساسي.</td>
+                <td>إضافة موظف/معلم، تعديل الملف الوظيفي.</td>
+            </tr>
+            <tr>
+                <td>حضور الموظفين (<code>pg-emp-attendance</code>)</td>
+                <td>وقت الدخول والخروج، الساعات الإضافية، التأخير.</td>
+                <td>تسجيل الحضور اليومي للكادر.</td>
+            </tr>
+            <tr>
+                <td>الإجازات والمغادرات (<code>pg-emp-leaves</code>)</td>
+                <td>نوع الإجازة (سنوية/مرضية)، التاريخ، الموافقة.</td>
+                <td>تقديم وتعميد طلبات الإجازة.</td>
+            </tr>
+            <tr>
+                <td>الجزاءات والمكافآت (<code>pg-emp-penalties</code>)</td>
+                <td>المبلغ، السبب، التأثير على الراتب.</td>
+                <td>إقرار مكافأة أو خصم وظيفي.</td>
+            </tr>
+            <tr>
+                <td>مسير الرواتب (<code>pg-payroll</code>)</td>
+                <td>الراتب الأساسي، البدلات، الخصومات، الصافي.</td>
+                <td>احتساب الرواتب الشهرية وتوليد المسير.</td>
+            </tr>
+            <tr>
+                <td>السُلَف المالية (<code>pg-advances</code>)</td>
+                <td>مبلغ السلفة، أقساط السداد الشهري، المتبقي.</td>
+                <td>صرف سلفة مالية واقتطاعها آلياً.</td>
+            </tr>
+            <tr>
+                <td>تقييم الأداء (<code>pg-emp-evaluations</code>)</td>
+                <td>معايير التقييم، التقدير الفني والإداري.</td>
+                <td>رصد وتقييم أداء المعلمين والاداريين.</td>
+            </tr>
+            <tr>
+                <td>وثائق الموظفين (<code>pg-emp-docs</code>)</td>
+                <td>العقد، الهوية، المؤهلات العلمية.</td>
+                <td>رفع ومراجعة أرشيف الموظف.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 7 -->
+    <div class="module-header">الموديول 7: الخدمات المدرسية والمرافقة (8 واجهات)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>الحافلات المدرسية (<code>pg-buses</code>)</td>
+                <td>رقم الحافلة، اسم السائق، رقم الهاتف، السعة.</td>
+                <td>إضافة حافلة وتحديد بيانات السائق.</td>
+            </tr>
+            <tr>
+                <td>مسارات الحافلات (<code>pg-bus-routes</code>)</td>
+                <td>اسم الخط/المسار، الأحياء المشمولة، رسوم الاشتراك.</td>
+                <td>تحديد مسار النقل المدرسي.</td>
+            </tr>
+            <tr>
+                <td>مشتركو النقل (<code>pg-bus-subscribers</code>)</td>
+                <td>اسم الطالب، الحافلة المخصصة، محطة الركوب.</td>
+                <td>تسجيل طالب في خدمة النقل.</td>
+            </tr>
+            <tr>
+                <td>دليل الكتب (<code>pg-library-books</code>)</td>
+                <td>عنوان الكتاب، المؤلف، التصنيف، الكمية المتوفرة.</td>
+                <td>إدخال كتاب جديد لفهرس المكتبة.</td>
+            </tr>
+            <tr>
+                <td>إعارة الكتب (<code>pg-book-borrows</code>)</td>
+                <td>اسم المستعير، الكتاب، تاريخ الإعارة والترجيع.</td>
+                <td>تسجيل إعارة واستلام الكتاب.</td>
+            </tr>
+            <tr>
+                <td>المقصف المدرسي (<code>pg-canteen</code>)</td>
+                <td>المنتجات، الأسعار، المبيعات اليومية.</td>
+                <td>إدارة الأصناف ورصد مبيعات المقصف.</td>
+            </tr>
+            <tr>
+                <td>السجل الصحي (<code>pg-health-records</code>)</td>
+                <td>الأمراض المزمنة، الحساسية، الإسعافات المقدمة.</td>
+                <td>تسجيل الحالة الصحية للطلاب.</td>
+            </tr>
+            <tr>
+                <td>الأنشطة والرحلات (<code>pg-activities</code>)</td>
+                <td>اسم النشاط، موعد الرحلة، رسوم المشاركة.</td>
+                <td>تنظيم الأنشطة المدرسية والرحلات.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- موديول 8 -->
+    <div class="module-header">الموديول 8: بوابة ولي الأمر واللوحات الرئيسية (7 واجهات)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>اسم الواجهة (Page ID)</th>
+                <th>البيانات والحقول المتوفرة</th>
+                <th>العمليات والزرارات المتاحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>اللوحة الرئيسية للمدرسة (<code>pg-dashboard</code>)</td>
+                <td>إحصائيات الطلاب، الحضور، الإيرادات، الرسم البياني.</td>
+                <td>متابعة مؤشرات الأداء اللحظية للمدرسة.</td>
+            </tr>
+            <tr>
+                <td>لوحة تحكم السحاب (<code>pg-saas-admin</code>)</td>
+                <td>قائمة المدارس، الاشتراكات، الإحصائيات الشاملة.</td>
+                <td>إدارة المنصة السحابية والعملاء.</td>
+            </tr>
+            <tr>
+                <td>لوحة ولي الأمر (<code>pg-parent-dashboard</code>)</td>
+                <td>بطاقات الأبناء، التنبيهات الأخيرة، الملخص.</td>
+                <td>التنقل بين خدمات متابعة الأبناء.</td>
+            </tr>
+            <tr>
+                <td>ملف ولي الأمر (<code>pg-parent-profile</code>)</td>
+                <td>بيانات التواصل، العنوان، تغيير كلمة السر.</td>
+                <td>تحديث البيانات الشخصية لولي الأمر.</td>
+            </tr>
+            <tr>
+                <td>مالية ولي الأمر (<code>pg-parent-fees</code>)</td>
+                <td>رسوم كل ابن، المدفوع، المتبقي، إيصالات القبض.</td>
+                <td>استعراض وتأكيد السداد المالي للأبناء.</td>
+            </tr>
+            <tr>
+                <td>حضور الأبناء (<code>pg-parent-attendance</code>)</td>
+                <td>جدول غياب وحضور الأبناء والأسباب.</td>
+                <td>متابعة انضباط الأبناء في المدرسة.</td>
+            </tr>
+            <tr>
+                <td>درجات الأبناء (<code>pg-parent-grades</code>)</td>
+                <td>نتائج وتفاصيل الاختبارات مع **رمز البصمة الرقمية**.</td>
+                <td>معاينة وطباعة شهادات ودرجات الأبناء.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 4. معمارية الربط والتكالم -->
+    <div class="section-title">4. معمارية الربط وتدفق البيانات بين الواجهات وقاعدة البيانات</div>
+    <div class="info-card">
+        <h3>دورة التكامل والتدفق المستمر للبيانات:</h3>
+        <ol>
+            <li><strong>الدخول والتحقق (Authentication):</strong> عند دخول المستخدم عبر <code>loginForm</code>، يستقبل النظام الـ Token و <code>school_id</code> ويحفظها في الجلسة، ثم توجه الدالة <code>goTo(...)</code> المستخدم للواجهة المستهدفة.</li>
+            <li><strong>التكامل بين التسجيل والمالية:</strong> إضافة طالب جديد ينشئ فوراً سلفاً وحساباً ذمية لولي الأمر في <code>FinancialRecord</code> مع إمكانية جدولة الأقساط تلقائياً.</li>
+            <li><strong>التكامل بين رصد الدرجات والبلوكشين:</strong> عند رصد المعلم للدرجة في <code>pg-grade-entry</code>، يتم حساب هاش <code>SHA-256</code> موثق يربط بين (الطالب + المادة + الدرجة + المدرسة)، وتخزن الشفرة لتمكين ولي الأمر والجهات الخارجية من مطابقتها في <code>pg-blockchain-verify</code>.</li>
+            <li><strong>الربط المحاسبي التلقائي:</strong> تحصيل أي قسط عبر <code>pg-voucher-receipt</code> يولد قيد يومية متوازن يرحل تلقائياً لدفتر الاستاد، وينعكس فلياً في كشف الحساب، ميزان المراجعة، وقائمة الدخل.</li>
+        </ol>
+    </div>
+
+    <div class="footer-note">
+        تم استخراج وتوثيق هذا التقرير تلقائياً لنظام المدارس السحابي الآمن | تاريخ التوثيق: 2026-07-28
+    </div>
+
+</body>
+</html>
+"""
+
+# Write HTML file first
+html_file = os.path.abspath("system_documentation.html")
+pdf_file = os.path.abspath("system_documentation.pdf")
+
+with open(html_file, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"HTML file created at: {html_file}")
+
+# Paths to try for Edge / Chrome on Windows
+msedge_paths = [
+    r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+    r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+    "msedge"
+]
+
+success = False
+for edge_path in msedge_paths:
+    try:
+        cmd = [
+            edge_path,
+            "--headless",
+            "--disable-gpu",
+            f"--print-to-pdf={pdf_file}",
+            "--no-pdf-header-footer",
+            html_file
+        ]
+        print(f"Running command: {' '.join(cmd)}")
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if res.returncode == 0 and os.path.exists(pdf_file):
+            print(f"PDF generated successfully at: {pdf_file}")
+            success = True
+            break
+        else:
+            print(f"Failed with return code {res.returncode}: {res.stderr}")
+    except Exception as e:
+        print(f"Could not run {edge_path}: {e}")
+
+if not success:
+    print("Could not generate PDF via msedge headless.")
+    sys.exit(1)

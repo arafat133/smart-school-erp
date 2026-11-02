@@ -1,0 +1,79 @@
+<div class="page" id="pg-emp-contracts">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-file-contract" style="color:#38bdf8;"></i> عقود العمل والتأمينات الاجتماعية (Employee Contracts & Social Security)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-signature" style="color:#3b82f6;margin-left:6px;"></i> إجمالي العقود السارية</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="contractsActive">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عقود موثقة ونشطة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-calendar-check" style="color:#10b981;margin-left:6px;"></i> عقود محددة المدة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="contractsFixed">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عقود سنوية منتظمة 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock" style="color:#f59e0b;margin-left:6px;"></i> تنتهي قريباً (30 يوم)</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="contractsExpiringSoon">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تتطلب تجديداً سريعاً 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-shield" style="color:#8b5cf6;margin-left:6px;"></i> المسجلون بالتأمينات</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="contractsInsured">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">خاضعون للتأمين الاجتماعي 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:200px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchEmpContracts" placeholder="بحث باسم الموظف أو رقم العقد..." oninput="renderEmpContractsGrid()">
+            </div>
+            <select id="filterContractType" onchange="renderEmpContractsGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة أنواع العقود</option>
+                <option value="سنوي">عقد سنوي محدد المدة</option>
+                <option value="دائم">عقد دائم غير محدد</option>
+                <option value="ساعات">عقد تدريس بالساعات</option>
+                <option value="تجربة">عقد تحت التجربة</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('emp_contract')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> تحرير عقد عمل جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة كشف العقود
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم العقد</th>
+                    <th>اسم الموظف</th>
+                    <th>المسمى الوظيفي</th>
+                    <th>نوع العقد</th>
+                    <th>تاريخ البداية</th>
+                    <th>تاريخ النهاية</th>
+                    <th>الراتب الإجمالي</th>
+                    <th>رقم التأمين</th>
+                    <th>حالة العقد</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-emp-contracts-grid"></tbody>
+        </table>
+    </div>
+</div>

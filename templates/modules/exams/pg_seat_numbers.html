@@ -1,0 +1,76 @@
+<div class="page" id="pg-seat-numbers">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-hashtag" style="color:#38bdf8;"></i> توليد وإدارة أرقام الجلوس (Roll Numbers & Seating)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-users" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الطلاب المسجلين</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="seatsTotalStudents">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">طلاب مستهدفون بالامتحانات 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> أرقام جلوس تم توليدها</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="seatsGenerated">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">أرقام معتمدة رسمياً 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-hourglass-half" style="color:#f59e0b;margin-left:6px;"></i> بانتظار التوليد</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="seatsPending">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">غير مكتملي التوزيع 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-school" style="color:#8b5cf6;margin-left:6px;"></i> اللجان المغطاة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="seatsCoveredHalls">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">قاعات تم توزيع مقاعدها 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchSeatNumbers" placeholder="بحث باسم الطالب أو رقم الجلوس..." oninput="renderSeatNumbersGrid()">
+            </div>
+            <select id="filterSeatGrade" onchange="renderSeatNumbersGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة الصفوف والمراحل</option>
+                <option value="الثالث الثانوي">الثالث الثانوي - علمي</option>
+                <option value="التاسع">التاسع أساسي</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('🔢 تم توليد وتوزيع أرقام الجلوس لجميع الطلاب على اللجان آلياً 🟢');renderSeatNumbersGrid();" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> توليد أرقام الجلوس آلياً
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة كشوف أرقام الجلوس
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم الجلوس المعتمد</th>
+                    <th>رقم القيد</th>
+                    <th>اسم الطالب الرباعي</th>
+                    <th>المرحلة التعليمية</th>
+                    <th>الصف والشعبة</th>
+                    <th>اللجنة والقاعة المخصصة</th>
+                    <th>رقم المقعد بالقاعة</th>
+                    <th>حالة التوليد</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-seat-numbers-grid"></tbody>
+        </table>
+    </div>
+</div>

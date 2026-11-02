@@ -1,0 +1,83 @@
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo"><i class="fa-solid fa-people-roof"></i></div>
+        <h2><i class="fa-solid fa-school"></i> بوابة ولي الأمر</h2>
+        <button class="btn-sidebar-close" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+        <!-- Top Direct Parent Dashboard Link -->
+        <a href="#" class="nav-item direct-item active" onclick="goTo('pg-parent-dashboard')"
+            style="margin-bottom:12px;background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(37,99,235,0.2));border:1px solid rgba(59,130,246,0.4);border-radius:12px;color:#fff;">
+            <i class="fa-solid fa-house-user" style="color:#60a5fa;"></i>
+            <span>لوحة التحكم والاستعلام</span>
+        </a>
+
+        <!-- Parent Services Direct Links -->
+        <div class="nav-section">
+            <div style="padding:10px 14px 6px;color:#94a3b8;font-size:0.8rem;font-weight:700;">خدمات الطالب الأكاديمية</div>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-profile')">
+                <i class="fa-solid fa-id-card" style="color:#3b82f6;"></i>
+                <span>البيانات الأكاديمية للطالب</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-grades')">
+                <i class="fa-solid fa-award" style="color:#f59e0b;"></i>
+                <span>النتائج والشهادات الشهرية</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-homework')">
+                <i class="fa-solid fa-book-bookmark" style="color:#ec4899;"></i>
+                <span>الواجبات والمهام اليومية</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-attendance')">
+                <i class="fa-solid fa-calendar-check" style="color:#8b5cf6;"></i>
+                <span>سجل الحضور والانضباط</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-timetable')">
+                <i class="fa-solid fa-table-columns" style="color:#06b6d4;"></i>
+                <span>الجدول الدراسي والحصص</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-exams')">
+                <i class="fa-solid fa-calendar-days" style="color:#0ea5e9;"></i>
+                <span>جدول الاختبارات الشهرية والفصلية</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div style="padding:10px 14px 6px;color:#94a3b8;font-size:0.8rem;font-weight:700;">المالية والخدمات الميدانية</div>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-fees')">
+                <i class="fa-solid fa-file-invoice-dollar" style="color:#10b981;"></i>
+                <span>الملخص المالي وسجل الرسوم</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-transport')">
+                <i class="fa-solid fa-bus" style="color:#f97316;"></i>
+                <span>باصات ومسار النقل المدرسي</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-activities')">
+                <i class="fa-solid fa-medal" style="color:#eab308;"></i>
+                <span>الأنشطة والفعاليات المدرسية</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div style="padding:10px 14px 6px;color:#94a3b8;font-size:0.8rem;font-weight:700;">المساعد الذكي والتواصل</div>
+            <a href="#" class="nav-item" onclick="toggleAiChatWindow(); return false;"
+                style="margin-bottom:8px; background:linear-gradient(135deg,rgba(139,92,246,0.18),rgba(59,130,246,0.18)); border:1px solid rgba(139,92,246,0.4); border-radius:10px; color:#c084fc;">
+                <i class="fa-solid fa-robot" style="color:#a855f7;"></i>
+                <span>المساعد الذكي لولي الأمر (AI)</span>
+                <span class="badge badge-success" style="font-size:0.65rem; margin-right:auto; padding:2px 7px;">متصل 🟢</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-notices')">
+                <i class="fa-solid fa-bullhorn" style="color:#38bdf8;"></i>
+                <span>الإشعارات والتعاميم الرسمية</span>
+            </a>
+            <a href="#" class="nav-item" onclick="goTo('pg-parent-complaints')">
+                <i class="fa-solid fa-comments" style="color:#14b8a6;"></i>
+                <span>الشكاوى والمقترحات المباشرة</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
+    </div>
+</aside>

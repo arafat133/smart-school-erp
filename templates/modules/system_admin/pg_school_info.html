@@ -1,0 +1,252 @@
+<div class="page" id="pg-school-info">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+            <h2><i class="fa-solid fa-file-shield" style="color:#38bdf8;"></i> واجهة بيانات المنشأة والتراخيص والاعتماد (School Profile & Licensing)</h2>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <button type="button" class="btn-action" onclick="goTo('pg-saas-admin')" title="الانتقال إلى دليل المدارس والفروع" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:8px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:700;">
+                <i class="fa-solid fa-server"></i> دليل المدارس والفروع (SaaS)
+            </button>
+        </div>
+    </div>
+
+    <!-- 3-Tier Hierarchy Selector (Gov -> District -> Registered School) -->
+    <div class="card-base" style="margin-bottom:18px;padding:18px 20px;border-right:4px solid #3b82f6;background:var(--card-bg);">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:38px;height:38px;border-radius:8px;background:rgba(59,130,246,0.15);display:flex;align-items:center;justify-content:center;color:#3b82f6;font-size:1.15rem;">
+                    <i class="fa-solid fa-sitemap"></i>
+                </div>
+                <div>
+                    <h3 style="margin:0;font-size:1.05rem;font-weight:800;color:var(--text);">تحديد المنشأة التعليمية والفرع (المحافظة ⬅️ المديرية ⬅️ المدرسة)</h3>
+                    <small style="color:var(--muted);font-size:0.8rem;">اختر المحافظة أولاً، ثم المديرية لتصفية وتحديد المدرسة المسجلة المراد استعراض وتحديث بياناتها وتراخيصها</small>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button type="button" class="btn-action" onclick="goTo('pg-saas-admin')" style="padding:6px 12px;font-size:0.8rem;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;border-radius:6px;cursor:pointer;">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> إدارة كافة المدارس في دليل المنشآت
+                </button>
+            </div>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:14px;align-items:flex-end;">
+            <!-- 1. المحافظة / المدينة -->
+            <div class="form-group" style="margin:0;">
+                <label style="font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                    <i class="fa-solid fa-city" style="color:#3b82f6;"></i> 1. اختيار المحافظة / المدينة <span style="color:#ef4444;">*</span>
+                </label>
+                <select id="selectSchoolGov" class="input-base" style="width:100%;font-size:0.9rem;padding:9px 12px;border-radius:8px;background:rgba(15,23,42,0.85);color:#f8fafc;border:1px solid rgba(255,255,255,0.12);" onchange="onSchoolGovChanged(this.value)">
+                    <option value="">-- اختر المحافظة أولاً --</option>
+                </select>
+            </div>
+
+            <!-- 2. المديرية -->
+            <div class="form-group" style="margin:0;">
+                <label style="font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                    <i class="fa-solid fa-map-location-dot" style="color:#f59e0b;"></i> 2. اختيار المديرية <span style="color:#ef4444;">*</span>
+                </label>
+                <select id="selectSchoolDistrict" class="input-base" style="width:100%;font-size:0.9rem;padding:9px 12px;border-radius:8px;background:rgba(15,23,42,0.85);color:#f8fafc;border:1px solid rgba(255,255,255,0.12);" onchange="onSchoolDistrictChanged(this.value)" disabled>
+                    <option value="">-- يرجى اختيار المحافظة أولاً --</option>
+                </select>
+            </div>
+
+            <!-- 3. المدرسة المسجلة -->
+            <div class="form-group" style="margin:0;">
+                <label style="font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                    <i class="fa-solid fa-school" style="color:#10b981;"></i> 3. اختيار المدرسة المسجلة <span style="color:#ef4444;">*</span>
+                </label>
+                <select id="selectSchoolEntity" class="input-base" style="width:100%;font-size:0.9rem;padding:9px 12px;border-radius:8px;background:rgba(15,23,42,0.85);color:#f8fafc;border:1px solid rgba(255,255,255,0.12);" onchange="onSchoolEntityChanged(this.value)" disabled>
+                    <option value="">-- يرجى اختيار المديرية أولاً --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Active School Info Strip -->
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <div id="selectedSchoolBadge" style="display:flex;align-items:center;gap:8px;color:#60a5fa;font-size:0.88rem;font-weight:700;">
+                <i class="fa-solid fa-circle-check" style="color:#10b981;"></i>
+                <span id="selectedSchoolBadgeText">المنشأة المحددة: مدرسة المتفوقين الأهلية النموذجية (SCH-SAN-01)</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span id="badgeSchoolGovDist" style="padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:0.78rem;color:#cbd5e1;">
+                    📍 صنعاء — مديرية السبعين
+                </span>
+                <span id="badgeSchoolLicense" style="padding:4px 10px;border-radius:6px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);font-size:0.78rem;color:#34d399;">
+                    📜 ترخيص: LIC-2026-9941
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats & Status Bar -->
+    <div class="stats-row" style="margin-bottom:14px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3>الموقف التشغيلي للفرع</h3>
+                <p id="kpiSchoolStatus" style="color:#60a5fa;font-weight:800;font-size:1.2rem;">نشط ومعتمد (Active Branch)</p>
+                <small id="kpiSchoolCity" style="color:var(--muted);font-size:0.75rem;">صنعاء — مديرية السبعين</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3>الرقم الترخيصي الوزاري</h3>
+                <p id="kpiSchoolLicense" style="color:#34d399;font-weight:800;font-size:1.2rem;">LIC-2026-9941</p>
+                <small id="kpiSchoolStudents" style="color:var(--muted);font-size:0.75rem;">السعة المعتمدة: 480 طالب</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3>مدير المنشأة المعتمد</h3>
+                <p id="kpiSchoolPrincipal" style="color:#c084fc;font-weight:800;font-size:1.2rem;">أ. عبد الرحمن الصبري</p>
+                <small id="kpiSchoolPlan" style="color:var(--muted);font-size:0.75rem;">باقة: الخطة الاحترافية (Enterprise)</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Branding & Identity + Form Panels -->
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:20px;">
+
+        <!-- Main Details Form -->
+        <div class="form-card" style="margin-bottom:0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <h3 style="margin:0;color:#60a5fa;font-size:1rem;">
+                    <i class="fa-solid fa-file-contract"></i> مُصمم البيانات التعريفية والقانونية والاتصال
+                </h3>
+                <span id="schoolFormModeBadge" style="font-size:0.75rem;padding:3px 8px;border-radius:6px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);">
+                    بيانات المنشأة المعتمدة 🟢
+                </span>
+            </div>
+            <div class="form-grid">
+                <input type="hidden" id="infoSchoolId" value="SCH-01">
+                <input type="hidden" id="infoSchoolCode" value="SCH-SAN-01">
+
+                <div class="fg">
+                    <label>اسم المدرسة بالعربية <span class="req">*</span></label>
+                    <input id="infoSchoolNameAr" value="" placeholder="الاسم الرسمي للمدرسة بالعربية">
+                </div>
+                <div class="fg">
+                    <label>اسم المدرسة بالإنجليزية</label>
+                    <input id="infoSchoolNameEn" value="" placeholder="School Name in English">
+                </div>
+                <div class="fg">
+                    <label>المحافظة / المدينة <span class="req">*</span></label>
+                    <input id="infoGovernorate" value="" placeholder="المحافظة" readonly style="opacity:0.85;">
+                </div>
+                <div class="fg">
+                    <label>المديرية <span class="req">*</span></label>
+                    <input id="infoDistrict" value="" placeholder="المديرية" readonly style="opacity:0.85;">
+                </div>
+                <div class="fg">
+                    <label>المدينة والحي والفرع <span class="req">*</span></label>
+                    <input id="infoCity" value="" placeholder="المدينة — الحي">
+                </div>
+                <div class="fg">
+                    <label>النطاق الجغرافي والعنوان التفصيلي</label>
+                    <input id="infoAddress" value="" placeholder="العنوان التفصيلي">
+                </div>
+                <div class="fg">
+                    <label>رقم الترخيص الوزاري <span class="req">*</span></label>
+                    <input id="infoMinistryLicense" value="" placeholder="رقم الترخيص الصادر من الوزارة">
+                </div>
+                <div class="fg">
+                    <label>مدير المنشأة (المسؤول الإداري) <span class="req">*</span></label>
+                    <input id="infoPrincipal" value="" placeholder="اسم مدير المنشأة">
+                </div>
+                <div class="fg">
+                    <label>عدد الطلاب المعتمد (الطاقة الاستيعابية) <span class="req">*</span></label>
+                    <input id="infoStudentsCount" type="number" value="" placeholder="مثال: 500">
+                </div>
+                <div class="fg">
+                    <label>باقة الاشتراك السحابي <span class="req">*</span></label>
+                    <select id="infoSaaSPlan">
+                        <option value="الخطة الاحترافية (Enterprise)">الخطة الاحترافية (Enterprise)</option>
+                        <option value="الخطة الأساسية (Standard)">الخطة الأساسية (Standard)</option>
+                        <option value="الخطة التجريبية (Trial)">الخطة التجريبية (Trial)</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>المراحل الدراسية المعتمدة <span class="req">*</span></label>
+                    <input id="infoStages" value="" placeholder="المراحل التعليمية">
+                </div>
+                <div class="fg">
+                    <label>بيانات الاتصال الرسمية <span class="req">*</span></label>
+                    <input id="infoPhone" value="" placeholder="أرقام الهواتف">
+                </div>
+                <div class="fg">
+                    <label>البريد الإلكتروني المعتمد <span class="req">*</span></label>
+                    <input id="infoEmail" value="" placeholder="البريد الإلكتروني">
+                </div>
+                <div class="fg">
+                    <label>العملة الأساسية للنظام <span class="req">*</span></label>
+                    <select id="infoCurrency">
+                        <option value="ريال يمني (YER)">ريال يمني (YER)</option>
+                        <option value="دولار أمريكي (USD)">دولار أمريكي (USD)</option>
+                        <option value="ريال سعودي (SAR)">ريال سعودي (SAR)</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>بداية ونهاية السنة المالية/الأكاديمية <span class="req">*</span></label>
+                    <input id="infoFiscalYear" value="" placeholder="الفترة الأكاديمية">
+                </div>
+                <div class="fg">
+                    <label>حالة الفرع والترخيص <span class="req">*</span></label>
+                    <select id="infoBranchStatus">
+                        <option value="ساري ومفعل 🟢">ساري ومفعل 🟢</option>
+                        <option value="نشط ومعتمد (Active Branch)">نشط ومعتمد (Active Branch)</option>
+                        <option value="قيد التجديد 🟡">قيد التجديد 🟡</option>
+                        <option value="موقف مؤقتاً 🔴">موقف مؤقتاً 🔴</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+                <button type="button" class="btn-save" onclick="saveSchoolInfo()">
+                    <i class="fa-solid fa-floppy-disk"></i> حفظ وتحديث بيانات المنشأة والتراخيص
+                </button>
+            </div>
+        </div>
+
+        <!-- Branding & Authorized Signatures Panel -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+            <!-- 1. الشعار الرسمي المعتمد -->
+            <div style="background:rgba(15,23,42,0.85);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;">
+                <h4 style="margin-top:0;color:#34d399;font-size:0.88rem;display:flex;align-items:center;justify-content:center;gap:6px;">
+                    <i class="fa-solid fa-shield-halved" style="color:#34d399;"></i> الشعار والختم الرسمي للمنشأة
+                </h4>
+                <div style="margin:10px 0;display:flex;justify-content:center;align-items:center;">
+                    <img id="dispSchoolLogo" src="/assets/images/schools/sch_01_logo.svg" alt="الشعار الرسمي" style="max-height:110px;object-fit:contain;background:rgba(255,255,255,0.06);padding:8px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);box-shadow:0 4px 14px rgba(0,0,0,0.3);" onerror="this.src='/assets/images/logo.png'">
+                </div>
+                <div id="dispSchoolMotto" style="font-size:0.75rem;color:#fbbf24;font-weight:700;margin-bottom:8px;">صرح التفوق والريادة العلمية</div>
+                <button class="btn-add" onclick="toast('📷 تم فتح محرر وضبط الشعار والختم الرقمي')" style="width:100%;font-size:0.75rem;background:linear-gradient(135deg,#0284c7,#0369a1);">
+                    <i class="fa-solid fa-upload"></i> تحديث شعار المنشأة (Vector SVG)
+                </button>
+            </div>
+
+            <!-- 2. صورة الحرم المدرسي والمبنى -->
+            <div style="background:rgba(15,23,42,0.85);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;">
+                <h4 style="margin-top:0;color:#38bdf8;font-size:0.88rem;display:flex;align-items:center;justify-content:center;gap:6px;">
+                    <i class="fa-solid fa-building-columns" style="color:#38bdf8;"></i> صورة الحرم المدرسي والمنشأة
+                </h4>
+                <div style="margin:10px 0;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);">
+                    <img id="dispSchoolCampus" src="/assets/images/schools/sch_01_campus.svg" alt="الحرم المدرسي" style="width:100%;max-height:140px;object-fit:cover;display:block;" onerror="this.style.display='none'">
+                </div>
+                <div id="dispSchoolLocationBadge" style="font-size:0.74rem;color:#cbd5e1;font-weight:600;">📍 صنعاء — حدة</div>
+            </div>
+
+            <!-- 3. التوقيعات المعتمدة للشهادات والوثائق -->
+            <div style="background:rgba(15,23,42,0.85);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                <h4 style="margin-top:0;color:#c084fc;font-size:0.88rem;display:flex;align-items:center;gap:6px;">
+                    <i class="fa-solid fa-signature"></i> التوقيعات المعتمدة للشهادات
+                </h4>
+                <div style="font-size:0.78rem;color:var(--text);margin-bottom:8px;">
+                    <div>✍️ توقيع مدير المدرسة: <strong id="dispPrincipalName" style="color:#60a5fa;">أ. عبد الرحمن الصبري</strong></div>
+                    <div style="margin-top:4px;">✍️ مسؤول الكنترول: <strong style="color:#34d399;">د. عبدالملك الشامي</strong></div>
+                </div>
+                <button class="btn-add" onclick="toast('✍️ تم تحديث التوقيعات الرقمية للقيادة')" style="width:100%;font-size:0.75rem;background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
+                    <i class="fa-solid fa-pen-nib"></i> تحديث التوقيعات الرقمية
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="page" id="pg-parent-fees">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-coins" style="color:#38bdf8;"></i> الملخص المالي وسجل الرسوم والأقساط (Tuition Fees & Payments)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-receipt" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الرسوم المقررة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;">350,000 ر.ي</p>
+                <small style="color:var(--muted);font-size:0.75rem;">شامل الكتب والأنشطة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> إجمالي المبالغ المسددة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">350,000 ر.ي</p>
+                <small style="color:var(--muted);font-size:0.75rem;">مسدد بالكامل 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-percent" style="color:#8b5cf6;margin-left:6px;"></i> الخصم الممنوح (منحة تفوق)</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;">50,000 ر.ي (14%)</p>
+                <small style="color:var(--muted);font-size:0.75rem;">خصم أوائل متفوقين 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-wallet" style="color:#f59e0b;margin-left:6px;"></i> الرصيد المتبقي المستحق</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">0 ر.ي</p>
+                <small style="color:var(--muted);font-size:0.75rem;">لا توجد أي متأخرات 🟢</small>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Receipts & Installments Table -->
+    <div class="toolbar" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="color:#f8fafc;font-size:1.05rem;margin:0;"><i class="fa-solid fa-file-invoice-dollar"></i> جدول الأقساط وسندات القبض المسددة</h3>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم السند / القسط</th>
+                    <th>البيان والغرض</th>
+                    <th>المبلغ المستحق</th>
+                    <th>المبلغ المسدد</th>
+                    <th>طريقة الدفع</th>
+                    <th>تاريخ السداد</th>
+                    <th>رقم المرجع البنكي</th>
+                    <th>حالة السداد</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-parent-fees-grid">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td><code style="color:#60a5fa;font-weight:800;">REC-2026-081</code></td>
+                    <td><strong>القسط الأول + رسوم التسجيل والزي</strong></td>
+                    <td style="font-family:monospace;color:#cbd5e1;">175,000 ر.ي</td>
+                    <td style="font-family:monospace;color:#34d399;font-weight:800;">175,000 ر.ي</td>
+                    <td><span class="badge badge-info">تحويل بنكي (الكريمي)</span></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-08-15</td>
+                    <td><code style="color:#fbbf24;">KUR-9948210</code></td>
+                    <td><span class="badge badge-success">تم السداد 🟢</span></td>
+                    <td>
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📄 سند رسمي معتمد ومسدد 🟢');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-file-invoice"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td><code style="color:#60a5fa;font-weight:800;">REC-2026-142</code></td>
+                    <td><strong>القسط الثاني (الفصل الأول)</strong></td>
+                    <td style="font-family:monospace;color:#cbd5e1;">175,000 ر.ي</td>
+                    <td style="font-family:monospace;color:#34d399;font-weight:800;">175,000 ر.ي</td>
+                    <td><span class="badge badge-info">نقداً بالخزينة</span></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-08-28</td>
+                    <td><code style="color:#fbbf24;">CASH-00412</code></td>
+                    <td><span class="badge badge-success">تم السداد 🟢</span></td>
+                    <td>
+                        <button class="btn-action" onclick="if(typeof toast==='function')toast('📄 سند رسمي معتمد ومسدد 🟢');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-file-invoice"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

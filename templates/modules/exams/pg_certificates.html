@@ -1,0 +1,175 @@
+<div class="page" id="pg-certificates">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-certificate" style="color:#38bdf8;"></i> الشهادات المدرسية وإشعارات الدرجات (Certificates & Grade Reports)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-shield" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الشهادات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="certTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الشهادات المجهزة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-award" style="color:#10b981;margin-left:6px;"></i> شهادات التفوق والأوائل</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="certHonor">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بطاقات التكريم والشكر 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-hand-holding-heart" style="color:#8b5cf6;margin-left:6px;"></i> تم تسليمها للطلاب</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="certDelivered">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">استلمها أولياء الأمور 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-stamp" style="color:#f59e0b;margin-left:6px;"></i> بانتظار الختم</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="certPending">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">قيد التوقيع والاعتماد 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchCertificates" placeholder="بحث باسم الطالب أو كود الوثيقة..." oninput="renderCertificatesGrid()">
+            </div>
+            <select id="filterCertType" onchange="renderCertificatesGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة أنواع الوثائق</option>
+                <option value="شهادة إتمام">شهادة إتمام مرحلة دراسية</option>
+                <option value="إشعار درجات">إشعار درجات فصلي</option>
+                <option value="شهادة تفوق">شهادة تفوق وتكريم أوائل</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('📜 جاري توليد شهادات التفوق والشهادات المعتمدة دفعة واحدة...');" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> توليد الشهادات دفعة واحدة
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة الشهادات المعتمدة
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود الشهادة (QR)</th>
+                    <th>اسم الطالب الرباعي</th>
+                    <th>الصف الدراسي</th>
+                    <th>المعدل العام</th>
+                    <th>التقدير والترتيب</th>
+                    <th>نوع الوثيقة</th>
+                    <th>تاريخ الإصدار</th>
+                    <th>حالة الاعتماد</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-certificates-grid"></tbody>
+        </table>
+    </div>
+
+    <!-- Blockchain Verifiable Credential Modal -->
+    <div id="certBlockchainModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:9999;justify-content:center;align-items:center;padding:16px;backdrop-filter:blur(8px);">
+        <div style="background:var(--surface,#1e293b);border:1px solid rgba(56,189,248,0.4);border-radius:20px;max-width:760px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.6);overflow:hidden;position:relative;animation:modalFadeIn 0.3s ease;">
+            <!-- Modal Header -->
+            <div style="background:linear-gradient(135deg,rgba(14,165,233,0.2),rgba(2,132,199,0.2));border-bottom:1px solid rgba(56,189,248,0.3);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.2);display:flex;justify-content:center;align-items:center;color:#38bdf8;font-size:1.2rem;">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
+                    <div>
+                        <h3 style="color:#f8fafc;font-size:1.15rem;font-weight:800;margin:0;">الشهادة الرقمية المعتمدة بالبلوكشين (Verifiable Credential)</h3>
+                        <small style="color:#94a3b8;font-size:0.75rem;">توثيق غير قابل للتعديل أو التزوير مشفر بـ SHA-256</small>
+                    </div>
+                </div>
+                <button onclick="closeBlockchainCertModal()" style="background:none;border:none;color:#94a3b8;font-size:1.2rem;cursor:pointer;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div style="padding:24px;max-height:80vh;overflow-y:auto;">
+                <!-- Status Badge -->
+                <div style="text-align:center;margin-bottom:18px;">
+                    <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#34d399;padding:6px 18px;border-radius:20px;font-size:0.9rem;font-weight:800;">
+                        <i class="fa-solid fa-shield-check"></i> تم التحقق من البصمة الرقمية على شبكة البلوكشين 🟢
+                    </span>
+                </div>
+
+                <!-- Credential Info Card -->
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;margin-bottom:18px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px dashed rgba(255,255,255,0.1);padding-bottom:10px;">
+                        <div>
+                            <span style="color:#94a3b8;font-size:0.8rem;">اسم الطالب:</span>
+                            <h4 id="bCertStudentName" style="color:#38bdf8;font-size:1.1rem;font-weight:800;margin:2px 0 0 0;">محمد عبد الله الأهدل</h4>
+                        </div>
+                        <div style="text-align:left;">
+                            <span style="color:#94a3b8;font-size:0.8rem;">كود الشهادة:</span>
+                            <div id="bCertCode" style="color:#fbbf24;font-family:monospace;font-weight:800;font-size:1rem;">CERT-2026-1001</div>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;font-size:0.85rem;">
+                        <div><span style="color:#94a3b8;">الصف والقسم:</span> <strong id="bCertGrade" style="color:#f8fafc;">الثالث الثانوي - علمي</strong></div>
+                        <div><span style="color:#94a3b8;">المعدل العام:</span> <strong id="bCertGpa" style="color:#34d399;">99.38% (3.98)</strong></div>
+                        <div><span style="color:#94a3b8;">الترتيب والتقدير:</span> <strong id="bCertHonors" style="color:#c084fc;">الأول على المدرسة 🏆</strong></div>
+                        <div><span style="color:#94a3b8;">الجهة المصدرة:</span> <strong style="color:#f8fafc;">مدرسة المتفوقين النموذجية</strong></div>
+                    </div>
+                </div>
+
+                <!-- Blockchain Proof Details -->
+                <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(99,102,241,0.3);border-radius:12px;padding:14px;margin-bottom:18px;font-family:monospace;font-size:0.8rem;">
+                    <div style="color:#818cf8;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+                        <i class="fa-solid fa-link"></i> إثبات البلوكشين (Cryptographic Proof):
+                    </div>
+                    <div style="margin-bottom:6px;">
+                        <span style="color:#94a3b8;">Block Hash:</span>
+                        <div id="bCertHash" style="color:#38bdf8;word-break:break-all;background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:6px;margin-top:2px;">0xe09c5462e6447bca889921...</div>
+                    </div>
+                    <div style="margin-bottom:6px;">
+                        <span style="color:#94a3b8;">Previous Block:</span>
+                        <div id="bCertPrevHash" style="color:#a78bfa;word-break:break-all;background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:6px;margin-top:2px;">0x000000000000000000...</div>
+                    </div>
+                    <div>
+                        <span style="color:#94a3b8;">Authority Signature:</span>
+                        <div id="bCertSignature" style="color:#34d399;word-break:break-all;background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:6px;margin-top:2px;">MIN-EDU-SIG-2026-RSA4096::99824...</div>
+                    </div>
+                </div>
+
+                <!-- QR Code & Public Links -->
+                <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;">
+                    <div style="background:#fff;padding:8px;border-radius:10px;box-shadow:0 0 20px rgba(56,189,248,0.3);">
+                        <img id="bCertQrImg" src="" alt="QR Code" style="width:120px;height:120px;display:block;">
+                    </div>
+                    <div style="flex:1;min-width:240px;">
+                        <p style="color:#f8fafc;font-size:0.9rem;font-weight:700;margin-bottom:6px;">رابط التحقق الدولي العام:</p>
+                        <p style="color:#94a3b8;font-size:0.75rem;margin-bottom:12px;">يمكن لأي جامعة أو سفارة أو جهة توظيف التحقق من الشهادة دون الحاجة لحساب بالنظام.</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <button id="btnOpenPublicVerify" class="btn-add" style="background:linear-gradient(135deg,#0284c7,#0369a1);padding:8px 16px;font-size:0.85rem;">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> فتح صفحة التحقق
+                            </button>
+                            <button id="btnCopyPublicVerify" class="btn-add" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:8px 16px;font-size:0.85rem;">
+                                <i class="fa-solid fa-copy"></i> نسخ الرابط
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.08);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;">
+                <button onclick="triggerOfficialPrint()" class="btn-add" style="background:linear-gradient(135deg,#4f46e5,#4338ca);padding:8px 18px;font-size:0.85rem;">
+                    <i class="fa-solid fa-print"></i> طباعة الوثيقة المعتمدة
+                </button>
+                <button onclick="closeBlockchainCertModal()" class="btn-add" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:8px 18px;font-size:0.85rem;">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

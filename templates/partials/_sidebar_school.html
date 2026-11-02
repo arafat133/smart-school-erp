@@ -1,0 +1,310 @@
+<aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><i class="fa-solid fa-shield-halved" style="color:#38bdf8;"></i></div>
+                <h2><i class="fa-solid fa-school" style="color:#60a5fa;"></i> نظام المدارس الذكي</h2>
+                <button class="btn-sidebar-close" id="sidebarCloseBtn"><i class="fa-solid fa-xmark" style="color:#38bdf8;"></i></button>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebarNav">
+                <!-- Top Direct Dashboard Link -->
+                <a href="#" class="nav-item direct-item active" onclick="goTo('pg-dashboard')"
+                    style="margin-bottom:10px;background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(37,99,235,0.2));border:1px solid rgba(59,130,246,0.4);border-radius:12px;color:#fff;">
+                    <i class="fa-solid fa-house" style="color:#60a5fa;"></i>
+                    <span>لوحة التحكم الرئيسية</span>
+                </a>
+
+                <!-- Section 1: System Admin -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-gears" style="color:#38bdf8;"></i> <span>إدارة النظام والصلاحيات</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-school-info')"><i class="fa-solid fa-school" style="color:#60a5fa;"></i> معلومات
+                            المدرسة</a>
+                        <a href="#" onclick="goTo('pg-users')"><i class="fa-solid fa-user-lock" style="color:#a78bfa;"></i> دليل المستخدمين</a>
+                        <a href="#" onclick="goTo('pg-operation-lock')"><i class="fa-solid fa-lock" style="color:#f43f5e;"></i> قفل العمليات
+                            والموديولات</a>
+                        <a href="#" onclick="goTo('pg-audit-trail')"><i class="fa-solid fa-clock-rotate-left" style="color:#818cf8;"></i> سجل
+                            العمليات (Audit Trail)</a>
+                        <a href="#" onclick="goTo('pg-system-settings')"><i class="fa-solid fa-sliders" style="color:#38bdf8;"></i> إعدادات
+                            النظام</a>
+                        <a href="#" onclick="goTo('pg-alerts')"><i class="fa-solid fa-bell" style="color:#fbbf24;"></i> التنبيهات التلقائية</a>
+                        <a href="#" onclick="goTo('pg-archive')"><i class="fa-solid fa-box-archive" style="color:#06b6d4;"></i> الأرشيف</a>
+                        <a href="#" onclick="goTo('pg-posting')"><i class="fa-solid fa-paper-plane" style="color:#10b981;"></i> إدارة
+                            الترحيلات</a>
+                    </div>
+                </div>
+
+                <!-- Section 2: Accounts & Finance -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-calculator" style="color:#10b981;"></i> <span>الأستاذ العام والشؤون المالية</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-chart-accounts')"><i class="fa-solid fa-sitemap" style="color:#10b981;"></i> دليل
+                            الحسابات المالي</a>
+                        <a href="#" onclick="goTo('pg-vouchers')"><i class="fa-solid fa-file-invoice-dollar" style="color:#34d399;"></i> إدارة
+                            السندات الشاملة</a>
+                        <a href="#" onclick="goTo('pg-journal')"><i class="fa-solid fa-book-open" style="color:#60a5fa;"></i> القيود اليومية
+                            (General Journal)</a>
+                        <a href="#" onclick="goTo('pg-cashboxes')"><i class="fa-solid fa-vault" style="color:#fbbf24;"></i> دليل الصناديق
+                            والخزائن</a>
+                        <a href="#" onclick="goTo('pg-cost-centers')"><i class="fa-solid fa-building" style="color:#38bdf8;"></i> مراكز التكلفة
+                            والموازنة</a>
+                        <a href="#" onclick="goTo('pg-account-ceiling')"><i class="fa-solid fa-arrow-up-9-1" style="color:#38bdf8;"></i> تسقيف
+                            الحسابات الائتماني</a>
+                        <a href="#" onclick="goTo('pg-student-account')"><i class="fa-solid fa-scroll" style="color:#38bdf8;"></i> كشف الحساب
+                            التفاعلي</a>
+                        <a href="#" onclick="goTo('pg-currencies')"><i class="fa-solid fa-money-bill-transfer" style="color:#10b981;"></i> دليل
+                            العملات وأسعار الصرف</a>
+                        <a href="#" onclick="goTo('pg-cashbox-inventory')"><i class="fa-solid fa-cash-register" style="color:#38bdf8;"></i> جرد
+                            الصناديق النقدية</a>
+                        <a href="#" onclick="goTo('pg-closings')"><i class="fa-solid fa-folder-closed" style="color:#38bdf8;"></i> الإقفالات
+                            المحاسبية</a>
+                        <a href="#" onclick="goTo('pg-banks')"><i class="fa-solid fa-building-columns" style="color:#38bdf8;"></i> دليل البنوك
+                            والحسابات</a>
+                        <a href="#" onclick="goTo('pg-checks')"><i class="fa-solid fa-money-check" style="color:#38bdf8;"></i> إدارة الشيكات
+                            البنكية</a>
+                        <a href="#" onclick="goTo('pg-demand-letters')"><i class="fa-solid fa-envelope-open-text" style="color:#f97316;"></i>
+                            رسائل المطالبة المالية</a>
+                        <a href="#" onclick="goTo('pg-finance-reports')"><i class="fa-solid fa-chart-pie" style="color:#818cf8;"></i> التقارير
+                            المالية والإحصائية</a>
+                    </div>
+                </div>
+
+                <!-- Section 3: School System Configuration -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-school-flag" style="color:#38bdf8;"></i> <span>تهيئة النظام المدرسي</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-academic-years')"><i class="fa-solid fa-calendar" style="color:#38bdf8;"></i> دليل
+                            السنوات الدراسية</a>
+                        <a href="#" onclick="goTo('pg-academic-calendar')"><i class="fa-solid fa-calendar-days" style="color:#f59e0b;"></i>
+                            التقويم المدرسي والفعاليات</a>
+                        <a href="#" onclick="goTo('pg-stages')"><i class="fa-solid fa-layer-group" style="color:#f59e0b;"></i> المراحل والصفوف
+                            الدراسية</a>
+                        <a href="#" onclick="goTo('pg-sections')"><i class="fa-solid fa-table-cells" style="color:#38bdf8;"></i> دليل الشُعَب
+                            الدراسية</a>
+                        <a href="#" onclick="goTo('pg-subjects')"><i class="fa-solid fa-book" style="color:#38bdf8;"></i> دليل المواد
+                            الدراسية</a>
+                        <a href="#" onclick="goTo('pg-subject-distribution')"><i
+                                class="fa-solid fa-diagram-project"></i> توزيع المواد على الصفوف</a>
+                        <a href="#" onclick="goTo('pg-classrooms')"><i class="fa-solid fa-chalkboard" style="color:#10b981;"></i> القاعات
+                            والمعامل الدراسية</a>
+                        <a href="#" onclick="goTo('pg-class-times')"><i class="fa-solid fa-clock" style="color:#38bdf8;"></i> توقيت الحصص
+                            الدراسية</a>
+                        <a href="#" onclick="goTo('pg-timetable-builder')"><i class="fa-solid fa-table-columns" style="color:#06b6d4;"></i>
+                            بنّاء الجدول الدراسي</a>
+                        <a href="#" onclick="goTo('pg-required-docs')"><i class="fa-solid fa-file-circle-check" style="color:#38bdf8;"></i>
+                            دليل الوثائق المطلوبة</a>
+                        <a href="#" onclick="goTo('pg-fee-categories')"><i class="fa-solid fa-tags" style="color:#34d399;"></i> فئات الرسوم
+                            الدراسية</a>
+                        <a href="#" onclick="goTo('pg-discount-categories')"><i class="fa-solid fa-percent" style="color:#ef4444;"></i> فئات
+                            الخصومات والمنح</a>
+                        <a href="#" onclick="goTo('pg-installment-plans')"><i class="fa-solid fa-money-bills" style="color:#10b981;"></i> فئات
+                            الأقساط والدفعات</a>
+                        <a href="#" onclick="goTo('pg-grade-fees')"><i class="fa-solid fa-receipt" style="color:#38bdf8;"></i> جدول رسوم
+                            الصفوف</a>
+                    </div>
+                </div>
+
+                <!-- Section 4: Student Affairs -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-user-graduate" style="color:#a78bfa;"></i> <span>شئون الطلاب والأكاديميا</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-enrollment')"><i class="fa-solid fa-file-invoice" style="color:#818cf8;"></i> إدارة
+                            القبول والتسجيل والرسوم</a>
+                        <a href="#" onclick="goTo('pg-student-register')"><i class="fa-solid fa-user-plus" style="color:#38bdf8;"></i> تسجيل
+                            طالب جديد</a>
+                        <a href="#" onclick="goTo('pg-student-tree')"><i class="fa-solid fa-sitemap" style="color:#10b981;"></i> شجرة بيانات
+                            الطلاب</a>
+                        <a href="#" onclick="goTo('pg-students')"><i class="fa-solid fa-id-card" style="color:#34d399;"></i> دليل الطلاب
+                            الشامل</a>
+                        <a href="#" onclick="goTo('pg-parents')"><i class="fa-solid fa-people-roof" style="color:#38bdf8;"></i> دليل أولياء
+                            الأمور</a>
+                        <a href="#" onclick="goTo('pg-student-docs')"><i class="fa-solid fa-folder-open" style="color:#fbbf24;"></i> وثائق
+                            ومرفقات الطلاب</a>
+                        <a href="#" onclick="goTo('pg-section-distribution')"><i
+                                class="fa-solid fa-arrows-split-up-and-left"></i> توزيع الطلاب على الشعب</a>
+                        <a href="#" onclick="goTo('pg-promotion-workflow')"><i class="fa-solid fa-turn-up" style="color:#38bdf8;"></i> الترفيع
+                            الجماعي للطلاب</a>
+                        <a href="#" onclick="goTo('pg-discontinued')"><i class="fa-solid fa-user-xmark" style="color:#38bdf8;"></i> سجل الطلاب
+                            غير المستمرين</a>
+                        <a href="#" onclick="goTo('pg-attendance')"><i class="fa-solid fa-calendar-check" style="color:#38bdf8;"></i> التحضير
+                            والغياب اليومي</a>
+                        <a href="#" onclick="goTo('pg-class-notes')"><i class="fa-solid fa-note-sticky" style="color:#38bdf8;"></i> ملاحظات
+                            رائد الفصل</a>
+                    </div>
+                </div>
+
+                <!-- Section 5: HR & Employees -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-users-tie" style="color:#38bdf8;"></i> <span>شئون الموظفين والموارد البشرية</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-employees')"><i class="fa-solid fa-address-book" style="color:#38bdf8;"></i> دليل
+                            الموظفين والمعلمين</a>
+                        <a href="#" onclick="goTo('pg-guarantors')"><i class="fa-solid fa-handshake" style="color:#38bdf8;"></i> دليل الضمناء
+                            والكفلاء</a>
+                        <a href="#" onclick="goTo('pg-teacher-subjects')"><i class="fa-solid fa-chalkboard-user" style="color:#38bdf8;"></i>
+                            إسناد المواد للمدرسين</a>
+                        <a href="#" onclick="goTo('pg-emp-attendance')"><i class="fa-solid fa-fingerprint" style="color:#38bdf8;"></i> حضور
+                            وانضباط الموظفين</a>
+                        <a href="#" onclick="goTo('pg-emp-notices')"><i class="fa-solid fa-bullhorn" style="color:#38bdf8;"></i> إشعارات
+                            وتنبيهات الموظفين</a>
+                        <a href="#" onclick="goTo('pg-emp-contracts')"><i class="fa-solid fa-file-contract" style="color:#818cf8;"></i> عقود
+                            الموظفين والوظائف</a>
+                        <a href="#" onclick="goTo('pg-emp-advances')"><i class="fa-solid fa-hand-holding-dollar" style="color:#10b981;"></i>
+                            سلفيات وقروض الموظفين</a>
+                        <a href="#" onclick="goTo('pg-leave-management')"><i class="fa-solid fa-calendar-xmark" style="color:#ef4444;"></i>
+                            نظام إدارة الإجازات</a>
+                        <a href="#" onclick="goTo('pg-performance-eval')"><i class="fa-solid fa-star" style="color:#38bdf8;"></i> تقييم الأداء
+                            والكفاءة</a>
+                        <a href="#" onclick="goTo('pg-payroll')"><i class="fa-solid fa-money-check-dollar" style="color:#2dd4bf;"></i> مسير
+                            ومعالجة الرواتب</a>
+                    </div>
+                </div>
+
+                <!-- Section 6: Control & Exams -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-pen-ruler" style="color:#38bdf8;"></i> <span>الكنترول والامتحانات</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-grading')"><i class="fa-solid fa-pen-to-square" style="color:#38bdf8;"></i> رصد الدرجات
+                            والاختبارات</a>
+
+
+                        <a href="#" onclick="goTo('pg-results')"><i class="fa-solid fa-ranking-star" style="color:#38bdf8;"></i> النتائج
+                            والتقديرات النهائية</a>
+                        <a href="#" onclick="goTo('pg-certificates')"><i class="fa-solid fa-certificate" style="color:#ec4899;"></i> إصدار
+                            الشهادات الرسمية</a>
+                        <a href="#" onclick="goTo('pg-homework-tracker')"><i class="fa-solid fa-book-open-reader" style="color:#60a5fa;"></i>
+                            متابعة الواجبات المدرسية</a>
+                        <a href="#" onclick="goTo('pg-exam-halls')"><i class="fa-solid fa-location-dot" style="color:#38bdf8;"></i> أماكن ولجان
+                            الامتحانات</a>
+                        <a href="#" onclick="goTo('pg-seat-numbers')"><i class="fa-solid fa-hashtag" style="color:#fbbf24;"></i> كشوفات أرقام
+                            الجلوس</a>
+                        <a href="#" onclick="goTo('pg-secret-numbers')"><i class="fa-solid fa-user-secret" style="color:#38bdf8;"></i> توليد
+                            الأرقام السرية</a>
+                        <a href="#" onclick="goTo('pg-hall-distribution')"><i class="fa-solid fa-users-rectangle" style="color:#06b6d4;"></i>
+                            توزيع اللجان والمراقبين</a>
+                        <a href="#" onclick="goTo('pg-exam-schedule')"><i class="fa-solid fa-calendar-days" style="color:#f59e0b;"></i> جدول
+                            الامتحانات الرسمية</a>
+                        <a href="#" onclick="goTo('pg-roll-call')"><i class="fa-solid fa-list-check" style="color:#34d399;"></i> كشوفات
+                            المناداة للمنادين</a>
+                        <a href="#" onclick="goTo('pg-seat-cards')"><i class="fa-solid fa-id-badge" style="color:#a78bfa;"></i> طباعة بطاقات
+                            أرقام الجلوس</a>
+                        <a href="#" onclick="goTo('pg-substitute')"><i class="fa-solid fa-user-pen" style="color:#38bdf8;"></i> إدارة المدرس
+                            البديل</a>
+                    </div>
+                </div>
+
+                <!-- Section 7: Transportation & Activities -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-bus" style="color:#fb923c;"></i> <span>المواصلات والأنشطة</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-activities')"><i class="fa-solid fa-medal" style="color:#fbbf24;"></i> إدارة الأنشطة
+                            والأنواع</a>
+                        <a href="#" onclick="goTo('pg-transport-routes')"><i class="fa-solid fa-route" style="color:#fb923c;"></i> دليل خطوط
+                            السير</a>
+                        <a href="#" onclick="goTo('pg-buses')"><i class="fa-solid fa-bus-simple" style="color:#f59e0b;"></i> دليل الحافلات
+                            والمركبات</a>
+                        <a href="#" onclick="goTo('pg-transport-enrollment')"><i class="fa-solid fa-user-check" style="color:#34d399;"></i>
+                            اشتراك الطلاب في المواصلات</a>
+                        <a href="#" onclick="goTo('pg-transport')"><i class="fa-solid fa-map-location-dot" style="color:#38bdf8;"></i> كشوفات
+                            ورسومات المواصلات</a>
+                    </div>
+                </div>
+
+                <!-- Section 8: School Warehouses -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-warehouse" style="color:#38bdf8;"></i> <span>مخازن المدرسة والمشتريات</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-item-categories')"><i class="fa-solid fa-boxes-stacked" style="color:#2dd4bf;"></i> فئات
+                            الأصناف المخزنية</a>
+                        <a href="#" onclick="goTo('pg-inventory-items')"><i class="fa-solid fa-box" style="color:#38bdf8;"></i> دليل الأصناف
+                            والمنتجات</a>
+                        <a href="#" onclick="goTo('pg-supply-orders')"><i class="fa-solid fa-truck-ramp-box" style="color:#fb923c;"></i> أذونات
+                            وأوامر التوريد</a>
+                        <a href="#" onclick="goTo('pg-issue-orders')"><i class="fa-solid fa-dolly" style="color:#10b981;"></i> أذونات وأوامر
+                            الصرف</a>
+                        <a href="#" onclick="goTo('pg-suppliers')"><i class="fa-solid fa-truck-field" style="color:#a78bfa;"></i> دليل الموردين
+                            المعتمدين</a>
+                        <a href="#" onclick="goTo('pg-inventory-reports')"><i class="fa-solid fa-clipboard-list" style="color:#ec4899;"></i>
+                            تقارير المخزون والجرد</a>
+                    </div>
+                </div>
+
+                <!-- Section 9: SMS & Comprehensive Reports -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-chart-bar" style="color:#38bdf8;"></i> <span>الرسائل والتقارير الشاملة</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-sms-send')"><i class="fa-solid fa-paper-plane" style="color:#10b981;"></i> إرسال الرسائل
+                            النصية SMS</a>
+                        <a href="#" onclick="goTo('pg-sms-templates')"><i class="fa-solid fa-file-code" style="color:#38bdf8;"></i> قوالب
+                            الرسائل الجاهزة</a>
+                        <a href="#" onclick="goTo('pg-sms-settings')"><i class="fa-solid fa-gear" style="color:#60a5fa;"></i> إعدادات ورصيد
+                            الرسائل</a>
+                        <a href="#" onclick="goTo('pg-monthly-report')"><i class="fa-solid fa-calendar-week" style="color:#f59e0b;"></i> تقرير
+                            الأعمال الشهرية</a>
+                        <a href="#" onclick="goTo('pg-semester-report')"><i class="fa-solid fa-file-contract" style="color:#818cf8;"></i> تقرير
+                            أعمال الفصل الدراسي</a>
+                        <a href="#" onclick="goTo('pg-class-details')"><i class="fa-solid fa-table-list" style="color:#38bdf8;"></i> كشف تفصيلي
+                            للصفوف</a>
+                        <a href="#" onclick="goTo('pg-top-students')"><i class="fa-solid fa-award" style="color:#ec4899;"></i> كشف أوائل
+                            المدرسة والتفوق</a>
+                        <a href="#" onclick="goTo('pg-success-rate-subject')"><i class="fa-solid fa-chart-column" style="color:#38bdf8;"></i>
+                            نسب النجاح بالمواد والشعب</a>
+                        <a href="#" onclick="goTo('pg-custom-reports')"><i class="fa-solid fa-file-invoice" style="color:#818cf8;"></i> تقارير
+                            مخصصة (PDF/Excel)</a>
+                        <a href="#" onclick="goTo('pg-control-reports')"><i class="fa-solid fa-file-shield" style="color:#38bdf8;"></i> تقارير
+                            الكنترول الشاملة</a>
+                    </div>
+                </div>
+
+                <!-- Section 10: Administrative Tools -->
+                <div class="nav-section">
+                    <div class="nav-item has-sub" onclick="toggleSub(this)">
+                        <i class="fa-solid fa-toolbox" style="color:#f43f5e;"></i> <span>أدوات ودعم إداري</span> <i
+                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+                    </div>
+                    <div class="sub-menu">
+                        <a href="#" onclick="goTo('pg-admin-messages')"><i class="fa-solid fa-tower-broadcast" style="color:#38bdf8;"></i>
+                            الرسائل الإدارية والإعلانات</a>
+                        <a href="#" onclick="goTo('pg-shortcuts')"><i class="fa-solid fa-keyboard" style="color:#a78bfa;"></i> اختصارات النظام
+                            المفضلة</a>
+                        <a href="#" onclick="goTo('pg-faq')"><i class="fa-solid fa-circle-question" style="color:#f59e0b;"></i> الأسئلة
+                            المتكررة والدعم</a>
+                        <a href="#" onclick="goTo('pg-dictionary')"><i class="fa-solid fa-language" style="color:#38bdf8;"></i> قاموس الترجمة
+                            والمصطلحات</a>
+                        <a href="#" onclick="goTo('pg-personal-info')"><i class="fa-solid fa-address-card" style="color:#38bdf8;"></i> معلومات
+                            الملف الشخصي</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket" style="color:#38bdf8;"></i> تسجيل
+                    الخروج</button>
+            </div>
+        </aside>

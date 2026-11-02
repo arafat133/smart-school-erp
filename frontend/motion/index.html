@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المدرسة الذكية — إعلان موشن جرافيك</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ========================================== -->
+    <!-- SCENE 1: THE PAIN QUESTION (0s – 5s)       -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene1">
+        <div class="dot-grid"></div>
+        <div class="scene1-content">
+            <p class="question-text" id="questionText"></p>
+            <div class="question-mark" id="questionMark">؟</div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 2: THE CHAOS (5s – 12s)              -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene2">
+        <div class="chaos-grid-lines"></div>
+        <div class="chaos-cards">
+            <div class="chaos-card" data-color="#EF4444">
+                <i class="fas fa-calendar-xmark"></i>
+                <span>تعارض الجداول</span>
+            </div>
+            <div class="chaos-card" data-color="#F59E0B">
+                <i class="fas fa-coins"></i>
+                <span>تشتت مالي</span>
+            </div>
+            <div class="chaos-card" data-color="#EF4444">
+                <i class="fas fa-lock-open"></i>
+                <span>أمن مهدد</span>
+            </div>
+            <div class="chaos-card" data-color="#94A3B8">
+                <i class="fas fa-file-circle-xmark"></i>
+                <span>إدارة مبعثرة</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- FLASH TRANSITION                            -->
+    <!-- ========================================== -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- ========================================== -->
+    <!-- SCENE 3: LOGO REVEAL (12s – 18s)           -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene3">
+        <div class="particles" id="particles3"></div>
+        <div class="logo-reveal">
+            <svg class="logo-icon" id="logoIcon" viewBox="0 0 120 120" width="120" height="120">
+                <!-- Graduation Cap SVG -->
+                <path class="logo-path" d="M60 20 L10 50 L60 80 L110 50 Z" fill="none" stroke="#3B82F6" stroke-width="3"/>
+                <path class="logo-path" d="M30 60 L30 85 Q60 105 90 85 L90 60" fill="none" stroke="#3B82F6" stroke-width="3"/>
+                <line class="logo-path" x1="95" y1="50" x2="95" y2="90" stroke="#3B82F6" stroke-width="3"/>
+                <circle class="logo-path" cx="95" cy="92" r="4" fill="#3B82F6"/>
+            </svg>
+            <div class="logo-glow" id="logoGlow"></div>
+            <h1 class="brand-name" id="brandName">المدرسة الذكية</h1>
+            <p class="brand-subtitle" id="brandSubtitle">Cloud Secure School ERP System</p>
+            <div class="brand-line" id="brandLine"></div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 4: EXECUTIVE DASHBOARD (18s – 24s)   -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene4">
+        <div class="scene4-content">
+            <h2 class="scene-title" id="scene4Title">لوحة قيادة ذكية بمؤشرات أداء لحظية</h2>
+            <div class="mockup-screen" id="dashboardMockup">
+                <div class="mockup-toolbar">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="mockup-title">لوحة التحكم الرئيسية — Executive Dashboard</span>
+                </div>
+                <div class="mockup-body">
+                    <!-- Sidebar -->
+                    <div class="mock-sidebar">
+                        <div class="mock-sidebar-logo">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>المدرسة الذكية</span>
+                        </div>
+                        <div class="mock-nav-item active"><i class="fas fa-chart-pie"></i> لوحة القيادة</div>
+                        <div class="mock-nav-item"><i class="fas fa-user-graduate"></i> الطلاب</div>
+                        <div class="mock-nav-item"><i class="fas fa-calendar-alt"></i> الجدول</div>
+                        <div class="mock-nav-item"><i class="fas fa-money-bill-wave"></i> المالية</div>
+                        <div class="mock-nav-item"><i class="fas fa-users"></i> الموارد البشرية</div>
+                        <div class="mock-nav-item"><i class="fas fa-shield-halved"></i> الأمان</div>
+                    </div>
+                    <!-- Main Content -->
+                    <div class="mock-main">
+                        <div class="mock-stats-row">
+                            <div class="mock-stat-card" data-accent="#3B82F6">
+                                <div class="mock-stat-icon"><i class="fas fa-user-graduate"></i></div>
+                                <div class="mock-stat-info">
+                                    <span class="mock-stat-label">إجمالي الطلاب</span>
+                                    <span class="mock-stat-number" data-target="1248">0</span>
+                                </div>
+                            </div>
+                            <div class="mock-stat-card" data-accent="#10B981">
+                                <div class="mock-stat-icon" style="color:#10B981"><i class="fas fa-chart-line"></i></div>
+                                <div class="mock-stat-info">
+                                    <span class="mock-stat-label">نسبة الانضباط</span>
+                                    <span class="mock-stat-number" data-target="96.8" data-suffix="%">0</span>
+                                </div>
+                            </div>
+                            <div class="mock-stat-card" data-accent="#F59E0B">
+                                <div class="mock-stat-icon" style="color:#F59E0B"><i class="fas fa-coins"></i></div>
+                                <div class="mock-stat-info">
+                                    <span class="mock-stat-label">إيرادات يومية</span>
+                                    <span class="mock-stat-number" data-target="482500" data-prefix="SAR ">0</span>
+                                </div>
+                            </div>
+                            <div class="mock-stat-card" data-accent="#6366F1">
+                                <div class="mock-stat-icon" style="color:#6366F1"><i class="fas fa-check-circle"></i></div>
+                                <div class="mock-stat-info">
+                                    <span class="mock-stat-label">محرك الجدولة</span>
+                                    <span class="mock-stat-number solved">100% SOLVED</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Chart -->
+                        <div class="mock-chart-area">
+                            <div class="mock-chart-bars">
+                                <div class="mock-bar" data-height="70" style="--bar-color:#3B82F6"></div>
+                                <div class="mock-bar" data-height="55" style="--bar-color:#EF4444"></div>
+                                <div class="mock-bar" data-height="85" style="--bar-color:#3B82F6"></div>
+                                <div class="mock-bar" data-height="45" style="--bar-color:#EF4444"></div>
+                                <div class="mock-bar" data-height="90" style="--bar-color:#3B82F6"></div>
+                                <div class="mock-bar" data-height="60" style="--bar-color:#EF4444"></div>
+                            </div>
+                            <div class="mock-chart-labels">
+                                <span>الأحد</span><span>الإثنين</span><span>الثلاثاء</span>
+                                <span>الأربعاء</span><span>الخميس</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 5: CSP TIMETABLE ENGINE (24s – 32s)  -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene5">
+        <div class="scene5-content">
+            <h2 class="scene-title" id="scene5Title">محرك جدولة ذكي — صفر تعارضات</h2>
+            
+            <!-- Timetable Grid -->
+            <div class="timetable-grid" id="timetableGrid">
+                <div class="tt-header">الحصة</div>
+                <div class="tt-header">الأحد</div>
+                <div class="tt-header">الإثنين</div>
+                <div class="tt-header">الثلاثاء</div>
+                <div class="tt-header">الأربعاء</div>
+                <div class="tt-header">الخميس</div>
+
+                <div class="tt-period">1 (07:30)</div>
+                <div class="tt-cell" data-color="#3B82F6">رياضيات (1)<br><small>أ. أحمد | ق101</small></div>
+                <div class="tt-cell" data-color="#10B981">فيزياء (1)<br><small>أ. عمر | ق102</small></div>
+                <div class="tt-cell" data-color="#6366F1">كيمياء (1)<br><small>أ. خالد | معمل1</small></div>
+                <div class="tt-cell" data-color="#F59E0B">رياضيات (1)<br><small>أ. أحمد | ق101</small></div>
+                <div class="tt-cell" data-color="#EC4899">لغة عربية<br><small>أ. فهد | ق101</small></div>
+
+                <div class="tt-period">2 (08:15)</div>
+                <div class="tt-cell" data-color="#10B981">فيزياء (1)<br><small>أ. عمر | ق102</small></div>
+                <div class="tt-cell" data-color="#EF4444">لغة إنجليزية<br><small>أ. جون | ق103</small></div>
+                <div class="tt-cell" data-color="#3B82F6">رياضيات (1)<br><small>أ. أحمد | ق101</small></div>
+                <div class="tt-cell" data-color="#8B5CF6">تربية بدنية<br><small>أ. فهد | ملعب</small></div>
+                <div class="tt-cell" data-color="#F97316">حاسب آلي<br><small>أ. ماجد | معمل حاسب</small></div>
+
+                <div class="tt-period">3 (09:00)</div>
+                <div class="tt-cell" data-color="#EC4899">لغة عربية<br><small>أ. فهد | ق101</small></div>
+                <div class="tt-cell" data-color="#F59E0B">أحياء (1)<br><small>أ. طارق | معمل3</small></div>
+                <div class="tt-cell" data-color="#EF4444">لغة إنجليزية<br><small>أ. جون | ق103</small></div>
+                <div class="tt-cell" data-color="#10B981">فيزياء (1)<br><small>أ. عمر | ق102</small></div>
+                <div class="tt-cell" data-color="#6366F1">كيمياء (1)<br><small>أ. خالد | معمل1</small></div>
+            </div>
+
+            <!-- Zero Conflict Badge -->
+            <div class="zero-conflict-badge" id="zeroConflict">
+                <i class="fas fa-shield-check"></i>
+                <span>Zero Conflicts — 100% Solved ✅</span>
+            </div>
+
+            <!-- Console Log -->
+            <div class="csp-console" id="cspConsole">
+                <div class="console-header">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    <span>CSP Solver Log</span>
+                </div>
+                <div class="console-body">
+                    <p class="console-line">[CSP-ENGINE] Initializing: 35 periods × 12 sections = 420 slots</p>
+                    <p class="console-line">[CSP-ENGINE] Applying AC-3 Arc Consistency: 1,840 values pruned</p>
+                    <p class="console-line">[CSP-ENGINE] Constraint: TeacherConflict → <span class="text-success">PASS ✓</span></p>
+                    <p class="console-line">[CSP-ENGINE] Constraint: RoomCapacity → <span class="text-success">PASS ✓</span></p>
+                    <p class="console-line highlight">[CSP-ENGINE] Solution found in 412ms | Backtracking: 2 | Optimal</p>
+                    <p class="console-line highlight">[CSP-ENGINE] Timetable published successfully ✅</p>
+                </div>
+            </div>
+
+            <!-- Big Number -->
+            <div class="big-number-reveal" id="bigNumber">
+                <span class="big-num" id="bigNumValue">1.8s</span>
+                <span class="big-num-desc">زمن بناء الجدول — بدلاً من 15 دقيقة يدوياً</span>
+                <span class="big-num-badge">تقليص 99.8%</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 6: 10 MODULES GRID (32s – 40s)       -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene6">
+        <div class="scene6-content">
+            <h2 class="scene-title" id="scene6Title">10 قطاعات تشغيلية — أكثر من 60 واجهة</h2>
+            <div class="modules-grid">
+                <div class="module-card" style="--accent:#3B82F6"><i class="fas fa-user-graduate"></i><span>شؤون الطلاب</span></div>
+                <div class="module-card" style="--accent:#6366F1"><i class="fas fa-chart-pie"></i><span>لوحة القيادة</span></div>
+                <div class="module-card" style="--accent:#10B981"><i class="fas fa-calendar-check"></i><span>محرك الجدولة</span></div>
+                <div class="module-card" style="--accent:#F59E0B"><i class="fas fa-money-bill-wave"></i><span>الإدارة المالية</span></div>
+                <div class="module-card" style="--accent:#8B5CF6"><i class="fas fa-users"></i><span>الموارد البشرية</span></div>
+                <div class="module-card" style="--accent:#EC4899"><i class="fas fa-file-certificate"></i><span>التقييم والشهادات</span></div>
+                <div class="module-card" style="--accent:#F97316"><i class="fas fa-bus"></i><span>النقل المدرسي</span></div>
+                <div class="module-card" style="--accent:#06B6D4"><i class="fas fa-house-user"></i><span>بوابة ولي الأمر</span></div>
+                <div class="module-card" style="--accent:#EF4444"><i class="fas fa-shield-halved"></i><span>الأمن السيبراني</span></div>
+                <div class="module-card" style="--accent:#A855F7"><i class="fas fa-brain"></i><span>الذكاء الاصطناعي</span></div>
+            </div>
+            <div class="module-counter">
+                <span class="counter-number" id="interfaceCounter">0</span>
+                <span class="counter-label">واجهة ذكية</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 7: LIVE UI SCREENS (40s – 47s)       -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene7">
+        <div class="scene7-content">
+            <h2 class="scene-title" id="scene7Title">واجهات نظيفة — تجربة سلسة — أمان مطلق</h2>
+            <div class="carousel-3d" id="carousel3d">
+                <div class="carousel-item" data-label="بوابة الدخول الآمنة">
+                    <div class="mockup-mini">
+                        <div class="mockup-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>بوابة تسجيل الدخول — Secure Login</span></div>
+                        <div class="mockup-mini-body login-mock">
+                            <div class="login-box-mock">
+                                <div class="login-logo-mock">🎓 بوابة النخبة</div>
+                                <div class="login-field-mock"></div>
+                                <div class="login-field-mock"></div>
+                                <div class="otp-row"><span>8</span><span>4</span><span>2</span><span>9</span></div>
+                                <div class="login-btn-mock">🔐 تسجيل الدخول الآمن</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-label="تسجيل الطلاب والبطاقات الرقمية">
+                    <div class="mockup-mini">
+                        <div class="mockup-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>تسجيل الطلاب — Student Registration</span></div>
+                        <div class="mockup-mini-body student-mock">
+                            <div class="student-form-mock">
+                                <div class="form-line"></div><div class="form-line"></div><div class="form-line"></div>
+                                <div class="form-btn-mock">اعتماد التسجيل ✓</div>
+                            </div>
+                            <div class="student-card-mock">
+                                <div class="qr-mock">QR</div>
+                                <div class="student-card-text">بطاقة رقمية مشفرة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-label="الإدارة المالية ERP">
+                    <div class="mockup-mini">
+                        <div class="mockup-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>القيود المزدوجة — Journal Balancing</span></div>
+                        <div class="mockup-mini-body finance-mock">
+                            <div class="finance-table-mock">
+                                <div class="finance-row header"><span>الحساب</span><span>مدين</span><span>دائن</span></div>
+                                <div class="finance-row"><span>مصروفات رواتب</span><span>125,000</span><span>0.00</span></div>
+                                <div class="finance-row"><span>بنك الراجحي</span><span>0.00</span><span>125,000</span></div>
+                                <div class="finance-row total"><span>المتوازن ✓</span><span>125,000</span><span>125,000</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-label="التقييمات والشهادات">
+                    <div class="mockup-mini">
+                        <div class="mockup-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>رصد الدرجات — Grades & Certificates</span></div>
+                        <div class="mockup-mini-body grades-mock">
+                            <div class="grades-table-mock">
+                                <div class="grade-row header"><span>الطالب</span><span>أعمال</span><span>نهائي</span><span>المجموع</span></div>
+                                <div class="grade-row"><span>عبدالله الشوري</span><span>19.5</span><span>39.0</span><span style="color:#10B981">97.5 A+</span></div>
+                                <div class="grade-row"><span>حمد المحمدي</span><span>17.5</span><span>35.0</span><span style="color:#3B82F6">89.0 B+</span></div>
+                            </div>
+                            <div class="cert-mock">
+                                <span>شهادة إتمام الفصل الدراسي</span>
+                                <span class="gpa-mock">GPA: 4.92 ممتاز مرتفع</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-label="الموارد البشرية والرواتب">
+                    <div class="mockup-mini">
+                        <div class="mockup-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>مسير الرواتب — HR & Payroll</span></div>
+                        <div class="mockup-mini-body hr-mock">
+                            <div class="payslip-mock">
+                                <div class="payslip-header">قسيمة الراتب الرقمية — أكتوبر 2026</div>
+                                <div class="payslip-row"><span>الراتب الأساسي</span><span>12,500.00</span></div>
+                                <div class="payslip-row"><span>بدل السكن 25%</span><span>3,125.00</span></div>
+                                <div class="payslip-row"><span>بدل النقل</span><span>800.00</span></div>
+                                <div class="payslip-row deduction"><span>التأمينات 10%</span><span>-1,250.00</span></div>
+                                <div class="payslip-total">
+                                    <span>صافي المستحق</span>
+                                    <span>SAR 15,675.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-label" id="carouselLabel"></div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 8: IMPACT NUMBERS (47s – 52s)        -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene8">
+        <div class="scene8-content">
+            <h2 class="scene-title" id="scene8Title">أرقام تتحدث عن نفسها</h2>
+            <div class="impact-cards">
+                <div class="impact-card">
+                    <div class="impact-ring" data-color="#10B981">
+                        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" data-pct="100"/></svg>
+                    </div>
+                    <span class="impact-number" data-color="#10B981">1.8s</span>
+                    <span class="impact-label">زمن إعداد الجدول الأسبوعي</span>
+                    <span class="impact-desc">تقليص بنسبة 99.8% مقارنة بـ 15 دقيقة يدوياً</span>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-ring" data-color="#3B82F6">
+                        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" data-pct="100"/></svg>
+                    </div>
+                    <span class="impact-number" data-color="#3B82F6">38ms</span>
+                    <span class="impact-label">زمن استجابة الخادم API</span>
+                    <span class="impact-desc">استجابة فائقة السرعة بفضل المعمارية غير المتزامنة</span>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-ring" data-color="#F59E0B">
+                        <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fill" cx="60" cy="60" r="52" data-pct="100"/></svg>
+                    </div>
+                    <span class="impact-number" data-color="#F59E0B">0%</span>
+                    <span class="impact-label">تصفير الأخطاء المحاسبية</span>
+                    <span class="impact-desc">التزام مطلق بقيد التوازن المالي المزدوج</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 9: CALL TO ACTION (52s – 56s)        -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene9">
+        <div class="scene9-content">
+            <h2 class="cta-heading">
+                <span>حوّل </span>
+                <span class="cta-highlight">مدرستك</span>
+                <span> إلى منظومة ذكية</span>
+            </h2>
+            <p class="cta-sub">… اليوم</p>
+            <button class="cta-button" id="ctaButton">
+                <i class="fas fa-rocket"></i>
+                ابدأ الآن مجاناً
+            </button>
+            <div class="cta-pulse-ring"></div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCENE 10: CLOSING LOGO (56s – 60s)         -->
+    <!-- ========================================== -->
+    <section class="scene" id="scene10">
+        <div class="particles" id="particles10"></div>
+        <div class="closing-content">
+            <div class="closing-icon">🎓</div>
+            <h1 class="closing-brand">المدرسة الذكية</h1>
+            <p class="closing-tagline">مستقبل التعليم يبدأ الآن</p>
+            <div class="closing-line"></div>
+            <div class="closing-contacts">
+                <span>🌐 smartschool.edu.sa</span>
+                <span>📧 info@smartschool.edu.sa</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- AUDIO ENABLE OVERLAY (MODERN BROWSER POLICY)-->
+    <!-- ========================================== -->
+    <div class="audio-prompt-overlay" id="audioPromptOverlay">
+        <div class="audio-prompt-card">
+            <div class="prompt-icon"><i class="fas fa-volume-high"></i></div>
+            <h2>جاهز لتجربة العرض بكامل المؤثرات الصوتية؟</h2>
+            <p>يتضمن الإعلان تعليقاً صوتياً احترافياً وموسيقى تفاعلية ومؤثرات صوتية متزامنة مع الحركة.</p>
+            <div class="prompt-actions">
+                <button class="prompt-btn primary" id="btnEnableAudio">
+                    <i class="fas fa-play"></i> تشغيل مع الصوت والمؤثرات
+                </button>
+                <button class="prompt-btn secondary" id="btnMuteAudio">
+                    <i class="fas fa-volume-xmark"></i> تشغيل صامت
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PLAYBACK CONTROLS                           -->
+    <!-- ========================================== -->
+    <div class="playback-controls" id="playbackControls">
+        <button id="btnPlay" class="ctrl-btn" title="تشغيل"><i class="fas fa-play"></i></button>
+        <button id="btnPause" class="ctrl-btn" title="إيقاف مؤقت"><i class="fas fa-pause"></i></button>
+        <button id="btnRestart" class="ctrl-btn" title="إعادة"><i class="fas fa-redo"></i></button>
+        
+        <button id="btnSound" class="ctrl-btn active" title="المؤثرات والموسيقى"><i class="fas fa-volume-high"></i></button>
+        <button id="btnVoice" class="ctrl-btn active" title="التعليق الصوتي"><i class="fas fa-microphone"></i></button>
+
+        <div class="audio-equalizer" id="audioEqualizer" title="مستوى الصوت التفاعلي">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+        </div>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="time-display" id="timeDisplay">00:00 / 01:00</span>
+    </div>
+
+    <!-- GSAP & Sound Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <script src="sound-engine.js"></script>
+    <script src="animation.js"></script>
+</body>
+</html>

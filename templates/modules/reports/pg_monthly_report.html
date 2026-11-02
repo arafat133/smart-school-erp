@@ -1,0 +1,71 @@
+<div class="page" id="pg-monthly-report">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-calendar-week" style="color:#38bdf8;"></i> التقرير الشهري الشامل لأداء المدرسة (Monthly Comprehensive School Report)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-user-check" style="color:#3b82f6;margin-left:6px;"></i> نسبة انضباط الطلاب</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="monAttendanceRate">97.4%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الحضور الصباحي للشهر 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-book-open-reader" style="color:#10b981;margin-left:6px;"></i> معدل التحصيل والواجبات</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="monAcademicRate">88.6%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إنجاز الخطط الأكاديمية 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-hand-holding-dollar" style="color:#8b5cf6;margin-left:6px;"></i> نسبة تحصيل الرسوم</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="monFeeCollection">92.1%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">استيفاء الأقساط الشهرية 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-trophy" style="color:#f59e0b;margin-left:6px;"></i> الفعاليات المنفذة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="monEventsCount">6 فعاليات</p>
+                <small style="color:var(--muted);font-size:0.75rem;">أنشطة لاصفية منجزة 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <select id="selectMonth" onchange="renderMonthlyReportGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="09">شهر سبتمبر 2026</option>
+                <option value="08">شهر أغسطس 2026</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('⚡ تم تحديث وحساب مؤشرات التقرير الشهري الشامل بنجاح 🟢');renderMonthlyReportGrid();" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-rotate"></i> تحديث المؤشرات
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة التقرير الشهري المعتمد
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الصف والمرحلة الدراسية</th>
+                    <th>إجمالي الطلاب</th>
+                    <th>نسبة الحضور والالتزام</th>
+                    <th>ساعات الغياب</th>
+                    <th>متوسط الاختبارات</th>
+                    <th>الواجبات المسلمة</th>
+                    <th>الملاحظات السلوكية</th>
+                    <th>التقييم العام للشهر</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-monthly-report-grid"></tbody>
+        </table>
+    </div>
+</div>

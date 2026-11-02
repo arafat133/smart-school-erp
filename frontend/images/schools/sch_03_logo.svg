@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c2d12" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#fffbeb" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+  <g filter="url(#glow)">
+    <polygon points="100,12 178,55 178,145 100,188 22,145 22,55" fill="url(#bgGrad)" stroke="url(#goldGrad)" stroke-width="5" />
+    <polygon points="100,22 166,60 166,140 100,178 34,140 34,60" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" stroke-dasharray="4,3" />
+  </g>
+  <!-- Decorative Laurels / Stars -->
+  <g fill="#fbbf24">
+    <polygon points="100,32 103,40 111,40 105,45 107,53 100,48 93,53 95,45 89,40 97,40" />
+    <polygon points="80,38 82,44 88,44 83,48 85,54 80,50 75,54 77,48 72,44 78,44" transform="scale(0.85) translate(15, 5)" />
+    <polygon points="120,38 122,44 128,44 123,48 125,54 120,50 115,54 117,48 112,44 118,44" transform="scale(0.85) translate(25, 5)" />
+  </g>
+  <!-- Central Emblem: Academic Book & Torch -->
+  <g transform="translate(100, 95) scale(0.85)">
+    <!-- Open Book -->
+    <path d="M 0,0 C -15,-10 -35,-8 -50,-2 L -50,28 C -35,22 -15,20 0,30 C 15,20 35,22 50,28 L 50,-2 C 35,-8 15,-10 0,0 Z" fill="#ffffff" stroke="#fbbf24" stroke-width="2" />
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#fbbf24" stroke-width="2" />
+    <!-- Book pages lines -->
+    <line x1="-42" y1="8" x2="-8" y2="3" stroke="#cbd5e1" stroke-width="1.5" />
+    <line x1="-42" y1="16" x2="-8" y2="11" stroke="#cbd5e1" stroke-width="1.5" />
+    <line x1="8" y1="3" x2="42" y2="8" stroke="#cbd5e1" stroke-width="1.5" />
+    <line x1="8" y1="11" x2="42" y2="16" stroke="#cbd5e1" stroke-width="1.5" />
+    <!-- Torch Flame -->
+    <path d="M 0,-5 C -8,-15 -2,-30 0,-38 C 2,-30 8,-15 0,-5 Z" fill="#fbbf24" />
+    <path d="M 0,-8 C -4,-15 0,-24 0,-28 C 0,-24 4,-15 0,-8 Z" fill="#ffffff" />
+  </g>
+  <!-- Ribbon Banner -->
+  <path d="M 35,142 L 165,142 L 155,164 L 45,164 Z" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5" />
+  <text x="100" y="157" font-family="'Cairo', 'Segoe UI', Tahoma, sans-serif" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle">النهضة للغات</text>
+  <text x="100" y="176" font-family="'Cairo', 'Segoe UI', Tahoma, sans-serif" font-size="8.5" font-weight="700" fill="#fbbf24" text-anchor="middle">تأسست 2005 م</text>
+</svg>

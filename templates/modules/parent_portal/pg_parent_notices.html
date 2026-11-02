@@ -1,0 +1,77 @@
+<div class="page" id="pg-parent-notices">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-bullhorn" style="color:#38bdf8;"></i> الإشعارات والتعاميم والرسائل الإدارية (School Notices & Broadcasts)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-bell" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الإشعارات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;">6 إشعارات</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تعاميم ورسائل رسمية 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-envelope-open" style="color:#10b981;margin-left:6px;"></i> رسائل مقروءة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;">6 رسائل</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تم الاطلاع والتأكيد 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-calendar-check" style="color:#f59e0b;margin-left:6px;"></i> مواعيد هامة قادمة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;">الاختبارات الشهرية</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الأسبوع القادم 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-shield-halved" style="color:#8b5cf6;margin-left:6px;"></i> قناة التواصل</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;">WhatsApp + البوابة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إشعارات فورية 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود الإشعار</th>
+                    <th>عنوان الإشعار / الموضوع</th>
+                    <th>درجة الأهمية</th>
+                    <th>تاريخ الإرسال</th>
+                    <th>الجهة المصدرة</th>
+                    <th>نص ومضمون الإشعار</th>
+                    <th>حالة القراءة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td><code style="color:#60a5fa;font-weight:800;">NOT-2026-01</code></td>
+                    <td><strong>تهنئة بمناسبة انطلاق العام الدراسي والدوام الرسمي</strong></td>
+                    <td><span class="badge badge-info">إعلان عام</span></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-08-30</td>
+                    <td style="color:#a78bfa;">إدارة المدرسة</td>
+                    <td style="color:#cbd5e1;">أهلاً بكم في عام دراسي جديد حافل بالتميز والنجاح لأبنائنا الطلاب.</td>
+                    <td><span class="badge badge-success">تمت القراءة 🟢</span></td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('📄 تفاصيل التعميم الإداري');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-eye"></i></button></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td><code style="color:#60a5fa;font-weight:800;">NOT-2026-02</code></td>
+                    <td><strong>جدول الاختبارات الشهرية الأولى للفصل الدراسي الأول</strong></td>
+                    <td><span class="badge badge-warning">هام وعاجل 🟡</span></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-09-01</td>
+                    <td style="color:#a78bfa;">لجنة الكنترول</td>
+                    <td style="color:#cbd5e1;">يرجى الاطلاع على جدول الاختبارات المرفق ومتابعة مراجعة المواد مع الطالب.</td>
+                    <td><span class="badge badge-success">تمت القراءة 🟢</span></td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('📄 تفاصيل جدول الاختبارات');goTo('pg-parent-grades');" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-eye"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

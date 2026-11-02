@@ -1,0 +1,151 @@
+<div class="page" id="pg-operation-lock">
+                <div class="page-header">
+                    <button class="btn-back" onclick="goTo('pg-dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+                    <h2><i class="fa-solid fa-lock"></i> قفل العمليات والموديولات (Operational Periods & Modules Lock)</h2>
+                    <div class="header-actions">
+                        <button class="btn-add" onclick="document.getElementById('formNewLock').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-plus"></i> إضافة قاعدة قفل جديدة</button>
+                    </div>
+                </div>
+
+                <!-- Live KPI Stats -->
+                <div class="stats-row" style="margin-bottom:20px;">
+                    <div class="stat-card" style="border-right:4px solid #ef4444;">
+                        <div class="stat-info">
+                            <h3>العمليات المقفلة حالياً</h3>
+                            <p style="color:#f87171;font-weight:800;font-size:1.15rem;" id="kpiLockedCount">3 عمليات 🔒</p>
+                            <small style="color:var(--muted);font-size:0.75rem;">محمية من التعديل والحذف</small>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-right:4px solid #10b981;">
+                        <div class="stat-info">
+                            <h3>العمليات المفتوحة والنشطة</h3>
+                            <p style="color:#34d399;font-weight:800;font-size:1.15rem;" id="kpiUnlockedCount">2 موديولات 🟢</p>
+                            <small style="color:var(--muted);font-size:0.75rem;">متاحة للإدخال والترحيل</small>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-right:4px solid #3b82f6;">
+                        <div class="stat-info">
+                            <h3>مستوى الحماية والتحكم</h3>
+                            <p style="color:#60a5fa;font-weight:800;font-size:1.15rem;">صارم (Strict RBAC)</p>
+                            <small style="color:var(--muted);font-size:0.75rem;">تدقيق وتوثيق لحظي</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Lock Rule Form -->
+                <div class="card form-card" id="formNewLock" style="padding:22px;margin-bottom:20px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:14px;">
+                    <h3 style="color:#60a5fa;margin-bottom:14px;"><i class="fa-solid fa-shield-halved"></i> إنشاء وتفعيل قاعدة قفل جديدة</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:14px;margin-bottom:14px;">
+                        <div>
+                            <label style="font-weight:700;display:block;margin-bottom:6px;">نوع العملية / الموديول:</label>
+                            <select id="lockOpType" class="form-control" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                                <option value="رصد واعتماد الدرجات (الكنترول)">رصد واعتماد الدرجات (الكنترول)</option>
+                                <option value="تعديل القيود والسندات المالية">تعديل القيود والسندات المالية</option>
+                                <option value="تعديل بيانات ورسوم الطلاب">تعديل بيانات ورسوم الطلاب</option>
+                                <option value="صرف مسيرات الرواتب والبدلات">صرف مسيرات الرواتب والبدلات</option>
+                                <option value="تعديل جدول الحصص الأسبوعي">تعديل جدول الحصص الأسبوعي</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-weight:700;display:block;margin-bottom:6px;">تاريخ بداية فترة القفل:</label>
+                            <input type="date" id="lockStartDate" class="form-control" value="" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                        </div>
+                        <div>
+                            <label style="font-weight:700;display:block;margin-bottom:6px;">تاريخ نهاية فترة القفل:</label>
+                            <input type="date" id="lockEndDate" class="form-control" value="" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                        </div>
+                        <div>
+                            <label style="font-weight:700;display:block;margin-bottom:6px;">سبب ومسوغ القفل:</label>
+                            <input type="text" id="lockReason" class="form-control" placeholder="مثال: انتهاء فترة الرصد والمراجعة" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="saveOperationLockRule()" style="background:linear-gradient(135deg,#ef4444,#b91c1c);height:42px;">
+                        <i class="fa-solid fa-lock"></i> تفعيل وحفظ قاعدة القفل
+                    </button>
+                </div>
+
+                <!-- Lock Rules Table -->
+                <div class="table-container card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>رمز القفل</th>
+                                <th>نوع العملية / الموديول</th>
+                                <th>فترة السريان</th>
+                                <th>سبب القفل</th>
+                                <th>الحالة الحالية</th>
+                                <th>المسؤول</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-operation-lock">
+                            <tr>
+                                <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                                <td><code style="color:#60a5fa;font-weight:700;">LCK-2026-001</code></td>
+                                <td style="font-weight:700;color:#f8fafc;">رصد واعتماد الدرجات (الكنترول)</td>
+                                <td style="font-size:0.85rem;color:#cbd5e1;">📅 2026-08-01 إلى 2026-08-15</td>
+                                <td style="color:#94a3b8;font-size:0.85rem;">انتهاء فترة رصد ومراجعة درجات الفصل الأول</td>
+                                <td><span class="badge badge-danger">مقفل بالكامل 🔒</span></td>
+                                <td style="font-size:0.85rem;">👤 د. سالم الحميري</td>
+                                <td>
+                                    <button class="btn-sm" style="background:#10b981;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.75rem;" onclick="toggleOperationLock('LCK-2026-001')">إلغاء القفل 🔓</button>
+                                    <button class="btn-sm" style="background:#64748b;color:#fff;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.75rem;margin-right:4px;" onclick="deleteOperationLock('LCK-2026-001')" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                                <td><code style="color:#60a5fa;font-weight:700;">LCK-2026-002</code></td>
+                                <td style="font-weight:700;color:#f8fafc;">تعديل القيود والسندات المالية</td>
+                                <td style="font-size:0.85rem;color:#cbd5e1;">📅 2026-08-10 إلى 2026-08-20</td>
+                                <td style="color:#94a3b8;font-size:0.85rem;">إتمام المراجعة والتدقيق المالي السنوي</td>
+                                <td><span class="badge badge-danger">مقفل بالكامل 🔒</span></td>
+                                <td style="font-size:0.85rem;">👤 أ. عبد الرحمن باعباد</td>
+                                <td>
+                                    <button class="btn-sm" style="background:#10b981;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.75rem;" onclick="toggleOperationLock('LCK-2026-002')">إلغاء القفل 🔓</button>
+                                    <button class="btn-sm" style="background:#64748b;color:#fff;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.75rem;margin-right:4px;" onclick="deleteOperationLock('LCK-2026-002')" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;font-weight:700;color:#94a3b8;">3</td>
+                                <td><code style="color:#60a5fa;font-weight:700;">LCK-2026-003</code></td>
+                                <td style="font-weight:700;color:#f8fafc;">صرف مسيرات الرواتب والبدلات</td>
+                                <td style="font-size:0.85rem;color:#cbd5e1;">📅 2026-08-01 إلى 2026-08-05</td>
+                                <td style="color:#94a3b8;font-size:0.85rem;">اعتماد الرواتب وتصدير ملف WPS</td>
+                                <td><span class="badge badge-danger">مقفل بالكامل 🔒</span></td>
+                                <td style="font-size:0.85rem;">👤 أ. سارة المحاسبة</td>
+                                <td>
+                                    <button class="btn-sm" style="background:#10b981;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.75rem;" onclick="toggleOperationLock('LCK-2026-003')">إلغاء القفل 🔓</button>
+                                    <button class="btn-sm" style="background:#64748b;color:#fff;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.75rem;margin-right:4px;" onclick="deleteOperationLock('LCK-2026-003')" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;font-weight:700;color:#94a3b8;">4</td>
+                                <td><code style="color:#60a5fa;font-weight:700;">LCK-2026-004</code></td>
+                                <td style="font-weight:700;color:#f8fafc;">تعديل بيانات ورسوم الطلاب</td>
+                                <td style="font-size:0.85rem;color:#cbd5e1;">📅 2026-08-25 إلى 2026-09-10</td>
+                                <td style="color:#94a3b8;font-size:0.85rem;">فترة اعتماد ملفات القبول النهائي</td>
+                                <td><span class="badge badge-success">مفتوح ونشط 🟢</span></td>
+                                <td style="font-size:0.85rem;">👤 أ. عمر العمودي</td>
+                                <td>
+                                    <button class="btn-sm" style="background:#ef4444;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.75rem;" onclick="toggleOperationLock('LCK-2026-004')">إعادة القفل 🔒</button>
+                                    <button class="btn-sm" style="background:#64748b;color:#fff;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.75rem;margin-right:4px;" onclick="deleteOperationLock('LCK-2026-004')" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;font-weight:700;color:#94a3b8;">5</td>
+                                <td><code style="color:#60a5fa;font-weight:700;">LCK-2026-005</code></td>
+                                <td style="font-weight:700;color:#f8fafc;">تعديل جدول الحصص الأسبوعي</td>
+                                <td style="font-size:0.85rem;color:#cbd5e1;">📅 2026-09-01 إلى 2026-09-05</td>
+                                <td style="color:#94a3b8;font-size:0.85rem;">تثبيت التوزيع النهائي للمعلمين</td>
+                                <td><span class="badge badge-success">مفتوح ونشط 🟢</span></td>
+                                <td style="font-size:0.85rem;">👤 أ. فهد الزهراني</td>
+                                <td>
+                                    <button class="btn-sm" style="background:#ef4444;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.75rem;" onclick="toggleOperationLock('LCK-2026-005')">إعادة القفل 🔒</button>
+                                    <button class="btn-sm" style="background:#64748b;color:#fff;border:none;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.75rem;margin-right:4px;" onclick="deleteOperationLock('LCK-2026-005')" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>

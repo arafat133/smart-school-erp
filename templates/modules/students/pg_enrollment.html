@@ -1,0 +1,114 @@
+<div class="page" id="pg-enrollment">
+    <!-- 1. ترويسة الصفحة القياسية -->
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <h2>
+            <i class="fa-solid fa-file-invoice-dollar" style="color:#38bdf8;"></i> 
+            إدارة القبول والتسجيل والرسوم الدراسية الشاملة (Enrollment & Tuition Fees Management)
+        </h2>
+    </div>
+
+    <!-- 2. بطاقات المؤشرات المالية السريعة (KPI Financial Cards) -->
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-contract" style="color:#3b82f6;margin-left:6px;"></i> إجمالي عقود الرسوم</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="enrTotalContracts">450,000 YER</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إجمالي القيمة لكافة عقود تسجيل الطلاب 🔵</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-percent" style="color:#8b5cf6;margin-left:6px;"></i> الخصومات الممنوحة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="enrTotalDiscounts">45,000 YER</p>
+                <small style="color:var(--muted);font-size:0.75rem;">مجموع المنح وتخفيضات الإخوة المعتمدة 🟣</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> إجمالي المحصل</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="enrTotalCollected">280,000 YER</p>
+                <small style="color:var(--muted);font-size:0.75rem;">المبالغ المقبوضة نقدياً وبنكياً 🟢</small>
+            </div>
+        </div>
+
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;margin-left:6px;"></i> المتبقي المتأخر</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="enrTotalOutstanding">125,000 YER</p>
+                <small style="color:var(--muted);font-size:0.75rem;">إجمالي الذمم المتبقية واجبة السداد 🔴</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. شريط الأدوات والعمليات والروابط المكملة (Toolbar & Actions) -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;flex:1;max-width:600px;">
+            <div class="search-box" style="flex:1;min-width:240px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchEnrollment" placeholder="بحث برقم التسجيل، اسم الطالب، الصف..." oninput="renderEnrollmentList()">
+            </div>
+            <select id="filterEnrollmentStatus" onchange="renderEnrollmentList()" style="padding:9px 14px;border-radius:10px;background:rgba(15,23,42,0.85);color:#f8fafc;border:1px solid rgba(255,255,255,0.12);font-family:'Tajawal',sans-serif;font-size:0.85rem;outline:none;">
+                <option value="all">جميع حالات السداد</option>
+                <option value="paid">مسدد بالكامل 🟢</option>
+                <option value="partial">مسدد جزئياً 🟡</option>
+                <option value="unpaid">غير مسدد 🔴</option>
+            </select>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('enrollment')" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fa-solid fa-user-plus"></i> تسجيل عقد طالب جديد وحساب الرسوم
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة السجل المالي
+            </button>
+        </div>
+    </div>
+
+    <!-- شريط الواجهات الفرعية المكملة لإدارة الرسوم -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:10px 14px;background:rgba(30,41,59,0.4);border-radius:10px;border:1px solid rgba(255,255,255,0.06);align-items:center;">
+        <span style="font-size:0.82rem;font-weight:700;color:#94a3b8;margin-left:4px;">
+            <i class="fa-solid fa-link" style="color:#38bdf8;"></i> الواجهات الفرعية المكملة:
+        </span>
+        <button onclick="goTo('pg-grade-fees')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:'Tajawal';display:flex;align-items:center;gap:5px;">
+            <i class="fa-solid fa-tags" style="color:#60a5fa;"></i> رسوم الصفوف والمراحل
+        </button>
+        <button onclick="goTo('pg-discount-categories')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:'Tajawal';display:flex;align-items:center;gap:5px;">
+            <i class="fa-solid fa-percent" style="color:#c084fc;"></i> فئات وأنواع الخصومات
+        </button>
+        <button onclick="goTo('pg-installment-plans')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:'Tajawal';display:flex;align-items:center;gap:5px;">
+            <i class="fa-solid fa-calendar-check" style="color:#34d399;"></i> خطط التقسيط والسداد
+        </button>
+        <button onclick="goTo('pg-student-account')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#e2e8f0;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:'Tajawal';display:flex;align-items:center;gap:5px;">
+            <i class="fa-solid fa-user-graduate" style="color:#fbbf24;"></i> الحساب المالي للطالب
+        </button>
+    </div>
+
+    <!-- 4. جدول البيانات المالي الشامل (Enrollment Data Table) -->
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم التسجيل</th>
+                    <th>اسم الطالب والصف</th>
+                    <th>نوع التسجيل</th>
+                    <th>الرسوم الأساسية</th>
+                    <th>الخدمات المضافة</th>
+                    <th>الخصم المالي</th>
+                    <th>إجمالي الصافي</th>
+                    <th>المسدد</th>
+                    <th>المتبقي</th>
+                    <th>حالة السداد</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-enrollment-list"></tbody>
+        </table>
+    </div>
+</div>

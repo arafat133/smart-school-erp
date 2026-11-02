@@ -1,0 +1,77 @@
+<div class="page" id="pg-shortcuts">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-keyboard" style="color:#38bdf8;"></i> اختصارات لوحة المفاتيح والوصول السريع (Keyboard Shortcuts & Quick Access Hub)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-keyboard" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الاختصارات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="scTotal">28 اختصار</p>
+                <small style="color:var(--muted);font-size:0.75rem;">اختصارات معرفة ومفعلة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-signs-post" style="color:#10b981;margin-left:6px;"></i> اختصارات التنقل</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="scNav">12 اختصار</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تنقل سريع بين الشاشات 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-sliders" style="color:#8b5cf6;margin-left:6px;"></i> اختصارات العمليات</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="scActions">10 اختصارات</p>
+                <small style="color:var(--muted);font-size:0.75rem;">حفظ وإضافة وطباعة 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-shield-halved" style="color:#f59e0b;margin-left:6px;"></i> اختصارات النظام</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="scSystem">6 اختصارات</p>
+                <small style="color:var(--muted);font-size:0.75rem;">قفل وبحث شامل 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchShortcuts" placeholder="بحث بالزر أو الأمر المنفذ..." oninput="renderShortcutsGrid()">
+            </div>
+            <select id="filterScCategory" onchange="renderShortcutsGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة تصنيفات الاختصارات</option>
+                <option value="تنقل">تنقل بين الشاشات</option>
+                <option value="عمليات">عمليات وطباعة</option>
+                <option value="نظام">نظام وأمان</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('shortcut')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> تخصيص اختصار جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة بطاقة الاختصارات
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود الاختصار</th>
+                    <th>مفتاح التشغيل (Key)</th>
+                    <th>الوظيفة والإجراء المنفذ</th>
+                    <th>الواجهة المستهدفة</th>
+                    <th>تصنيف الاختصار</th>
+                    <th>حالة التفعيل</th>
+                    <th>مرات الاستخدام</th>
+                    <th>مستوى الصلاحية</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-shortcuts-grid"></tbody>
+        </table>
+    </div>
+</div>

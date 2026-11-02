@@ -1,0 +1,20 @@
+<div class="page" id="pg-activity-reports">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-file-waveform"></i> كشوفات الأنشطة</h2>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input
+                                id="searchActivityreports" placeholder="بحث..." oninput="renderActivityreports()"></div>
+                        <button class="btn-add" onclick="openForm('activity-reports')"><i class="fa-solid fa-plus"></i>
+                            إضافة</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                        <thead>
+                                <tr><th>#</th><th>عنوان التقرير</th><th>النشاط</th><th>التاريخ</th><th>معد الإنجاز</th><th>ملخص الأنشطة والنتائج</th><th>المرفق</th><th>الإجراءات</th></tr>
+                            </thead>
+                        <tbody id="tbl-activity-reports"></tbody>
+                        </table>
+                    </div>
+                </div>

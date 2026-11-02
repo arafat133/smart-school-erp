@@ -1,0 +1,215 @@
+<div class="page" id="pg-cyber-soc" style="display:none;">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-back" onclick="goTo('pg-dashboard')" title="العودة"><i class="fa-solid fa-arrow-right"></i></button>
+            <div>
+                <h2 style="margin:0;display:flex;align-items:center;gap:10px;font-size:1.4rem;">
+                    <i class="fa-solid fa-shield-virus" style="color:#38bdf8;"></i> مركز العمليات السيبرانية والوكيل الذكي (Autonomous Cyber SOC & AI Guardian)
+                </h2>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;">
+                    <span class="badge" style="background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3);font-size:0.8rem;padding:4px 10px;border-radius:999px;">
+                        <i class="fa-solid fa-circle-dot fa-fade"></i> الوكيل السيبراني نشط 24/7 🟢
+                    </span>
+                    <span class="badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);font-size:0.8rem;padding:4px 10px;border-radius:999px;">
+                        <i class="fa-solid fa-brain"></i> Cyber Guardian AI v2.5
+                    </span>
+                    <span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);font-size:0.8rem;padding:4px 10px;border-radius:999px;">
+                        <i class="fa-solid fa-radiation"></i> مصائد Honeytokens مفعلة 🍯
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="triggerWebAiSelfHeal()" style="background:linear-gradient(135deg,#0284c7,#0369a1);border:none;padding:8px 16px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> إصلاح ورتق ذاتي
+            </button>
+            <button class="btn-add" onclick="downloadForensicReportPdf()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);border:none;padding:8px 16px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;">
+                <i class="fa-solid fa-file-pdf"></i> تقرير جنائي PDF
+            </button>
+            <button class="btn-add" onclick="triggerWebPanicMode()" style="background:linear-gradient(135deg,#dc2626,#991b1b);border:none;padding:8px 16px;border-radius:8px;color:white;cursor:pointer;font-weight:bold;">
+                <i class="fa-solid fa-triangle-exclamation"></i> وضع الطوارئ
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Telemetry Stats -->
+    <div class="stats-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px;">
+        <div class="stat-card" style="background:#0f172a;border:1px solid #1e293b;border-right:4px solid #10b981;padding:16px;border-radius:12px;">
+            <div style="color:#94a3b8;font-size:0.85rem;"><i class="fa-solid fa-shield-halved" style="color:#10b981;"></i> مؤشر الأمان الكلي</div>
+            <div style="color:#10b981;font-size:1.8rem;font-weight:bold;margin:8px 0;" id="socHealthScore">100%</div>
+            <small style="color:#64748b;">A+ محمي ومحصّن بالكامل</small>
+        </div>
+        <div class="stat-card" style="background:#0f172a;border:1px solid #1e293b;border-right:4px solid #38bdf8;padding:16px;border-radius:12px;">
+            <div style="color:#94a3b8;font-size:0.85rem;"><i class="fa-solid fa-code" style="color:#38bdf8;"></i> فحص الأكواد (SAST)</div>
+            <div style="color:#38bdf8;font-size:1.8rem;font-weight:bold;margin:8px 0;" id="socCodeLoc">3,219 سطر</div>
+            <small style="color:#64748b;">35 ملف - 0 أخطاء تركيبية</small>
+        </div>
+        <div class="stat-card" style="background:#0f172a;border:1px solid #1e293b;border-right:4px solid #f59e0b;padding:16px;border-radius:12px;">
+            <div style="color:#94a3b8;font-size:0.85rem;"><i class="fa-solid fa-jar" style="color:#f59e0b;"></i> مصائد العسل (Honeypots)</div>
+            <div style="color:#f59e0b;font-size:1.8rem;font-weight:bold;margin:8px 0;">18 مصيدة</div>
+            <small style="color:#64748b;">مسارات وهمية + Canaries</small>
+        </div>
+        <div class="stat-card" style="background:#0f172a;border:1px solid #1e293b;border-right:4px solid #ef4444;padding:16px;border-radius:12px;">
+            <div style="color:#94a3b8;font-size:0.85rem;"><i class="fa-solid fa-user-slash" style="color:#ef4444;"></i> العناوين المحظورة</div>
+            <div style="color:#ef4444;font-size:1.8rem;font-weight:bold;margin:8px 0;" id="socBlockedIps">القائمة السوداء</div>
+            <small style="color:#64748b;">حظر فوري عبر التلجرام</small>
+        </div>
+    </div>
+
+    <!-- Live Interactive AI Console & Action Matrix -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        <!-- Left: AI Chat Terminal -->
+        <div style="background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:20px;display:flex;flex-direction:column;height:450px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;padding-bottom:12px;margin-bottom:14px;">
+                <div style="font-weight:bold;display:flex;align-items:center;gap:8px;">
+                    <i class="fa-solid fa-terminal" style="color:#38bdf8;"></i> منصة استشارة الوكيل السيبراني التفاعلية
+                </div>
+                <span style="font-size:0.75rem;color:#10b981;">Online ●</span>
+            </div>
+            <div id="socChatBox" style="flex:1;overflow-y:auto;padding-right:8px;display:flex;flex-direction:column;gap:12px;font-size:0.88rem;">
+                <div style="background:#1e293b;padding:12px;border-radius:10px;border-right:3px solid #38bdf8;">
+                    🤖 <b>الوكيل السيبراني الذكي:</b> مرحباً بك يا مدير النظام! أنا في خدمتك لمراقبة الأمان وفحص الأكواد ومتابعة الهجمات. اسألني عن أي شيء!
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:14px;">
+                <input type="text" id="socChatInput" placeholder="اكتب سؤالك الأمني هنا (مثال: هل توجد أخطاء في الكود؟)..." 
+                       style="flex:1;background:#020617;border:1px solid #334155;border-radius:8px;padding:10px 14px;color:white;outline:none;"
+                       onkeypress="if(event.key==='Enter') sendWebAiChat()">
+                <button onclick="sendWebAiChat()" style="background:#38bdf8;border:none;color:#0f172a;padding:10px 18px;border-radius:8px;font-weight:bold;cursor:pointer;">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right: Threat Radar & Live Controls -->
+        <div style="background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px;">
+            <div style="font-weight:bold;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1e293b;padding-bottom:12px;">
+                <i class="fa-solid fa-crosshairs" style="color:#ef4444;"></i> رادار التهديدات ومصفوفة الدفاع الاستباقي
+            </div>
+            
+            <div style="background:#020617;border:1px solid #1e293b;border-radius:10px;padding:16px;text-align:center;">
+                <div style="font-size:0.85rem;color:#94a3b8;margin-bottom:6px;">مؤشر الخطر السيبراني اللحظي (Threat Risk Gauge)</div>
+                <div style="font-size:2.2rem;font-weight:900;color:#10b981;">0% (منخفض جداً)</div>
+                <div style="width:100%;background:#1e293b;height:8px;border-radius:999px;margin:12px 0;overflow:hidden;">
+                    <div style="width:3%;background:#10b981;height:100%;"></div>
+                </div>
+                <div style="font-size:0.75rem;color:#64748b;">لم يتم تسجيل أي اختراق ناجح. كافة الطلبات المشبوهة تم حجبها في الطبقة الأولى.</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <button onclick="triggerWebAiCodeScan()" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:12px;border-radius:8px;cursor:pointer;text-align:right;font-size:0.85rem;">
+                    <i class="fa-solid fa-code" style="color:#38bdf8;margin-left:6px;"></i> <b>فحص الأكواد (SAST)</b><br>
+                    <small style="color:#94a3b8;">كشف الأخطاء والثغرات اللغوية</small>
+                </button>
+                <button onclick="triggerWebAiAudit()" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:12px;border-radius:8px;cursor:pointer;text-align:right;font-size:0.85rem;">
+                    <i class="fa-solid fa-satellite-dish" style="color:#10b981;margin-left:6px;"></i> <b>فحص شامل للنظام</b><br>
+                    <small style="color:#94a3b8;">تدقيق التشفير والـ Blockchain</small>
+                </button>
+            </div>
+
+            <!-- Emergency recovery input -->
+            <div id="unpanicBox" style="display:none;background:rgba(220,38,38,0.1);border:1px dashed #ef4444;padding:12px;border-radius:8px;">
+                <div style="color:#fca5a5;font-size:0.8rem;margin-bottom:8px;">⚠️ وضع الطوارئ مفعّل حالياً! لإلغاء القفل أدخل الرمز:</div>
+                <div style="display:flex;gap:8px;">
+                    <input type="text" id="unpanicTokenInput" placeholder="رمز الاستعادة..." style="flex:1;background:#020617;border:1px solid #ef4444;border-radius:6px;padding:6px 10px;color:white;">
+                    <button onclick="submitUnpanicToken()" style="background:#ef4444;color:white;border:none;padding:6px 14px;border-radius:6px;font-weight:bold;cursor:pointer;">إلغاء القفل</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function sendWebAiChat() {
+    const input = document.getElementById('socChatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    
+    const box = document.getElementById('socChatBox');
+    box.innerHTML += `<div style="background:#020617;padding:10px 14px;border-radius:10px;align-self:flex-start;max-width:85%;border-left:3px solid #94a3b8;">👤 <b>أنت:</b> ${msg}</div>`;
+    input.value = '';
+    box.scrollTop = box.scrollHeight;
+    
+    try {
+        const res = await fetch('/api/security/ai/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: msg, user: 'مدير النظام'})
+        });
+        const data = await res.json();
+        const replyHtml = data.reply.replace(/\\n/g, '<br>').replace(/\\*(.*?)\\*/g, '<b>$1</b>');
+        box.innerHTML += `<div style="background:#1e293b;padding:12px;border-radius:10px;border-right:3px solid #38bdf8;max-width:90%;">${replyHtml}</div>`;
+        box.scrollTop = box.scrollHeight;
+    } catch(e) {
+        box.innerHTML += `<div style="color:#ef4444;">⚠️ تعذر الاتصال بالوكيل: ${e}</div>`;
+    }
+}
+
+async function triggerWebAiCodeScan() {
+    alert('🔍 جاري فحص كافة ملفات وأسطر الكود البرمجي (SAST)...');
+    try {
+        const res = await fetch('/api/security/ai/code-scan');
+        const data = await res.json();
+        alert(`✅ نتيجة فحص الأكواد البرمجية:\n• الملفات المفحوصة: ${data.scanned_files_count}\n• إجمالي أسطر الكود: ${data.total_lines_of_code}\n• أخطاء لغوية (Syntax): ${data.syntax_errors_count}\n• تقييم جودة الكود: ${data.code_health_score}% (${data.status})`);
+    } catch(e) {
+        alert('خطأ أثناء فحص الكود: ' + e);
+    }
+}
+
+async function triggerWebAiSelfHeal() {
+    if(!confirm('هل تريد تشغيل محرك التحصين والإصلاح الذاتي للنظام؟')) return;
+    try {
+        const res = await fetch('/api/security/ai/self-heal', {method: 'POST'});
+        const data = await res.json();
+        alert('🛡️ تم التحصين والإصلاح الذاتي بنجاح!\n' + data.actions_taken.join('\n'));
+    } catch(e) {
+        alert('خطأ: ' + e);
+    }
+}
+
+async function triggerWebAiAudit() {
+    alert('🔍 جاري الفحص الأمني الشامل...');
+    try {
+        const res = await fetch('/api/security/ai/audit', {method: 'POST'});
+        const data = await res.json();
+        alert(`📊 النتيجة:\n• التقييم: ${data.security_score}%\n• الحالة: ${data.status}`);
+    } catch(e) {
+        alert('خطأ: ' + e);
+    }
+}
+
+async function downloadForensicReportPdf() {
+    window.open('/api/security/ai/forensic-report-pdf', '_blank');
+}
+
+async function triggerWebPanicMode() {
+    if(!confirm('⚠️ تحذير أمني: هل تريد تفعيل وضع الطوارئ القصوى وأخذ نسخة احتياطية مشفرة فورياً؟')) return;
+    try {
+        const res = await fetch('/api/security/ai/panic', {method: 'POST'});
+        const data = await res.json();
+        alert(`🚨 تم تفعيل وضع الطوارئ!\nرمز الاستعادة الخاص بك هو:\n${data.recovery_token}\n\nاحتفظ به لإلغاء القفل.`);
+        document.getElementById('unpanicBox').style.display = 'block';
+    } catch(e) {
+        alert('خطأ: ' + e);
+    }
+}
+
+async function submitUnpanicToken() {
+    const token = document.getElementById('unpanicTokenInput').value.trim();
+    if(!token) return;
+    try {
+        const res = await fetch('/api/security/ai/unpanic', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({token: token})
+        });
+        const data = await res.json();
+        alert(data.message);
+        if(data.success) {
+            document.getElementById('unpanicBox').style.display = 'none';
+        }
+    } catch(e) {
+        alert('خطأ: ' + e);
+    }
+}
+</script>

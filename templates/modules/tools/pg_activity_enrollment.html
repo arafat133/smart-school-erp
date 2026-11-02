@@ -1,0 +1,21 @@
+<div class="page" id="pg-activity-enrollment">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-clipboard-user"></i> اشتراك الطلاب في الأنشطة</h2>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input
+                                id="searchActivityenrollment" placeholder="بحث..." oninput="renderActivityenrollment()">
+                        </div>
+                        <button class="btn-add" onclick="openForm('activity-enrollment')"><i
+                                class="fa-solid fa-plus"></i> إضافة</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                        <thead>
+                                <tr><th>#</th><th>اسم الطالب</th><th>النشاط المشترك به</th><th>الصف والشعبة</th><th>تاريخ الاشتراك</th><th>حالة الرسوم</th><th>الإجراءات</th></tr>
+                            </thead>
+                        <tbody id="tbl-activity-enrollment"></tbody>
+                        </table>
+                    </div>
+                </div>

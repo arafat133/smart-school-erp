@@ -1,0 +1,44 @@
+# Environments & Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.local
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Database files
+*.db
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Heavy Binaries & Temporary Scratch
+scratch/
+scratch_*
+clean_deploy/
+*.exe
+*.zip
+*.tar.gz
+*.docx
+node.exe
+cloudflared.exe
+
+# Logs
+logs/
+*.log
+
+# Editor & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

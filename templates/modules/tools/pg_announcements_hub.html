@@ -1,0 +1,46 @@
+<div class="page" id="pg-announcements-hub">
+                    <div class="page-header">
+                        <button class="btn-back" onclick="goTo('pg-dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-bullhorn"></i> لوحة التعاميم والتواصل الداخلي (Announcements Hub)</h2>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input id="searchAnnouncements" placeholder="ابحث في التعاميم والإعلانات..." oninput="renderAnnouncements()">
+                        </div>
+                        <button class="btn-add" onclick="openNewAnnouncementModal()"><i class="fa-solid fa-plus"></i> نشر تعميم جديد</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>كود الإعلان</th>
+                                    <th>عنوان القرار / التعميم</th>
+                                    <th>الشريحة المستهدفة</th>
+                                    <th>تاريخ النشر</th>
+                                    <th>مستوى الأهمية</th>
+                                    <th>نسبة الاطلاع بالقراءة</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-announcements-grid">
+                                <tr>
+                                    <td style="font-weight:700;">ANC-2026-01</td>
+                                    <td style="font-weight:700;color:#60a5fa;">📢 جدول اختبارات منتصف الفصل الدراسي الأول</td>
+                                    <td><span class="badge badge-info">الطلاب وأولياء الأمور</span></td>
+                                    <td>2026-08-15</td>
+                                    <td><span class="badge badge-danger">هام جداً 🚨</span></td>
+                                    <td><span class="badge badge-success">88% (342/388)</span></td>
+                                    <td><span class="badge badge-success">نشط 🟢</span></td>
+                                    <td>
+                                        <div class="act">
+                                            <button class="btn-edit" onclick="toast('📄 معاينة نص التعميم والاطلاع')"><i class="fa-solid fa-eye"></i></button>
+                                            <button class="btn-delete" onclick="toast('🗑️ أرشفة الإعلان')"><i class="fa-solid fa-box-archive"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>

@@ -1,0 +1,85 @@
+<div class="page" id="pg-grading">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-pen-to-square" style="color:#38bdf8;"></i> رصد الدرجات وأعمال السنة (Grading & Continuous Assessment Sheet)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-users" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الطلاب</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="gradeTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">طلاب الشعبة المستهدفون 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> درجات مكتملة ومعتمدة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="gradeCompleted">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تم رصد كافة المحاور 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-hourglass-half" style="color:#f59e0b;margin-left:6px;"></i> قيد الإدخال والمراجعة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="gradePending">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بانتظار رصد النهائي 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-chart-line" style="color:#8b5cf6;margin-left:6px;"></i> متوسط نسبة المادة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="gradeAverage">88.5%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">متوسط تحصيل الشعبة 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:700px;">
+            <select id="gradeClassFilter" onchange="renderGradingSheetGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="الثالث الثانوي - علمي 1">الثالث الثانوي - علمي 1</option>
+                <option value="التاسع أساسي - أ">التاسع أساسي - أ</option>
+                <option value="الأول الثانوي - عام">الأول الثانوي - عام</option>
+            </select>
+            <select id="gradeSubjectFilter" onchange="renderGradingSheetGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="الرياضيات">الرياضيات المتقدمة</option>
+                <option value="الكيمياء">الكيمياء العامة</option>
+                <option value="اللغة العربية">اللغة العربية والبلاغة</option>
+                <option value="الفيزياء">الفيزياء</option>
+            </select>
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchGrading" placeholder="بحث باسم الطالب أو رقم القيد..." oninput="renderGradingSheetGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('⚡ تم احتساب المجاميع والنسب المئوية والتقديرات لجميع الطلاب آلياً 🟢');renderGradingSheetGrid();" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-calculator"></i> احتساب المجموع آلياً
+            </button>
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('💾 تم حفظ واعتماد درجات أعمال السنة والاختبارات بنجاح 🟢');" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fa-solid fa-floppy-disk"></i> حفظ واعتماد الدرجات
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة كشف الرصد
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم القيد</th>
+                    <th>اسم الطالب الرباعي</th>
+                    <th>المشاركة والواجبات (20)</th>
+                    <th>الأنشطة والحضور (10)</th>
+                    <th>الاختبارات الشهرية (20)</th>
+                    <th>الاختبار النهائي (50)</th>
+                    <th>المجموع الكلي (100)</th>
+                    <th>التقدير</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-grading-grid"></tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="page" id="pg-success-rate-subject">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-chart-column" style="color:#38bdf8;"></i> نسب النجاح والتحليل الإحصائي للمواد (Subject Success Rates & Analytics)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-arrow-trend-up" style="color:#10b981;margin-left:6px;"></i> أعلى مادة نجاحاً</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="subjTopRate">القرآن (99.2%)</p>
+                <small style="color:var(--muted);font-size:0.75rem;">التربية الإسلامية 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-chart-pie" style="color:#3b82f6;margin-left:6px;"></i> متوسط نسبة النجاح</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="subjAvgRate">93.4%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">المعدل الإجمالي لكافة المواد 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;margin-left:6px;"></i> مواد تتطلب تقوية</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="subjSupport">الرياضيات / فيزياء</p>
+                <small style="color:var(--muted);font-size:0.75rem;">خطة دعم أكاديمي 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-book" style="color:#8b5cf6;margin-left:6px;"></i> إجمالي المواد المقررة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="subjTotalCount">14 مادة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">المناهج الدراسية 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchSubjRates" placeholder="بحث باسم المادة أو المعلم..." oninput="renderSuccessRateSubjectGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('⚡ تم تحديث المنحنيات البيانية والتحليل الإحصائي للمواد 🟢');renderSuccessRateSubjectGrid();" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-chart-line"></i> تحديث الإحصاءات
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة التقرير الإحصائي
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود المادة</th>
+                    <th>اسم المادة الدراسية</th>
+                    <th>الصف الدراسي</th>
+                    <th>معلم المادة</th>
+                    <th>الطلاب المختبرون</th>
+                    <th>عدد الناجحين</th>
+                    <th>نسبة النجاح (%)</th>
+                    <th>متوسط الدرجات</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-success-rate-subject-grid"></tbody>
+        </table>
+    </div>
+</div>

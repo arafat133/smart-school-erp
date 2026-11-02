@@ -1,0 +1,71 @@
+<div class="page" id="pg-control-reports">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-file-shield" style="color:#38bdf8;"></i> تقارير الكنترول وسجلات الامتحانات الرسمية (Examination Control Official Records)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-book-bookmark" style="color:#3b82f6;margin-left:6px;"></i> إجمالي السجلات والمسودات</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="ctrlRecordsTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">سجلات الكنترول المعتمدة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-lock" style="color:#10b981;margin-left:6px;"></i> سجلات مدققة ومقفلة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="ctrlRecordsLocked">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">مختومة رسمياً بالكنترول 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-lines" style="color:#8b5cf6;margin-left:6px;"></i> نماذج الكنترول الرسمية</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="ctrlFormsCount">18 نموذج</p>
+                <small style="color:var(--muted);font-size:0.75rem;">شيتات ورصد رسمي 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-magnifying-glass" style="color:#f59e0b;margin-left:6px;"></i> قيد المراجعة النهائية</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="ctrlRecordsReview">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">بانتظار الإقفال النهائي 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchCtrlReports" placeholder="بحث باسم السجل أو الصف..." oninput="renderControlReportsGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('🔒 تم إقفال واعتماد الشيتات وسجلات الكنترول الرسمية بنجاح 🟢');renderControlReportsGrid();" style="background:linear-gradient(135deg,#059669,#047857);">
+                <i class="fa-solid fa-lock"></i> إقفال واعتماد السجلات
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة الشيت والمسودات
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>كود السجل / النموذج</th>
+                    <th>اسم السجل والتقرير الرسمي</th>
+                    <th>الصف والمرحلة</th>
+                    <th>العام والفصل الدراسي</th>
+                    <th>الطلاب المشمولون</th>
+                    <th>رئيس الكنترول</th>
+                    <th>تاريخ الاعتماد</th>
+                    <th>حالة السجل</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-control-reports-grid"></tbody>
+        </table>
+    </div>
+</div>

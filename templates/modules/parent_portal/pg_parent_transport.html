@@ -1,0 +1,84 @@
+<div class="page" id="pg-parent-transport">
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+            <div>
+                <h2 style="margin:0;font-size:1.35rem;color:#f8fafc;display:flex;align-items:center;gap:8px;">
+                    <i class="fa-solid fa-bus" style="color:#f97316;"></i>
+                    <span>بيانات باص المدرسة وخدمة النقل والمواصلات (School Transport Info)</span>
+                </h2>
+                <p style="margin:4px 0 0;color:#94a3b8;font-size:0.85rem;">بيانات الحافلة المدرسية، السائق، المشرفة، ومواعيد جولات الصعود والانصراف اليومية</p>
+            </div>
+        </div>
+        <div style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);padding:8px 16px;border-radius:12px;display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-circle-check" style="color:#10b981;font-size:1.1rem;"></i>
+            <span style="color:#f8fafc;font-weight:700;font-size:0.88rem;">اشتراك فعال (ذهاب وعودة 🟢)</span>
+        </div>
+    </div>
+
+    <!-- 4 Transport KPI Cards -->
+    <div class="stats-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px;">
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #3b82f6;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-van-shuttle" style="color:#3b82f6;margin-left:6px;"></i> رقم الحافلة ونوعها</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;margin:0;">باص 01 (مكيف)</p>
+                <small style="color:#64748b;font-size:0.75rem;">تويوتا كوستر 30 راكب 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #10b981;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-user-tie" style="color:#10b981;margin-left:6px;"></i> السائق المسؤول</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;margin:0;">العم ناصر الأهدل</p>
+                <small style="color:#64748b;font-size:0.75rem;">هاتف مباشر: 777123456 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #8b5cf6;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-person-shelter" style="color:#8b5cf6;margin-left:6px;"></i> مشرفة الحافلة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;margin:0;">أ. مريم السقاف</p>
+                <small style="color:#64748b;font-size:0.75rem;">هاتف مرافقة: 771987654 🟣</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #f59e0b;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-calendar-check" style="color:#f59e0b;margin-left:6px;"></i> خط السير اليومي</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.15rem;margin:0;">شارع الستين — حدة</p>
+                <small style="color:#64748b;font-size:0.75rem;">خدمة نقل منتظمة يومياً 🟡</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route & Timetable Details Card -->
+    <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;margin-bottom:20px;">
+        <h3 style="color:#38bdf8;font-size:1.1rem;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-route"></i>
+            <span>تفاصيل خط السير ومواعيد الجولات اليومية</span>
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:16px;">
+            <div style="background:rgba(15,23,42,0.5);padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+                <label style="color:#94a3b8;font-size:0.82rem;display:block;margin-bottom:4px;">نقطة صعود الطالب المعتمدة:</label>
+                <div style="font-weight:800;color:#f8fafc;">شارع حدة — جوار بنك اليمن الدولي</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.5);padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+                <label style="color:#94a3b8;font-size:0.82rem;display:block;margin-bottom:4px;">موعد الصعود الصباحي:</label>
+                <div style="font-weight:700;color:#fbbf24;font-family:monospace;font-size:1.05rem;">06:45 صباحاً (يرجى التواجد بالموعد)</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.5);padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+                <label style="color:#94a3b8;font-size:0.82rem;display:block;margin-bottom:4px;">موعد انطلاق الحافلة من المدرسة ظهراً:</label>
+                <div style="font-weight:700;color:#38bdf8;font-family:monospace;font-size:1.05rem;">01:25 ظهراً</div>
+            </div>
+            <div style="background:rgba(15,23,42,0.5);padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+                <label style="color:#94a3b8;font-size:0.82rem;display:block;margin-bottom:4px;">موعد الوصول المتوقع للمنزل:</label>
+                <div style="font-weight:700;color:#34d399;font-family:monospace;font-size:1.05rem;">01:50 ظهراً</div>
+            </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('💬 فتح محادثة واتساب مع سائق ومشرفة الحافلة');" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
+                <i class="fa-brands fa-whatsapp"></i> مراسلة مشرفة الحافلة عبر WhatsApp
+            </button>
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('📞 الاتصال بإدارة الحركة والمواصلات: 777123456');" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-phone"></i> الاتصال بإدارة حركة المواصلات
+            </button>
+        </div>
+    </div>
+</div>

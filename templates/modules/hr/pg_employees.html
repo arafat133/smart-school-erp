@@ -1,0 +1,78 @@
+<div class="page" id="pg-employees">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-users-tie" style="color:#38bdf8;"></i> السجل العام للموظفين والكادر التعليمي (Employee Master Registry)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-users" style="color:#3b82f6;margin-left:6px;"></i> إجمالي الموظفين</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="empTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الكادر المسجل بالمنظومة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-user-check" style="color:#10b981;margin-left:6px;"></i> على رأس العمل</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="empActive">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الكادر المباشر للعمل 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-chalkboard-user" style="color:#f59e0b;margin-left:6px;"></i> كادر تعليمي ومعلمون</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="empTeachers">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">المعلمون والمعلمات المعتمدون 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-circle-xmark" style="color:#ef4444;margin-left:6px;"></i> عقود منتهية</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="empExpired">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">عقود بحاجة للتجديد 🔴</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:200px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchEmployees" placeholder="بحث باسم الموظف أو الرقم الوظيفي..." oninput="renderEmployeesGrid()">
+            </div>
+            <select id="filterEmpDept" onchange="renderEmployeesGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة الأقسام والتخصصات</option>
+                <option value="الكادر التعليمي">الكادر التعليمي والتدريس</option>
+                <option value="الإدارة المدرسية">الإدارة المدرسية والكنترول</option>
+                <option value="الخدمات والأنشطة">الخدمات والأنشطة الطلابية</option>
+                <option value="الشؤون المالية">الشؤون المالية والمحاسبة</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('employee')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-user-plus"></i> تسجيل موظف جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة دليل الموظفين
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الرقم الوظيفي</th>
+                    <th>الاسم الرباعي</th>
+                    <th>المسمى الوظيفي</th>
+                    <th>القسم / التخصص</th>
+                    <th>تاريخ التعيين</th>
+                    <th>نوع العقد</th>
+                    <th>الراتب الأساسي</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-employees-grid"></tbody>
+        </table>
+    </div>
+</div>

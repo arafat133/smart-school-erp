@@ -1,0 +1,1301 @@
+{
+  "total_pages": 121,
+  "working_pages_count": 19,
+  "non_functional_pages_count": 102,
+  "unmapped_dispatcher_count": 75,
+  "broken_dom_elements_count": 27,
+  "pages": [
+    {
+      "page_id": "pg-academic-calendar",
+      "title": "التقويم المدرسي والفعاليات الأكاديمية",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderAcademicCalendar",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-academic-years",
+      "title": "دليل السنوات الدراسية",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['searchAcademicYears', 'tbl-academic-years-grid']",
+      "render_function": "renderAcademicYearsGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "searchAcademicYears",
+        "tbl-academic-years-grid"
+      ]
+    },
+    {
+      "page_id": "pg-account-ceiling",
+      "title": "تسقيف الحسابات والضوابط الائتمانية (Account Limits)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderAccountCeiling",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-activities",
+      "title": "إدارة الأنشطة والأنواع والتخطيط والرسوم",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderActivitiesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-activity-enrollment",
+      "title": "اشتراك الطلاب في الأنشطة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-activity-reports",
+      "title": "كشوفات الأنشطة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-activity-supervisors",
+      "title": "المرافقون في الأنشطة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-activity-types",
+      "title": "دليل أنواع الأنشطة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-admin-messages",
+      "title": "الرسائل الإدارية والتعاميم والإعلانات الرسمية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderAdminMessagesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-admin-password",
+      "title": "تغيير كلمة السر",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderAdminPassword",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-alerts",
+      "title": "واجهة التنبيهات التلقائية والمحفزات (Automated System Alerts)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderConflictAlerts",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-archive",
+      "title": "واجهة الأرشيف والأرشفة الإلكترونية (Digital Archiving & OCR)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderArchiveGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-attendance",
+      "title": "حضور وغياب الطلاب",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderEmpAttendanceGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-audit",
+      "title": "سجل العمليات والمحفوظات الأمنية المركزية (System Audit & Activity Log)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['auditActionFilter', 'auditTotalCount', 'auditModuleFilter', 'auditHighRiskCount', 'auditSearchInput', 'auditSeverityFilter']",
+      "render_function": "renderAuditGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "auditActionFilter",
+        "auditTotalCount",
+        "auditModuleFilter",
+        "auditHighRiskCount",
+        "auditSearchInput",
+        "auditSeverityFilter"
+      ]
+    },
+    {
+      "page_id": "pg-audit-trail",
+      "title": "سجل العمليات والتتبع (Audit Trail)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['auditActionFilter', 'auditTotalCount', 'auditModuleFilter', 'auditHighRiskCount', 'auditSearchInput', 'auditSeverityFilter']",
+      "render_function": "renderAuditGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "auditActionFilter",
+        "auditTotalCount",
+        "auditModuleFilter",
+        "auditHighRiskCount",
+        "auditSearchInput",
+        "auditSeverityFilter"
+      ]
+    },
+    {
+      "page_id": "pg-banks",
+      "title": "واجهة دليل البنوك والحسابات المصرفية (Bank Accounts Directory)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderBanksGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-buses",
+      "title": "دليل أسطول الحافلات والمركبات والسلامة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderBusesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-cashbox-inventory",
+      "title": "واجهة جرد الصناديق النقدية والخزائن (Cash Drawer Audit)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderCashboxInventoryGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-cashboxes",
+      "title": "دليل الصناديق والخزائن المالية (Cash Boxes)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['searchCashboxes', 'statCashboxesCount', 'statCashboxesTotalYER', 'statCashboxesTotalUSD', 'filterCashboxType', 'tbl-cashboxes-grid']",
+      "render_function": "renderCashboxesGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "searchCashboxes",
+        "statCashboxesCount",
+        "statCashboxesTotalYER",
+        "statCashboxesTotalUSD",
+        "filterCashboxType",
+        "tbl-cashboxes-grid"
+      ]
+    },
+    {
+      "page_id": "pg-certificates",
+      "title": "إصدار الشهادات الرسمية والتوثيق الرقمي (QR)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderCertificatesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-change-password",
+      "title": "واجهة تغيير كلمة المرور والسياسات الأمنية (Change Password)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-chart-accounts",
+      "title": "دليل الحسابات المالي الشامل (Chart of Accounts)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderChartAccountsTree",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-class-details",
+      "title": "كشف تفصيلي للصفوف والطلاب والسجل الموحد",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderClassDetailsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-class-notes",
+      "title": "سجل وملاحظات رائد الفصل الإرشادية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderClassNotesTimeline",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-class-times",
+      "title": "توقيت الحصص الدراسية (Class Periods Schedule)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderClassTimesGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-classrooms",
+      "title": "دليل القاعات والمعامل الدراسية وتتبع الإشغال",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderClassroomsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-closings",
+      "title": "واجهة الإقفالات المحاسبية وإغلاق الفترات (Period-End Closures)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderClosingsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-control-reports",
+      "title": "تقارير الكنترول والمشيت الموحد الرسمي",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderControlReportsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-cost-centers",
+      "title": "دليل مراكز التكلفة (Cost Centers Tree & Budget)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderCostCenters",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-currencies",
+      "title": "واجهة دليل العملات وأسعار الصرف (Currencies & Exchange Rates)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderCurrenciesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-custom-reports",
+      "title": "التقارير المخصصة (Custom Reports Builder)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderCustomReportsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-dashboard",
+      "title": "لوحة التحكم الرئيسية",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderDashboard",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-db-management",
+      "title": "إدارة قواعد البيانات والنسخ الاحتياطي",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-demand-letters",
+      "title": "واجهة رسائل المطالبة المالية وإشعارات المتأخرات (Dunning Letters)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderDemandLettersGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-dictionary",
+      "title": "قاموس الترجمة والمصطلحات المعيارية للنظام",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderDictionaryGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-discontinued",
+      "title": "سجل وإدارة الطلاب غير المستمرين (المنقطعين / المنسحبين)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderDiscontinuedList",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-discount-categories",
+      "title": "فئات الخصم",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-discount-categories-grid']",
+      "render_function": "renderDiscountCategoriesGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-discount-categories-grid"
+      ]
+    },
+    {
+      "page_id": "pg-emp-advances",
+      "title": "سلفيات وقروض الموظفين والتسديد",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderEmpAdvancesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-emp-attendance",
+      "title": "متابعة حضور وانضباط الموظفين اليومي",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderEmpAttendanceGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-emp-contracts",
+      "title": "دليل عقود الموظفين والدرجات الوظيفية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderEmpContractsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-emp-notices",
+      "title": "مركز التعاميم والإشعارات والتنبيهات الإدارية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderEmpNoticesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-employees",
+      "title": "دليل الموظفين",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderEmployees",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-enrollment",
+      "title": "إدارة القبول والتسجيل والرسوم الدراسية الشاملة",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-enrollment', 'searchEnroll']",
+      "render_function": "renderEnrollment",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-enrollment",
+        "searchEnroll"
+      ]
+    },
+    {
+      "page_id": "pg-exam-halls",
+      "title": "تهيئة أماكن ولجان الامتحانات والسعة الاستيعابية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderExamHallsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-exam-schedule",
+      "title": "واجهة جدول الامتحانات المتقدمة والذكية (Smart Exam Scheduler)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderExamScheduleGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-faq",
+      "title": "الأسئلة المتكررة ومركز تذاكر الدعم الفني",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderFaqGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-fee-categories",
+      "title": "فئات الرسوم الدراسية",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-fee-categories-grid']",
+      "render_function": "renderFeeCategoriesGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-fee-categories-grid"
+      ]
+    },
+    {
+      "page_id": "pg-finance-reports",
+      "title": "التقارير المالية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-grade-fees",
+      "title": "رسوم الصفوف",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-grade-fees-grid']",
+      "render_function": "renderGradeFeesGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-grade-fees-grid"
+      ]
+    },
+    {
+      "page_id": "pg-grade-progression",
+      "title": "تدرج الصفوف",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-grade-ratings",
+      "title": "دليل التقديرات",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-grade-types",
+      "title": "أنواع الدرجات",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-grading",
+      "title": "شيت رصد الدرجات والاختبارات التفاعلي",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderInteractiveGradingGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-guarantors",
+      "title": "دليل الضمناء والكفلاء والالتزامات الماليـة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderGuarantorsList",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-hall-distribution",
+      "title": "توزيع اللجان والمراقبين والملاحظين",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderHallDistributionGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-homework",
+      "title": "الواجبات اليومية",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-homework-list']",
+      "render_function": "renderHomeworkList",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-homework-list"
+      ]
+    },
+    {
+      "page_id": "pg-homework-tracker",
+      "title": "متابعة الواجبات المدرسية (Homework Tracker)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-income-stmt",
+      "title": "قائمة الدخل",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-income-stmt', 'tbl-income']",
+      "render_function": "renderIncomeStmt",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-income-stmt",
+        "tbl-income"
+      ]
+    },
+    {
+      "page_id": "pg-installment-plans",
+      "title": "فئات الأقساط",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-installment-plans-grid']",
+      "render_function": "renderInstallmentPlansGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-installment-plans-grid"
+      ]
+    },
+    {
+      "page_id": "pg-inventory-items",
+      "title": "دليل الأصناف والمنتجات والباركود",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderInventoryItemsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-inventory-reports",
+      "title": "تقارير المخزون والجرد والتسويات المالية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderInventoryReportsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-issue-orders",
+      "title": "أذونات وأوامر الصرف والتسليم المخزني (GIN)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderIssueOrdersGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-item-categories",
+      "title": "دليل فئات الأصناف وشجرة التبويب المخزني",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderItemCategoriesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-journal",
+      "title": "القيود اليومية (General Journal)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['statJournalPostedCount', 'statJournalTotalAmount', 'statJournalTotalCount', 'tbl-journal-grid', 'filterJournalStatus']",
+      "render_function": "renderJournalGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "statJournalPostedCount",
+        "statJournalTotalAmount",
+        "statJournalTotalCount",
+        "tbl-journal-grid",
+        "filterJournalStatus"
+      ]
+    },
+    {
+      "page_id": "pg-leave-management",
+      "title": "نظام إدارة الإجازات (Leave Management System)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderLeaveManagementGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-monthly-report",
+      "title": "تقارير الأعمال الإدارية والتشغيلية الشهرية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderMonthlyReportGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-operation-lock",
+      "title": "قفل العمليات والموديولات المحاسبية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderOperationLock",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-parent-attendance",
+      "title": "سجل الحضور والغياب والمواظبة",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-parent-attendance']",
+      "render_function": "renderParentAttendance",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-parent-attendance"
+      ]
+    },
+    {
+      "page_id": "pg-parent-dashboard",
+      "title": "لوحة استعلام ولي الأمر / الطالب",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-parent-fees",
+      "title": "الملخص المالي وسجل الرسوم",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-parent-fees']",
+      "render_function": "renderParentFees",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-parent-fees"
+      ]
+    },
+    {
+      "page_id": "pg-parent-grades",
+      "title": "النتائج والمحصلات الدراسية",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-parent-grades']",
+      "render_function": "renderParentGrades",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-parent-grades"
+      ]
+    },
+    {
+      "page_id": "pg-parent-homework",
+      "title": "الواجبات اليومية والمدرسية المطلوب تسليمها",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-parent-homework']",
+      "render_function": "renderParentHomework",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-parent-homework"
+      ]
+    },
+    {
+      "page_id": "pg-parent-profile",
+      "title": "البيانات الشخصية والأكاديمية للطالب",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['parentProfileName']",
+      "render_function": "renderParentProfile",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "parentProfileName"
+      ]
+    },
+    {
+      "page_id": "pg-parents",
+      "title": "دليل أولياء الأمور",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-payroll",
+      "title": "مسير ومعالجة الرواتب والاستقطاعات الشهرية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderPayrollMasterGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-performance-eval",
+      "title": "تقييم الأداء والكفاءة (Performance Evaluation)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderPerformanceEvals",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-personal-info",
+      "title": "معلومات الملف الشخصي وأمان الحساب",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderPersonalInfoGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-posting",
+      "title": "واجهة إدارة الترحيلات والقيود المعلقة (Posting Management)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderPostingGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-promotion",
+      "title": "ترفيع الطلاب",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-promotion-batch']",
+      "render_function": "renderPromotionBatch",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-promotion-batch"
+      ]
+    },
+    {
+      "page_id": "pg-promotion-workflow",
+      "title": "الترفيع الجماعي للطلاب (Batch Promotion Workflow)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-required-docs",
+      "title": "دليل الوثائق المطلوبة",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-required-docs-grid']",
+      "render_function": "renderRequiredDocsGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-required-docs-grid"
+      ]
+    },
+    {
+      "page_id": "pg-results",
+      "title": "نتائج وتقديرات الطلاب النهائية والتراكمي",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderFinalResultsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-roll-call",
+      "title": "كشوفات المناداة للمنادين وتوقيعات الاستلام",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderRollCallGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-saas-admin",
+      "title": "لوحة تحكم مدير النظام (SAAS)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-schedule",
+      "title": "الجدول الدراسي",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderInteractiveTimetable",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-school-info",
+      "title": "واجهة معلومات المدرسة والسياسات السيادية (School Profile & Settings)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['schoolNameInput', 'infoSchoolName']",
+      "render_function": "renderSchoolInfo",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "schoolNameInput",
+        "infoSchoolName"
+      ]
+    },
+    {
+      "page_id": "pg-seat-cards",
+      "title": "طباعة بطاقات أرقام الجلوس ومستندات الطاولات",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSeatCardsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-seat-numbers",
+      "title": "كشوفات وتوليد أرقام الجلوس والباركود",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSeatNumbersGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-secret-numbers",
+      "title": "توليد الأرقام السرية وتشفير أوراق الإجابة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSecretNumbersGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-section-distribution",
+      "title": "توزيع الطلاب الذكي على الشعب والقاعات",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSectionDistributionWorkspace",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-sections",
+      "title": "دليل الشُعَب (الفصول)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-sections-grid']",
+      "render_function": "renderSectionsGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-sections-grid"
+      ]
+    },
+    {
+      "page_id": "pg-semester-report",
+      "title": "تقرير أعمال الفصل الدراسي الشامل والتراكمي",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSemesterReportGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-shortcuts",
+      "title": "اختصارات النظام المفضلة والوصول السريع",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderShortcutsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-simple-register",
+      "title": "التسجيل المبسط السريع للطلاب (Quick Student Registration)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSimpleRegister",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-sms-balance",
+      "title": "الاشتراك والرصيد",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-sms-send",
+      "title": "واجهة إرسال رسائل وتنبيهات الواتساب التفاعلية (WhatsApp Business Messaging)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-sms-send-grid']",
+      "render_function": "renderSmsSendGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "tbl-sms-send-grid"
+      ]
+    },
+    {
+      "page_id": "pg-sms-settings",
+      "title": "واجهة إعدادات ورصيد واتساب (WhatsApp Gateway & Credits Settings)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-sms-settings-grid']",
+      "render_function": "renderSmsSettingsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "tbl-sms-settings-grid"
+      ]
+    },
+    {
+      "page_id": "pg-sms-templates",
+      "title": "دليل قوالب الرسائل الجاهزة والمتغيرات الذكية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSmsTemplatesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-stages",
+      "title": "المراحل والصفوف الدراسية",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-stages-grid']",
+      "render_function": "renderStagesGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-stages-grid"
+      ]
+    },
+    {
+      "page_id": "pg-student-account",
+      "title": "كشف الحساب التفاعلي (Statement of Account)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-student-docs",
+      "title": "وثائق الطلاب والمرفقات الرسمية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderStudentDocs",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-student-register",
+      "title": "تسجيل طالب جديد (New Student Registration)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderStudentRegister",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-student-tree",
+      "title": "شجرة الطلاب",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-students",
+      "title": "دليل الطلاب",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderStudents",
+      "in_goto_map": false,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-subject-distribution",
+      "title": "توزيع المواد على الصفوف",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['tbl-subject-distribution-grid', 'searchSubjectDistribution']",
+      "render_function": "renderSubjectDistGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": [
+        "tbl-subject-distribution-grid",
+        "searchSubjectDistribution"
+      ]
+    },
+    {
+      "page_id": "pg-subjects",
+      "title": "دليل المواد الدراسية",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderSubjects",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-substitute",
+      "title": "إدارة المدرس البديل وحصص الاحتياط",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSubstituteGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-success-rate-section",
+      "title": "نسبة النجاح بالشعب",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-success-rate-subject",
+      "title": "نسب النجاح والتحليل الأكاديمي بالمواد والشعب",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSuccessRateSubjectGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-suppliers",
+      "title": "دليل الموردين المعتمدين والتسهيلات المالية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSuppliersGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-supply-orders",
+      "title": "أذونات وأوامر التوريد واستلام البضائع (GRN)",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderSupplyOrdersGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-system-settings",
+      "title": "واجهة إعدادات النظام والتكوين العام السيادي (Global System Settings)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['searchSettings']",
+      "render_function": "renderSystemSettingsGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "searchSettings"
+      ]
+    },
+    {
+      "page_id": "pg-teacher-subjects",
+      "title": "إسناد المواد وتوزيع النصاب للمعلمين",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderTeacherSubjectsMatrix",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-timetable-builder",
+      "title": "بناء الجدول الدراسي التفاعلي (Interactive Timetable Builder)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderInteractiveTimetable",
+      "in_goto_map": true,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-top-students",
+      "title": "كشف أوائل المدرسة واللوحة الشرفية للتفوق",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderTopStudentsGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-transport",
+      "title": "كشوفات ركاب المواصلات والتحصيل المالي والخرائط",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderTransportRoutesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-transport-enrollment",
+      "title": "اشتراك الطلاب في المواصلات وتوليد بطاقة الحافلة",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderTransportEnrollmentGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-transport-routes",
+      "title": "دليل خطوط السير والمسارات والمحطات",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": "renderTransportRoutesGrid",
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-users",
+      "title": "دليل المستخدمين وصلاحيات الوصول الشاملة (Users Directory)",
+      "status": "WORKING",
+      "reason": "تظهر بياناتها وتعمل بشكل طبيعي",
+      "render_function": "renderUsersGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": true,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-violations-catalog",
+      "title": "دليل المخالفات السلوكية",
+      "status": "UNMAPPED_DISPATCHER",
+      "reason": "الصفحة موجودة ولها دالة عرض في JS لكن غير مضافة في خريطة التوجيه (goTo pageRenderersMap)",
+      "render_function": null,
+      "in_goto_map": false,
+      "in_hydrate_map": false,
+      "missing_dom_elements": []
+    },
+    {
+      "page_id": "pg-vouchers",
+      "title": "إدارة السندات الشاملة (Vouchers Management)",
+      "status": "BROKEN_DOM_ELEMENTS",
+      "reason": "دالة العرض موجودة وموجهة لكن تبحث عن عناصر مفقودة في HTML: ['statVouchersReceipts', 'statVouchersCount', 'statVouchersDisbursements', 'filterVoucherType', 'tbl-vouchers-grid']",
+      "render_function": "renderVouchersGrid",
+      "in_goto_map": true,
+      "in_hydrate_map": true,
+      "missing_dom_elements": [
+        "statVouchersReceipts",
+        "statVouchersCount",
+        "statVouchersDisbursements",
+        "filterVoucherType",
+        "tbl-vouchers-grid"
+      ]
+    }
+  ]
+}

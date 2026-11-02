@@ -1,0 +1,138 @@
+<div class="page" id="pg-exam-schedule" style="padding-bottom:60px;">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-table-cells" style="color:#38bdf8;"></i> مصفوفة ومواعيد الامتحانات الرسمية الشاملة (Official Exam Schedule Matrix)</h2>
+    </div>
+
+    <!-- 4 KPI Cards -->
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-calendar-check" style="color:#3b82f6;margin-left:6px;"></i> إجمالي المواد بالمصفوفة</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="schTotalExams">54 جلسة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">موزعة على كافة المراحل (9 صفوف) 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> جلسات مكتملة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="schCompleted">18 جلسة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تمت بنجاح وتم رصدها 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock" style="color:#f59e0b;margin-left:6px;"></i> أيام الاختبارات المجدولة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="schDaysCount">6 أيام</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الأحد / الثلاثاء / الخميس 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-shield-halved" style="color:#8b5cf6;margin-left:6px;"></i> حالة اعتماد المصفوفة</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;">معتمدة ومنشورة 🟢</p>
+                <small style="color:var(--muted);font-size:0.75rem;">منشورة ببوابات الطلاب 🟣</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toolbar with View Switcher -->
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex:1;max-width:720px;">
+            <!-- View Mode Switcher -->
+            <div style="display:inline-flex;background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:4px;gap:6px;box-shadow:inset 0 2px 6px rgba(0,0,0,0.4);">
+                <button type="button" id="btnViewMatrix" onclick="window.switchExamScheduleView('matrix')" style="padding:8px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;font-weight:800;cursor:pointer;font-family:inherit;font-size:0.88rem;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;">
+                    <i class="fa-solid fa-table-cells"></i> <span>عرض المصفوفة (Matrix Grid)</span>
+                </button>
+                <button type="button" id="btnViewList" onclick="window.switchExamScheduleView('list')" style="padding:8px 16px;border-radius:8px;border:none;background:transparent;color:#94a3b8;font-weight:800;cursor:pointer;font-family:inherit;font-size:0.88rem;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;">
+                    <i class="fa-solid fa-list-ul"></i> <span>عرض الكشف التفصيلي (List Table)</span>
+                </button>
+            </div>
+
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchExamSchedule" placeholder="بحث بالمادة، اليوم، أو الصف..." oninput="renderExamScheduleGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('exam_slot')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> إضافة موعد اختبار
+            </button>
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('📢 تم نشر مصفوفة الامتحانات الرسمية في بوابات الطلاب وأولياء الأمور 🟢');" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fa-solid fa-share-nodes"></i> نشر المصفوفة
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة المصفوفة
+            </button>
+        </div>
+    </div>
+
+    <!-- 1. EXAM SCHEDULE MATRIX VIEW (Default) -->
+    <div id="examScheduleMatrixContainer" class="table-wrapper" style="display:block;overflow-x:auto;overflow-y:visible;margin-bottom:30px;padding-bottom:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(15,23,42,0.7);box-shadow:0 8px 30px rgba(0,0,0,0.3);">
+        <table class="data-table" style="width:100%;border-collapse:collapse;text-align:center;min-width:1080px;">
+            <thead>
+                <tr style="background:linear-gradient(90deg, rgba(30,41,59,0.95), rgba(15,23,42,0.95));">
+                    <th style="padding:16px 12px;color:#38bdf8;font-size:0.95rem;width:190px;position:sticky;right:0;background:#0f172a;z-index:2;border-left:2px solid rgba(255,255,255,0.12);">
+                        <i class="fa-solid fa-graduation-cap"></i> الصف الدراسي / اليوم
+                    </th>
+                    <th style="padding:14px 10px;color:#f8fafc;font-size:0.9rem;border-left:1px solid rgba(255,255,255,0.08);">
+                        <div style="font-weight:800;color:#60a5fa;">📅 الأحد 09/06</div>
+                        <small style="color:#94a3b8;font-weight:normal;font-size:0.75rem;">اليوم الأول</small>
+                    </th>
+                    <th style="padding:14px 10px;color:#f8fafc;font-size:0.9rem;border-left:1px solid rgba(255,255,255,0.08);">
+                        <div style="font-weight:800;color:#60a5fa;">📅 الثلاثاء 09/08</div>
+                        <small style="color:#94a3b8;font-weight:normal;font-size:0.75rem;">اليوم الثاني</small>
+                    </th>
+                    <th style="padding:14px 10px;color:#f8fafc;font-size:0.9rem;border-left:1px solid rgba(255,255,255,0.08);">
+                        <div style="font-weight:800;color:#60a5fa;">📅 الخميس 09/10</div>
+                        <small style="color:#94a3b8;font-weight:normal;font-size:0.75rem;">اليوم الثالث</small>
+                    </th>
+                    <th style="padding:14px 10px;color:#f8fafc;font-size:0.9rem;border-left:1px solid rgba(255,255,255,0.08);">
+                        <div style="font-weight:800;color:#60a5fa;">📅 الأحد 09/13</div>
+                        <small style="color:#94a3b8;font-weight:normal;font-size:0.75rem;">اليوم الرابع</small>
+                    </th>
+                    <th style="padding:14px 10px;color:#f8fafc;font-size:0.9rem;border-left:1px solid rgba(255,255,255,0.08);">
+                        <div style="font-weight:800;color:#60a5fa;">📅 الثلاثاء 09/15</div>
+                        <small style="color:#94a3b8;font-weight:normal;font-size:0.75rem;">اليوم الخامس</small>
+                    </th>
+                    <th style="padding:14px 10px;color:#f8fafc;font-size:0.9rem;">
+                        <div style="font-weight:800;color:#60a5fa;">📅 الخميس 09/17</div>
+                        <small style="color:#94a3b8;font-weight:normal;font-size:0.75rem;">اليوم السادس</small>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbl-exam-matrix-body"></tbody>
+            <tfoot>
+                <tr style="background:rgba(15,23,42,0.95);border-top:2px solid rgba(255,255,255,0.12);">
+                    <td style="padding:12px;color:#38bdf8;font-weight:800;text-align:right;position:sticky;right:0;background:#0f172a;z-index:2;border-left:2px solid rgba(255,255,255,0.12);">
+                        <i class="fa-solid fa-circle-info"></i> ضوابط الجلسات
+                    </td>
+                    <td colspan="6" style="padding:12px 16px;color:#94a3b8;font-size:0.82rem;text-align:right;">
+                        📌 تبدأ الفترة الصباحية لجميع المراحل في تمام الساعة <strong>08:30 صباحاً</strong>. يُمنع دخول أي أجهزة إلكترونية أو هواتف داخل القاعات الامتحانية.
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- 2. DETAILED LIST TABLE VIEW (Alternative) -->
+    <div id="examScheduleListContainer" class="table-wrapper" style="display:none;overflow-x:auto;margin-bottom:30px;padding-bottom:20px;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>اليوم والتاريخ</th>
+                    <th>المادة الامتحانية</th>
+                    <th>الصف الدراسي</th>
+                    <th>الفترة والتوقيت</th>
+                    <th>زمن الإجابة</th>
+                    <th>اللجان والقاعات المقررة</th>
+                    <th>المشرف العام على اللجنة</th>
+                    <th>حالة الاختبار</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-exam-schedule-grid"></tbody>
+        </table>
+    </div>
+</div>

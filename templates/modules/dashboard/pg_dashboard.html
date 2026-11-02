@@ -1,0 +1,57 @@
+<div class="page" id="pg-dashboard">
+
+                    <div id="quickAccessBar" class="quick-access-bar"></div>
+                    <div id="alertsWidget" class="alerts-widget"></div>
+                    <div id="todayFeed" class="today-feed"></div>
+                    <div id="dashboardCharts" class="dashboard-charts"></div>
+
+                    <div class="page-header">
+                        <h2><i class="fa-solid fa-gauge-high"></i> لوحة التحكم الرئيسية</h2>
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-card c-blue" onclick="goTo('pg-students')"><i
+                                class="fa-solid fa-user-graduate"></i>
+                            <div><span class="stat-number" id="dTotalStudents">0</span><span class="stat-label">إجمالي
+                                    الطلاب</span></div>
+                        </div>
+                        <div class="stat-card c-purple" onclick="goTo('pg-employees')"><i
+                                class="fa-solid fa-users-tie"></i>
+                            <div><span class="stat-number" id="dTotalEmp">0</span><span
+                                    class="stat-label">الموظفين</span></div>
+                        </div>
+                        <div class="stat-card c-green"><i class="fa-solid fa-circle-check"></i>
+                            <div><span class="stat-number" id="dPaid">0</span><span class="stat-label">مسددين</span>
+                            </div>
+                        </div>
+                        <div class="stat-card c-red"><i class="fa-solid fa-triangle-exclamation"></i>
+                            <div><span class="stat-number" id="dUnpaid">0</span><span class="stat-label">متعثرين</span>
+                            </div>
+                        </div>
+                        <div class="stat-card c-orange" onclick="goTo('pg-subjects')"><i class="fa-solid fa-book"></i>
+                            <div><span class="stat-number" id="dSubjects">0</span><span class="stat-label">المواد</span>
+                            </div>
+                        </div>
+                        <div class="stat-card c-cyan" onclick="goTo('pg-stages')"><i
+                                class="fa-solid fa-layer-group"></i>
+                            <div><span class="stat-number" id="dStages">0</span><span class="stat-label">المراحل</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-grid"
+                        style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-top:20px">
+                        <div class="form-card" style="margin:0">
+                            <h3 style="margin-bottom:15px;color:var(--text);font-size:1.1rem"><i
+                                    class="fa-solid fa-chart-line text-blue-500"></i> الملخص المالي (إيرادات / مصروفات)
+                            </h3>
+                            <canvas id="financeChart" style="max-height:300px"></canvas>
+                        </div>
+                        <div class="form-card" style="margin:0">
+                            <h3 style="margin-bottom:15px;color:var(--text);font-size:1.1rem"><i
+                                    class="fa-solid fa-bolt text-orange-500"></i> أحدث الحركات (Audit Log)</h3>
+                            <div id="auditLogList"
+                                style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:10px">
+                                <p style="color:var(--muted);text-align:center;font-size:0.9rem">جاري التحميل...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>

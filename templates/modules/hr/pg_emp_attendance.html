@@ -1,0 +1,75 @@
+<div class="page" id="pg-emp-attendance">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-fingerprint" style="color:#38bdf8;"></i> سجل بصمة وحضور الموظفين اليومي (Staff Attendance & Biometrics)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> حاضرون اليوم</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="empAttPresent">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">الكادر الملتزم بالدوام 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-xmark" style="color:#ef4444;margin-left:6px;"></i> غائبون اليوم</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="empAttAbsent">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">غياب غير مبرر 🔴</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock" style="color:#f59e0b;margin-left:6px;"></i> متأخرون صباحاً</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="empAttLate">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تأخر عن البصمة الصباحية 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-chart-line" style="color:#3b82f6;margin-left:6px;"></i> معدل الانضباط العام</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="empAttRate">96%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">نسبة الالتزام بالدوام 🔵</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:680px;">
+            <input type="date" id="empAttDate" value="" onchange="renderEmpAttendanceGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+            <div class="search-box" style="flex:1;min-width:180px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchEmpAttendance" placeholder="بحث باسم الموظف أو الرقم الوظيفي..." oninput="renderEmpAttendanceGrid()">
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="if(typeof toast==='function')toast('⚡ تم مزامنة أجهزة البصمة البيومترية وسحب 42 حركة حضور جديدة 🟢');renderEmpAttendanceGrid();" style="background:linear-gradient(135deg,#0284c7,#0369a1);">
+                <i class="fa-solid fa-rotate"></i> مزامنة البصمة آلياً
+            </button>
+            <button class="btn-add" onclick="openForm('emp_attendance')" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fa-solid fa-plus"></i> تسجيل إذن / يدوي
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة كشف البصمة
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الرقم الوظيفي</th>
+                    <th>اسم الموظف</th>
+                    <th>القسم والمسمى</th>
+                    <th>وقت بصمة الدخول</th>
+                    <th>وقت بصمة الخروج</th>
+                    <th>ساعات العمل</th>
+                    <th>دقائق التأخير</th>
+                    <th>حالة الحضور</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-emp-attendance-grid"></tbody>
+        </table>
+    </div>
+</div>

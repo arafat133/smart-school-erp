@@ -1,0 +1,80 @@
+<div class="page" id="pg-parent-attendance">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع لبوابة ولي الأمر"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-calendar-check" style="color:#38bdf8;"></i> سجل الحضور والغياب والانضباط (Daily Attendance Tracker)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-check" style="color:#10b981;margin-left:6px;"></i> أيام الحضور الفعلي</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="pAttPresent">24 يوم</p>
+                <small style="color:var(--muted);font-size:0.75rem;">حضور كامل ونشط 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-file-medical" style="color:#3b82f6;margin-left:6px;"></i> غياب بعذر مقبول</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="pAttExcused">0 يوم</p>
+                <small style="color:var(--muted);font-size:0.75rem;">تقارير طبية معتمدة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #ef4444;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-xmark" style="color:#ef4444;margin-left:6px;"></i> غياب بدون عذر</h3>
+                <p style="color:#f87171;font-weight:900;font-size:1.3rem;" id="pAttUnexcused">0 يوم</p>
+                <small style="color:var(--muted);font-size:0.75rem;">سجل منضبط تماماً 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-clock" style="color:#f59e0b;margin-left:6px;"></i> التأخر الصباحي</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="pAttLate">0 مرة</p>
+                <small style="color:var(--muted);font-size:0.75rem;">التزام تام بالطابور 🟡</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="color:#f8fafc;font-size:1.05rem;margin:0;"><i class="fa-solid fa-list-check"></i> سجل الحضور اليومي لشهر سبتمبر 2026</h3>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>التاريخ</th>
+                    <th>اليوم</th>
+                    <th>وقت الحضور الفعلي</th>
+                    <th>حالة الحضور</th>
+                    <th>حضور الطابور الصباحي</th>
+                    <th>ملاحظات المشرف</th>
+                    <th>رائد الفصل</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-parent-attendance-grid">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td style="font-family:monospace;color:#60a5fa;">2026-09-01</td>
+                    <td><strong>الثلاثاء</strong></td>
+                    <td style="font-family:monospace;color:#34d399;font-weight:800;">07:18 ص</td>
+                    <td><span class="badge badge-success">حاضر 🟢</span></td>
+                    <td><span class="badge badge-success">منضبط بالتمارين</span></td>
+                    <td style="color:#cbd5e1;">حضور مبكر ومتميز</td>
+                    <td style="color:#a78bfa;">أ. محمود الدبعي</td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('✅ الطالب حاضر ومنضبط');" style="background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-check"></i></button></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td style="font-family:monospace;color:#60a5fa;">2026-08-31</td>
+                    <td><strong>الإثنين</strong></td>
+                    <td style="font-family:monospace;color:#34d399;font-weight:800;">07:20 ص</td>
+                    <td><span class="badge badge-success">حاضر 🟢</span></td>
+                    <td><span class="badge badge-success">منضبط بالتمارين</span></td>
+                    <td style="color:#cbd5e1;">حضور مبكر ومتميز</td>
+                    <td style="color:#a78bfa;">أ. محمود الدبعي</td>
+                    <td><button class="btn-action" onclick="if(typeof toast==='function')toast('✅ الطالب حاضر ومنضبط');" style="background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);padding:5px 8px;border-radius:6px;"><i class="fa-solid fa-check"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

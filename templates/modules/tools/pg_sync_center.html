@@ -1,0 +1,54 @@
+<div class="page" id="pg-sync-center">
+                    <div class="page-header">
+                        <button class="btn-back" onclick="goTo('pg-dashboard')"><i class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-rotate-hydro"></i> مركز المزامنة والعمليات غير المتصلة (Offline Sync Center)</h2>
+                    </div>
+                    <div class="form-card">
+                        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-elevated);padding:20px;border-radius:12px;border:1px solid var(--border-color);margin-bottom:20px;">
+                            <div>
+                                <h3 style="margin:0;display:flex;align-items:center;gap:10px;"><i class="fa-solid fa-wifi"></i> حالة الاتصال بالحاسوب السحابي</h3>
+                                <p style="margin:5px 0 0 0;color:var(--muted);font-size:0.9rem;">يتم تتبع حالة الشبكة والمزامنة التلقائية مع قاعدة البيانات المحلية IndexedDB</p>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:15px;">
+                                <span id="networkStatusBadge" class="badge badge-success" style="font-size:1.1rem;padding:8px 16px;">🟢 متصل (Online)</span>
+                                <button class="btn-add" onclick="triggerManualSync()"><i class="fa-solid fa-rotate"></i> مزامنة فورية الآن</button>
+                            </div>
+                        </div>
+
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px;text-align:center;">
+                            <div style="background:var(--bg-elevated);padding:15px;border-radius:12px;border:1px solid var(--border-color);">
+                                <span style="font-size:0.9rem;color:var(--muted);">العمليات المعلقة بالمزامنة</span>
+                                <strong id="pendingSyncCount" style="display:block;font-size:1.6rem;color:#f59e0b;margin-top:5px;">0 عملية</strong>
+                            </div>
+                            <div style="background:var(--bg-elevated);padding:15px;border-radius:12px;border:1px solid var(--border-color);">
+                                <span style="font-size:0.9rem;color:var(--muted);">آخر عملية مزامنة ناجحة</span>
+                                <strong id="lastSyncTime" style="display:block;font-size:1.1rem;color:#10b981;margin-top:8px;">منذ 2 دقيقة</strong>
+                            </div>
+                            <div style="background:var(--bg-elevated);padding:15px;border-radius:12px;border:1px solid var(--border-color);">
+                                <span style="font-size:0.9rem;color:var(--muted);">حجم التخزين المحلي المؤقت</span>
+                                <strong style="display:block;font-size:1.3rem;color:#3b82f6;margin-top:6px;">2.4 MB</strong>
+                            </div>
+                        </div>
+
+                        <h3 style="color:var(--primary);border-bottom:1px solid var(--border-color);padding-bottom:10px;margin-top:25px;">
+                            <i class="fa-solid fa-list-check"></i> قائمة العمليات المنتظرة للمزامنة (Pending Queue)
+                        </h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>نوع العملية (Action)</th>
+                                        <th>الموديول التابع</th>
+                                        <th>التوقيت المحلي</th>
+                                        <th>حالة العملية</th>
+                                        <th>إعادة المحاولة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl-sync-queue">
+                                    <tr><td colspan="6" style="text-align:center;color:var(--muted);">جميع البيانات متزامنة مع السيرفر الرئيسي 🟢</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>

@@ -1,0 +1,45 @@
+%PDF-1.4
+1 0 obj <</Type /Catalog /Pages 2 0 R>> endobj
+2 0 obj <</Type /Pages /Kids [3 0 R] /Count 1>> endobj
+3 0 obj <</Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources <</Font <</F1 5 0 R>>>>>> endobj
+4 0 obj <</Length 2105>>
+stream
+BT /F1 14 Tf 50 780 Td (SMART SCHOOL SYSTEM - SOC CYBER FORENSICS REPORT) Tj ET
+BT /F1 10 Tf 50 750 Td (OFFICIAL DIGITAL FORENSICS INCIDENT INVESTIGATION REPORT) Tj ET
+BT /F1 10 Tf 50 730 Td (Document Control ID: CERT-SOC-1793225285) Tj ET
+BT /F1 10 Tf 50 710 Td (Investigation Date : 2026-10-29 01:08:05) Tj ET
+BT /F1 10 Tf 50 690 Td (Classification     : CONFIDENTIAL / CYBER DEFENSE TELEMETRY) Tj ET
+BT /F1 10 Tf 50 670 Td (----------------------------------------------------------------------) Tj ET
+BT /F1 10 Tf 50 650 Td (1. THREAT INCIDENT OVERVIEW) Tj ET
+BT /F1 10 Tf 50 630 Td (   Incident Type   : CRYPTO_TAMPERING) Tj ET
+BT /F1 10 Tf 50 610 Td (   Target Endpoint : AES-256-GCM Decryption Core) Tj ET
+BT /F1 10 Tf 50 590 Td (   Attacker IP     : Database-Storage-Engine) Tj ET
+BT /F1 10 Tf 50 570 Td (   MITRE ATT&CK ID : T1190 \(Exploit Public-Facing Application\)) Tj ET
+BT /F1 10 Tf 50 550 Td (----------------------------------------------------------------------) Tj ET
+BT /F1 10 Tf 50 530 Td (2. INTERCEPTED MALICIOUS PAYLOAD) Tj ET
+BT /F1 10 Tf 50 510 Td (   Payload Sample  : ??? ?????? ?? ????? ???????? AEAD \(????? ????? ?????????\): ) Tj ET
+BT /F1 10 Tf 50 490 Td (----------------------------------------------------------------------) Tj ET
+BT /F1 10 Tf 50 470 Td (3. AUTONOMOUS MITIGATION & DEFENSE ACTION) Tj ET
+BT /F1 10 Tf 50 450 Td (   Firewall Action : Request Dropped / HTTP 400 Bad Request) Tj ET
+BT /F1 10 Tf 50 430 Td (   System Impact   : ZERO DATA LEAKAGE / DATABASE INTEGRITY 100% PRESERVED) Tj ET
+BT /F1 10 Tf 50 410 Td (   Encryption      : AES-256-GCM AEAD Tag Authentication Intact) Tj ET
+BT /F1 10 Tf 50 390 Td (   Blockchain      : Academic Blockchain Ledger Unaltered) Tj ET
+BT /F1 10 Tf 50 370 Td (----------------------------------------------------------------------) Tj ET
+BT /F1 10 Tf 50 350 Td (4. DIGITAL FORENSIC EVIDENCE INTEGRITY SEAL) Tj ET
+BT /F1 10 Tf 50 330 Td (   SHA-256 Digest  : 4a2680d974d48fea7f102c584eef2009019024bdf1b3fe03...) Tj ET
+BT /F1 10 Tf 50 310 Td (   Certified By    : Smart School Cyber Guardian AI v2.5 SOC Controller) Tj ET
+endstream
+endobj
+5 0 obj <</Type /Font /Subtype /Type1 /BaseFont /Courier>> endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000234 00000 n 
+0000000300 00000 n 
+trailer <</Size 6 /Root 1 0 R>>
+startxref
+400
+%%EOF

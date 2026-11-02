@@ -1,0 +1,119 @@
+<div class="modal-overlay" id="formModal">
+        <div class="modal-content glass-panel" style="max-width:850px;width:95%;max-height:90vh;display:flex;flex-direction:column;border-radius:14px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.12);">
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.1);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
+                <h3 id="formTitle" style="margin:0;font-size:1.1rem;color:#f8fafc;"><i class="fa-solid fa-pen-to-square" style="color:#38bdf8;"></i> نموذج الإدخال والتعديل</h3>
+                <div class="window-controls" style="display:flex;gap:6px;">
+                    <button class="btn-min" onclick="closeModal('formModal')" title="تصغير" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;width:28px;height:28px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-minus"></i></button>
+                    <button class="btn-close" onclick="closeModal('formModal')" title="إغلاق" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.4);color:#ef4444;width:28px;height:28px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" style="overflow-y:auto;padding:20px;flex:1;">
+                <form id="dynamicForm" class="modern-form" onsubmit="event.preventDefault();saveForm();"></form>
+                <div class="modal-actions" style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;">
+                    <button type="button" class="btn-save" onclick="saveForm()" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-weight:700;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-floppy-disk"></i> حفظ ومزامنة</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal('formModal')" style="background:rgba(255,255,255,0.08);color:#cbd5e1;padding:10px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="fa-solid fa-xmark"></i> إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal-overlay" id="deleteModal">
+        <div class="modal-content glass-panel small-modal" style="max-width:440px;border-radius:14px;border:1px solid rgba(239,68,68,0.4);box-shadow:0 20px 40px rgba(0,0,0,0.6);">
+            <div class="modal-header" style="border-bottom:1px solid rgba(239,68,68,0.3);">
+                <h3 style="color:#ef4444;display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-triangle-exclamation"></i> تأكيد الحذف النهائي</h3>
+                <div class="window-controls">
+                    <button class="btn-close" onclick="closeModal('deleteModal')" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" style="text-align:center;padding:24px 20px;">
+                <div style="font-size:3rem;color:#ef4444;margin-bottom:12px;"><i class="fa-solid fa-trash-can"></i></div>
+                <p id="deleteMessage" style="font-size:1.05rem;color:#f8fafc;margin-bottom:20px;line-height:1.6;">هل أنت متأكد من رغبتك في حذف هذا السجل نهائياً؟</p>
+                <div class="modal-actions" style="display:flex;gap:10px;justify-content:center;">
+                    <button class="btn-delete" id="btnConfirmDeleteAction" onclick="confirmDelete()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:800;padding:10px 22px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.9rem;box-shadow:0 4px 12px rgba(239,68,68,0.4);">
+                        <i class="fa-solid fa-trash"></i> نعم، تأكيد الحذف
+                    </button>
+                    <button class="btn-cancel" onclick="closeModal('deleteModal')" style="background:rgba(255,255,255,0.1);color:#cbd5e1;font-weight:700;padding:10px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.9rem;">
+                        <i class="fa-solid fa-xmark"></i> تراجع وإلغاء
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal-overlay" id="reportModal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-chart-pie"></i> <span id="rptTitle">تقرير</span></h3>
+                <div class="window-controls"><button class="btn-min" onclick="minModal('reportModal')" title="تصغير"><i
+                            class="fa-solid fa-minus"></i></button><button class="btn-close"
+                        onclick="closeModal('reportModal')" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" id="rptBody"></div>
+        </div>
+    </div>
+
+<div class="modal-overlay" id="termModal">
+        <div class="modal-content glass-panel small-modal" style="max-width:520px;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-calendar-check" style="color:#3b82f6;"></i> تحديد الفصل الدراسي</h3>
+                <div class="window-controls">
+                    <button class="btn-close" onclick="closeModal('termModal')"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" style="text-align:center;padding:25px;">
+                <p style="font-size:1.05rem;color:var(--text);margin-bottom:25px;font-weight:600;">يرجى اختيار الفصل
+                    الدراسي المراد عرض وتعديل بياناته:</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+                    <div onclick="selectTerm('الفصل الدراسي الأول')"
+                        style="background:linear-gradient(135deg, #1e3a8a, #3b82f6);color:white;padding:25px 15px;border-radius:14px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 15px rgba(59,130,246,0.25);">
+                        <i class="fa-solid fa-book-bookmark"
+                            style="font-size:2.2rem;margin-bottom:10px;display:block;"></i>
+                        <strong style="font-size:1.1rem;display:block;">الفصل الدراسي الأول</strong>
+                        <span style="font-size:0.85rem;opacity:0.85;">الترم الأول</span>
+                    </div>
+                    <div onclick="selectTerm('الفصل الدراسي الثاني')"
+                        style="background:linear-gradient(135deg, #d97706, #f59e0b);color:white;padding:25px 15px;border-radius:14px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 15px rgba(245,158,11,0.25);">
+                        <i class="fa-solid fa-book-open" style="font-size:2.2rem;margin-bottom:10px;display:block;"></i>
+                        <strong style="font-size:1.1rem;display:block;">الفصل الدراسي الثاني</strong>
+                        <span style="font-size:0.85rem;opacity:0.85;">الترم الثاني</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal-overlay" id="forgotPassModal">
+        <div class="modal-content glass-panel small-modal" style="max-width: 450px;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-key" style="color: #3b82f6;"></i> استعادة كلمة المرور</h3>
+                <div class="window-controls">
+                    <button class="btn-close" onclick="closeModal('forgotPassModal')"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="modal-body" style="padding: 20px;">
+                <p style="font-size: 0.95rem; color: var(--text); margin-bottom: 15px; line-height: 1.6;">
+                    للحصول على كلمة مرور جديدة، يرجى التواصل مع إدارة المدرسة أو إدخال الرقم المسجل لارسال رمز
+                    الاستعادة:
+                </p>
+                <div class="fg" style="margin-bottom: 15px;">
+                    <label>رقم المستخدم / الرقم الوطني / الهاتف</label>
+                    <input type="text" id="forgotUserInput" placeholder="أدخل رقمك المسجل...">
+                </div>
+                <div
+                    style="background: rgba(59, 130, 246, 0.08); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.88rem; color: var(--text);">
+                    <i class="fa-solid fa-circle-info" style="color: #3b82f6;"></i> هاتف الدعم الفني للمدرسة: <strong
+                        style="direction:ltr; display:inline-block;">01-234567</strong><br>
+                    <i class="fa-solid fa-envelope" style="color: #3b82f6;"></i> البريد:
+                    <strong>info@school.edu.ye</strong>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-save" onclick="requestPasswordReset()"><i class="fa-solid fa-paper-plane"></i>
+                        إرسال طلب التقييم</button>
+                    <button class="btn-cancel" onclick="closeModal('forgotPassModal')">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,241 @@
+{% set is_admin = (portal_type == 'admin') %}
+{% set is_parent = (portal_type == 'parent') %}
+
+<div class="login-wrapper" id="loginWrapper"
+    style="background-color: var(--bg-main, #11131A); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; font-family: 'Tajawal', sans-serif;">
+
+    <div style="text-align: center; margin-bottom: 24px;">
+        <h1 id="loginPortalMainTitle" style="color: #3B82F6; font-size: 2rem; font-weight: 900; margin-bottom: 6px; display:flex; align-items:center; justify-content:center; gap:12px;">
+            {% if is_admin %}
+                <i class="fa-solid fa-server" id="loginPortalIcon" style="color:#3B82F6;"></i> 
+                <span id="loginPortalHeading">المركز السحابي الموحد | SaaS Command Center</span>
+            {% elif is_parent %}
+                <i class="fa-solid fa-house-user" id="loginPortalIcon" style="color:#3B82F6;"></i> 
+                <span id="loginPortalHeading">بوابة أولياء الأمور والطلاب | Parent Portal</span>
+            {% else %}
+                <i class="fa-solid fa-graduation-cap" id="loginPortalIcon" style="color:#3B82F6;"></i> 
+                <span id="loginPortalHeading">نظام إدارة المدارس الشامل | ERP</span>
+            {% endif %}
+        </h1>
+        <p id="loginPortalSubTitle" style="color: #94A3B8; font-size: 0.95rem;">
+            {% if is_admin %}
+                بوابة مدير عام النظام لإدارة الخوادم، المدارس، والاشتراكات
+            {% elif is_parent %}
+                متابعة المستوى الدراسي، الحضور، النتائج، والرسوم المدرسية
+            {% else %}
+                المنظومة السحابية الموحدة لإدارة المدارس والطلاب والشؤون المالية
+            {% endif %}
+        </p>
+    </div>
+
+    <section class="login-box card-base"
+        style="background: var(--bg-surface, #181B26); border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 16px; box-shadow: var(--shadow-lg, 0 10px 25px rgba(0,0,0,0.35)); padding: 36px; width: 100%; max-width: 460px; position: relative;">
+        
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: #3B82F6; font-size: 1.5rem;">
+                <i class="fa-solid {% if is_admin %}fa-shield-halved{% elif is_parent %}fa-users{% else %}fa-school{% endif %}" id="loginBoxIcon"></i>
+            </div>
+            <h2 id="loginBoxTitle" style="font-size: 1.3rem; color: #F8FAFC; font-weight: 800; margin: 0;">
+                {% if is_admin %}دخول مدير النظام العام{% elif is_parent %}دخول ولي الأمر / الطالب{% else %}تسجيل الدخول لبوابة المدرسة{% endif %}
+            </h2>
+            <p id="loginBoxDesc" style="color: #94A3B8; font-size: 0.85rem; margin-top: 4px;">
+                {% if is_admin %}صلاحية عليا للتحكم بالبنية التحتية والتراخيص السحابية{% elif is_parent %}أدخل رقم الهاتف أو الهوية وكلمة السر المسجلة{% else %}لإدارة المدرسة، المعلمين، والمحاسبين{% endif %}
+            </p>
+        </div>
+
+        <!-- Pre-rendered Alert Box -->
+        <div id="loginError" style="display:none; background:rgba(239,68,68,0.12); color:#F87171; border:1px solid rgba(239,68,68,0.3); padding:12px 16px; border-radius:8px; font-size:0.9rem; font-weight:700; text-align:center; line-height:1.5; margin-bottom:18px;">
+        </div>
+
+        <form id="loginForm" onsubmit="handleLoginSubmit(event); return false;" style="display: flex; flex-direction: column; gap: 16px;">
+
+            <!-- School Select (HIDDEN on SaaS Admin and Parent portals) -->
+            <div id="schoolField" style="{% if is_admin or is_parent %}display: none !important;{% else %}display: flex;{% endif %} flex-direction: column; gap: 6px;" {% if is_admin or is_parent %}hidden aria-hidden="true"{% endif %}>
+                <label style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">اسم المدرسة / المنشأة</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-school" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <select id="schoolId"
+                        style="width: 100%; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.9rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;">
+                        <option value="SCH-01">🏫 مدرسة المتفوقين الأهلية النموذجية (صنعاء — حدة)</option>
+                        <option value="SCH-02">🏫 مدارس رواد اليمن الحديثة الأهلية (صنعاء — الأصبحي)</option>
+                        <option value="SCH-03">🏫 مدارس النهضة الدولية للغات (صنعاء — شارع بغداد)</option>
+                        <option value="SCH-04">🏫 مدارس الرشيد الأهلية النموذجية (صنعاء — الحي الدبلوماسي)</option>
+                        <option value="SCH-05">🏫 مدارس الأوائل الأهلية الحديثة (صنعاء — شارع الستين الغربي)</option>
+                        <option value="SCH-06">🏫 مدارس دار العلوم الأهلية النموذجية (صنعاء — الحصبة)</option>
+                        <option value="SCH-07">🏫 مدارس الرواد الدولية للغات (تعز — المسبح)</option>
+                        <option value="SCH-08">🏫 مدارس المعالي الأهلية الحديثة (تعز — شارع جمال)</option>
+                        <option value="SCH-09">🏫 مدرسة النوابغ النموذجية للبنين والبنات (تعز — النسيم)</option>
+                        <option value="SCH-10">🏫 مدارس الصرح التعليمي الأهلية (تعز — الدحي)</option>
+                        <option value="SCH-11">🏫 مدرسة الإشراق الأهلية الحديثة (تعز — الجحملية)</option>
+                        <option value="SCH-12">🏫 مدارس المستقبل الحديثة الأهلية (عدن — ساحل أبين)</option>
+                        <option value="SCH-13">🏫 مدارس النخبة الدولية للغات (عدن — الشابات)</option>
+                        <option value="SCH-14">🏫 ثانوية عدن النموذجية للبنين والبنات (عدن — كريتر)</option>
+                        <option value="SCH-15">🏫 مدارس الأمل الأهلية الدولية (عدن — الشارع الرئيسي)</option>
+                        <option value="SCH-16">🏫 مدرسة شمسان الحديثة الأهلية (عدن — ريمي)</option>
+                        <option value="SCH-17">🏫 مدارس حضرموت العالمية الأهلية (المكلا — فوه)</option>
+                        <option value="SCH-18">🏫 مدرسة ابن خلدون النموذجية (المكلا — الديس)</option>
+                        <option value="SCH-19">🏫 مدارس وادي حضرموت الدولية (سيئون — حي القرن)</option>
+                        <option value="SCH-20">🏫 مدرسة المكارم الأهلية الحديثة (الشحر — المنصورة)</option>
+                        <option value="SCH-21">🏫 مدارس اللواء الأخضر الأهلية النموذجية (إب — شارع العدين)</option>
+                        <option value="SCH-22">🏫 مدارس أجيال الغد الحديثة (إب — المشنة الغربية)</option>
+                        <option value="SCH-23">🏫 مدرسة السلام الأهلية للبنين والبنات (إب — المركز الثقافي)</option>
+                        <option value="SCH-24">🏫 مدرسة سيدة سبأ التاريخية النموذجية (جبلة — حي الروضة)</option>
+                        <option value="SCH-25">🏫 مدرسة عروس البحر الأحمر الأهلية (الحديدة — شارع صنعاء)</option>
+                        <option value="SCH-26">🏫 مدرسة الفجر الساحلية الحديثة (الحديدة — الكورنيش)</option>
+                        <option value="SCH-27">🏫 مدرسة سبأ الأهلية النموذجية (ذمار — حي الجامعة)</option>
+                        <option value="SCH-28">🏫 مدارس النهضة التعليمية بمعبر (معبر — الشارع العام)</option>
+                        <option value="SCH-29">🏫 مدارس بلقيس الدولية النموذجية (مأرب — الروضة)</option>
+                        <option value="SCH-30">🏫 مدارس أرض الجنتين الأهلية الحديثة (مأرب — وادي عبيدة)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Username Input -->
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label id="usernameLbl" style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">
+                    {% if is_admin %}اسم حساب مدير النظام السحابي{% elif is_parent %}رقم هاتف ولي الأمر / الرقم الوطني{% else %}اسم المستخدم / رقم الحساب{% endif %}
+                </label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-user" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <input type="text" id="username" value=""
+                        placeholder="{% if is_admin %}أدخل اسم الحساب (saas_admin أو root){% elif is_parent %}أدخل رقم الهاتف أو الرقم الوطني{% else %}أدخل اسم المستخدم (مثال: admin){% endif %}"
+                        style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.92rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;"
+                        required autocomplete="username">
+                </div>
+            </div>
+
+            <!-- Password Input -->
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label id="passwordLbl" style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">
+                    {% if is_parent %}رقم قيد الطالب / كلمة المرور{% else %}كلمة المرور السرية{% endif %}
+                </label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-lock" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <input type="password" id="password" value=""
+                        placeholder="أدخل كلمة المرور"
+                        style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 40px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.92rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit; letter-spacing: 1px;"
+                        required autocomplete="current-password">
+                    <i class="fa-solid fa-eye" id="togglePassword"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #64748B;"
+                        onclick="togglePasswordVisibility()"></i>
+                </div>
+            </div>
+
+            <!-- User Type Select (Role dropdown tailored per portal) -->
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">نوع الحساب / الصلاحية</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-user-gear" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <select id="userType"
+                        style="width: 100%; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.9rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;">
+                        {% if is_admin %}
+                            <option value="saas_admin" selected>مدير عام النظام السحابي (Super Admin / SaaS)</option>
+                            <option value="db_admin">مهندس قواعد البيانات السحابية (DBA)</option>
+                            <option value="security_officer">ضابط الأمن السيبراني (Cyber SOC)</option>
+                        {% elif is_parent %}
+                            <option value="parent" selected>ولي أمر / طالب</option>
+                        {% else %}
+                            <option value="school_admin" selected>مدير المدرسة (School Admin)</option>
+                            <option value="teacher">معلم / عضو هيئة تدريس</option>
+                            <option value="staff">محاسب / شؤون موظفين / كادر</option>
+                            <option value="parent">ولي أمر / طالب</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="margin-top: 8px;">
+                <button type="submit" id="loginBtn"
+                    style="width: 100%; background: #3B82F6; color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 800; border-radius: 8px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;">
+                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول للمنظومة
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+</div>
+
+<!-- Instant Inline Synchronization: Ensures zero-millisecond correctness before external JS executes -->
+<script>
+(function syncLoginPortalImmediate() {
+    try {
+        const portalAttr = (document.body && document.body.dataset && document.body.dataset.portal) ? document.body.dataset.portal : '';
+        const pth = window.location.pathname.toLowerCase();
+        const isAdm = portalAttr === 'admin' || pth.includes('/admin') || pth.includes('/saas') || !!document.getElementById('pg-saas-admin');
+        const isPar = portalAttr === 'parent' || pth.includes('/parent') || pth.includes('/parents') || !!document.getElementById('pg-parent-dashboard');
+        const sf = document.getElementById('schoolField');
+        const ut = document.getElementById('userType');
+        const uLbl = document.getElementById('usernameLbl');
+        const pLbl = document.getElementById('passwordLbl');
+        const uInp = document.getElementById('username');
+        const hTitle = document.getElementById('loginPortalHeading');
+        const hSub = document.getElementById('loginPortalSubTitle');
+        const hIcon = document.getElementById('loginPortalIcon');
+        const bTitle = document.getElementById('loginBoxTitle');
+        const bDesc = document.getElementById('loginBoxDesc');
+        const bIcon = document.getElementById('loginBoxIcon');
+
+        if (isAdm) {
+            if (sf) {
+                sf.style.setProperty('display', 'none', 'important');
+                sf.setAttribute('hidden', 'true');
+                sf.setAttribute('aria-hidden', 'true');
+            }
+            if (ut) {
+                ut.innerHTML = `
+                    <option value="saas_admin" selected>مدير عام النظام السحابي (Super Admin / SaaS)</option>
+                    <option value="db_admin">مهندس قواعد البيانات السحابية (DBA)</option>
+                    <option value="security_officer">ضابط الأمن السيبراني (Cyber SOC)</option>
+                `;
+                ut.value = 'saas_admin';
+            }
+            if (hTitle) hTitle.textContent = 'المركز السحابي الموحد | SaaS Command Center';
+            if (hSub) hSub.textContent = 'بوابة مدير عام النظام لإدارة الخوادم، المدارس، والاشتراكات';
+            if (hIcon) hIcon.className = 'fa-solid fa-server';
+            if (bTitle) bTitle.textContent = 'دخول مدير النظام العام';
+            if (bDesc) bDesc.textContent = 'صلاحية عليا للتحكم بالبنية التحتية والتراخيص السحابية';
+            if (bIcon) bIcon.className = 'fa-solid fa-shield-halved';
+            if (uLbl) uLbl.textContent = 'اسم حساب مدير النظام السحابي';
+            if (pLbl) pLbl.textContent = 'كلمة المرور السرية';
+            if (uInp && !uInp.value) uInp.placeholder = 'أدخل اسم الحساب (saas_admin أو root)';
+        } else if (isPar) {
+            if (sf) {
+                sf.style.setProperty('display', 'none', 'important');
+                sf.setAttribute('hidden', 'true');
+                sf.setAttribute('aria-hidden', 'true');
+            }
+            if (ut) {
+                ut.innerHTML = '<option value="parent" selected>ولي أمر / طالب</option>';
+                ut.value = 'parent';
+            }
+            if (hTitle) hTitle.textContent = 'بوابة أولياء الأمور والطلاب | Parent Portal';
+            if (hSub) hSub.textContent = 'متابعة المستوى الدراسي، الحضور، النتائج، والرسوم المدرسية';
+            if (hIcon) hIcon.className = 'fa-solid fa-house-user';
+            if (bTitle) bTitle.textContent = 'دخول ولي الأمر / الطالب';
+            if (bDesc) bDesc.textContent = 'أدخل رقم الهاتف أو الهوية وكلمة السر المسجلة';
+            if (bIcon) bIcon.className = 'fa-solid fa-users';
+            if (uLbl) uLbl.textContent = 'رقم هاتف ولي الأمر / الرقم الوطني';
+            if (pLbl) pLbl.textContent = 'رقم قيد الطالب / كلمة المرور';
+            if (uInp && !uInp.value) uInp.placeholder = 'أدخل رقم الهاتف أو الرقم الوطني';
+        } else {
+            if (sf) {
+                sf.style.display = 'flex';
+                sf.removeAttribute('hidden');
+                sf.removeAttribute('aria-hidden');
+            }
+            if (ut && (!ut.options.length || ut.options[0].value === 'saas_admin')) {
+                ut.innerHTML = `
+                    <option value="school_admin" selected>مدير المدرسة (School Admin)</option>
+                    <option value="teacher">معلم / عضو هيئة تدريس</option>
+                    <option value="staff">محاسب / شؤون موظفين / كادر</option>
+                    <option value="parent">ولي أمر / طالب</option>
+                `;
+            }
+        }
+    } catch(err) {
+        console.error('Instant login sync error:', err);
+    }
+})();
+</script>

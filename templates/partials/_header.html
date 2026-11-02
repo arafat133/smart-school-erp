@@ -1,0 +1,49 @@
+<header class="top-header">
+                <div class="header-left"><button class="btn-menu" id="mobileMenuBtn"><i
+                            class="fa-solid fa-bars"></i></button>
+                    <div class="breadcrumb" id="breadcrumb"><i class="fa-solid fa-house"></i> لوحة التحكم</div>
+                </div>
+                <div class="header-right" style="display:flex; align-items:center; gap:12px;">
+                    <div class="global-search-wrap" style="position:relative; max-width:240px;">
+                        <i class="fa-solid fa-search"
+                            style="position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:0.85rem; pointer-events:none;"></i>
+                        <input type="text" id="globalSearchInput" placeholder="بحث شامل... (طلاب، موظفين، سندات)"
+                            oninput="globalSearch(this.value)"
+                            style="width:100%; padding:7px 32px 7px 10px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Tajawal'; font-size:0.82rem; outline:none;">
+                        <div id="globalSearchResults" class="global-search-results"
+                            style="position:absolute; top:calc(100% + 6px); right:0; min-width:280px; background:var(--surface,#1e293b); border:1px solid var(--border); border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.3); z-index:1000; display:none; overflow:hidden;">
+                        </div>
+                    </div>
+
+                    <div class="notif-bell-wrap" style="position:relative; display:flex; align-items:center;">
+                        <span class="notif-bell" onclick="toggleNotifDropdown()"
+                            style="width:36px; height:36px; border-radius:9px; background:rgba(255,255,255,0.06); border:1px solid var(--border); display:flex; justify-content:center; align-items:center; cursor:pointer; color:var(--text); transition:all 0.2s;">
+                            <i class="fa-solid fa-bell" style="font-size:0.95rem;"></i>
+                            <span class="notif-badge" id="notifBadge"
+                                style="position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.65rem; font-weight:800; border-radius:50%; width:18px; height:18px; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(239,68,68,0.4);">4</span>
+                        </span>
+                        <div class="notif-dropdown" id="notifDropdown"
+                            style="position:absolute; top:calc(100% + 8px); left:0; min-width:300px; max-height:360px; overflow-y:auto; background:var(--surface,#1e293b); border:1px solid var(--border); border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.4); z-index:1000; display:none; padding:8px 0;">
+                        </div>
+                    </div>
+
+                    <button id="btnThemeToggle" onclick="toggleTheme()" class="btn-add"
+                        style="background:rgba(255,255,255,0.06); border:1px solid var(--border); padding:6px 12px; font-size:0.82rem; font-weight:600; color:var(--text); white-space:nowrap; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:6px;"><i
+                            class="fa-solid fa-circle-half-stroke"></i> <span id="themeToggleLabel">الوضع الفاتح
+                            ☀️</span></button>
+
+                    <div id="schoolTenantBadge"
+                        style="display:flex;align-items:center;gap:8px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);padding:5px 12px;border-radius:20px;font-size:0.85rem;font-weight:700;color:#60a5fa;margin-right:auto;">
+                        <i class="fa-solid fa-school-flag" style="color:#3b82f6;"></i>
+                        <span id="activeSchoolDisplay">مدرسة المتفوقين الأهلية</span>
+                    </div>
+
+                    <div class="user-profile">
+                        <div class="avatar"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="user-details">
+                            <h3 id="welcomeName"><i class="fa-solid fa-hand-wave"></i> مرحباً</h3>
+                            <span class="badge" id="userRole">مدير</span>
+                        </div>
+                    </div>
+                </div>
+            </header>

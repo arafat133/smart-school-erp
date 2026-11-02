@@ -1,0 +1,21 @@
+<div class="page" id="pg-activity-supervisors">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-person-chalkboard"></i> المرافقون في الأنشطة</h2>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input
+                                id="searchActivitysupervisors" placeholder="بحث..."
+                                oninput="renderActivitysupervisors()"></div>
+                        <button class="btn-add" onclick="openForm('activity-supervisors')"><i
+                                class="fa-solid fa-plus"></i> إضافة</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                        <thead>
+                                <tr><th>#</th><th>اسم المشرف</th><th>النشاط الموكل</th><th>الصف التابع</th><th>رقم الجوال</th><th>الإجراءات</th></tr>
+                            </thead>
+                        <tbody id="tbl-activity-supervisors"></tbody>
+                        </table>
+                    </div>
+                </div>

@@ -1,0 +1,331 @@
+<div class="page" id="pg-parent-exams" style="padding-bottom:60px;">
+    <!-- Page Header -->
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-back" onclick="goTo('pg-parent-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+            <div>
+                <h2 style="margin:0;font-size:1.35rem;color:#f8fafc;display:flex;align-items:center;gap:8px;">
+                    <i class="fa-solid fa-calendar-days" style="color:#0ea5e9;"></i>
+                    <span>جدول الاختبارات الشهرية والفصلية (Exam Timetable)</span>
+                </h2>
+                <p style="margin:4px 0 0;color:#94a3b8;font-size:0.85rem;">المواعيد الرسمية المعتمدة للاختبارات الشهرية والفصلية وقاعات الجلوس للعام الدراسي 2026-2027</p>
+            </div>
+        </div>
+        
+        <!-- Student Quick Info Badge -->
+        <div style="background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.3);padding:8px 16px;border-radius:12px;display:flex;align-items:center;gap:12px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#0284c7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <div>
+                <div style="color:#f8fafc;font-weight:700;font-size:0.9rem;" id="pExamStudentName">محمد عبد الله أحمد الأهدل</div>
+                <div style="color:#38bdf8;font-size:0.75rem;font-weight:600;">الثالث الثانوي (علمي 1) • رقم الجلوس: <span style="font-family:monospace;letter-spacing:1px;">2026101</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4 Statistics KPI Cards -->
+    <div class="stats-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px;">
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #0ea5e9;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-clipboard-list" style="color:#0ea5e9;margin-left:6px;"></i> إجمالي مواد الاختبارات</h3>
+                <p style="color:#38bdf8;font-weight:900;font-size:1.4rem;margin:0;">8 مواد دراسية</p>
+                <small style="color:#64748b;font-size:0.75rem;">تغطي الفصل الدراسي الأول 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #10b981;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> اختبارات تم اجتيازها</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.4rem;margin:0;">2 اختبارات شهرية</p>
+                <small style="color:#64748b;font-size:0.75rem;">تم التصحيح والرصد 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #f59e0b;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-clock" style="color:#f59e0b;margin-left:6px;"></i> موعد الاختبار القادم</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.15rem;margin:0;">الأحد 01 نوفمبر 2026</p>
+                <small style="color:#64748b;font-size:0.75rem;">القرآن الكريم والتجويد (08:30 ص) 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-right:4px solid #8b5cf6;padding:16px;border-radius:14px;">
+            <div class="stat-info">
+                <h3 style="color:#94a3b8;font-size:0.85rem;margin:0 0 6px;"><i class="fa-solid fa-door-open" style="color:#8b5cf6;margin-left:6px;"></i> القاعة ورقم المقعد</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.4rem;margin:0;">القاعة 02 (مقعد #12)</p>
+                <small style="color:#64748b;font-size:0.75rem;">المبنى الرئيسي - الدور الثاني 🟣</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mode Selector Toolbar -->
+    <div class="toolbar" style="margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <!-- Tab Switcher (Monthly vs Term Exams) -->
+        <div style="display:inline-flex;background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:4px;gap:6px;">
+            <button type="button" id="btnParentTermExams" onclick="switchParentExamTab('term')" style="padding:9px 18px;border-radius:9px;border:none;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;font-weight:800;cursor:pointer;font-family:inherit;font-size:0.88rem;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;">
+                <i class="fa-solid fa-calendar-check"></i> <span>جدول اختبارات نهاية الفصل الأول</span>
+            </button>
+            <button type="button" id="btnParentMonthlyExams" onclick="switchParentExamTab('monthly')" style="padding:9px 18px;border-radius:9px;border:none;background:transparent;color:#94a3b8;font-weight:800;cursor:pointer;font-family:inherit;font-size:0.88rem;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;">
+                <i class="fa-solid fa-list-check"></i> <span>جدول الاختبارات الشهرية (التقييم المستمر)</span>
+            </button>
+        </div>
+
+        <div style="color:#94a3b8;font-size:0.85rem;display:flex;align-items:center;gap:8px;">
+            <span class="badge badge-success" style="font-size:0.8rem;padding:6px 12px;"><i class="fa-solid fa-circle-check"></i> الجدول معتمد رسمياً من إدارة الكنترول</span>
+        </div>
+    </div>
+
+    <!-- Exam Table: Term / Final Schedule -->
+    <div id="parentTermExamsContainer" class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:50px;text-align:center;">#</th>
+                    <th>اليوم والتاريخ</th>
+                    <th>المادة الدراسية</th>
+                    <th>فترة ووقت الاختبار</th>
+                    <th>المقرر والوحدات المطلوبة</th>
+                    <th>القاعة ورقم الجلوس</th>
+                    <th>معلم المادة</th>
+                    <th>حالة الاختبار</th>
+                </tr>
+            </thead>
+            <tbody id="tblParentTermExams">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td>
+                        <strong style="color:#f8fafc;">الأحد</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">2026-11-01 م</small>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="width:32px;height:32px;border-radius:8px;background:rgba(16,185,129,0.15);color:#10b981;display:flex;align-items:center;justify-content:center;font-size:0.95rem;"><i class="fa-solid fa-quran"></i></span>
+                            <div>
+                                <strong style="color:#f8fafc;">القرآن الكريم والتجويد</strong>
+                                <div style="font-size:0.75rem;color:#94a3b8;">شفهي وتحريري</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color:#38bdf8;">08:30 ص — 10:30 ص</strong><br>
+                        <small style="color:#64748b;">(ساعتان كاملتان)</small>
+                    </td>
+                    <td><span style="color:#cbd5e1;font-size:0.84rem;">سورة النور كاملة + أحكام الميم الساكنة والمدود</span></td>
+                    <td>
+                        <span class="badge badge-info" style="font-family:monospace;font-size:0.82rem;">قاعة 02</span>
+                        <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">مقعد #12 (جلوس: 2026101)</div>
+                    </td>
+                    <td style="color:#a78bfa;">أ. عبد الله الحكيمي</td>
+                    <td><span class="badge badge-warning">قادم (متبقي 4 أيام) 🟡</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td>
+                        <strong style="color:#f8fafc;">الثلاثاء</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">2026-11-03 م</small>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="width:32px;height:32px;border-radius:8px;background:rgba(59,130,246,0.15);color:#3b82f6;display:flex;align-items:center;justify-content:center;font-size:0.95rem;"><i class="fa-solid fa-square-root-variable"></i></span>
+                            <div>
+                                <strong style="color:#f8fafc;">الرياضيات المتقدمة (تفاضل وتكامل)</strong>
+                                <div style="font-size:0.75rem;color:#94a3b8;">تحريري - ورقة كاملة</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color:#38bdf8;">08:30 ص — 11:00 ص</strong><br>
+                        <small style="color:#64748b;">(ساعتان ونصف)</small>
+                    </td>
+                    <td><span style="color:#cbd5e1;font-size:0.84rem;">الوحدة الأولى (النهايات) + الوحدة الثانية (الاشتقاق وتطبيقاته)</span></td>
+                    <td>
+                        <span class="badge badge-info" style="font-family:monospace;font-size:0.82rem;">قاعة 02</span>
+                        <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">مقعد #12 (جلوس: 2026101)</div>
+                    </td>
+                    <td style="color:#a78bfa;">أ. فؤاد الشرعبي</td>
+                    <td><span class="badge badge-warning">مجدول 🔵</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">3</td>
+                    <td>
+                        <strong style="color:#f8fafc;">الخميس</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">2026-11-05 م</small>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="width:32px;height:32px;border-radius:8px;background:rgba(239,68,68,0.15);color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:0.95rem;"><i class="fa-solid fa-atom"></i></span>
+                            <div>
+                                <strong style="color:#f8fafc;">الفيزياء الحديثة والميكانيكا</strong>
+                                <div style="font-size:0.75rem;color:#94a3b8;">تحريري مع مسائل حسابية</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color:#38bdf8;">08:30 ص — 10:30 ص</strong><br>
+                        <small style="color:#64748b;">(ساعتان كاملتان)</small>
+                    </td>
+                    <td><span style="color:#cbd5e1;font-size:0.84rem;">الوحدة الأولى (الحركة الدائرية والديناميكا) + الكهرومغناطيسية</span></td>
+                    <td>
+                        <span class="badge badge-info" style="font-family:monospace;font-size:0.82rem;">قاعة 02</span>
+                        <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">مقعد #12 (جلوس: 2026101)</div>
+                    </td>
+                    <td style="color:#a78bfa;">د. سالم الحميري</td>
+                    <td><span class="badge badge-warning">مجدول 🔵</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">4</td>
+                    <td>
+                        <strong style="color:#f8fafc;">الأحد</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">2026-11-08 م</small>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,0.15);color:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:0.95rem;"><i class="fa-solid fa-flask-vial"></i></span>
+                            <div>
+                                <strong style="color:#f8fafc;">الكيمياء العامة والعضوية</strong>
+                                <div style="font-size:0.75rem;color:#94a3b8;">تحريري - نظري وتطبيقي</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color:#38bdf8;">08:30 ص — 10:30 ص</strong><br>
+                        <small style="color:#64748b;">(ساعتان كاملتان)</small>
+                    </td>
+                    <td><span style="color:#cbd5e1;font-size:0.84rem;">الاتزان الكيميائي + سرعة التفاعلات + الأحماض والقواعد</span></td>
+                    <td>
+                        <span class="badge badge-info" style="font-family:monospace;font-size:0.82rem;">قاعة 02</span>
+                        <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">مقعد #12 (جلوس: 2026101)</div>
+                    </td>
+                    <td style="color:#a78bfa;">أ. سمير منصور الأهدل</td>
+                    <td><span class="badge badge-warning">مجدول 🔵</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">5</td>
+                    <td>
+                        <strong style="color:#f8fafc;">الثلاثاء</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">2026-11-10 م</small>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="width:32px;height:32px;border-radius:8px;background:rgba(236,72,153,0.15);color:#ec4899;display:flex;align-items:center;justify-content:center;font-size:0.95rem;"><i class="fa-solid fa-language"></i></span>
+                            <div>
+                                <strong style="color:#f8fafc;">اللغة الإنجليزية (English Language)</strong>
+                                <div style="font-size:0.75rem;color:#94a3b8;">Reading & Writing & Grammar</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color:#38bdf8;">08:30 ص — 10:30 ص</strong><br>
+                        <small style="color:#64748b;">(ساعتان كاملتان)</small>
+                    </td>
+                    <td><span style="color:#cbd5e1;font-size:0.84rem;">Units 1 to 4: Grammar, Vocabulary & Composition Essay</span></td>
+                    <td>
+                        <span class="badge badge-info" style="font-family:monospace;font-size:0.82rem;">قاعة 02</span>
+                        <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">مقعد #12 (جلوس: 2026101)</div>
+                    </td>
+                    <td style="color:#a78bfa;">أ. ناصر الوصابي</td>
+                    <td><span class="badge badge-warning">مجدول 🔵</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">6</td>
+                    <td>
+                        <strong style="color:#f8fafc;">الخميس</strong><br>
+                        <small style="color:#94a3b8;font-family:monospace;">2026-11-12 م</small>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,0.15);color:#8b5cf6;display:flex;align-items:center;justify-content:center;font-size:0.95rem;"><i class="fa-solid fa-book"></i></span>
+                            <div>
+                                <strong style="color:#f8fafc;">اللغة العربية والأدب والنحو</strong>
+                                <div style="font-size:0.75rem;color:#94a3b8;">النحو والصرف والبلاغة والأدب</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color:#38bdf8;">08:30 ص — 10:30 ص</strong><br>
+                        <small style="color:#64748b;">(ساعتان كاملتان)</small>
+                    </td>
+                    <td><span style="color:#cbd5e1;font-size:0.84rem;">النحو (أسلوب الاستثناء والتوكيد) + النصوص الأدبية المختارة</span></td>
+                    <td>
+                        <span class="badge badge-info" style="font-family:monospace;font-size:0.82rem;">قاعة 02</span>
+                        <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">مقعد #12 (جلوس: 2026101)</div>
+                    </td>
+                    <td style="color:#a78bfa;">أ. محمود القدسي</td>
+                    <td><span class="badge badge-warning">مجدول 🔵</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Exam Table: Monthly Quizzes Schedule -->
+    <div id="parentMonthlyExamsContainer" class="table-wrapper" style="display:none;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:50px;text-align:center;">#</th>
+                    <th>الشهر والتقييم</th>
+                    <th>المادة الدراسية</th>
+                    <th>تاريخ الإجراء</th>
+                    <th>الدرجة المحققة</th>
+                    <th>المعلم المشرف</th>
+                    <th>ملاحظات المعلم وتقييمه</th>
+                    <th>الحالة</th>
+                </tr>
+            </thead>
+            <tbody id="tblParentMonthlyExams">
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">1</td>
+                    <td><strong style="color:#f8fafc;">اختبار شهر سبتمبر (شهري 1)</strong></td>
+                    <td><strong style="color:#38bdf8;">الرياضيات المتقدمة</strong></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-09-22</td>
+                    <td><strong style="color:#34d399;font-size:1.05rem;">15 / 15</strong></td>
+                    <td style="color:#a78bfa;">أ. فؤاد الشرعبي</td>
+                    <td><span style="color:#cbd5e1;">إتقان كامل ومثالي لمسائل النهايات والدوال المثلثية 🌟</span></td>
+                    <td><span class="badge badge-success">تم الرصد بنجاح 🟢</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">2</td>
+                    <td><strong style="color:#f8fafc;">اختبار شهر سبتمبر (شهري 1)</strong></td>
+                    <td><strong style="color:#ef4444;">الفيزياء</strong></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-09-24</td>
+                    <td><strong style="color:#34d399;font-size:1.05rem;">15 / 15</strong></td>
+                    <td style="color:#a78bfa;">د. سالم الحميري</td>
+                    <td><span style="color:#cbd5e1;">درجة كاملة، تميز في فهم قوانين الحركة الدائرية 🌟</span></td>
+                    <td><span class="badge badge-success">تم الرصد بنجاح 🟢</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">3</td>
+                    <td><strong style="color:#f8fafc;">اختبار شهر أكتوبر (شهري 2)</strong></td>
+                    <td><strong style="color:#38bdf8;">الرياضيات المتقدمة</strong></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-10-20</td>
+                    <td><strong style="color:#34d399;font-size:1.05rem;">15 / 15</strong></td>
+                    <td style="color:#a78bfa;">أ. فؤاد الشرعبي</td>
+                    <td><span style="color:#cbd5e1;">أداء ممتاز في مسائل قواعد الاشتقاق وسلسلة الدوال 🌟</span></td>
+                    <td><span class="badge badge-success">تم الرصد بنجاح 🟢</span></td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;font-weight:700;color:#94a3b8;">4</td>
+                    <td><strong style="color:#f8fafc;">اختبار شهر أكتوبر (شهري 2)</strong></td>
+                    <td><strong style="color:#10b981;">القرآن الكريم والتجويد</strong></td>
+                    <td style="font-family:monospace;color:#94a3b8;">2026-10-22</td>
+                    <td><strong style="color:#34d399;font-size:1.05rem;">15 / 15</strong></td>
+                    <td style="color:#a78bfa;">أ. عبد الله الحكيمي</td>
+                    <td><span style="color:#cbd5e1;">حفظ متقن مع أحكام الترتيل ومخارج الحروف 🌟</span></td>
+                    <td><span class="badge badge-success">تم الرصد بنجاح 🟢</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Exam Guidelines Card for Parents -->
+    <div style="margin-top:24px;background:#1e293b;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;">
+        <h4 style="margin:0 0 12px;color:#f8fafc;font-size:1rem;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-circle-info" style="color:#38bdf8;"></i>
+            <span>تعليمات وإرشادات هامة لأولياء الأمور والطلاب:</span>
+        </h4>
+        <ul style="margin:0;padding-right:20px;color:#94a3b8;font-size:0.86rem;line-height:1.8;">
+            <li>الحضور إلى مبنى المدرسة وقاعة الاختبار قبل الموعد بـ <strong>15 دقيقة على الأقل</strong> (الساعة 08:15 صباحاً).</li>
+            <li>يُشترط إحضار بطاقة الجلوس الرسمية والأدوات الهندسية والأقلام الخاصة بكل طالب.</li>
+            <li>يُمنع منعاً باتاً إدخال الهواتف الذكية أو الساعات الإلكترونية الذكية إلى قاعات الامتحانات.</li>
+            <li>في حال حدوث أي ظرف طارئ أو عذر صحي يرجى إبلاغ إدارة الكنترول وشؤون الطلاب فوراً عبر بوابة ولي الأمر.</li>
+        </ul>
+    </div>
+</div>

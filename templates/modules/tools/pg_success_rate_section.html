@@ -1,0 +1,21 @@
+<div class="page" id="pg-success-rate-section">
+                    <div class="page-header"><button class="btn-back" onclick="goTo('pg-dashboard')"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                        <h2><i class="fa-solid fa-chart-area"></i> نسبة النجاح بالشعب</h2>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input
+                                id="searchSuccessratesection" placeholder="بحث..." oninput="renderSuccessratesection()">
+                        </div>
+                        <button class="btn-add" onclick="openForm('success-rate-section')"><i
+                                class="fa-solid fa-plus"></i> إضافة</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                        <thead>
+                                <tr><th>#</th><th>الشعبة الدراسية</th><th>المرحلة</th><th>عدد الطلاب</th><th>نسبة النجاح الإجمالية (%)</th><th>التقييم</th><th>الإجراءات</th></tr>
+                            </thead>
+                        <tbody id="tbl-success-rate-section"></tbody>
+                        </table>
+                    </div>
+                </div>

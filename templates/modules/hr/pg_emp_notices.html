@@ -1,0 +1,77 @@
+<div class="page" id="pg-emp-notices">
+    <div class="page-header">
+        <button class="btn-back" onclick="goTo('pg-dashboard')" title="الرجوع للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
+        <h2><i class="fa-solid fa-bullhorn" style="color:#38bdf8;"></i> الإعلانات والتعاميم الإدارية للموظفين (Staff Notices & Circulars)</h2>
+    </div>
+    <div class="stats-row" style="margin-bottom:18px;">
+        <div class="stat-card" style="border-right:4px solid #3b82f6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-scroll" style="color:#3b82f6;margin-left:6px;"></i> إجمالي التعاميم</h3>
+                <p style="color:#60a5fa;font-weight:900;font-size:1.3rem;" id="noticesTotal">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">التعاميم والقرارات الصادرة 🔵</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #10b981;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-circle-check" style="color:#10b981;margin-left:6px;"></i> تعاميم نافذة</h3>
+                <p style="color:#34d399;font-weight:900;font-size:1.3rem;" id="noticesActive">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">قرارات سارية المفعول 🟢</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #f59e0b;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-signature" style="color:#f59e0b;margin-left:6px;"></i> تتطلب إقرار قراءة</h3>
+                <p style="color:#fbbf24;font-weight:900;font-size:1.3rem;" id="noticesAckRequired">0</p>
+                <small style="color:var(--muted);font-size:0.75rem;">توقيع إلكتروني مطلوب 🟡</small>
+            </div>
+        </div>
+        <div class="stat-card" style="border-right:4px solid #8b5cf6;">
+            <div class="stat-info">
+                <h3><i class="fa-solid fa-eye" style="color:#8b5cf6;margin-left:6px;"></i> نسبة اطلاع الموظفين</h3>
+                <p style="color:#c084fc;font-weight:900;font-size:1.3rem;" id="noticesReadRate">92%</p>
+                <small style="color:var(--muted);font-size:0.75rem;">معدل مشاهدة التعاميم 🟣</small>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;max-width:640px;">
+            <div class="search-box" style="flex:1;min-width:200px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchEmpNotices" placeholder="بحث بعنوان التعميم أو الكود..." oninput="renderEmpNoticesGrid()">
+            </div>
+            <select id="filterNoticePriority" onchange="renderEmpNoticesGrid()" style="padding:8px 12px;background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#f8fafc;font-family:inherit;cursor:pointer;">
+                <option value="">كافة مستويات الأهمية</option>
+                <option value="عاجل">عاجل وهام جداً 🔴</option>
+                <option value="عادي">تعميم إداري عادي 🔵</option>
+                <option value="تنويه">تنويه وتذكير عام 🟢</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-add" onclick="openForm('emp_notice')" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
+                <i class="fa-solid fa-plus"></i> إصدار تعميم جديد
+            </button>
+            <button class="btn-add" onclick="triggerOfficialPrint()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                <i class="fa-solid fa-print"></i> طباعة سجل التعاميم
+            </button>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>رقم التعميم</th>
+                    <th>عنوان التعميم والقرار</th>
+                    <th>الكادر المستهدف</th>
+                    <th>مستوى الأولوية</th>
+                    <th>تاريخ الإصدار</th>
+                    <th>تاريخ السريان</th>
+                    <th>حالة النشر</th>
+                    <th>نسبة القراءة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-emp-notices-grid"></tbody>
+        </table>
+    </div>
+</div>
