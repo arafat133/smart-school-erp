@@ -1673,6 +1673,96 @@ function renderUsersGrid() {
 window.renderUsersGrid = renderUsersGrid;
 window.renderUsers = renderUsersGrid;
 
+function renderSchoolUsersGrid() {
+    if (typeof ensureInitialUsersAndStudents === 'function') ensureInitialUsersAndStudents();
+    const tb = document.getElementById('tbl-school-users-grid');
+    if (!tb) return;
+
+    const query = (document.getElementById('searchSchoolUsers')?.value || '').toLowerCase().trim();
+    const roleFilter = document.getElementById('filterSchoolUserRole')?.value || 'ALL';
+    const users = (window.DB && (window.DB.users || window.DB.usersData)) || [];
+
+    let filtered = users.filter(u => {
+        if (!query) return true;
+        const text = [u.id, u.name, u.username, u.role, u.roleName, u.dept, u.phone, u.nationalId, u.email].join(' ').toLowerCase();
+        return text.includes(query);
+    });
+
+    if (roleFilter !== 'ALL') {
+        filtered = filtered.filter(u => {
+            const role = (u.role || u.roleName || '').toLowerCase();
+            if (roleFilter === 'principal') return role.includes('مدير') || role.includes('admin') || role.includes('principal');
+            if (roleFilter === 'teacher') return role.includes('معلم') || role.includes('تدريس') || role.includes('teacher');
+            if (roleFilter === 'staff') return role.includes('محاسب') || role.includes('إداري') || role.includes('مخزن') || role.includes('staff') || role.includes('accountant');
+            return true;
+        });
+    }
+
+    const totalCountEl = document.getElementById('suTotalCount');
+    if (totalCountEl) totalCountEl.textContent = `${users.length} مستخدم`;
+
+    const teachersEl = document.getElementById('suTeachersCount');
+    if (teachersEl) {
+        const teachersCount = users.filter(u => {
+            const r = (u.role || u.roleName || '').toLowerCase();
+            return r.includes('معلم') || r.includes('تدريس') || r.includes('teacher');
+        }).length;
+        teachersEl.textContent = `${teachersCount} معلمين`;
+    }
+
+    const staffEl = document.getElementById('suStaffCount');
+    if (staffEl) {
+        const staffCount = users.filter(u => {
+            const r = (u.role || u.roleName || '').toLowerCase();
+            return r.includes('محاسب') || r.includes('إداري') || r.includes('مخزن') || r.includes('مسجل') || r.includes('مشرف') || r.includes('وكيل');
+        }).length;
+        staffEl.textContent = `${staffCount} إداريين ومحاسبين`;
+    }
+
+    const activeEl = document.getElementById('suActiveCount');
+    if (activeEl) {
+        const activeCount = users.filter(u => !(u.status && (u.status.includes('موقوف') || u.status.includes('🔴') || u.status.includes('معطل')))).length;
+        activeEl.textContent = `${activeCount} مفعل 🟢`;
+    }
+
+    if (filtered.length === 0) {
+        tb.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:30px;color:#94a3b8;"><i class="fa-solid fa-users-slash" style="font-size:1.8rem;margin-bottom:8px;display:block;color:#64748b;"></i> لا توجد بيانات مستخدمين مطابقة للبحث أو التصفية</td></tr>`;
+        return;
+    }
+
+    tb.innerHTML = filtered.map((u, idx) => {
+        const roleText = u.roleName || u.role || 'مستخدم';
+        const isParent = String(roleText).includes('ولي') || u.role === 'parent';
+        const roleBadge = isParent ?
+            `<span class="badge" style="background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);font-weight:700;"><i class="fa-solid fa-user-group"></i> ${roleText}</span>` :
+            `<span class="badge" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);font-weight:700;"><i class="fa-solid fa-user-shield"></i> ${roleText}</span>`;
+
+        const allowedCount = u.permissions ? (u.permissions.length + ' واجهة 🟢') : (u.allowedPagesCount || 'جميع الواجهات (60+) 🟢');
+        const statusClass = (u.status && (u.status.includes('موقوف') || u.status.includes('🔴') || u.status.includes('معطل'))) ? 'badge-danger' : 'badge-success';
+        const statusText = u.status || 'نشط 🟢';
+
+        return `
+            <tr>
+                <td style="font-weight:700;color:#94a3b8;text-align:center;">${idx + 1}</td>
+                <td style="font-weight:700;color:#60a5fa;font-family:monospace;"><i class="fa-solid fa-hashtag" style="font-size:0.75rem;color:#38bdf8;"></i> ${u.id || ('USR-' + (idx + 101))}</td>
+                <td style="font-weight:800;color:#38bdf8;font-family:monospace;"><i class="fa-solid fa-id-badge" style="color:#60a5fa;"></i> ${u.username || u.nationalId || '---'}</td>
+                <td style="font-weight:700;color:#f8fafc;">${u.name || 'مستخدم النظام'}</td>
+                <td>${roleBadge}</td>
+                <td style="color:#cbd5e1;font-size:0.85rem;"><i class="fa-solid fa-building" style="color:#a855f7;font-size:0.75rem;"></i> ${u.dept || 'الشؤون التعليمية والتدريس'}</td>
+                <td style="font-family:monospace;color:#38bdf8;"><i class="fa-solid fa-phone" style="font-size:0.75rem;"></i> ${u.phone || '---'}</td>
+                <td style="color:#94a3b8;font-size:0.82rem;"><i class="fa-solid fa-envelope" style="font-size:0.75rem;"></i> ${u.email || (u.username ? (u.username + '@school.edu.ye') : '---')}</td>
+                <td><span class="badge ${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${statusText}</span></td>
+                <td><span class="badge badge-info" style="font-size:0.75rem;"><i class="fa-solid fa-shield-halved"></i> ${allowedCount}</span></td>
+                <td style="text-align:center;white-space:nowrap;">
+                    <button class="btn-action edit" onclick="openForm('school_user', '${u.id}')" title="تعديل المستخدم والصلاحيات" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3);padding:4px 8px;border-radius:6px;cursor:pointer;margin-left:4px;"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="btn-action delete" onclick="confirmDelete('users', '${u.id}')" title="حذف المستخدم" style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);padding:4px 8px;border-radius:6px;cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+window.renderSchoolUsersGrid = renderSchoolUsersGrid;
+
 // ============================================================================
 // 💰 ENROLLMENT & TUITION CONTRACTS SYNCHRONIZED ENGINE
 // ============================================================================
@@ -8035,7 +8125,7 @@ function goTo(pageId, extraParam) {
         'pg-student-register': () => typeof window.renderStudents === 'function' && window.renderStudents(),
         'pg-enrollment': () => typeof window.renderEnrollmentList === 'function' && window.renderEnrollmentList(),
         'pg-employees': () => typeof window.renderEmployeesGrid === 'function' && window.renderEmployeesGrid(),
-        'pg-users': () => typeof window.renderUsersGrid === 'function' && window.renderUsersGrid(),
+        'pg-users': () => { if (typeof window.renderUsersGrid === 'function') window.renderUsersGrid(); if (typeof window.renderSchoolUsersGrid === 'function') window.renderSchoolUsersGrid(); },
         'pg-vouchers': () => typeof window.renderVouchersGrid === 'function' && window.renderVouchersGrid(),
         'pg-banks': () => typeof window.renderBanksGrid === 'function' && window.renderBanksGrid(),
         'pg-checks': () => typeof window.renderChecksGrid === 'function' && window.renderChecksGrid(),
@@ -8113,6 +8203,7 @@ function confirmDelete() {
         return;
     }
     const { collectionKey, itemId } = window.itemToDelete;
+    const type = collectionKey;
     const collKey = typeof getCollectionKey === 'function' ? getCollectionKey(collectionKey) : collectionKey;
     
     if (window.DB && window.DB[collKey]) {
@@ -8195,12 +8286,55 @@ function confirmDelete() {
         if (typeof renderChartAccountsTree === 'function') renderChartAccountsTree();
     } else if (collKey === 'systemSettingsData' || collKey === 'system_settings') {
         if (typeof renderSystemSettingsGrid === 'function') renderSystemSettingsGrid();
-    } else if (collKey === 'alertsData' || collKey === 'alerts') {
+    } else if (collKey === 'alertsRules' || collKey === 'alertsData' || collKey === 'alerts') {
         if (typeof renderAlertsGrid === 'function') renderAlertsGrid();
     } else if (collKey === 'archiveDocs' || collKey === 'archive') {
         if (typeof renderArchiveGrid === 'function') renderArchiveGrid();
-    } else if (collKey === 'users' || collKey === 'user') {
+
+    // Comprehensive Dispatcher for All Tables & Grids
+    if (collKey === 'empContracts' || type === 'emp_contract' || type === 'contracts') {
+        if (typeof renderEmpContractsGrid === 'function') renderEmpContractsGrid();
+    } else if (collKey === 'empAdvances' || type === 'emp_advance' || type === 'advances') {
+        if (typeof renderEmpAdvancesGrid === 'function') renderEmpAdvancesGrid();
+    } else if (collKey === 'empNotices' || type === 'emp_notice') {
+        if (typeof renderEmpNoticesGrid === 'function') renderEmpNoticesGrid();
+    } else if (collKey === 'teacherSubjects' || type === 'teacher_subject') {
+        if (typeof renderTeacherSubjectsGrid === 'function') renderTeacherSubjectsGrid();
+    } else if (collKey === 'activities' || type === 'activities' || type === 'activity') {
+        if (typeof renderActivitiesGrid === 'function') renderActivitiesGrid();
+    } else if (collKey === 'buses' || type === 'bus' || type === 'buses') {
+        if (typeof renderBusesGrid === 'function') renderBusesGrid();
+    } else if (collKey === 'transportRoutes' || type === 'transport_route' || type === 'transportRoutes') {
+        if (typeof renderTransportRoutesGrid === 'function') renderTransportRoutesGrid();
+    } else if (collKey === 'itemCategories' || type === 'item_category' || type === 'itemCategories') {
+        if (typeof renderItemCategoriesGrid === 'function') renderItemCategoriesGrid();
+    } else if (collKey === 'inventoryItems' || type === 'inventory_item' || type === 'inventoryItems') {
+        if (typeof renderInventoryItemsGrid === 'function') renderInventoryItemsGrid();
+    } else if (collKey === 'supplyOrders' || type === 'supply_order' || type === 'supplyOrders') {
+        if (typeof renderSupplyOrdersGrid === 'function') renderSupplyOrdersGrid();
+    } else if (collKey === 'issueOrders' || type === 'issue_order' || type === 'issueOrders') {
+        if (typeof renderIssueOrdersGrid === 'function') renderIssueOrdersGrid();
+    } else if (collKey === 'suppliers' || type === 'suppliers' || type === 'supplier') {
+        if (typeof renderSuppliersGrid === 'function') renderSuppliersGrid();
+    } else if (collKey === 'smsTemplates' || type === 'sms_template' || type === 'smsTemplates') {
+        if (typeof renderSmsTemplatesGrid === 'function') renderSmsTemplatesGrid();
+    } else if (collKey === 'smsGateways' || type === 'sms_gateway' || type === 'smsSettings') {
+        if (typeof renderSmsSettingsGrid === 'function') renderSmsSettingsGrid();
+    } else if (collKey === 'adminMessages' || type === 'admin_broadcast' || type === 'adminMessages') {
+        if (typeof renderAdminMessagesGrid === 'function') renderAdminMessagesGrid();
+    } else if (collKey === 'shortcuts' || type === 'shortcut' || type === 'shortcuts') {
+        if (typeof renderShortcutsGrid === 'function') renderShortcutsGrid();
+    } else if (collKey === 'faqArticles' || type === 'faq' || type === 'faqArticles') {
+        if (typeof renderFaqGrid === 'function') renderFaqGrid();
+    } else if (collKey === 'discontinued' || type === 'discontinued') {
+        if (typeof renderDiscontinuedList === 'function') renderDiscontinuedList();
+    } else if (collKey === 'guarantors' || type === 'guarantors' || type === 'guarantor') {
+        if (typeof renderGuarantorsGrid === 'function') renderGuarantorsGrid();
+    }
+
+    } else if (collKey === 'users' || collKey === 'user' || collKey === 'school_user' || collKey === 'school_users') {
         if (typeof renderUsersGrid === 'function') renderUsersGrid();
+        if (typeof renderSchoolUsersGrid === 'function') renderSchoolUsersGrid();
     } else if (typeof hydrateAndMountAllGrids === 'function') {
         hydrateAndMountAllGrids();
     }
@@ -8312,36 +8446,148 @@ function openForm(entity, editId) {
     const fields = typeof getFormFields === 'function' ? getFormFields(entity) : [];
     const entityLabels = {
         'student': 'طالب جديد وحساب ولي الأمر',
+        'school': 'منشأة ومدرسة جديدة',
+        'schools': 'منشأة ومدرسة جديدة',
         'employee': 'بيانات موظف / معلم',
-        'user': 'بيانات مستخدم وصلاحيات الوصول',
-        'users': 'بيانات مستخدم وصلاحيات الوصول',
+        'employees': 'بيانات موظف / معلم',
+        'user': 'بيانات مشرف ومستخدم النظام',
+        'users': 'بيانات مشرف ومستخدم النظام',
+        'saas_user': 'مشرف نظام سحابي والصلاحيات',
+        'school_user': 'مستخدم وكادر المدرسة وصلاحيات الوصول',
+        'school_users': 'مستخدم وكادر المدرسة وصلاحيات الوصول',
+        'school_principal': 'بيانات وصلاحيات مدير المدرسة',
+        'school-principal': 'بيانات وصلاحيات مدير المدرسة',
+        'principal': 'بيانات وصلاحيات مدير المدرسة',
+        'parent': 'بيانات ولي أمر',
+        'parents': 'بيانات ولي أمر',
         'voucher': 'سند مالي',
         'voucher_receipt': 'سند قبض مالي',
         'voucher_payment': 'سند صرف مالي',
-        'banks': 'بيانات حساب بنكي',
+        'vouchers': 'سند مالي',
+        'journal': 'قيد يومية محاسبي',
+        'journal_entry': 'قيد يومية محاسبي',
+        'journalEntries': 'قيد يومية محاسبي',
+        'chart-accounts': 'حساب مالي بدليل الحسابات',
+        'banks': 'بيانات حساب بنكي ومصرفي',
+        'bank': 'بيانات حساب بنكي ومصرفي',
         'checks': 'شيك بنكي',
+        'check': 'شيك بنكي',
+        'cashbox': 'صندوق مالي وخزينة',
+        'cashboxes': 'صندوق مالي وخزينة',
+        'cost_center': 'مركز تكلفة مالي',
+        'costCenters': 'مركز تكلفة مالي',
+        'currency': 'عملة وسعر صرف',
+        'currencies': 'عملة وسعر صرف',
+        'cashbox_inventory': 'محضر جرد صندوق مالي',
+        'cashboxInventory': 'محضر جرد صندوق مالي',
+        'closing': 'إقفال محاسبي',
+        'closings': 'إقفال محاسبي',
         'account-ceiling': 'تسقيف حساب ائتماني',
-        'demand_letters': 'رسالة مطالبة مالية',
-        'academic-calendar': 'فعالية بالتقويم المدرسي',
-        'subject-distribution': 'توزيع مادة على الصفوف',
+        'accountCeiling': 'تسقيف حساب ائتماني',
+        'demand_letters': 'إشعار مطالبة مالية',
+        'demandLetters': 'إشعار مطالبة مالية',
+        'finance_reports': 'تقرير مالي وحسابي',
+        'financeReports': 'تقرير مالي وحسابي',
+        'academic_years': 'عام دراسي مالي',
+        'academicYears': 'عام دراسي مالي',
+        'academic-calendar': 'فعالية بالتقويم الأكاديمي',
+        'academic_calendar': 'فعالية بالتقويم الأكاديمي',
+        'academicCalendar': 'فعالية بالتقويم الأكاديمي',
+        'stages': 'مرحلة وصف دراسي',
+        'stage': 'مرحلة وصف دراسي',
+        'sections': 'شعبة وفصل دراسي',
+        'section': 'شعبة وفصل دراسي',
+        'subjects': 'مادة دراسية ومنهج',
+        'subject': 'مادة دراسية ومنهج',
+        'subject_distribution': 'توزيع مادة على الصفوف والحصص',
+        'subject-distribution': 'توزيع مادة على الصفوف والحصص',
         'classrooms': 'قاعة / معمل دراسي',
-        'class-times': 'توقيت حصة دراسية',
-        'discount-categories': 'فئة خصم ومنحة',
-        'installment-plans': 'خطة أقساط ودفعات',
-        'required-docs': 'وثيقة قبول مطلوبة',
-        'discontinued': 'سجل طالب غير مستمر',
-        'guarantors': 'بيانات ضامن معتمد',
+        'classroom': 'قاعة / معمل دراسي',
+        'class_times': 'توقيت وفترة حصة دراسية',
+        'class-times': 'توقيت وفترة حصة دراسية',
+        'timetable_builder': 'حصة في الجدول المدرسي',
+        'timetable-builder': 'حصة في الجدول المدرسي',
+        'required_docs': 'وثيقة قبول وتسجيل مطلوبة',
+        'required-docs': 'وثيقة قبول وتسجيل مطلوبة',
+        'fee_categories': 'فئة وبند رسوم دراسية',
+        'fee-categories': 'فئة وبند رسوم دراسية',
+        'discount_categories': 'فئة خصم ومنحة دراسية',
+        'discount-categories': 'فئة خصم ومنحة دراسية',
+        'installment_plans': 'خطة وجدول أقساط ميسرة',
+        'installment-plans': 'خطة وجدول أقساط ميسرة',
+        'grade_fees': 'رسوم صف ومرحلة دراسية',
+        'grade-fees': 'رسوم صف ومرحلة دراسية',
+        'student_doc': 'وثيقة رقمية لملف الطالب',
+        'student-docs': 'وثيقة رقمية لملف الطالب',
+        'section_transfer': 'طلب تحويل ونقل بين الشعب',
+        'section-transfer': 'طلب تحويل ونقل بين الشعب',
+        'discontinued': 'سجل طالب منقطع / منسحب',
+        'attendance_excuse': 'عذر واستئذان غياب طالب',
+        'class_note': 'ملاحظة يومية وسلوكية',
+        'class_notes': 'ملاحظة يومية وسلوكية',
+        'guarantors': 'بيانات ضامن وكفيل',
+        'guarantor': 'بيانات ضامن وكفيل',
+        'teacher_subject': 'إسناد مادة لمعلم',
+        'teacher-subject': 'إسناد مادة لمعلم',
+        'emp_attendance': 'سجل حضور وغياب موظف',
+        'emp_notice': 'تعميم وإشعار إداري لموظف',
         'contracts': 'عقد عمل وظيفي',
+        'emp_contract': 'عقد عمل وظيفي',
+        'emp-contract': 'عقد عمل وظيفي',
         'advances': 'سلفة مالية لموظف',
+        'emp_advance': 'سلفة مالية لموظف',
+        'emp-advance': 'سلفة مالية لموظف',
+        'emp_leave': 'طلب إجازة / مغادرة',
+        'emp-leave': 'طلب إجازة / مغادرة',
         'performance': 'تقييم أداء وظيفي',
-        'activities': 'نشاط مدرسي',
-        'suppliers': 'بيانات مورد وتاجر',
-        'faq': 'سؤال وجواب شائع',
-        'operation-lock': 'قاعدة قفل عمليات',
-        'system_settings': 'إعداد وتكوين سيادي',
-        'systemSettingsData': 'إعداد وتكوين سيادي',
-        'alerts': 'قاعدة تنبيه ومحفز',
-        'archive': 'وثيقة أرشيف رقمي'
+        'emp_eval': 'تقييم أداء وظيفي',
+        'emp-eval': 'تقييم أداء وظيفي',
+        'payroll_adjustment': 'تسوية وتعديل راتب',
+        'payroll-adjustment': 'تسوية وتعديل راتب',
+        'exam_hall': 'لجنة وقاعة امتحانية',
+        'exam-hall': 'لجنة وقاعة امتحانية',
+        'exam_schedule': 'جلسة اختبار في الجدول الامتحاني',
+        'exam-schedule': 'جلسة اختبار في الجدول الامتحاني',
+        'seat_numbers': 'رقم جلوس طالب',
+        'seat-numbers': 'رقم جلوس طالب',
+        'secret_numbers': 'رقم سري للكنترول',
+        'secret-numbers': 'رقم سري للكنترول',
+        'activities': 'نشاط وفعالية مدرسية',
+        'activity': 'نشاط وفعالية مدرسية',
+        'bus': 'حافلة ومركبة مدرسية',
+        'buses': 'حافلة ومركبة مدرسية',
+        'transport_route': 'خط ومسار نقل مدرسي',
+        'transport-route': 'خط ومسار نقل مدرسي',
+        'transport_sub': 'اشتراك نقل مدرسي',
+        'transport-enrollment': 'اشتراك نقل مدرسي',
+        'item_category': 'تصنيف وفئة مخزنية',
+        'item-category': 'تصنيف وفئة مخزنية',
+        'inventory_item': 'صنف ومادة مخزنية',
+        'inventory-item': 'صنف ومادة مخزنية',
+        'supply_order': 'أمر توريد مخزني',
+        'supply-order': 'أمر توريد مخزني',
+        'issue_order': 'إذن صرف مخزني',
+        'issue-order': 'إذن صرف مخزني',
+        'suppliers': 'بيانات مورد وشركة',
+        'supplier': 'بيانات مورد وشركة',
+        'sms_template': 'قالب رسالة قصيرة SMS',
+        'sms-template': 'قالب رسالة قصيرة SMS',
+        'sms_gateway': 'بوابة ومزود خدمة رسائل SMS',
+        'sms-gateway': 'بوابة ومزود خدمة رسائل SMS',
+        'admin_broadcast': 'رسالة وتوجيه إداري مركزي',
+        'admin-broadcast': 'رسالة وتوجيه إداري مركزي',
+        'shortcut': 'اختصار لوحة المفاتيح',
+        'shortcuts': 'اختصار لوحة المفاتيح',
+        'faq': 'سؤال وجواب شائع بدليل المساعدة',
+        'parent_ticket': 'شكوى / طلب ولي أمر',
+        'parent-ticket': 'شكوى / طلب ولي أمر',
+        'operation-lock': 'قاعدة قفل عمليات وفترات',
+        'operationLocks': 'قاعدة قفل عمليات وفترات',
+        'system_settings': 'إعداد وتهيئة عامة',
+        'systemSettingsData': 'إعداد وتهيئة عامة',
+        'alerts': 'قاعدة تنبيه ومحرك ذكي',
+        'archive': 'وثيقة أرشيف رقمي',
+        'posting': 'دفعة ترحيل محاسبي'
     };
 
     const label = entityLabels[entity] || entity;
@@ -8430,7 +8676,10 @@ function openForm(entity, editId) {
     fieldsHtml += '</div>';
 
     // Inject Action Permissions (CRUD, Search, Print) & RBAC Matrix for Users
-    if (entity === 'user' || entity === 'users') {
+    
+    
+
+    if (entity === 'user' || entity === 'users' || entity === 'school_user' || entity === 'school_users') {
         const userActions = existingData.actions || { create: true, edit: true, delete: true, search: true, print: true };
 
         fieldsHtml += `
@@ -8484,112 +8733,152 @@ function openForm(entity, editId) {
             </div>
         `;
 
-        const allSystemPages = [
-            { group: '📊 1. الإدارة واللوحات المركزية', pages: [
-                { id: 'pg-dashboard', label: 'لوحة التحكم الرئيسية' },
-                { id: 'pg-saas-admin', label: 'لوحة إدارة SaaS السحابية' },
-                { id: 'pg-school-info', label: 'معلومات وبيانات المدرسة' },
-                { id: 'pg-users', label: 'دليل المستخدمين والصلاحيات' },
-                { id: 'pg-system-settings', label: 'إعدادات النظام العامة' },
-                { id: 'pg-alerts', label: 'مركز التنبيهات الآلية' },
-                { id: 'pg-archive', label: 'الأرشيف الرقمي والوثائق' },
-                { id: 'pg-audit-trail', label: 'سجل الأمان والتدقيق الأمني' },
-                { id: 'pg-db-management', label: 'إدارة قاعدة البيانات والنسخ' }
-            ]},
-            { group: '💰 2. المالية والمحاسبة والقيود ERP', pages: [
-                { id: 'pg-chart-accounts', label: 'دليل الحسابات الشجري' },
-                { id: 'pg-vouchers', label: 'سندات القبض والصرف' },
-                { id: 'pg-journal', label: 'دفتر القيود اليومية' },
-                { id: 'pg-cashboxes', label: 'دليل الصناديق والخزائن' },
-                { id: 'pg-cost-centers', label: 'مراكز التكلفة والموازنة' },
-                { id: 'pg-account-ceiling', label: 'تسقيف الحسابات الائتماني' },
-                { id: 'pg-currencies', label: 'دليل العملات وأسعار الصرف' },
-                { id: 'pg-cashbox-inventory', label: 'جرد الصناديق النقدية' },
-                { id: 'pg-closings', label: 'الإقفالات المحاسبية الدورية' },
-                { id: 'pg-banks', label: 'دليل البنوك والحسابات المصرفية' },
-                { id: 'pg-demand-letters', label: 'المطالبات المالية والإنذارات' },
-                { id: 'pg-finance-reports', label: 'التقارير المالية والأستاذ' }
-            ]},
-            { group: '🏫 3. التهيئة والمدخلات الأكاديمية', pages: [
-                { id: 'pg-academic-years', label: 'دليل السنوات الدراسية' },
-                { id: 'pg-academic-calendar', label: 'التقويم الأكاديمي والفعاليات' },
-                { id: 'pg-stages', label: 'المراحل والصفوف الدراسية' },
-                { id: 'pg-sections', label: 'دليل الشُعَب الدراسية' },
-                { id: 'pg-subjects', label: 'دليل المواد الدراسية' },
-                { id: 'pg-subject-distribution', label: 'توزيع المواد على الصفوف' },
-                { id: 'pg-classrooms', label: 'القاعات والمعامل والمختبرات' },
-                { id: 'pg-class-times', label: 'توقيت وبدايات الحصص' },
-                { id: 'pg-required-docs', label: 'دليل الوثائق المطلوبة' },
-                { id: 'pg-fee-categories', label: 'فئات الرسوم المدرسية' },
-                { id: 'pg-discount-categories', label: 'فئات الخصومات والمنح' },
-                { id: 'pg-installment-plans', label: 'خطط وجداول الأقساط' },
-                { id: 'pg-grade-fees', label: 'جدول رسوم الصفوف' }
-            ]},
-            { group: '👨‍🎓 4. شؤون الطلاب والقبول والتسجيل', pages: [
-                { id: 'pg-student-register', label: 'تسجيل طالب جديد' },
-                { id: 'pg-enrollment', label: 'إدارة القبول والرسوم' },
-                { id: 'pg-students', label: 'دليل الطلاب الشامل والملف' },
-                { id: 'pg-parents', label: 'دليل أولياء الأمور والربط' },
-                { id: 'pg-student-tree', label: 'الشجرة الأكاديمية للطلاب' },
-                { id: 'pg-section-distribution', label: 'توزيع الطلاب على الشعب' },
-                { id: 'pg-discontinued', label: 'سجل الطلاب غير المستمرين' },
-                { id: 'pg-promotion-workflow', label: 'مسار ترفيع الطلاب' },
-                { id: 'pg-class-notes', label: 'ملاحظات رائد الفصل اليومية' },
-                { id: 'pg-homework-tracker', label: 'متابعة الواجبات المدرسية' }
-            ]},
-            { group: '👨‍🏫 5. الموارد البشرية والرواتب HR', pages: [
-                { id: 'pg-employees', label: 'دليل الموظفين والمعلمين' },
-                { id: 'pg-guarantors', label: 'دليل الضمناء والكفلاء' },
-                { id: 'pg-teacher-subjects', label: 'إسناد المواد للمعلمين' },
-                { id: 'pg-emp-notices', label: 'إشعارات وتنبيهات الموظفين' },
-                { id: 'pg-emp-contracts', label: 'عقود العمل والتوظيف' },
-                { id: 'pg-emp-advances', label: 'سلفيات وقروض الموظفين' },
-                { id: 'pg-leave-management', label: 'نظام إدارة الإجازات' },
-                { id: 'pg-performance-eval', label: 'تقييم الأداء والكفاءة' },
-                { id: 'pg-payroll', label: 'مسير ومعالجة الرواتب' }
-            ]},
-            { group: '⏱️ 6. الحضور والانضباط السلوكي', pages: [
-                { id: 'pg-attendance', label: 'تحضير وغياب الطلاب اليومي' },
-                { id: 'pg-emp-attendance', label: 'حضور وانضباط الموظفين' },
-                { id: 'pg-violations-catalog', label: 'لائحة المخالفات والجزاءات' }
-            ]},
-            { group: '📅 7. الجدول الدراسي والامتحانات والكنترول', pages: [
-                { id: 'pg-timetable-builder', label: 'بناء الجدول الدراسي المباشر' },
-                { id: 'pg-substitute', label: 'إدارة المدرس البديل' },
-                { id: 'pg-grading', label: 'رصد الدرجات والتقييمات' },
-                { id: 'pg-results', label: 'النتائج والشهادات برمز QR' },
-                { id: 'pg-certificates', label: 'طباعة الشهادات المعتمدة' },
-                { id: 'pg-exam-halls', label: 'أماكن ولجان الامتحانات' },
-                { id: 'pg-hall-distribution', label: 'توزيع اللجان والمراقبين' },
-                { id: 'pg-exam-schedule', label: 'جدول الامتحانات الرسمية' }
-            ]},
-            { group: '🚌 8. المواصلات والمستودعات والأنشطة', pages: [
-                { id: 'pg-activities', label: 'إدارة الأنشطة والرحلات' },
-                { id: 'pg-transport-routes', label: 'دليل خطوط سير الحافلات' },
-                { id: 'pg-buses', label: 'دليل حافلات المدرسة' },
-                { id: 'pg-transport-enrollment', label: 'اشتراك مواصلات الطلاب' },
-                { id: 'pg-item-categories', label: 'فئات الأصناف المخزنية' },
-                { id: 'pg-inventory-items', label: 'دليل الأصناف والمنتجات SKU' },
-                { id: 'pg-supply-orders', label: 'أذونات التوريد المخزني GRN' },
-                { id: 'pg-issue-orders', label: 'أذونات الصرف المخزني GIN' },
-                { id: 'pg-suppliers', label: 'دليل الموردين المعتمدين' }
-            ]},
-            { group: '💬 9. الرسائل والتقارير والدعم', pages: [
-                { id: 'pg-sms-send', label: 'إرسال رسائل SMS وواتساب' },
-                { id: 'pg-admin-messages', label: 'الرسائل والتعاميم الإدارية' },
-                { id: 'pg-shortcuts', label: 'اختصارات النظام المفضلة' },
-                { id: 'pg-faq', label: 'الأسئلة المتكررة وتذاكر الدعم' },
-                { id: 'pg-dictionary', label: 'قاموس المصطلحات والترجمة' },
-                { id: 'pg-custom-reports', label: 'التقارير المخصصة والتحليلية' }
-            ]}
+        
+        const isSchoolUser = (entity === 'school_user' || entity === 'school_users' || (typeof document !== 'undefined' && document.body && (document.body.getAttribute('data-portal') === 'school' || (window.location && window.location.pathname.includes('school')))));
+        
+        const schoolPages = [
+            {
+                group: '🏛️ 1. الإدارة العامة واللوحة المدرسية',
+                pages: [
+                    { id: 'pg-dashboard', label: 'لوحة التحكم المدرسية والإحصائيات' },
+                    { id: 'pg-school-profile', label: 'الملف التعريفي وبيانات المدرسة' },
+                    { id: 'pg-school-info', label: 'البيانات الأساسية والاعتماد الوزاري' },
+                    { id: 'pg-users', label: 'دليل مستخدمي وكادر المدرسة والصلاحيات' },
+                    { id: 'pg-audit', label: 'سجل العمليات والرقابة المدرسية' }
+                ]
+            },
+            {
+                group: '🏫 2. التهيئة والمدخلات الأكاديمية',
+                pages: [
+                    { id: 'pg-stages', label: 'المراحل والصفوف الدراسية' },
+                    { id: 'pg-sections', label: 'الفصول والشُعَب الدراسية' },
+                    { id: 'pg-subjects', label: 'المقررات والمناهج الدراسية' },
+                    { id: 'pg-subject-distribution', label: 'توزيع المواد على الصفوف والمعلمين' },
+                    { id: 'pg-classrooms', label: 'القاعات والمعامل والمختبرات' },
+                    { id: 'pg-class-times', label: 'توقيت الحصص والجدول الزمني' },
+                    { id: 'pg-timetable-builder', label: 'بناء الجدول المدرسي الأسبوعي' },
+                    { id: 'pg-academic-calendar', label: 'التقويم الأكاديمي والفعاليات' }
+                ]
+            },
+            {
+                group: '👨‍🎓 3. شؤون الطلاب والتسجيل والقبول',
+                pages: [
+                    { id: 'pg-students', label: 'دليل الطلاب وملفات القبول الشاملة' },
+                    { id: 'pg-enrollment', label: 'إدارة طلبات القبول والرسوم' },
+                    { id: 'pg-student-tree', label: 'شجرة وهيكل الطلاب والشعب' },
+                    { id: 'pg-attendance', label: 'تحضير وغياب الطلاب اليومي' },
+                    { id: 'pg-student-docs', label: 'وثائق وأرشيف ملفات الطلاب' },
+                    { id: 'pg-parents', label: 'سجل أولياء الأمور وحساباتهم' }
+                ]
+            },
+            {
+                group: '💰 4. الشؤون المالية والرسوم والمحاسبة',
+                pages: [
+                    { id: 'pg-grade-fees', label: 'مصفوفة رسوم الصفوف الدراسية' },
+                    { id: 'pg-installment-plans', label: 'خطط وجداول الأقساط' },
+                    { id: 'pg-discount-categories', label: 'فئات الخصومات والمنح الدراسية' },
+                    { id: 'pg-fee-categories', label: 'فئات الرسوم والبنود المالية' },
+                    { id: 'pg-vouchers', label: 'سندات القبض والصرف المالي' },
+                    { id: 'pg-journal', label: 'دفتر القيود اليومية العامة' },
+                    { id: 'pg-cashboxes', label: 'دليل الصناديق والخزائن' },
+                    { id: 'pg-banks', label: 'الحسابات البنكية والشيكات' },
+                    { id: 'pg-demand-letters', label: 'المطالبات المالية والإنذارات' },
+                    { id: 'pg-finance-reports', label: 'التقارير المالية والأستاذ العام' }
+                ]
+            },
+            {
+                group: '📝 5. الكنترول والاختبارات ورصد الدرجات',
+                pages: [
+                    { id: 'pg-exam-halls', label: 'قاعات ولجان الامتحانات' },
+                    { id: 'pg-seat-numbers', label: 'توزيع أرقام الجلوس واللجان' },
+                    { id: 'pg-secret-numbers', label: 'الأرقام السرية وتشفير الكنترول' },
+                    { id: 'pg-grading', label: 'رصد درجات الطلاب والتقييم' },
+                    { id: 'pg-seat-cards', label: 'كشوف المناداة وبطاقات الجلوس' },
+                    { id: 'pg-exam-schedule', label: 'جداول ومواعيد الامتحانات' },
+                    { id: 'pg-certificates', label: 'طباعة الشهادات وتصدير النتائج' },
+                    { id: 'pg-homework-tracker', label: 'متابعة الواجبات والمهام اليومية' }
+                ]
+            },
+            {
+                group: '👥 6. الموارد البشرية وشؤون الكادر',
+                pages: [
+                    { id: 'pg-employees', label: 'دليل الموظفين والمعلمين' },
+                    { id: 'pg-emp-contracts', label: 'عقود العمل والاتفاقيات الوظيفية' },
+                    { id: 'pg-emp-attendance', label: 'تحضير وانضباط المعلمين والكادر' },
+                    { id: 'pg-emp-advances', label: 'سلف الموظفين والاستقطاعات' },
+                    { id: 'pg-payroll', label: 'مسيرات الرواتب والمستحقات الشهرية' }
+                ]
+            },
+            {
+                group: '🚌 7. النقل والمستودعات والخدمات والأنشطة',
+                pages: [
+                    { id: 'pg-transport-routes', label: 'خطوط ومسارات حافلات المدرسة' },
+                    { id: 'pg-buses', label: 'أسطول الحافلات والسائقين' },
+                    { id: 'pg-transport-enrollment', label: 'اشتراكات الطلاب بالنقل المدرسي' },
+                    { id: 'pg-inventory-items', label: 'المستودعات والأصناف والتجهيزات' },
+                    { id: 'pg-supply-orders', label: 'أوامر التوريد والشراء' },
+                    { id: 'pg-activities', label: 'الأنشطة المدرسية والرحلات والنوادي' },
+                    { id: 'pg-sms-send', label: 'مركز إرسال الرسائل SMS والإشعارات' }
+                ]
+            }
         ];
+
+        const saasPages = [
+            {
+                group: '📊 1. اللوحة السحابية ومراقبة الفروع (SaaS Center)',
+                pages: [
+                    { id: 'pg-saas-admin', label: 'لوحة التحكم السحابية ودليل المدارس (SaaS)' },
+                    { id: 'pg-dashboard', label: 'لوحة المؤشرات والتحليلات السيادية اللحظية' }
+                ]
+            },
+            {
+                group: '🏫 2. إدارة المدارس والاشتراكات والتراخيص',
+                pages: [
+                    { id: 'pg-school-info', label: 'بيانات المنشأة والتراخيص والاعتماد الوزاري' }
+                ]
+            },
+            {
+                group: '🗄️ 3. قواعد البيانات والأمان السيادي والنسخ',
+                pages: [
+                    { id: 'pg-db-management', label: 'النسخ الاحتياطي والصيانة السحابية الشاملة' },
+                    { id: 'pg-audit', label: 'سجل العمليات والمراجعة المركزية (Audit Trail)' },
+                    { id: 'pg-operation-lock', label: 'إدارة أقفال العمليات والفترات المحاسبية' },
+                    { id: 'pg-admin-password', label: 'أمان وتغيير كلمات مرور المشرفين 🔒' }
+                ]
+            },
+            {
+                group: '👥 4. المستخدمون ومصفوفة الصلاحيات (RBAC)',
+                pages: [
+                    { id: 'pg-users', label: 'دليل المستخدمين وصلاحيات الوصول والمدراء' },
+                    { id: 'pg-personal-info', label: 'جلسات الأمان النشطة ومعلومات المشرف' }
+                ]
+            },
+            {
+                group: '⚙️ 5. تهيئة المنظومة والمحركات الذكية',
+                pages: [
+                    { id: 'pg-system-settings', label: 'إعدادات المنظومة والتهيئة العامة السيادية' },
+                    { id: 'pg-alerts', label: 'محرك التنبيهات والإشعارات الذكية الآلية' },
+                    { id: 'pg-archive', label: 'الأرشيف الإلكتروني والوثائق السحابية' },
+                    { id: 'pg-posting', label: 'الترحيل والقيود المحاسبية المركزية' }
+                ]
+            }
+        ];
+
+        const allSystemPages = isSchoolUser ? schoolPages : saasPages;
+        const matrixTitleText = isSchoolUser ? 
+            '<i class="fa-solid fa-school-flag"></i> مصفوفة صلاحيات واجهات بوابة المدرسة (School Portal Screen Matrix)' : 
+            '<i class="fa-solid fa-server"></i> مصفوفة صلاحيات واجهات بوابة مدير النظام (SaaS Portal Screen Matrix)';
+        const matrixSubtitleText = isSchoolUser ? 
+            'حدد الواجهات والأقسام المسموح لموظف وكادر المدرسة الوصول إليها داخل بوابة المدرسة 🛡️' : 
+            'حدد الواجهات والأقسام المسموح لمشرف النظام الوصول إليها داخل بوابة مدير النظام فقط 🛡️';
 
         let userPerms = existingData.permissions || [];
 
         fieldsHtml += `
             <div id="rbacMatrixSection" style="grid-column:1/-1;margin-top:16px;border:1px solid rgba(59,130,246,0.35);background:rgba(15,23,42,0.7);border-radius:12px;padding:16px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px;flex-wrap:wrap;gap:8px;">
-                    <div style="font-weight:800;color:#38bdf8;font-size:1.05rem;"><i class="fa-solid fa-shield-halved"></i> مصفوفة صلاحيات الوصول للشاشات (RBAC Screen Access Matrix)</div>
+                    <div style="font-weight:800;color:#38bdf8;font-size:1.05rem;">${matrixTitleText}</div>
+                        <small style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:2px;">${matrixSubtitleText}</small>
                     <div style="display:flex;gap:8px;">
                         <button type="button" class="btn-action" style="background:#10b981;color:#fff;padding:6px 12px;font-size:0.8rem;border-radius:7px;" onclick="document.querySelectorAll('.rbac-chk').forEach(c => c.checked = true)">تحديد الكل ✅</button>
                         <button type="button" class="btn-action" style="background:#ef4444;color:#fff;padding:6px 12px;font-size:0.8rem;border-radius:7px;" onclick="document.querySelectorAll('.rbac-chk').forEach(c => c.checked = false)">إلغاء الكل ❌</button>
@@ -8640,89 +8929,205 @@ function getCollectionKey(entity) {
     const map = {
         'student': 'students',
         'students': 'students',
+        'school': 'schoolsList',
+        'schools': 'schoolsList',
         'employee': 'employees',
         'employees': 'employees',
         'user': 'users',
         'users': 'users',
+        'saas_user': 'users',
+        'school_user': 'users',
+        'school_users': 'users',
+        'school_principal': 'users',
+        'school-principal': 'users',
+        'principal': 'users',
         'parent': 'parents',
         'parents': 'parents',
         'voucher': 'vouchers',
         'voucher_receipt': 'vouchers',
         'voucher_payment': 'vouchers',
+        'vouchers': 'vouchers',
         'journal': 'journalEntries',
         'journal_entry': 'journalEntries',
         'journalEntries': 'journalEntries',
         'banks': 'banks',
+        'bank': 'banks',
+        'bank_account': 'banks',
         'checks': 'checks',
+        'check': 'checks',
         'account-ceiling': 'accountCeiling',
+        'accountCeiling': 'accountCeiling',
+        'account_ceiling': 'accountCeiling',
         'demand_letters': 'demandLetters',
+        'demand_letter': 'demandLetters',
+        'demandLetters': 'demandLetters',
         'finance_reports': 'financeReports',
+        'finance_report': 'financeReports',
+        'financeReports': 'financeReports',
         'academic_years': 'academicYears',
+        'academic-years': 'academicYears',
+        'academicYears': 'academicYears',
         'academic_calendar': 'academicCalendar',
+        'academic-calendar': 'academicCalendar',
+        'academicCalendar': 'academicCalendar',
         'stages': 'stages',
+        'stage': 'stages',
+        'grades': 'stages',
         'sections': 'sections',
+        'section': 'sections',
         'subjects': 'subjects',
+        'subject': 'subjects',
         'subject_distribution': 'subjectDistribution',
         'subject-distribution': 'subjectDistribution',
         'subjectDistribution': 'subjectDistribution',
-        'subject': 'subjects',
-        'section': 'sections',
-        'stage': 'stages',
-        'grades': 'stages',
-        'academicCalendar': 'academicCalendar',
-        'academic-calendar': 'academicCalendar',
-        'academicYears': 'academicYears',
-        'academic-years': 'academicYears',
-        'financeReports': 'financeReports',
-        'academic-calendar': 'calendar',
-        'subject-distribution': 'subjectDistribution',
         'classrooms': 'classrooms',
+        'classroom': 'classrooms',
+        'labs': 'classrooms',
         'class_times': 'classTimes',
+        'class-times': 'classTimes',
+        'classTimes': 'classTimes',
         'timetable_builder': 'timetableBuilder',
+        'timetable-builder': 'timetableBuilder',
+        'timetableBuilder': 'timetableBuilder',
         'required_docs': 'requiredDocs',
+        'required-docs': 'requiredDocs',
+        'requiredDocs': 'requiredDocs',
         'fee_categories': 'feeCategories',
+        'fee-categories': 'feeCategories',
+        'feeCategories': 'feeCategories',
         'discount_categories': 'discountCategories',
-        'installment_plans': 'installmentPlans',
-        'grade_fees': 'gradeFees',
-        'grade-fees': 'gradeFees',
-        'gradeFees': 'gradeFees',
-        'installment-plans': 'installmentPlans',
-        'installmentPlans': 'installmentPlans',
         'discount-categories': 'discountCategories',
         'discountCategories': 'discountCategories',
         'discounts': 'discountCategories',
-        'fee-categories': 'feeCategories',
-        'feeCategories': 'feeCategories',
-        'required-docs': 'requiredDocs',
-        'requiredDocs': 'requiredDocs',
-        'timetable-builder': 'timetableBuilder',
-        'timetableBuilder': 'timetableBuilder',
-        'class-times': 'classTimes',
-        'classTimes': 'classTimes',
-        'class-times': 'classTimes',
-        'discount-categories': 'discounts',
+        'installment_plans': 'installmentPlans',
         'installment-plans': 'installmentPlans',
-        'required-docs': 'requiredDocs',
+        'installmentPlans': 'installmentPlans',
+        'grade_fees': 'gradeFees',
+        'grade-fees': 'gradeFees',
+        'gradeFees': 'gradeFees',
+        'student_doc': 'studentDocs',
+        'student-doc': 'studentDocs',
+        'student_docs': 'studentDocs',
+        'studentDocs': 'studentDocs',
+        'section_transfer': 'sectionDistribution',
+        'section-transfer': 'sectionDistribution',
+        'sectionDistribution': 'sectionDistribution',
         'discontinued': 'discontinued',
+        'discontinued_student': 'discontinued',
+        'attendance_excuse': 'attendanceExcuses',
+        'attendance-excuse': 'attendanceExcuses',
+        'attendanceExcuses': 'attendanceExcuses',
+        'class_note': 'classNotes',
+        'class-notes': 'classNotes',
+        'class_notes': 'classNotes',
+        'classNotes': 'classNotes',
         'guarantors': 'guarantors',
-        'contracts': 'contracts',
-        'advances': 'advances',
-        'performance': 'performance',
+        'guarantor': 'guarantors',
+        'teacher_subject': 'teacherSubjects',
+        'teacher-subject': 'teacherSubjects',
+        'teacherSubjects': 'teacherSubjects',
+        'emp_attendance': 'empAttendance',
+        'emp-attendance': 'empAttendance',
+        'empAttendance': 'empAttendance',
+        'emp_notice': 'empNotices',
+        'emp-notice': 'empNotices',
+        'empNotices': 'empNotices',
+        'contracts': 'empContracts',
+        'emp_contract': 'empContracts',
+        'emp-contract': 'empContracts',
+        'empContracts': 'empContracts',
+        'advances': 'empAdvances',
+        'emp_advance': 'empAdvances',
+        'emp-advance': 'empAdvances',
+        'empAdvances': 'empAdvances',
+        'emp_leave': 'empLeaves',
+        'emp-leave': 'empLeaves',
+        'leaveRequests': 'empLeaves',
+        'empLeaves': 'empLeaves',
+        'performance': 'empEvaluations',
+        'emp_eval': 'empEvaluations',
+        'emp-eval': 'empEvaluations',
+        'empEvaluations': 'empEvaluations',
+        'payroll': 'payroll',
+        'payroll_adjustment': 'payroll',
+        'payroll-adjustment': 'payroll',
+        'grading': 'gradingSheet',
+        'gradingSheet': 'gradingSheet',
+        'results': 'examResults',
+        'examResults': 'examResults',
+        'homework': 'homeworkTracker',
+        'homeworkTracker': 'homeworkTracker',
+        'exam_hall': 'examHalls',
+        'exam-hall': 'examHalls',
+        'examHalls': 'examHalls',
+        'hallDistribution': 'examHalls',
+        'seat_numbers': 'seatNumbers',
+        'seat-numbers': 'seatNumbers',
+        'seatNumbers': 'seatNumbers',
+        'secret_numbers': 'secretNumbers',
+        'secret-numbers': 'secretNumbers',
+        'secretNumbers': 'secretNumbers',
+        'exam_schedule': 'examSchedule',
+        'exam-schedule': 'examSchedule',
+        'examSchedule': 'examSchedule',
         'activities': 'activities',
+        'activity': 'activities',
+        'bus': 'buses',
+        'buses': 'buses',
+        'transport_route': 'transportRoutes',
+        'transport-route': 'transportRoutes',
+        'transportRoutes': 'transportRoutes',
+        'transport_sub': 'transportEnrollment',
+        'transport-sub': 'transportEnrollment',
+        'transport-enrollment': 'transportEnrollment',
+        'transportEnrollment': 'transportEnrollment',
+        'item_category': 'itemCategories',
+        'item-category': 'itemCategories',
+        'itemCategories': 'itemCategories',
+        'inventory_item': 'inventoryItems',
+        'inventory-item': 'inventoryItems',
+        'inventoryItems': 'inventoryItems',
+        'supply_order': 'supplyOrders',
+        'supply-order': 'supplyOrders',
+        'supplyOrders': 'supplyOrders',
+        'issue_order': 'issueOrders',
+        'issue-order': 'issueOrders',
+        'issueOrders': 'issueOrders',
         'suppliers': 'suppliers',
-        'faq': 'faq',
+        'supplier': 'suppliers',
+        'sms_template': 'smsTemplates',
+        'sms-template': 'smsTemplates',
+        'smsTemplates': 'smsTemplates',
+        'sms_gateway': 'smsGateways',
+        'sms-gateway': 'smsGateways',
+        'smsSettings': 'smsGateways',
+        'smsGateways': 'smsGateways',
+        'admin_broadcast': 'adminMessages',
+        'admin-broadcast': 'adminMessages',
+        'adminMessages': 'adminMessages',
+        'shortcut': 'shortcuts',
+        'shortcuts': 'shortcuts',
+        'faq': 'faqArticles',
+        'faq_item': 'faqArticles',
+        'faqArticles': 'faqArticles',
+        'parent_ticket': 'parentTickets',
+        'parent-ticket': 'parentTickets',
+        'parentTickets': 'parentTickets',
         'operation-lock': 'operationLocks',
+        'operationLocks': 'operationLocks',
         'system_settings': 'systemSettingsData',
         'systemSettingsData': 'systemSettingsData',
-        'alerts': 'alertsData',
+        'alerts': 'alertsRules',
+        'alert': 'alertsRules',
+        'alertsData': 'alertsRules',
         'posting': 'postingBatches',
         'postingBatches': 'postingBatches',
         'currency': 'currencies',
         'currencies': 'currencies',
         'cashbox_inventory': 'cashboxInventory',
+        'cashboxInventory': 'cashboxInventory',
         'closing': 'closings',
         'closings': 'closings',
-        'cashboxInventory': 'cashboxInventory',
         'cost_center': 'costCenters',
         'cost_centers': 'costCenters',
         'costCenters': 'costCenters',
@@ -8730,7 +9135,8 @@ function getCollectionKey(entity) {
         'cashboxes': 'cashboxes',
         'chart-accounts': 'accounts',
         'accounts': 'accounts',
-        'archive': 'archiveDocs'
+        'archive': 'archiveDocs',
+        'archiveDocs': 'archiveDocs'
     };
     return map[entity] || entity;
 }
@@ -9289,7 +9695,20 @@ function getFormFields(entity) {
         ];
     }
 
-    if (entity === 'user' || entity === 'users') {
+        if (entity === 'school_user' || entity === 'school_users') {
+        return [
+            { id: 'f_user_fullname', key: 'name', label: 'الاسم الكامل للموظف / المعلم *', type: 'text', placeholder: 'مثال: أ. سالم محمد الحميري', required: true, fullWidth: true },
+            { id: 'f_user_username', key: 'username', label: 'اسم تسجيل الدخول (Username) *', type: 'text', placeholder: 'اسم الدخول بالإنجليزية، مثال: teacher_salem أو acc_ahmed', required: true },
+            { id: 'f_user_password', key: 'password', label: 'كلمة المرور الابتدائية *', type: 'password', placeholder: 'كلمة المرور للدخول...', required: true },
+            { id: 'f_user_role', key: 'role', label: 'نوع الحساب والدور المدرسي *', type: 'select', options: ['مدير مدرسة (School Principal)', 'وكيل شؤون تعليمية / مشرف فني (Supervisor)', 'معلم / هيئة تدريس (Teacher)', 'محاسب مالي ورئيس حسابات (Accountant)', 'مسؤول شؤون طلاب وقبول (Registrar)', 'أمين مخزن ومستودعات (Inventory Manager)', 'مشرف حركة ومواصلات (Transport Officer)', 'مسؤول أنشطة وخدمات مدرسية (Activities Leader)', 'سكرتير وأرشيف مدرسي (Secretary & Archive)'], required: true },
+            { id: 'f_user_dept', key: 'dept', label: 'القسم / الإدارة المدرسية *', type: 'select', options: ['إدارة المدرسة والمكتب التنفيذي', 'الشؤون التعليمية وهيئة التدريس', 'الشؤون المالية والحسابات المدرسية', 'شؤون الطلاب والقبول والتسجيل', 'الكنترول وإدارة الامتحانات', 'المرحلة الثانوية', 'المرحلة الأساسية', 'رياض الأطفال والتمهيدي', 'المخازن والمستودعات والتجهيزات', 'الحركة والنقل والمواصلات'], required: true },
+            { id: 'f_user_phone', key: 'phone', label: 'رقم الهاتف / الجوال *', type: 'tel', placeholder: '771234567', required: true, hint: 'مخصص لإشعارات الدخول والتحقق الثنائي 2FA' },
+            { id: 'f_user_email', key: 'email', label: 'البريد الإلكتروني المهني', type: 'email', placeholder: 'user@school.edu.ye', required: false },
+            { id: 'f_user_status', key: 'status', label: 'حالة الحساب *', type: 'select', options: ['نشط 🟢', 'موقوف 🔴', 'قيد التدقيق 🟡'], required: true }
+        ];
+    }
+
+    if (entity === 'user' || entity === 'users' || entity === 'school_user' || entity === 'school_users') {
         return [
             { id: 'f_user_fullname', key: 'name', label: 'الاسم الكامل والوظيفي *', type: 'text', placeholder: 'مثال: أ. سالم محمد الحميري', required: true, fullWidth: true },
             { id: 'f_user_username', key: 'username', label: 'اسم تسجيل الدخول (Username) *', type: 'text', placeholder: 'اسم المستخدم أو الرقم الوظيفي/الوطني...', required: true },
@@ -9359,7 +9778,7 @@ function saveForm(type) {
         }
     }
 
-    if (type === 'user' || type === 'users') {
+    if (type === 'user' || type === 'users' || type === 'school_user' || type === 'school_users') {
         const checkedBoxes = document.querySelectorAll('.rbac-chk:checked');
         const perms = Array.from(checkedBoxes).map(c => c.value);
         newRec.permissions = perms;
@@ -9388,7 +9807,7 @@ function saveForm(type) {
     } else {
         const prefix = {
             'student':'STD','students':'STD','employee':'EMP','employees':'EMP','user':'USR',
-            'users':'USR','system_settings':'SET','systemSettingsData':'SET','archive':'DOC'
+            'users':'USR','school_user':'USR','school_users':'USR','system_settings':'SET','systemSettingsData':'SET','archive':'DOC'
         };
         const pfx = prefix[type] || (type.toUpperCase().slice(0,3));
         newRec.id = pfx + '-' + Date.now().toString().slice(-5);
@@ -9400,8 +9819,9 @@ function saveForm(type) {
 
     closeForm();
 
-    if (type === 'user' || type === 'users') {
+    if (type === 'user' || type === 'users' || type === 'school_user' || type === 'school_users') {
         if (typeof renderUsersGrid === 'function') renderUsersGrid();
+        if (typeof renderSchoolUsersGrid === 'function') renderSchoolUsersGrid();
     } else if (type === 'system_settings' || type === 'systemSettingsData') {
         if (typeof renderSystemSettingsGrid === 'function') renderSystemSettingsGrid();
     } else if (type === 'posting' || type === 'postingBatches') {
@@ -9532,6 +9952,8 @@ window.saveForm = saveForm;
         'tbl-employees-grid': { entity: 'employee', coll: 'employees' },
         'tbl-employees': { entity: 'employee', coll: 'employees' },
         'tbl-users-grid': { entity: 'user', coll: 'users' },
+        'tbl-users': { entity: 'user', coll: 'users' },
+        'tbl-school-users-grid': { entity: 'school_user', coll: 'users' },
         'tbl-vouchers-grid': { entity: 'voucher', coll: 'vouchers' },
         'tbl-journal-entries-grid': { entity: 'journal', coll: 'journalEntries' },
         'tbl-banks-grid': { entity: 'banks', coll: 'banks' },
@@ -9547,15 +9969,15 @@ window.saveForm = saveForm;
         'tbl-required-docs-grid': { entity: 'required-docs', coll: 'requiredDocs' },
         'tbl-discontinued-grid': { entity: 'discontinued', coll: 'discontinued' },
         'tbl-guarantors-grid': { entity: 'guarantors', coll: 'guarantors' },
-        'tbl-emp-contracts-grid': { entity: 'contracts', coll: 'contracts' },
-        'tbl-emp-advances-grid': { entity: 'advances', coll: 'advances' },
-        'tbl-performance-grid': { entity: 'performance', coll: 'performance' },
+        'tbl-emp-contracts-grid': { entity: 'emp_contract', coll: 'empContracts' },
+        'tbl-emp-advances-grid': { entity: 'emp_advance', coll: 'empAdvances' },
+        'tbl-performance-grid': { entity: 'emp_eval', coll: 'empEvaluations' },
         'tbl-activities-grid': { entity: 'activities', coll: 'activities' },
         'tbl-suppliers-grid': { entity: 'suppliers', coll: 'suppliers' },
-        'tbl-faq-articles-grid': { entity: 'faq', coll: 'faq' },
+        'tbl-faq-articles-grid': { entity: 'faq', coll: 'faqArticles' },
         'tbl-operation-lock': { entity: 'operation-lock', coll: 'operationLocks' },
         'tbl-system-settings-grid': { entity: 'system_settings', coll: 'systemSettingsData' },
-        'tbl-alerts-grid': { entity: 'alerts', coll: 'alertsData' }
+        'tbl-alerts-grid': { entity: 'alerts', coll: 'alertsRules' }
     };
 
     function resolveTableMapping(tr) {
@@ -9584,15 +10006,15 @@ window.saveForm = saveForm;
                 'pg-required-docs': { entity: 'required-docs', coll: 'requiredDocs' },
                 'pg-discontinued': { entity: 'discontinued', coll: 'discontinued' },
                 'pg-guarantors': { entity: 'guarantors', coll: 'guarantors' },
-                'pg-emp-contracts': { entity: 'contracts', coll: 'contracts' },
-                'pg-emp-advances': { entity: 'advances', coll: 'advances' },
-                'pg-performance-eval': { entity: 'performance', coll: 'performance' },
+                'pg-emp-contracts': { entity: 'emp_contract', coll: 'empContracts' },
+                'pg-emp-advances': { entity: 'emp_advance', coll: 'empAdvances' },
+                'pg-performance-eval': { entity: 'emp_eval', coll: 'empEvaluations' },
                 'pg-activities': { entity: 'activities', coll: 'activities' },
                 'pg-suppliers': { entity: 'suppliers', coll: 'suppliers' },
-                'pg-faq': { entity: 'faq', coll: 'faq' },
+                'pg-faq': { entity: 'faq', coll: 'faqArticles' },
                 'pg-operation-lock': { entity: 'operation-lock', coll: 'operationLocks' },
                 'pg-system-settings': { entity: 'system_settings', coll: 'systemSettingsData' },
-                'pg-alerts': { entity: 'alerts', coll: 'alertsData' }
+                'pg-alerts': { entity: 'alerts', coll: 'alertsRules' }
             };
             if (pageMap[page.id]) return pageMap[page.id];
         }

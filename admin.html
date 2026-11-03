@@ -10,38 +10,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=1787435641">
+    <link rel="stylesheet" href="style.css?v=1793559458">
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/js/all.min.js" defer></script>
 </head>
 
-<body>
+<body data-portal="admin">
     <div class="bg-shape shape1"></div>
     <div class="bg-shape shape2"></div>
     <div class="bg-shape shape3"></div>
 
     <!-- ========== تسجيل الدخول ========== -->
     <div class="login-wrapper" id="loginWrapper"
-        style="background-color: #f7fbff; background-image: url('data:image/svg+xml,%3Csvg width=\'100%25\' height=\'100%25\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h100v100H0z\' fill=\'none\' stroke=\'%23e5e7eb\' stroke-width=\'1\' stroke-dasharray=\'10 10\'/%3E%3C/svg%3E'); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;">
-        <h1
-            style="color: #1e3a8a; font-size: 2.5rem; font-weight: 800; margin-bottom: 2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            بوابة المدارس والموظفين</h1>
+    style="background-color: var(--bg-main, #11131A); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; font-family: 'Tajawal', sans-serif;">
 
-        <section class="login-box"
-            style="background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 40px; width: 100%; max-width: 450px; position: relative;">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <img src="images/logo.png" alt="المدرسة الذكية" style="max-height: 120px; object-fit: contain;">
-                <h2 style="font-size: 1.5rem; color: #1e3a8a; font-weight: 800; margin-top: 10px;"><i
-                        class="fa-solid fa-graduation-cap"></i> المدرسة الذكية</h2>
+    <div style="text-align: center; margin-bottom: 24px;">
+        <h1 id="loginPortalMainTitle" style="color: #3B82F6; font-size: 2rem; font-weight: 900; margin-bottom: 6px; display:flex; align-items:center; justify-content:center; gap:12px;">
+            <i class="fa-solid fa-server" id="loginPortalIcon" style="color:#3B82F6;"></i> 
+            <span id="loginPortalHeading">المركز السحابي الموحد | SaaS Command Center</span>
+        </h1>
+        <p id="loginPortalSubTitle" style="color: #94A3B8; font-size: 0.95rem;">بوابة مدير عام النظام لإدارة الخوادم، المدارس، والاشتراكات</p>
+    </div>
+
+    <section class="login-box card-base"
+        style="background: var(--bg-surface, #181B26); border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 16px; box-shadow: var(--shadow-lg, 0 10px 25px rgba(0,0,0,0.35)); padding: 36px; width: 100%; max-width: 460px; position: relative;">
+        
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: #3B82F6; font-size: 1.5rem;">
+                <i class="fa-solid fa-shield-halved" id="loginBoxIcon"></i>
             </div>
+            <h2 id="loginBoxTitle" style="font-size: 1.3rem; color: #F8FAFC; font-weight: 800; margin: 0;">دخول مدير النظام العام</h2>
+            <p id="loginBoxDesc" style="color: #94A3B8; font-size: 0.85rem; margin-top: 4px;">صلاحية عليا للتحكم بالبنية التحتية والتراخيص السحابية</p>
+        </div>
 
-            <form id="loginForm" style="display: flex; flex-direction: column; gap: 15px;">
+        <div id="loginError" style="display:none; background:rgba(239,68,68,0.12); color:#F87171; border:1px solid rgba(239,68,68,0.3); padding:12px 16px; border-radius:8px; font-size:0.9rem; font-weight:700; text-align:center; line-height:1.5; margin-bottom:18px;"></div>
 
-                <div id="schoolField" style="display: flex; align-items: center; gap: 15px;">
-                    <label style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">اسم
-                        المدرسة</label>
+        <form id="loginForm" onsubmit="handleLoginSubmit(event); return false;" style="display: flex; flex-direction: column; gap: 16px;">
+
+            <div id="schoolField" style="display: none !important;">
+                <label style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">اسم المدرسة / المنشأة</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-school" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
                     <select id="schoolId"
-                        style="flex: 2; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; background: #fff; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22%2394a3b8%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22>
-<option value="SCH-01">🏫 مدرسة المتفوقين الأهلية النموذجية (صنعاء — حدة)</option>
+                        style="width: 100%; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.9rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;">
+                        <option value="SCH-01">🏫 مدرسة المتفوقين الأهلية النموذجية (صنعاء — حدة)</option>
                         <option value="SCH-02">🏫 مدارس رواد اليمن الحديثة الأهلية (صنعاء — الأصبحي)</option>
                         <option value="SCH-03">🏫 مدارس النهضة الدولية للغات (صنعاء — شارع بغداد)</option>
                         <option value="SCH-04">🏫 مدارس الرشيد الأهلية النموذجية (صنعاء — الحي الدبلوماسي)</option>
@@ -71,379 +82,135 @@
                         <option value="SCH-28">🏫 مدارس النهضة التعليمية بمعبر (معبر — الشارع العام)</option>
                         <option value="SCH-29">🏫 مدارس بلقيس الدولية النموذجية (مأرب — الروضة)</option>
                         <option value="SCH-30">🏫 مدارس أرض الجنتين الأهلية الحديثة (مأرب — وادي عبيدة)</option>
+    
                     </select>
                 </div>
+            </div>
 
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label id="usernameLbl"
-                        style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">رقم
-                        المستخدم</label>
-                    <input type="text" id="username"
-                        style="flex: 2; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none;"
-                        required autocomplete="off">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label id="usernameLbl" style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">اسم حساب مدير النظام السحابي</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-user" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <input type="text" id="username" value=""
+                        placeholder="أدخل اسم الحساب (saas_admin أو root)"
+                        style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.92rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;"
+                        required autocomplete="username">
                 </div>
+            </div>
 
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label id="passwordLbl"
-                        style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">كلمة
-                        السر</label>
-                    <div style="flex: 2; position: relative; width: 100%;">
-                        <input type="password" id="password"
-                            style="width: 100%; box-sizing: border-box; padding: 10px 35px 10px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; letter-spacing: 2px;"
-                            required>
-                        <i class="fa-solid fa-eye" id="togglePassword"
-                            style="position: absolute; left: 10px; top: 12px; cursor: pointer; color: #94a3b8;"
-                            onclick="togglePasswordVisibility()"></i>
-                    </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label id="passwordLbl" style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">كلمة المرور السرية</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-lock" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <input type="password" id="password" value=""
+                        placeholder="أدخل كلمة المرور"
+                        style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 40px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.92rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit; letter-spacing: 1px;"
+                        required autocomplete="current-password">
+                    <i class="fa-solid fa-eye" id="togglePassword"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #64748B;"
+                        onclick="togglePasswordVisibility()"></i>
                 </div>
+            </div>
 
-
-
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">نوع
-                        المستخدم</label>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">نوع الحساب / الصلاحية</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-user-gear" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
                     <select id="userType"
-                        style="flex: 2; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; background: #fff; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22%2394a3b8%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/></svg>'); background-repeat: no-repeat; background-position: left 10px center;"
-                        onchange="
-                        const isParent = this.value === 'parent';
-                        document.getElementById('schoolField').style.display = isParent ? 'none' : 'flex';
-                        document.getElementById('usernameLbl').textContent = isParent ? 'الرقم الوطني' : 'رقم المستخدم';
-                        document.getElementById('passwordLbl').textContent = isParent ? 'رقم الطالب' : 'كلمة السر';
-                    ">
-                        <option value="school_admin">مدير المدرسة</option>
-                        <option value="teacher">معلم</option>
-                        <option value="staff">موظف / مشرف الطابق / محاسب</option>
-
+                        style="width: 100%; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.9rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;">
+                        <option value="saas_admin" selected>مدير عام النظام السحابي (Super Admin / SaaS)</option>
+                        <option value="db_admin">مهندس قواعد البيانات السحابية (DBA)</option>
+                        <option value="security_officer">ضابط الأمن السيبراني (Cyber SOC)</option>
+        
                     </select>
                 </div>
+            </div>
 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                    <button type="submit" id="loginBtn"
-                        style="background-color: #3b82f6; color: white; border: none; padding: 10px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3); transition: all 0.2s;"><i
-                            class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</button>
+            <div style="margin-top: 8px;">
+                <button type="submit" id="loginBtn"
+                    style="width: 100%; background: #3B82F6; color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 800; border-radius: 8px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;">
+                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول للمنظومة
+                </button>
+            </div>
 
-                </div>
-
-            </form>
-
-        </section>
-    </div>
-
-    <!-- ========== التخطيط الرئيسي ========== -->
+        </form>
+    </section>
+</div>
+<!-- ========== التخطيط الرئيسي ========== -->
     <div class="app-layout" id="appLayout" style="display:none;">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><i class="fa-solid fa-shield-halved"></i></div>
-                <h2><i class="fa-solid fa-school"></i> نظام المدارس الذكي</h2>
-                <button class="btn-sidebar-close" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    <div class="sidebar-header">
+        <div class="sidebar-logo"><i class="fa-solid fa-shield-halved" style="color:#38bdf8;"></i></div>
+        <h2><i class="fa-solid fa-server"></i> بوابة مدير النظام (SaaS)</h2>
+        <button class="btn-sidebar-close" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+        <!-- Top Direct SaaS Dashboard Link -->
+        <a href="#" class="nav-item direct-item active" onclick="goTo('pg-saas-admin')"
+            style="margin-bottom:12px;background:linear-gradient(135deg,rgba(14,165,233,0.25),rgba(2,132,199,0.25));border:1px solid rgba(56,189,248,0.4);border-radius:12px;color:#fff;">
+            <i class="fa-solid fa-gauge-high" style="color:#38bdf8;"></i>
+            <span>لوحة التحكم السحابية (SaaS)</span>
+        </a>
+
+        <!-- Section 1: Multi-Tenancy & School Management -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-network-wired" style="color:#38bdf8;"></i> <span>إدارة المدارس والاشتراكات</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
             </div>
-
-            <nav class="sidebar-nav" id="sidebarNav">
-                <!-- Top Direct Dashboard Link -->
-                <a href="#" class="nav-item direct-item active" onclick="goTo('pg-dashboard')"
-                    style="margin-bottom:10px;background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(37,99,235,0.2));border:1px solid rgba(59,130,246,0.4);border-radius:12px;color:#fff;">
-                    <i class="fa-solid fa-house" style="color:#60a5fa;"></i>
-                    <span>لوحة التحكم الرئيسية</span>
-                </a>
-
-                <!-- Section 1: System Admin -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-gears"></i> <span>إدارة النظام والصلاحيات</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-school-info')"><i class="fa-solid fa-school"></i> معلومات
-                            المدرسة</a>
-                        <a href="#" onclick="goTo('pg-db-management')"><i class="fa-solid fa-database"></i> إدارة قواعد
-                            البيانات</a>
-                        <a href="#" onclick="goTo('pg-users')"><i class="fa-solid fa-user-lock"></i> دليل المستخدمين</a>
-                        <a href="#" onclick="goTo('pg-operation-lock')"><i class="fa-solid fa-lock"></i> قفل العمليات
-                            والموديولات</a>
-                        <a href="#" onclick="goTo('pg-audit-trail')"><i class="fa-solid fa-clock-rotate-left"></i> سجل
-                            العمليات (Audit Trail)</a>
-                        <a href="#" onclick="goTo('pg-system-settings')"><i class="fa-solid fa-sliders"></i> إعدادات
-                            النظام</a>
-                        <a href="#" onclick="goTo('pg-alerts')"><i class="fa-solid fa-bell"></i> التنبيهات التلقائية</a>
-                        <a href="#" onclick="goTo('pg-archive')"><i class="fa-solid fa-box-archive"></i> الأرشيف</a>
-                        <a href="#" onclick="goTo('pg-posting')"><i class="fa-solid fa-paper-plane"></i> إدارة
-                            الترحيلات</a>
-                    </div>
-                </div>
-
-                <!-- Section 2: Accounts & Finance -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-calculator"></i> <span>الأستاذ العام والشؤون المالية</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-chart-accounts')"><i class="fa-solid fa-sitemap"></i> دليل
-                            الحسابات المالي</a>
-                        <a href="#" onclick="goTo('pg-vouchers')"><i class="fa-solid fa-file-invoice-dollar"></i> إدارة
-                            السندات الشاملة</a>
-                        <a href="#" onclick="goTo('pg-journal')"><i class="fa-solid fa-book-open"></i> القيود اليومية
-                            (General Journal)</a>
-                        <a href="#" onclick="goTo('pg-cashboxes')"><i class="fa-solid fa-vault"></i> دليل الصناديق
-                            والخزائن</a>
-                        <a href="#" onclick="goTo('pg-cost-centers')"><i class="fa-solid fa-building"></i> مراكز التكلفة
-                            والموازنة</a>
-                        <a href="#" onclick="goTo('pg-account-ceiling')"><i class="fa-solid fa-arrow-up-9-1"></i> تسقيف
-                            الحسابات الائتماني</a>
-                        <a href="#" onclick="goTo('pg-student-account')"><i class="fa-solid fa-scroll"></i> كشف الحساب
-                            التفاعلي</a>
-                        <a href="#" onclick="goTo('pg-currencies')"><i class="fa-solid fa-money-bill-transfer"></i> دليل
-                            العملات وأسعار الصرف</a>
-                        <a href="#" onclick="goTo('pg-cashbox-inventory')"><i class="fa-solid fa-cash-register"></i> جرد
-                            الصناديق النقدية</a>
-                        <a href="#" onclick="goTo('pg-closings')"><i class="fa-solid fa-folder-closed"></i> الإقفالات
-                            المحاسبية</a>
-                        <a href="#" onclick="goTo('pg-banks')"><i class="fa-solid fa-building-columns"></i> دليل البنوك
-                            والحسابات</a>
-                        <a href="#" onclick="goTo('pg-checks')"><i class="fa-solid fa-money-check"></i> إدارة الشيكات
-                            البنكية</a>
-                        <a href="#" onclick="goTo('pg-demand-letters')"><i class="fa-solid fa-envelope-open-text"></i>
-                            رسائل المطالبة المالية</a>
-                        <a href="#" onclick="goTo('pg-finance-reports')"><i class="fa-solid fa-chart-pie"></i> التقارير
-                            المالية والإحصائية</a>
-                    </div>
-                </div>
-
-                <!-- Section 3: School System Configuration -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-school-flag"></i> <span>تهيئة النظام المدرسي</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-academic-years')"><i class="fa-solid fa-calendar"></i> دليل
-                            السنوات الدراسية</a>
-                        <a href="#" onclick="goTo('pg-academic-calendar')"><i class="fa-solid fa-calendar-days"></i>
-                            التقويم المدرسي والفعاليات</a>
-                        <a href="#" onclick="goTo('pg-stages')"><i class="fa-solid fa-layer-group"></i> المراحل والصفوف
-                            الدراسية</a>
-                        <a href="#" onclick="goTo('pg-sections')"><i class="fa-solid fa-table-cells"></i> دليل الشُعَب
-                            الدراسية</a>
-                        <a href="#" onclick="goTo('pg-subjects')"><i class="fa-solid fa-book"></i> دليل المواد
-                            الدراسية</a>
-                        <a href="#" onclick="goTo('pg-subject-distribution')"><i
-                                class="fa-solid fa-diagram-project"></i> توزيع المواد على الصفوف</a>
-                        <a href="#" onclick="goTo('pg-classrooms')"><i class="fa-solid fa-chalkboard"></i> القاعات
-                            والمعامل الدراسية</a>
-                        <a href="#" onclick="goTo('pg-class-times')"><i class="fa-solid fa-clock"></i> توقيت الحصص
-                            الدراسية</a>
-                        <a href="#" onclick="goTo('pg-timetable-builder')"><i class="fa-solid fa-table-columns"></i>
-                            بنّاء الجدول الدراسي</a>
-                        <a href="#" onclick="goTo('pg-required-docs')"><i class="fa-solid fa-file-circle-check"></i>
-                            دليل الوثائق المطلوبة</a>
-                        <a href="#" onclick="goTo('pg-fee-categories')"><i class="fa-solid fa-tags"></i> فئات الرسوم
-                            الدراسية</a>
-                        <a href="#" onclick="goTo('pg-discount-categories')"><i class="fa-solid fa-percent"></i> فئات
-                            الخصومات والمنح</a>
-                        <a href="#" onclick="goTo('pg-installment-plans')"><i class="fa-solid fa-money-bills"></i> فئات
-                            الأقساط والدفعات</a>
-                        <a href="#" onclick="goTo('pg-grade-fees')"><i class="fa-solid fa-receipt"></i> جدول رسوم
-                            الصفوف</a>
-                    </div>
-                </div>
-
-                <!-- Section 4: Student Affairs -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-user-graduate"></i> <span>شئون الطلاب والأكاديميا</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-enrollment')"><i class="fa-solid fa-file-invoice"></i> إدارة
-                            القبول والتسجيل والرسوم</a>
-                        <a href="#" onclick="goTo('pg-student-register')"><i class="fa-solid fa-user-plus"></i> تسجيل
-                            طالب جديد</a>
-                        <a href="#" onclick="goTo('pg-student-tree')"><i class="fa-solid fa-sitemap"></i> شجرة بيانات
-                            الطلاب</a>
-                        <a href="#" onclick="goTo('pg-students')"><i class="fa-solid fa-id-card"></i> دليل الطلاب
-                            الشامل</a>
-                        <a href="#" onclick="goTo('pg-parents')"><i class="fa-solid fa-people-roof"></i> دليل أولياء
-                            الأمور</a>
-                        <a href="#" onclick="goTo('pg-student-docs')"><i class="fa-solid fa-folder-open"></i> وثائق
-                            ومرفقات الطلاب</a>
-                        <a href="#" onclick="goTo('pg-section-distribution')"><i
-                                class="fa-solid fa-arrows-split-up-and-left"></i> توزيع الطلاب على الشعب</a>
-                        <a href="#" onclick="goTo('pg-promotion-workflow')"><i class="fa-solid fa-turn-up"></i> الترفيع
-                            الجماعي للطلاب</a>
-                        <a href="#" onclick="goTo('pg-discontinued')"><i class="fa-solid fa-user-xmark"></i> سجل الطلاب
-                            غير المستمرين</a>
-                        <a href="#" onclick="goTo('pg-attendance')"><i class="fa-solid fa-calendar-check"></i> التحضير
-                            والغياب اليومي</a>
-                        <a href="#" onclick="goTo('pg-class-notes')"><i class="fa-solid fa-note-sticky"></i> ملاحظات
-                            رائد الفصل</a>
-                    </div>
-                </div>
-
-                <!-- Section 5: HR & Employees -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-users-tie"></i> <span>شئون الموظفين والموارد البشرية</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-employees')"><i class="fa-solid fa-address-book"></i> دليل
-                            الموظفين والمعلمين</a>
-                        <a href="#" onclick="goTo('pg-guarantors')"><i class="fa-solid fa-handshake"></i> دليل الضمناء
-                            والكفلاء</a>
-                        <a href="#" onclick="goTo('pg-teacher-subjects')"><i class="fa-solid fa-chalkboard-user"></i>
-                            إسناد المواد للمدرسين</a>
-                        <a href="#" onclick="goTo('pg-emp-attendance')"><i class="fa-solid fa-fingerprint"></i> حضور
-                            وانضباط الموظفين</a>
-                        <a href="#" onclick="goTo('pg-emp-notices')"><i class="fa-solid fa-bullhorn"></i> إشعارات
-                            وتنبيهات الموظفين</a>
-                        <a href="#" onclick="goTo('pg-emp-contracts')"><i class="fa-solid fa-file-contract"></i> عقود
-                            الموظفين والوظائف</a>
-                        <a href="#" onclick="goTo('pg-emp-advances')"><i class="fa-solid fa-hand-holding-dollar"></i>
-                            سلفيات وقروض الموظفين</a>
-                        <a href="#" onclick="goTo('pg-leave-management')"><i class="fa-solid fa-calendar-xmark"></i>
-                            نظام إدارة الإجازات</a>
-                        <a href="#" onclick="goTo('pg-performance-eval')"><i class="fa-solid fa-star"></i> تقييم الأداء
-                            والكفاءة</a>
-                        <a href="#" onclick="goTo('pg-payroll')"><i class="fa-solid fa-money-check-dollar"></i> مسير
-                            ومعالجة الرواتب</a>
-                    </div>
-                </div>
-
-                <!-- Section 6: Control & Exams -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-pen-ruler"></i> <span>الكنترول والامتحانات</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-grading')"><i class="fa-solid fa-pen-to-square"></i> رصد الدرجات
-                            والاختبارات</a>
-
-
-                        <a href="#" onclick="goTo('pg-results')"><i class="fa-solid fa-ranking-star"></i> النتائج
-                            والتقديرات النهائية</a>
-                        <a href="#" onclick="goTo('pg-certificates')"><i class="fa-solid fa-certificate"></i> إصدار
-                            الشهادات الرسمية</a>
-                        <a href="#" onclick="goTo('pg-homework-tracker')"><i class="fa-solid fa-book-open-reader"></i>
-                            متابعة الواجبات المدرسية</a>
-                        <a href="#" onclick="goTo('pg-exam-halls')"><i class="fa-solid fa-location-dot"></i> أماكن ولجان
-                            الامتحانات</a>
-                        <a href="#" onclick="goTo('pg-seat-numbers')"><i class="fa-solid fa-hashtag"></i> كشوفات أرقام
-                            الجلوس</a>
-                        <a href="#" onclick="goTo('pg-secret-numbers')"><i class="fa-solid fa-user-secret"></i> توليد
-                            الأرقام السرية</a>
-                        <a href="#" onclick="goTo('pg-hall-distribution')"><i class="fa-solid fa-users-rectangle"></i>
-                            توزيع اللجان والمراقبين</a>
-                        <a href="#" onclick="goTo('pg-exam-schedule')"><i class="fa-solid fa-calendar-days"></i> جدول
-                            الامتحانات الرسمية</a>
-                        <a href="#" onclick="goTo('pg-roll-call')"><i class="fa-solid fa-list-check"></i> كشوفات
-                            المناداة للمنادين</a>
-                        <a href="#" onclick="goTo('pg-seat-cards')"><i class="fa-solid fa-id-badge"></i> طباعة بطاقات
-                            أرقام الجلوس</a>
-                        <a href="#" onclick="goTo('pg-substitute')"><i class="fa-solid fa-user-pen"></i> إدارة المدرس
-                            البديل</a>
-                    </div>
-                </div>
-
-                <!-- Section 7: Transportation & Activities -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-bus"></i> <span>المواصلات والأنشطة</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-activities')"><i class="fa-solid fa-medal"></i> إدارة الأنشطة
-                            والأنواع</a>
-                        <a href="#" onclick="goTo('pg-transport-routes')"><i class="fa-solid fa-route"></i> دليل خطوط
-                            السير</a>
-                        <a href="#" onclick="goTo('pg-buses')"><i class="fa-solid fa-bus-simple"></i> دليل الحافلات
-                            والمركبات</a>
-                        <a href="#" onclick="goTo('pg-transport-enrollment')"><i class="fa-solid fa-user-check"></i>
-                            اشتراك الطلاب في المواصلات</a>
-                        <a href="#" onclick="goTo('pg-transport')"><i class="fa-solid fa-map-location-dot"></i> كشوفات
-                            ورسومات المواصلات</a>
-                    </div>
-                </div>
-
-                <!-- Section 8: School Warehouses -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-warehouse"></i> <span>مخازن المدرسة والمشتريات</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-item-categories')"><i class="fa-solid fa-boxes-stacked"></i> فئات
-                            الأصناف المخزنية</a>
-                        <a href="#" onclick="goTo('pg-inventory-items')"><i class="fa-solid fa-box"></i> دليل الأصناف
-                            والمنتجات</a>
-                        <a href="#" onclick="goTo('pg-supply-orders')"><i class="fa-solid fa-truck-ramp-box"></i> أذونات
-                            وأوامر التوريد</a>
-                        <a href="#" onclick="goTo('pg-issue-orders')"><i class="fa-solid fa-dolly"></i> أذونات وأوامر
-                            الصرف</a>
-                        <a href="#" onclick="goTo('pg-suppliers')"><i class="fa-solid fa-truck-field"></i> دليل الموردين
-                            المعتمدين</a>
-                        <a href="#" onclick="goTo('pg-inventory-reports')"><i class="fa-solid fa-clipboard-list"></i>
-                            تقارير المخزون والجرد</a>
-                    </div>
-                </div>
-
-                <!-- Section 9: SMS & Comprehensive Reports -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-chart-bar"></i> <span>الرسائل والتقارير الشاملة</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-sms-send')"><i class="fa-solid fa-paper-plane"></i> إرسال الرسائل
-                            النصية SMS</a>
-                        <a href="#" onclick="goTo('pg-sms-templates')"><i class="fa-solid fa-file-code"></i> قوالب
-                            الرسائل الجاهزة</a>
-                        <a href="#" onclick="goTo('pg-sms-settings')"><i class="fa-solid fa-gear"></i> إعدادات ورصيد
-                            الرسائل</a>
-                        <a href="#" onclick="goTo('pg-monthly-report')"><i class="fa-solid fa-calendar-week"></i> تقرير
-                            الأعمال الشهرية</a>
-                        <a href="#" onclick="goTo('pg-semester-report')"><i class="fa-solid fa-file-contract"></i> تقرير
-                            أعمال الفصل الدراسي</a>
-                        <a href="#" onclick="goTo('pg-class-details')"><i class="fa-solid fa-table-list"></i> كشف تفصيلي
-                            للصفوف</a>
-                        <a href="#" onclick="goTo('pg-top-students')"><i class="fa-solid fa-award"></i> كشف أوائل
-                            المدرسة والتفوق</a>
-                        <a href="#" onclick="goTo('pg-success-rate-subject')"><i class="fa-solid fa-chart-column"></i>
-                            نسب النجاح بالمواد والشعب</a>
-                        <a href="#" onclick="goTo('pg-custom-reports')"><i class="fa-solid fa-file-invoice"></i> تقارير
-                            مخصصة (PDF/Excel)</a>
-                        <a href="#" onclick="goTo('pg-control-reports')"><i class="fa-solid fa-file-shield"></i> تقارير
-                            الكنترول الشاملة</a>
-                    </div>
-                </div>
-
-                <!-- Section 10: Administrative Tools -->
-                <div class="nav-section">
-                    <div class="nav-item has-sub" onclick="toggleSub(this)">
-                        <i class="fa-solid fa-toolbox"></i> <span>أدوات ودعم إداري</span> <i
-                            class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
-                    </div>
-                    <div class="sub-menu">
-                        <a href="#" onclick="goTo('pg-admin-messages')"><i class="fa-solid fa-tower-broadcast"></i>
-                            الرسائل الإدارية والإعلانات</a>
-                        <a href="#" onclick="goTo('pg-shortcuts')"><i class="fa-solid fa-keyboard"></i> اختصارات النظام
-                            المفضلة</a>
-                        <a href="#" onclick="goTo('pg-faq')"><i class="fa-solid fa-circle-question"></i> الأسئلة
-                            المتكررة والدعم</a>
-                        <a href="#" onclick="goTo('pg-dictionary')"><i class="fa-solid fa-language"></i> قاموس الترجمة
-                            والمصطلحات</a>
-                        <a href="#" onclick="goTo('pg-personal-info')"><i class="fa-solid fa-address-card"></i> معلومات
-                            الملف الشخصي</a>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="sidebar-footer">
-                <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل
-                    الخروج</button>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-saas-admin')"><i class="fa-solid fa-building-columns"></i> دليل المدارس والفروع</a>
+                <a href="#" onclick="goTo('pg-school-info')"><i class="fa-solid fa-id-card-clip"></i> بيانات المنشأة والتراخيص</a>
             </div>
-        </aside>
+        </div>
+
+        <!-- Section 2: Database & System Security -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-database" style="color:#10b981;"></i> <span>قواعد البيانات والأمان السيادي</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-cyber-soc')" style="color:#38bdf8;font-weight:bold;"><i class="fa-solid fa-shield-virus" style="color:#38bdf8;"></i> مركز العمليات السيبرانية SOC 🤖</a>
+                <a href="#" onclick="goTo('pg-db-management')"><i class="fa-solid fa-cloud-arrow-up"></i> النسخ الاحتياطي والصيانة</a>
+                <a href="#" onclick="goTo('pg-audit-trail')"><i class="fa-solid fa-clock-rotate-left"></i> سجل العمليات (Audit Trail)</a>
+                <a href="#" onclick="goTo('pg-admin-password')"><i class="fa-solid fa-key"></i> أمان وكلمات مرور المشرفين</a>
+            </div>
+        </div>
+
+        <!-- Section 3: Users & Access Control (RBAC) -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-users-gear" style="color:#8b5cf6;"></i> <span>المستخدمون ومصفوفة الصلاحيات</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-users')"><i class="fa-solid fa-user-shield"></i> دليل المستخدمين والصلاحيات</a>
+                <a href="#" onclick="goTo('pg-personal-info')"><i class="fa-solid fa-fingerprint"></i> جلسات الأمان النشطة</a>
+            </div>
+        </div>
+
+        <!-- Section 4: Engine Configuration & Automated Triggers -->
+        <div class="nav-section">
+            <div class="nav-item has-sub open" onclick="toggleSub(this)">
+                <i class="fa-solid fa-sliders" style="color:#f59e0b;"></i> <span>تهيئة النظام والمحركات الذكية</span> 
+                <i class="fa-solid fa-chevron-down ms-auto" style="font-size:0.8rem"></i>
+            </div>
+            <div class="sub-menu" style="display:block;">
+                <a href="#" onclick="goTo('pg-system-settings')"><i class="fa-solid fa-gear"></i> إعدادات المنظومة العامة</a>
+                <a href="#" onclick="goTo('pg-alerts')"><i class="fa-solid fa-bell"></i> محرك التنبيهات الذكية</a>
+                <a href="#" onclick="goTo('pg-archive')"><i class="fa-solid fa-box-archive"></i> الأرشيف الإلكتروني الشامل</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
+    </div>
+</aside>
+
 
         <!-- Main -->
         <main class="main-content" id="mainContent">
@@ -1032,27 +799,27 @@
                             </h3>
                             <div class="form-grid">
                                 <div class="fg"><label>اسم المدرسة بالعربية <span class="req">*</span></label><input
-                                        id="infoSchoolNameAr" value="مدرسة المجد النموذجية الأهلية"
+                                        id="infoSchoolNameAr" value="" placeholder="مدرسة المجد النموذجية الأهلية"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>اسم المدرسة بالإنجليزية <span class="req">*</span></label><input
-                                        id="infoSchoolNameEn" value="Al-Majd Model School"
+                                        id="infoSchoolNameEn" value="" placeholder="Al-Majd Model School"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>رقم الترخيص الوزاري <span class="req">*</span></label><input
-                                        id="infoMinistryLicense" value="LIC-EDU-2026-9901"
+                                        id="infoMinistryLicense" value="" placeholder="LIC-EDU-2026-9901"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>المراحل الدراسية المعتمدة <span
                                             class="req">*</span></label><input id="infoStages"
-                                        value="الأساسية (1-9) + الثانوية (علمي/أدبي)" oninput="validateTextOnly(this)">
+                                        value="" placeholder="الأساسية (1-9) + الثانوية (علمي/أدبي)" oninput="validateTextOnly(this)">
                                 </div>
                                 <div class="fg"><label>العنوان الجغرافي الدقيق <span class="req">*</span></label><input
-                                        id="infoAddress" value="صنعاء - شارع حدة - أبعاد GPS"
+                                        id="infoAddress" value="" placeholder="صنعاء - شارع حدة - أبعاد GPS"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>بيانات الاتصال الرسمية <span class="req">*</span></label><input
-                                        id="infoPhone" value="770000000 | 01400000" oninput="validateNumbersOnly(this)">
+                                        id="infoPhone" value="" placeholder="770000000 | 01400000" oninput="validateNumbersOnly(this)">
                                 </div>
                                 <div class="fg"><label>البريد الإلكتروني المعتمد <span
                                             class="req">*</span></label><input id="infoEmail"
-                                        value="info@almajd-school.edu.ye"></div>
+                                        value="" placeholder="info@almajd-school.edu.ye"></div>
                                 <div class="fg"><label>العملة الأساسية للنظام <span class="req">*</span></label><select
                                         id="infoCurrency">
                                         <option value="ريال يمني (YER)">ريال يمني (YER)</option>
@@ -1061,7 +828,7 @@
                                     </select></div>
                                 <div class="fg"><label>بداية ونهاية السنة المالية/الأكاديمية <span
                                             class="req">*</span></label><input id="infoFiscalYear"
-                                        value="من 01 سبتمبر إلى 30 يونيو" oninput="validateTextOnly(this)"></div>
+                                        value="" placeholder="من 01 سبتمبر إلى 30 يونيو" oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>حالة الفرع والترخيص <span class="req">*</span></label><select
                                         id="infoBranchStatus">
                                         <option value="نشط ومعتمد (Active Branch)">نشط ومعتمد (Active Branch)</option>
@@ -4407,10 +4174,10 @@
                                     <option>السابع الأساسي - شعبة (أ)</option>
                                 </select></div>
                             <div class="fg"><label>المادة الدراسية <span class="req">*</span></label><input
-                                    id="exm_subject" placeholder="مثال: الرياضيات المتقدمة" value="الرياضيات المتقدمة"
+                                    id="exm_subject" placeholder="مثال: الرياضيات المتقدمة" value=""
                                     oninput="validateTextOnly(this)"></div>
                             <div class="fg"><label>تاريخ الامتحان <span class="req">*</span></label><input type="date"
-                                    id="exm_date" value="2026-06-15"></div>
+                                    id="exm_date" value=""></div>
                             <div class="fg"><label>الفترة والتوقيت <span class="req">*</span></label><select
                                     id="exm_period">
                                     <option value="صباحية">الفترة الأولى - صباحية (08:30 AM - 11:30 AM)</option>
@@ -4431,7 +4198,7 @@
                                 </select></div>
                             <div class="fg"><label>فريق المراقبة المسند <span class="req">*</span></label><input
                                     id="exm_proctors" placeholder="أ. خالد محمود + أ. إبراهيم العنسي"
-                                    value="أ. خالد محمود + أ. إبراهيم العنسي" oninput="validateTextOnly(this)"></div>
+                                    value="" oninput="validateTextOnly(this)"></div>
                             <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
                                 <button class="btn-save" onclick="saveExamSessionSlot()"><i
                                         class="fa-solid fa-floppy-disk"></i> حفظ جلسة الامتحان</button>
@@ -6087,11 +5854,11 @@
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label style="display:block;margin-bottom:6px;font-weight:700;font-size:0.85rem;color:#f8fafc;"><i class="fa-solid fa-calendar-day" style="color:#34d399;"></i> من تاريخ</label>
-                                <input type="date" id="soaDateFrom" value="2026-08-01" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                                <input type="date" id="soaDateFrom" value="" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label style="display:block;margin-bottom:6px;font-weight:700;font-size:0.85rem;color:#f8fafc;"><i class="fa-solid fa-calendar-check" style="color:#fbbf24;"></i> إلى تاريخ</label>
-                                <input type="date" id="soaDateTo" value="2026-12-31" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                                <input type="date" id="soaDateTo" value="" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label style="display:block;margin-bottom:6px;font-weight:700;font-size:0.85rem;color:#f8fafc;"><i class="fa-solid fa-coins" style="color:#f59e0b;"></i> العملة المعتمدة</label>
@@ -6633,11 +6400,11 @@
                         </div>
                         <div>
                             <label style="font-weight:700;display:block;margin-bottom:6px;">تاريخ بداية فترة القفل:</label>
-                            <input type="date" id="lockStartDate" class="form-control" value="2026-08-01" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                            <input type="date" id="lockStartDate" class="form-control" value="" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
                         </div>
                         <div>
                             <label style="font-weight:700;display:block;margin-bottom:6px;">تاريخ نهاية فترة القفل:</label>
-                            <input type="date" id="lockEndDate" class="form-control" value="2026-08-31" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                            <input type="date" id="lockEndDate" class="form-control" value="" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
                         </div>
                         <div>
                             <label style="font-weight:700;display:block;margin-bottom:6px;">سبب ومسوغ القفل:</label>
@@ -7128,7 +6895,7 @@
                         </div>
                         <div class="form-group" style="margin-bottom:4px;">
                             <label style="font-weight:700;display:block;margin-bottom:6px;color:#cbd5e1;">أقصى محاولات دخول فاشلة قبل الحظر (Max Login Attempts):</label>
-                            <input type="number" id="quickMaxAttempts" class="form-control" value="5" min="1" max="20" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                            <input type="number" id="quickMaxAttempts" class="form-control" value="" placeholder="5" min="1" max="20" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
                         </div>
                     </div>
 
@@ -7408,7 +7175,7 @@
         };
     </script>
 
-    <script src="app.js?v=1787435641"></script>
+    <script src="app.js?v=1793559458"></script>
 
     <!-- معالج تسجيل دخول احتياطي في حال فشل app.js -->
     <script>

@@ -10,38 +10,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=1787435641">
+    <link rel="stylesheet" href="style.css?v=1793559458">
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/js/all.min.js" defer></script>
 </head>
 
-<body>
+<body data-portal="parent">
     <div class="bg-shape shape1"></div>
     <div class="bg-shape shape2"></div>
     <div class="bg-shape shape3"></div>
 
     <!-- ========== تسجيل الدخول ========== -->
     <div class="login-wrapper" id="loginWrapper"
-        style="background-color: #f7fbff; background-image: url('data:image/svg+xml,%3Csvg width=\'100%25\' height=\'100%25\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h100v100H0z\' fill=\'none\' stroke=\'%23e5e7eb\' stroke-width=\'1\' stroke-dasharray=\'10 10\'/%3E%3C/svg%3E'); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;">
-        <h1
-            style="color: #1e3a8a; font-size: 2.5rem; font-weight: 800; margin-bottom: 2rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            بوابة المدارس والموظفين</h1>
+    style="background-color: var(--bg-main, #11131A); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; font-family: 'Tajawal', sans-serif;">
 
-        <section class="login-box"
-            style="background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 40px; width: 100%; max-width: 450px; position: relative;">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <img src="images/logo.png" alt="المدرسة الذكية" style="max-height: 120px; object-fit: contain;">
-                <h2 style="font-size: 1.5rem; color: #1e3a8a; font-weight: 800; margin-top: 10px;"><i
-                        class="fa-solid fa-graduation-cap"></i> المدرسة الذكية</h2>
+    <div style="text-align: center; margin-bottom: 24px;">
+        <h1 id="loginPortalMainTitle" style="color: #3B82F6; font-size: 2rem; font-weight: 900; margin-bottom: 6px; display:flex; align-items:center; justify-content:center; gap:12px;">
+            <i class="fa-solid fa-house-user" id="loginPortalIcon" style="color:#3B82F6;"></i> 
+            <span id="loginPortalHeading">بوابة أولياء الأمور والطلاب | Parent Portal</span>
+        </h1>
+        <p id="loginPortalSubTitle" style="color: #94A3B8; font-size: 0.95rem;">متابعة المستوى الدراسي، الحضور، النتائج، والرسوم المدرسية</p>
+    </div>
+
+    <section class="login-box card-base"
+        style="background: var(--bg-surface, #181B26); border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 16px; box-shadow: var(--shadow-lg, 0 10px 25px rgba(0,0,0,0.35)); padding: 36px; width: 100%; max-width: 460px; position: relative;">
+        
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: #3B82F6; font-size: 1.5rem;">
+                <i class="fa-solid fa-users" id="loginBoxIcon"></i>
             </div>
+            <h2 id="loginBoxTitle" style="font-size: 1.3rem; color: #F8FAFC; font-weight: 800; margin: 0;">دخول ولي الأمر / الطالب</h2>
+            <p id="loginBoxDesc" style="color: #94A3B8; font-size: 0.85rem; margin-top: 4px;">أدخل رقم الهاتف أو الهوية وكلمة السر المسجلة</p>
+        </div>
 
-            <form id="loginForm" style="display: flex; flex-direction: column; gap: 15px;">
+        <div id="loginError" style="display:none; background:rgba(239,68,68,0.12); color:#F87171; border:1px solid rgba(239,68,68,0.3); padding:12px 16px; border-radius:8px; font-size:0.9rem; font-weight:700; text-align:center; line-height:1.5; margin-bottom:18px;"></div>
 
-                <div id="schoolField" style="display: flex; align-items: center; gap: 15px;">
-                    <label style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">اسم
-                        المدرسة</label>
+        <form id="loginForm" onsubmit="handleLoginSubmit(event); return false;" style="display: flex; flex-direction: column; gap: 16px;">
+
+            <div id="schoolField" style="display: none !important;">
+                <label style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">اسم المدرسة / المنشأة</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-school" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
                     <select id="schoolId"
-                        style="flex: 2; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; background: #fff; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22%2394a3b8%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22>
-<option value="SCH-01">🏫 مدرسة المتفوقين الأهلية النموذجية (صنعاء — حدة)</option>
+                        style="width: 100%; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.9rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;">
+                        <option value="SCH-01">🏫 مدرسة المتفوقين الأهلية النموذجية (صنعاء — حدة)</option>
                         <option value="SCH-02">🏫 مدارس رواد اليمن الحديثة الأهلية (صنعاء — الأصبحي)</option>
                         <option value="SCH-03">🏫 مدارس النهضة الدولية للغات (صنعاء — شارع بغداد)</option>
                         <option value="SCH-04">🏫 مدارس الرشيد الأهلية النموذجية (صنعاء — الحي الدبلوماسي)</option>
@@ -71,65 +82,59 @@
                         <option value="SCH-28">🏫 مدارس النهضة التعليمية بمعبر (معبر — الشارع العام)</option>
                         <option value="SCH-29">🏫 مدارس بلقيس الدولية النموذجية (مأرب — الروضة)</option>
                         <option value="SCH-30">🏫 مدارس أرض الجنتين الأهلية الحديثة (مأرب — وادي عبيدة)</option>
+    
                     </select>
                 </div>
+            </div>
 
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label id="usernameLbl"
-                        style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">رقم
-                        المستخدم</label>
-                    <input type="text" id="username"
-                        style="flex: 2; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none;"
-                        required autocomplete="off">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label id="usernameLbl" style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">رقم هاتف ولي الأمر / الرقم الوطني</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-user" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <input type="text" id="username" value=""
+                        placeholder="أدخل رقم الهاتف أو الرقم الوطني"
+                        style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.92rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;"
+                        required autocomplete="username">
                 </div>
+            </div>
 
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label id="passwordLbl"
-                        style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">كلمة
-                        السر</label>
-                    <div style="flex: 2; position: relative; width: 100%;">
-                        <input type="password" id="password"
-                            style="width: 100%; box-sizing: border-box; padding: 10px 35px 10px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; letter-spacing: 2px;"
-                            required>
-                        <i class="fa-solid fa-eye" id="togglePassword"
-                            style="position: absolute; left: 10px; top: 12px; cursor: pointer; color: #94a3b8;"
-                            onclick="togglePasswordVisibility()"></i>
-                    </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label id="passwordLbl" style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">رقم قيد الطالب / كلمة المرور</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-lock" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
+                    <input type="password" id="password" value=""
+                        placeholder="أدخل كلمة المرور"
+                        style="width: 100%; box-sizing: border-box; padding: 11px 40px 11px 40px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.92rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit; letter-spacing: 1px;"
+                        required autocomplete="current-password">
+                    <i class="fa-solid fa-eye" id="togglePassword"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #64748B;"
+                        onclick="togglePasswordVisibility()"></i>
                 </div>
+            </div>
 
-
-
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <label style="flex: 1; font-size: 1.1rem; font-weight: 600; color: #333; text-align: left;">نوع
-                        المستخدم</label>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label style="font-size: 0.86rem; font-weight: 700; color: #CBD5E1;">نوع الحساب / الصلاحية</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-user-gear" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748B;"></i>
                     <select id="userType"
-                        style="flex: 2; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; background: #fff; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=%22%2394a3b8%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/></svg>'); background-repeat: no-repeat; background-position: left 10px center;"
-                        onchange="
-                        const isParent = this.value === 'parent';
-                        document.getElementById('schoolField').style.display = isParent ? 'none' : 'flex';
-                        document.getElementById('usernameLbl').textContent = isParent ? 'الرقم الوطني' : 'رقم المستخدم';
-                        document.getElementById('passwordLbl').textContent = isParent ? 'رقم الطالب' : 'كلمة السر';
-                    ">
-                        <option value="school_admin">مدير المدرسة</option>
-                        <option value="teacher">معلم</option>
-                        <option value="staff">موظف / مشرف الطابق / محاسب</option>
-
+                        style="width: 100%; padding: 11px 40px 11px 14px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-radius: 8px; font-size: 0.9rem; outline: none; background: #1E2230; color: #F8FAFC; font-family: inherit;">
+                        <option value="parent" selected>ولي أمر / طالب</option>
+        
                     </select>
                 </div>
+            </div>
 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                    <button type="submit" id="loginBtn"
-                        style="background-color: #3b82f6; color: white; border: none; padding: 10px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3); transition: all 0.2s;"><i
-                            class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</button>
+            <div style="margin-top: 8px;">
+                <button type="submit" id="loginBtn"
+                    style="width: 100%; background: #3B82F6; color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 800; border-radius: 8px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;">
+                    <i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول للمنظومة
+                </button>
+            </div>
 
-                </div>
-
-            </form>
-
-        </section>
-    </div>
-
-    <!-- ========== التخطيط الرئيسي ========== -->
+        </form>
+    </section>
+</div>
+<!-- ========== التخطيط الرئيسي ========== -->
     <div class="app-layout" id="appLayout" style="display:none;">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
@@ -1032,27 +1037,27 @@
                             </h3>
                             <div class="form-grid">
                                 <div class="fg"><label>اسم المدرسة بالعربية <span class="req">*</span></label><input
-                                        id="infoSchoolNameAr" value="مدرسة المجد النموذجية الأهلية"
+                                        id="infoSchoolNameAr" value="" placeholder="مدرسة المجد النموذجية الأهلية"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>اسم المدرسة بالإنجليزية <span class="req">*</span></label><input
-                                        id="infoSchoolNameEn" value="Al-Majd Model School"
+                                        id="infoSchoolNameEn" value="" placeholder="Al-Majd Model School"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>رقم الترخيص الوزاري <span class="req">*</span></label><input
-                                        id="infoMinistryLicense" value="LIC-EDU-2026-9901"
+                                        id="infoMinistryLicense" value="" placeholder="LIC-EDU-2026-9901"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>المراحل الدراسية المعتمدة <span
                                             class="req">*</span></label><input id="infoStages"
-                                        value="الأساسية (1-9) + الثانوية (علمي/أدبي)" oninput="validateTextOnly(this)">
+                                        value="" placeholder="الأساسية (1-9) + الثانوية (علمي/أدبي)" oninput="validateTextOnly(this)">
                                 </div>
                                 <div class="fg"><label>العنوان الجغرافي الدقيق <span class="req">*</span></label><input
-                                        id="infoAddress" value="صنعاء - شارع حدة - أبعاد GPS"
+                                        id="infoAddress" value="" placeholder="صنعاء - شارع حدة - أبعاد GPS"
                                         oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>بيانات الاتصال الرسمية <span class="req">*</span></label><input
-                                        id="infoPhone" value="770000000 | 01400000" oninput="validateNumbersOnly(this)">
+                                        id="infoPhone" value="" placeholder="770000000 | 01400000" oninput="validateNumbersOnly(this)">
                                 </div>
                                 <div class="fg"><label>البريد الإلكتروني المعتمد <span
                                             class="req">*</span></label><input id="infoEmail"
-                                        value="info@almajd-school.edu.ye"></div>
+                                        value="" placeholder="info@almajd-school.edu.ye"></div>
                                 <div class="fg"><label>العملة الأساسية للنظام <span class="req">*</span></label><select
                                         id="infoCurrency">
                                         <option value="ريال يمني (YER)">ريال يمني (YER)</option>
@@ -1061,7 +1066,7 @@
                                     </select></div>
                                 <div class="fg"><label>بداية ونهاية السنة المالية/الأكاديمية <span
                                             class="req">*</span></label><input id="infoFiscalYear"
-                                        value="من 01 سبتمبر إلى 30 يونيو" oninput="validateTextOnly(this)"></div>
+                                        value="" placeholder="من 01 سبتمبر إلى 30 يونيو" oninput="validateTextOnly(this)"></div>
                                 <div class="fg"><label>حالة الفرع والترخيص <span class="req">*</span></label><select
                                         id="infoBranchStatus">
                                         <option value="نشط ومعتمد (Active Branch)">نشط ومعتمد (Active Branch)</option>
@@ -4407,10 +4412,10 @@
                                     <option>السابع الأساسي - شعبة (أ)</option>
                                 </select></div>
                             <div class="fg"><label>المادة الدراسية <span class="req">*</span></label><input
-                                    id="exm_subject" placeholder="مثال: الرياضيات المتقدمة" value="الرياضيات المتقدمة"
+                                    id="exm_subject" placeholder="مثال: الرياضيات المتقدمة" value=""
                                     oninput="validateTextOnly(this)"></div>
                             <div class="fg"><label>تاريخ الامتحان <span class="req">*</span></label><input type="date"
-                                    id="exm_date" value="2026-06-15"></div>
+                                    id="exm_date" value=""></div>
                             <div class="fg"><label>الفترة والتوقيت <span class="req">*</span></label><select
                                     id="exm_period">
                                     <option value="صباحية">الفترة الأولى - صباحية (08:30 AM - 11:30 AM)</option>
@@ -4431,7 +4436,7 @@
                                 </select></div>
                             <div class="fg"><label>فريق المراقبة المسند <span class="req">*</span></label><input
                                     id="exm_proctors" placeholder="أ. خالد محمود + أ. إبراهيم العنسي"
-                                    value="أ. خالد محمود + أ. إبراهيم العنسي" oninput="validateTextOnly(this)"></div>
+                                    value="" oninput="validateTextOnly(this)"></div>
                             <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
                                 <button class="btn-save" onclick="saveExamSessionSlot()"><i
                                         class="fa-solid fa-floppy-disk"></i> حفظ جلسة الامتحان</button>
@@ -6087,11 +6092,11 @@
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label style="display:block;margin-bottom:6px;font-weight:700;font-size:0.85rem;color:#f8fafc;"><i class="fa-solid fa-calendar-day" style="color:#34d399;"></i> من تاريخ</label>
-                                <input type="date" id="soaDateFrom" value="2026-08-01" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                                <input type="date" id="soaDateFrom" value="" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label style="display:block;margin-bottom:6px;font-weight:700;font-size:0.85rem;color:#f8fafc;"><i class="fa-solid fa-calendar-check" style="color:#fbbf24;"></i> إلى تاريخ</label>
-                                <input type="date" id="soaDateTo" value="2026-12-31" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
+                                <input type="date" id="soaDateTo" value="" onchange="renderStatementOfAccount()" style="width:100%;padding:9px 12px;border-radius:8px;background:rgba(30,41,59,0.9);color:#f8fafc;border:1px solid rgba(255,255,255,0.15);">
                             </div>
                             <div class="form-group" style="margin:0;">
                                 <label style="display:block;margin-bottom:6px;font-weight:700;font-size:0.85rem;color:#f8fafc;"><i class="fa-solid fa-coins" style="color:#f59e0b;"></i> العملة المعتمدة</label>
@@ -6633,11 +6638,11 @@
                         </div>
                         <div>
                             <label style="font-weight:700;display:block;margin-bottom:6px;">تاريخ بداية فترة القفل:</label>
-                            <input type="date" id="lockStartDate" class="form-control" value="2026-08-01" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                            <input type="date" id="lockStartDate" class="form-control" value="" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
                         </div>
                         <div>
                             <label style="font-weight:700;display:block;margin-bottom:6px;">تاريخ نهاية فترة القفل:</label>
-                            <input type="date" id="lockEndDate" class="form-control" value="2026-08-31" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                            <input type="date" id="lockEndDate" class="form-control" value="" style="width:100%;padding:8px 12px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
                         </div>
                         <div>
                             <label style="font-weight:700;display:block;margin-bottom:6px;">سبب ومسوغ القفل:</label>
@@ -7128,7 +7133,7 @@
                         </div>
                         <div class="form-group" style="margin-bottom:4px;">
                             <label style="font-weight:700;display:block;margin-bottom:6px;color:#cbd5e1;">أقصى محاولات دخول فاشلة قبل الحظر (Max Login Attempts):</label>
-                            <input type="number" id="quickMaxAttempts" class="form-control" value="5" min="1" max="20" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
+                            <input type="number" id="quickMaxAttempts" class="form-control" value="" placeholder="5" min="1" max="20" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);color:#fff;border-radius:8px;border:1px solid var(--border);">
                         </div>
                     </div>
 
@@ -7408,7 +7413,7 @@
         };
     </script>
 
-    <script src="app.js?v=1787435641"></script>
+    <script src="app.js?v=1793559458"></script>
 
     <!-- معالج تسجيل دخول احتياطي في حال فشل app.js -->
     <script>

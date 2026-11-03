@@ -1,20 +1,13 @@
 {
   "version": 2,
-  "cleanUrls": false,
   "rewrites": [
-    { "source": "/", "destination": "/frontend/school.html" },
-    { "source": "/school", "destination": "/frontend/school.html" },
-    { "source": "/school.html", "destination": "/frontend/school.html" },
-    { "source": "/admin", "destination": "/frontend/admin.html" },
-    { "source": "/admin.html", "destination": "/frontend/admin.html" },
-    { "source": "/saas", "destination": "/frontend/admin.html" },
-    { "source": "/parent", "destination": "/frontend/parent.html" },
-    { "source": "/parent.html", "destination": "/frontend/parent.html" },
-    { "source": "/parents", "destination": "/frontend/parent.html" },
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/school", "destination": "/school.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/saas", "destination": "/admin.html" },
+    { "source": "/parent", "destination": "/parent.html" },
+    { "source": "/parents", "destination": "/parent.html" },
     { "source": "/motion", "destination": "/frontend/motion/index.html" },
-    { "source": "/motion/(.*)", "destination": "/frontend/motion/$1" },
-    { "source": "/assets/(.*)", "destination": "/assets/$1" },
-    { "source": "/app.js", "destination": "/frontend/app.js" },
-    { "source": "/style.css", "destination": "/frontend/style.css" }
+    { "source": "/motion/(.*)", "destination": "/frontend/motion/$1" }
   ]
 }
