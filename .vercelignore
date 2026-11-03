@@ -1,0 +1,11 @@
+app/
+alembic/
+alembic.ini
+requirements.txt
+Dockerfile
+.dockerignore
+Procfile
+render.yaml
+deploy_to_cloud.py
+deploy_to_cloud.bat
+*.py

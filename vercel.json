@@ -1,64 +1,20 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/motion",
-      "dest": "/frontend/motion/index.html"
-    },
-    {
-      "src": "/motion/(.*)",
-      "dest": "/frontend/motion/$1"
-    },
-    {
-      "src": "/school",
-      "dest": "/frontend/school.html"
-    },
-    {
-      "src": "/admin",
-      "dest": "/frontend/admin.html"
-    },
-    {
-      "src": "/saas",
-      "dest": "/frontend/admin.html"
-    },
-    {
-      "src": "/parent",
-      "dest": "/frontend/parent.html"
-    },
-    {
-      "src": "/parents",
-      "dest": "/frontend/parent.html"
-    },
-    {
-      "src": "/app.js",
-      "dest": "/frontend/app.js"
-    },
-    {
-      "src": "/style.css",
-      "dest": "/frontend/style.css"
-    },
-    {
-      "src": "/",
-      "dest": "/frontend/school.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" }
-      ]
-    }
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/", "destination": "/frontend/school.html" },
+    { "source": "/school", "destination": "/frontend/school.html" },
+    { "source": "/school.html", "destination": "/frontend/school.html" },
+    { "source": "/admin", "destination": "/frontend/admin.html" },
+    { "source": "/admin.html", "destination": "/frontend/admin.html" },
+    { "source": "/saas", "destination": "/frontend/admin.html" },
+    { "source": "/parent", "destination": "/frontend/parent.html" },
+    { "source": "/parent.html", "destination": "/frontend/parent.html" },
+    { "source": "/parents", "destination": "/frontend/parent.html" },
+    { "source": "/motion", "destination": "/frontend/motion/index.html" },
+    { "source": "/motion/(.*)", "destination": "/frontend/motion/$1" },
+    { "source": "/assets/(.*)", "destination": "/assets/$1" },
+    { "source": "/app.js", "destination": "/frontend/app.js" },
+    { "source": "/style.css", "destination": "/frontend/style.css" }
   ]
 }
