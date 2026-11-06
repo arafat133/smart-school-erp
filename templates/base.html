@@ -6,12 +6,17 @@
     <title>{% block title %}نظام إدارة المدارس الشامل | ERP{% endblock %}</title>
     <link rel="icon" type="image/svg+xml" href="/assets/images/schools/sch_01_logo.svg">
     <meta name="description" content="نظام إدارة مدرسي شامل (ERP) سحابي آمن">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+    <!-- DNS-Prefetch & Preconnect for High-Speed External Font Delivery -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Self-Hosted Optimized FontAwesome (Single Clean Source) -->
     <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/assets/css/main.css?v=7.0">
+    
+    <!-- Deferred Non-Critical Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <link rel="stylesheet" href="/assets/css/main.css?v=8.0">
     {% block extra_css %}{% endblock %}
 </head>
 <body data-portal="{{ portal_type|default('school') }}">
@@ -45,7 +50,8 @@
 
     <!-- Master High-Volume Multi-School Dataset (30 Schools, 3,000 Students, Staff, Transport) -->
     <script src="/assets/js/data_30_schools.js?v=6.0"></script>
-    <script src="/assets/js/core.js?v=23.0"></script>
+    <script src="/assets/js/modules/ai_fault_isolation.js"></script>
+    <script src="/assets/js/core.js?v=24.0"></script>
     {% block page_scripts %}{% endblock %}
 </body>
 </html>

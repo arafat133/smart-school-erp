@@ -1,17 +1,14 @@
 @echo off
+setlocal
 chcp 65001 > nul
-title تشغيل الرابط السحابي المجاني المباشر - Cloudflare Live Tunnel
+title Cloudflare Live Tunnel (Smart School Cloud ERP)
 color 0B
 
 echo =======================================================================
-echo         منظومة المدارس الذكية - إطلاق الرابط السحابي المباشر المجاني
-echo                    Cloudflare Instant Live Tunnel (HTTPS)
+echo          Smart School Cloud ERP - Cloudflare Live Tunnel
 echo =======================================================================
 echo.
-echo  [✓] جاري إنشاء نفق سحابي مشفر وآمن (HTTPS 🔒)...
-echo  [✓] سيظهر لك بالأسفل الرابط السحابي الذي يمكنك فتحه من جوالك أو مشاركته.
-echo.
-echo =======================================================================
+echo  Starting Instant Cloud Tunnel (HTTPS)...
 echo.
 
 scratch\cloudflared.exe tunnel --url http://127.0.0.1:8000

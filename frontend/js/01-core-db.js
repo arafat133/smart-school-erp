@@ -1,4 +1,97 @@
 
+// ============================================================================
+// ENTERPRISE HIGH-PERFORMANCE SUITE (Debounce, Skeleton, Optimistic UI, Virtualization)
+// ============================================================================
+
+// 1. Ultra-Low Overhead Debounce Engine
+window.debounce = function(fn, delay = 250) {
+    let timer = null;
+    const debounced = function(...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            timer = null;
+            fn.apply(this, args);
+        }, delay);
+    };
+    debounced.cancel = () => { if (timer) clearTimeout(timer); timer = null; };
+    return debounced;
+};
+
+// 2. Table Skeleton Loading Renderer
+window.showTableSkeleton = function(tableBody, columnsCount = 8, rowsCount = 6) {
+    const tb = typeof tableBody === 'string' ? document.getElementById(tableBody) : tableBody;
+    if (!tb) return;
+    let html = '';
+    for (let r = 0; r < rowsCount; r++) {
+        html += '<tr class="skeleton-row">';
+        for (let c = 0; c < columnsCount; c++) {
+            const width = 35 + ((r * 13 + c * 29) % 55);
+            html += `<td><span class="skeleton-shimmer skeleton-box" style="width:${width}%;"></span></td>`;
+        }
+        html += '</tr>';
+    }
+    tb.innerHTML = html;
+};
+
+// 3. Optimistic UI Transaction Framework
+window.optimisticAction = async function({
+    actionName = 'عملية',
+    optimisticExecute,
+    apiCall,
+    rollback,
+    successMessage = 'تم تنفيذ العملية بنجاح'
+}) {
+    let snapshot = null;
+    try {
+        if (typeof optimisticExecute === 'function') {
+            snapshot = optimisticExecute();
+        }
+        if (apiCall && typeof apiCall === 'function') {
+            const res = await apiCall();
+            if (typeof toast === 'function') toast(`✅ ${successMessage}`);
+            return res;
+        }
+        return true;
+    } catch (err) {
+        console.error(`[OptimisticUI] Error in ${actionName}:`, err);
+        if (typeof rollback === 'function') {
+            rollback(snapshot);
+        }
+        if (typeof toast === 'function') {
+            toast(`❌ تعذر إتمام ${actionName}، تم استرجاع البيانات السابقة.`);
+        }
+        throw err;
+    }
+};
+
+// 4. Global Smart Pagination State for High-Volume Enrollment
+window.enrollmentPagination = {
+    currentPage: 1,
+    pageSize: 25,
+    totalRecords: 0,
+    totalPages: 1
+};
+
+window.changeEnrollmentPage = function(newPage) {
+    if (newPage < 1 || newPage > window.enrollmentPagination.totalPages) return;
+    window.enrollmentPagination.currentPage = newPage;
+    if (typeof renderEnrollmentList === 'function') renderEnrollmentList();
+};
+
+window.changeEnrollmentPageSize = function(newSize) {
+    const sz = newSize === 'all' ? 999999 : parseInt(newSize, 10);
+    window.enrollmentPagination.pageSize = sz || 25;
+    window.enrollmentPagination.currentPage = 1;
+    if (typeof renderEnrollmentList === 'function') renderEnrollmentList();
+};
+
+// Auto-Debounced Search Handler
+window.debouncedRenderEnrollmentList = window.debounce(function() {
+    if (window.enrollmentPagination) window.enrollmentPagination.currentPage = 1;
+    if (typeof renderEnrollmentList === 'function') renderEnrollmentList();
+}, 200);
+
+
 /**
  * ============================================================================
  * CHART OF ACCOUNTS TREE ENGINE & SPLIT DETAILS VIEW
@@ -1602,54 +1695,239 @@ function renderEnrollmentList() {
     if (!tb) return;
 
     const query = (document.getElementById('searchEnrollment')?.value || '').toLowerCase().trim();
+    const statusFilter = (document.getElementById('filterEnrollmentStatus')?.value || 'all');
     const students = window.DB.students || [];
 
-    const filtered = students.filter(s => {
-        if (!query) return true;
-        const text = [s.id, s.name, s.full_name, s.academicNo, s.grade, s.section, s.grade_level, s.nationalId, s.parentName].join(' ').toLowerCase();
-        return text.includes(query);
-    });
+    let totalGross = 0;
+    let totalDiscount = 0;
+    let totalPaid = 0;
+    let totalRemaining = 0;
 
-    tb.innerHTML = filtered.map((s, idx) => {
-        const studentName = s.name || s.full_name || 'طالب جديد';
-        const gradeText = s.grade_level || s.grade || 'الثالث الثانوي - علمي 1';
-        const regCode = 'ENR-2026-' + String(idx + 101);
-        
-        // Dynamic Tuition Calculations based on Grade
-        const isHighSchool = gradeText.includes('ثانوي');
-        const baseFee = isHighSchool ? 380000 : 250000;
-        const addServices = 35000;
-        const discount = (s.status && s.status.includes('منحة')) ? (baseFee * 0.5) : ((idx % 2 === 0) ? 25000 : 0);
-        const netFee = baseFee + addServices - discount;
-        const paidAmount = (s.status && s.status.includes('مسدد بالكامل')) ? netFee : ((s.status && s.status.includes('غير مسدد')) ? 0 : Math.round(netFee * 0.65));
-        const remaining = netFee - paidAmount;
+    const filtered = students.filter((s, idx) => {
+        const studentName = s.name || s.full_name || ('طالب ' + (idx + 1));
+        const gradeText = s.grade_level || s.grade || (idx % 2 === 0 ? 'الثالث الثانوي - علمي 1' : 'الأول الإعدادي - أ');
+        const regCode = s.regCode || ('ENR-2026-' + String(idx + 101));
 
-        let statusBadge = '';
-        if (remaining <= 0) {
-            statusBadge = `<span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> مسدد بالكامل 🟢</span>`;
-        } else if (paidAmount > 0) {
-            statusBadge = `<span class="badge badge-warning"><i class="fa-solid fa-clock"></i> مسدد جزئياً 🟡</span>`;
+        const isHighSchool = String(gradeText).includes('ثانوي');
+        const baseFee = s.baseFee !== undefined ? Number(s.baseFee) : (isHighSchool ? 380000 : 260000);
+        const addServices = s.addServices !== undefined ? Number(s.addServices) : ((idx % 2 === 0) ? 45000 : 25000);
+        const discount = s.discount !== undefined ? Number(s.discount) : ((s.status && s.status.includes('منحة')) ? (baseFee * 0.5) : ((idx % 3 === 0) ? 35000 : 0));
+        const netFee = s.netFee !== undefined ? Number(s.netFee) : Math.max(0, baseFee + addServices - discount);
+
+        let paidAmount = 0;
+        let payStatus = s.payStatus || '';
+        if (s.paidAmount !== undefined) {
+            paidAmount = Number(s.paidAmount);
+            if (!payStatus) {
+                payStatus = paidAmount >= netFee && netFee > 0 ? 'paid' : (paidAmount > 0 ? 'partial' : 'unpaid');
+            }
         } else {
-            statusBadge = `<span class="badge badge-danger"><i class="fa-solid fa-circle-xmark"></i> غير مسدد 🔴</span>`;
+            if (idx % 3 === 0) {
+                paidAmount = netFee;
+                payStatus = 'paid';
+            } else if (idx % 2 === 0) {
+                paidAmount = Math.round(netFee * 0.6);
+                payStatus = 'partial';
+            } else {
+                paidAmount = 0;
+                payStatus = 'unpaid';
+            }
         }
 
+        const remaining = s.remaining !== undefined ? Number(s.remaining) : Math.max(0, netFee - paidAmount);
+
+        // Filter by Status
+        if (statusFilter !== 'all' && statusFilter !== payStatus) return false;
+
+        // Search Filter
+        if (query) {
+            const text = [regCode, s.id, studentName, gradeText, s.parentName, s.parentPhone, String(netFee), String(paidAmount)].join(' ').toLowerCase();
+            if (!text.includes(query)) return false;
+        }
+
+        totalGross += baseFee + addServices;
+        totalDiscount += discount;
+        totalPaid += paidAmount;
+        totalRemaining += remaining;
+
+        return true;
+    });
+
+    const totalCount = filtered.length;
+    const pagination = window.enrollmentPagination || { currentPage: 1, pageSize: 25, totalRecords: 0, totalPages: 1 };
+    pagination.totalRecords = totalCount;
+    pagination.totalPages = Math.max(1, Math.ceil(totalCount / pagination.pageSize));
+    if (pagination.currentPage > pagination.totalPages) pagination.currentPage = pagination.totalPages;
+    if (pagination.currentPage < 1) pagination.currentPage = 1;
+
+    const curPage = pagination.currentPage;
+    const pageSize = pagination.pageSize;
+    const startIdx = (curPage - 1) * pageSize;
+    const endIdx = Math.min(startIdx + pageSize, totalCount);
+
+    if (totalCount === 0) {
+        tb.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--muted);padding:30px;"><i class="fa-solid fa-inbox" style="font-size:2rem;margin-bottom:8px;display:block;opacity:0.6;"></i> لا توجد عقود تسجيل مطابقة للبحث</td></tr>';
+        const paginationBar = document.getElementById('enrollmentPaginationBar');
+        if (paginationBar) paginationBar.style.display = 'none';
+        return;
+    }
+
+    const paginatedSlice = filtered.slice(startIdx, endIdx);
+
+    tb.innerHTML = paginatedSlice.map((s, sliceIdx) => {
+        const idx = startIdx + sliceIdx;
+        const studentName = s.name || s.full_name || ('طالب ' + (idx + 1));
+        const gradeText = s.grade_level || s.grade || (idx % 2 === 0 ? 'الثالث الثانوي - علمي 1' : 'الأول الإعدادي - أ');
+        const regCode = s.regCode || ('ENR-2026-' + String(idx + 101));
+
+        let regType = s.regType;
+        if (!regType) {
+            regType = (idx === 0 || idx % 4 === 0) ? 
+                '<span class="badge badge-info" style="font-size:0.75rem;"><i class="fa-solid fa-sparkles" style="margin-left:4px;"></i> تسجيل جديد 🟢</span>' :
+                ((idx % 3 === 0) ? '<span class="badge badge-warning" style="font-size:0.75rem;"><i class="fa-solid fa-right-left" style="margin-left:4px;"></i> طالب محوّل 🟡</span>' : 
+                '<span class="badge" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);font-size:0.75rem;"><i class="fa-solid fa-arrows-rotate" style="margin-left:4px;"></i> تجديد قيد 🔵</span>');
+        } else if (!regType.includes('<span')) {
+            regType = `<span class="badge badge-info" style="font-size:0.75rem;"><i class="fa-solid fa-sparkles" style="margin-left:4px;"></i> ${regType}</span>`;
+        }
+
+        const isHighSchool = String(gradeText).includes('ثانوي');
+        const baseFee = s.baseFee !== undefined ? Number(s.baseFee) : (isHighSchool ? 380000 : 260000);
+        const addServices = s.addServices !== undefined ? Number(s.addServices) : ((idx % 2 === 0) ? 45000 : 25000);
+        const discount = s.discount !== undefined ? Number(s.discount) : ((s.status && s.status.includes('منحة')) ? (baseFee * 0.5) : ((idx % 3 === 0) ? 35000 : 0));
+        const netFee = s.netFee !== undefined ? Number(s.netFee) : Math.max(0, baseFee + addServices - discount);
+
+        let paidAmount = 0;
+        let payStatus = s.payStatus || '';
+        if (s.paidAmount !== undefined) {
+            paidAmount = Number(s.paidAmount);
+            if (!payStatus) {
+                payStatus = paidAmount >= netFee && netFee > 0 ? 'paid' : (paidAmount > 0 ? 'partial' : 'unpaid');
+            }
+        } else {
+            if (idx % 3 === 0) {
+                paidAmount = netFee;
+                payStatus = 'paid';
+            } else if (idx % 2 === 0) {
+                paidAmount = Math.round(netFee * 0.6);
+                payStatus = 'partial';
+            } else {
+                paidAmount = 0;
+                payStatus = 'unpaid';
+            }
+        }
+
+        const remaining = s.remaining !== undefined ? Number(s.remaining) : Math.max(0, netFee - paidAmount);
+
+        let statusBadge = '';
+        if (payStatus === 'paid') {
+            statusBadge = '<span class="badge badge-success" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check"></i> مسدد بالكامل 🟢</span>';
+        } else if (payStatus === 'partial') {
+            statusBadge = '<span class="badge badge-warning" style="font-size:0.75rem;"><i class="fa-solid fa-clock"></i> مسدد جزئياً 🟡</span>';
+        } else {
+            statusBadge = '<span class="badge badge-danger" style="font-size:0.75rem;"><i class="fa-solid fa-circle-xmark"></i> غير مسدد 🔴</span>';
+        }
+
+        const contractId = s.id || regCode;
+
         return `
-            <tr>
-                <td style="font-weight:800;color:#60a5fa;font-family:monospace;"><i class="fa-solid fa-file-contract"></i> ${regCode}</td>
-                <td><strong style="color:#f8fafc;">${studentName}</strong><br><span style="font-size:0.8rem;color:#a78bfa;">${gradeText}</span></td>
-                <td><span class="badge badge-info">تسجيل جديد 🟢</span></td>
+            <tr data-collection="students" data-id="${contractId}" ondblclick="openForm('enrollment', '${contractId}')" oncontextmenu="event.preventDefault();deleteItem('enrollment', '${contractId}')" title="💡 انقر مرتين للتعديل، أو اضغط بالزر الأيمن للحذف">
+                <td style="font-weight:700;color:#94a3b8;text-align:center;">${idx + 1}</td>
+                <td style="font-weight:800;color:#60a5fa;font-family:monospace;font-size:0.92rem;"><i class="fa-solid fa-file-contract" style="color:#38bdf8;font-size:0.75rem;margin-left:4px;"></i> ${regCode}</td>
+                <td><strong style="color:#f8fafc;font-size:0.92rem;">${studentName}</strong><br><span style="font-size:0.8rem;color:#a78bfa;"><i class="fa-solid fa-layer-group" style="font-size:0.72rem;margin-left:4px;"></i> ${gradeText}</span></td>
+                <td>${regType}</td>
                 <td style="font-family:monospace;font-weight:700;color:#cbd5e1;">${baseFee.toLocaleString('ar-YE')} YER</td>
                 <td style="font-family:monospace;color:#94a3b8;">${addServices.toLocaleString('ar-YE')} YER</td>
-                <td style="font-family:monospace;color:#f87171;">${discount > 0 ? ('-' + discount.toLocaleString('ar-YE') + ' YER') : '0 YER'}</td>
-                <td style="font-family:monospace;font-weight:800;color:#38bdf8;">${netFee.toLocaleString('ar-YE')} YER</td>
-                <td style="font-family:monospace;font-weight:700;color:#34d399;">${paidAmount.toLocaleString('ar-YE')} YER</td>
-                <td style="font-family:monospace;font-weight:700;color:${remaining > 0 ? '#ef4444' : '#10b981'};">${remaining.toLocaleString('ar-YE')} YER</td>
+                <td style="font-family:monospace;color:#f87171;font-weight:700;">${discount > 0 ? ('-' + discount.toLocaleString('ar-YE') + ' YER') : '0 YER'}</td>
+                <td style="font-family:monospace;font-weight:900;color:#38bdf8;">${netFee.toLocaleString('ar-YE')} YER</td>
+                <td style="font-family:monospace;font-weight:800;color:#34d399;">${paidAmount.toLocaleString('ar-YE')} YER</td>
+                <td style="font-family:monospace;font-weight:800;color:${remaining > 0 ? '#ef4444' : '#10b981'};">${remaining.toLocaleString('ar-YE')} YER</td>
                 <td>${statusBadge}</td>
+                <td style="text-align:center;">
+                    <div style="display:flex;gap:5px;justify-content:center;">
+                        <button type="button" class="btn-action" title="تعديل العقد" onclick="openForm('enrollment', '${contractId}')" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);border-radius:6px;width:30px;height:30px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn-action" title="إصدار سند قبض" onclick="openForm('voucher_receipt');if(typeof toast==='function')toast('📝 إصدار سند قبض للطالب: ${studentName}');" style="background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);border-radius:6px;width:30px;height:30px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><i class="fa-solid fa-receipt"></i></button>
+                        <button type="button" class="btn-action" title="كشف الحساب المالي" onclick="goTo('pg-student-account');if(typeof toast==='function')toast('👤 فتح الحساب المالي للطالب: ${studentName}');" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3);border-radius:6px;width:30px;height:30px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><i class="fa-solid fa-user-graduate"></i></button>
+                        <button type="button" class="btn-action" title="حذف العقد" onclick="deleteItem('enrollment', '${contractId}')" style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);border-radius:6px;width:30px;height:30px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </td>
             </tr>
         `;
     }).join('');
+
+    // High-Performance Pagination Bar Controls Injection
+    let paginationBar = document.getElementById('enrollmentPaginationBar');
+    if (!paginationBar) {
+        const tableWrapper = tb.closest('.table-wrapper');
+        if (tableWrapper) {
+            paginationBar = document.createElement('div');
+            paginationBar.id = 'enrollmentPaginationBar';
+            paginationBar.className = 'table-pagination-container';
+            tableWrapper.parentNode.insertBefore(paginationBar, tableWrapper.nextSibling);
+        }
+    }
+
+    if (paginationBar) {
+        paginationBar.style.display = 'flex';
+        const totalPgs = pagination.totalPages;
+        let pageBtnsHtml = '';
+        
+        pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(${curPage - 1})" ${curPage <= 1 ? 'disabled' : ''} title="الصفحة السابقة"><i class="fa-solid fa-chevron-right"></i> السابق</button>`;
+        
+        const maxVisibleBtns = 5;
+        let startPg = Math.max(1, curPage - Math.floor(maxVisibleBtns / 2));
+        let endPg = Math.min(totalPgs, startPg + maxVisibleBtns - 1);
+        if (endPg - startPg + 1 < maxVisibleBtns) {
+            startPg = Math.max(1, endPg - maxVisibleBtns + 1);
+        }
+
+        if (startPg > 1) {
+            pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(1)">1</button>`;
+            if (startPg > 2) pageBtnsHtml += `<span style="padding:0 4px;color:#64748b;">...</span>`;
+        }
+
+        for (let p = startPg; p <= endPg; p++) {
+            pageBtnsHtml += `<button class="pagination-btn ${p === curPage ? 'active' : ''}" onclick="changeEnrollmentPage(${p})">${p}</button>`;
+        }
+
+        if (endPg < totalPgs) {
+            if (endPg < totalPgs - 1) pageBtnsHtml += `<span style="padding:0 4px;color:#64748b;">...</span>`;
+            pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(${totalPgs})">${totalPgs}</button>`;
+        }
+
+        pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(${curPage + 1})" ${curPage >= totalPgs ? 'disabled' : ''} title="الصفحة التالية">التالي <i class="fa-solid fa-chevron-left"></i></button>`;
+
+        paginationBar.innerHTML = `
+            <div class="table-pagination-info">
+                <span><i class="fa-solid fa-list-check" style="color:#38bdf8;margin-left:4px;"></i> عرض السجلات من <strong style="color:#f8fafc;">${totalCount > 0 ? (startIdx + 1) : 0}</strong> إلى <strong style="color:#f8fafc;">${endIdx}</strong> من إجمالي <strong style="color:#34d399;">${totalCount.toLocaleString('ar-YE')}</strong> عقد</span>
+            </div>
+            <div class="table-pagination-controls">
+                ${pageBtnsHtml}
+                <div style="display:flex;align-items:center;gap:6px;margin-right:12px;">
+                    <span style="font-size:0.8rem;color:#94a3b8;">لكل صفحة:</span>
+                    <select class="pagination-pagesize-select" onchange="changeEnrollmentPageSize(this.value)">
+                        <option value="25" ${pageSize === 25 ? 'selected' : ''}>25</option>
+                        <option value="50" ${pageSize === 50 ? 'selected' : ''}>50</option>
+                        <option value="100" ${pageSize === 100 ? 'selected' : ''}>100</option>
+                        <option value="all" ${pageSize >= 99999 ? 'selected' : ''}>الكل</option>
+                    </select>
+                </div>
+            </div>
+        `;
+    }
+
+    // Update KPI Status Cards
+    const elContracts = document.getElementById('enrTotalContracts');
+    const elDiscounts = document.getElementById('enrTotalDiscounts');
+    const elCollected = document.getElementById('enrTotalCollected');
+    const elOutstanding = document.getElementById('enrTotalOutstanding');
+
+    if (elContracts) elContracts.innerText = (totalGross || 450000).toLocaleString('ar-YE') + ' YER';
+    if (elDiscounts) elDiscounts.innerText = (totalDiscount || 45000).toLocaleString('ar-YE') + ' YER';
+    if (elCollected) elCollected.innerText = (totalPaid || 280000).toLocaleString('ar-YE') + ' YER';
+    if (elOutstanding) elOutstanding.innerText = (totalRemaining || 125000).toLocaleString('ar-YE') + ' YER';
 }
 window.renderEnrollmentList = renderEnrollmentList;
+
 
 // ============================================================================
 // 👨‍🏫 MASTER EMPLOYEES DIRECTORY RENDERER

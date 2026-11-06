@@ -1,6 +1,7 @@
 from app.services.security_alert_service import security_alert_service
 from fastapi import FastAPI, Request, Response, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse, JSONResponse, FileResponse
@@ -177,9 +178,16 @@ async def security_firewall_middleware(request: Request, call_next):
         "img-src 'self' https: data: blob:;"
     )
     response.headers["Server"] = "Secure-School-Firewall-v2"
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
+    if path.startswith("/assets/") or path.startswith("/static/"):
+        response.headers["Cache-Control"] = "public, max-age=86400, stale-while-revalidate=604800"
+        if "Pragma" in response.headers:
+            del response.headers["Pragma"]
+        if "Expires" in response.headers:
+            del response.headers["Expires"]
+    else:
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
     
     return response
 
@@ -223,6 +231,9 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# High-Performance GZip Compression Middleware (min 1KB)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Render / Cloud Health Check Endpoint
 @app.get("/health", tags=["System"])

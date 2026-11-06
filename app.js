@@ -1,4 +1,97 @@
 
+// ============================================================================
+// ENTERPRISE HIGH-PERFORMANCE SUITE (Debounce, Skeleton, Optimistic UI, Virtualization)
+// ============================================================================
+
+// 1. Ultra-Low Overhead Debounce Engine
+window.debounce = function(fn, delay = 250) {
+    let timer = null;
+    const debounced = function(...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            timer = null;
+            fn.apply(this, args);
+        }, delay);
+    };
+    debounced.cancel = () => { if (timer) clearTimeout(timer); timer = null; };
+    return debounced;
+};
+
+// 2. Table Skeleton Loading Renderer
+window.showTableSkeleton = function(tableBody, columnsCount = 8, rowsCount = 6) {
+    const tb = typeof tableBody === 'string' ? document.getElementById(tableBody) : tableBody;
+    if (!tb) return;
+    let html = '';
+    for (let r = 0; r < rowsCount; r++) {
+        html += '<tr class="skeleton-row">';
+        for (let c = 0; c < columnsCount; c++) {
+            const width = 35 + ((r * 13 + c * 29) % 55);
+            html += `<td><span class="skeleton-shimmer skeleton-box" style="width:${width}%;"></span></td>`;
+        }
+        html += '</tr>';
+    }
+    tb.innerHTML = html;
+};
+
+// 3. Optimistic UI Transaction Framework
+window.optimisticAction = async function({
+    actionName = 'عملية',
+    optimisticExecute,
+    apiCall,
+    rollback,
+    successMessage = 'تم تنفيذ العملية بنجاح'
+}) {
+    let snapshot = null;
+    try {
+        if (typeof optimisticExecute === 'function') {
+            snapshot = optimisticExecute();
+        }
+        if (apiCall && typeof apiCall === 'function') {
+            const res = await apiCall();
+            if (typeof toast === 'function') toast(`✅ ${successMessage}`);
+            return res;
+        }
+        return true;
+    } catch (err) {
+        console.error(`[OptimisticUI] Error in ${actionName}:`, err);
+        if (typeof rollback === 'function') {
+            rollback(snapshot);
+        }
+        if (typeof toast === 'function') {
+            toast(`❌ تعذر إتمام ${actionName}، تم استرجاع البيانات السابقة.`);
+        }
+        throw err;
+    }
+};
+
+// 4. Global Smart Pagination State for High-Volume Enrollment
+window.enrollmentPagination = {
+    currentPage: 1,
+    pageSize: 25,
+    totalRecords: 0,
+    totalPages: 1
+};
+
+window.changeEnrollmentPage = function(newPage) {
+    if (newPage < 1 || newPage > window.enrollmentPagination.totalPages) return;
+    window.enrollmentPagination.currentPage = newPage;
+    if (typeof renderEnrollmentList === 'function') renderEnrollmentList();
+};
+
+window.changeEnrollmentPageSize = function(newSize) {
+    const sz = newSize === 'all' ? 999999 : parseInt(newSize, 10);
+    window.enrollmentPagination.pageSize = sz || 25;
+    window.enrollmentPagination.currentPage = 1;
+    if (typeof renderEnrollmentList === 'function') renderEnrollmentList();
+};
+
+// Auto-Debounced Search Handler
+window.debouncedRenderEnrollmentList = window.debounce(function() {
+    if (window.enrollmentPagination) window.enrollmentPagination.currentPage = 1;
+    if (typeof renderEnrollmentList === 'function') renderEnrollmentList();
+}, 200);
+
+
 window.syncAllLiveKpisAndCounters = function() {
     if (!window.DB) return;
 
@@ -1830,12 +1923,29 @@ function renderEnrollmentList() {
         return true;
     });
 
-    if (filtered.length === 0) {
+    const totalCount = filtered.length;
+    const pagination = window.enrollmentPagination || { currentPage: 1, pageSize: 25, totalRecords: 0, totalPages: 1 };
+    pagination.totalRecords = totalCount;
+    pagination.totalPages = Math.max(1, Math.ceil(totalCount / pagination.pageSize));
+    if (pagination.currentPage > pagination.totalPages) pagination.currentPage = pagination.totalPages;
+    if (pagination.currentPage < 1) pagination.currentPage = 1;
+
+    const curPage = pagination.currentPage;
+    const pageSize = pagination.pageSize;
+    const startIdx = (curPage - 1) * pageSize;
+    const endIdx = Math.min(startIdx + pageSize, totalCount);
+
+    if (totalCount === 0) {
         tb.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--muted);padding:30px;"><i class="fa-solid fa-inbox" style="font-size:2rem;margin-bottom:8px;display:block;opacity:0.6;"></i> لا توجد عقود تسجيل مطابقة للبحث</td></tr>';
+        const paginationBar = document.getElementById('enrollmentPaginationBar');
+        if (paginationBar) paginationBar.style.display = 'none';
         return;
     }
 
-    tb.innerHTML = filtered.map((s, idx) => {
+    const paginatedSlice = filtered.slice(startIdx, endIdx);
+
+    tb.innerHTML = paginatedSlice.map((s, sliceIdx) => {
+        const idx = startIdx + sliceIdx;
         const studentName = s.name || s.full_name || ('طالب ' + (idx + 1));
         const gradeText = s.grade_level || s.grade || (idx % 2 === 0 ? 'الثالث الثانوي - علمي 1' : 'الأول الإعدادي - أ');
         const regCode = s.regCode || ('ENR-2026-' + String(idx + 101));
@@ -1914,6 +2024,67 @@ function renderEnrollmentList() {
         `;
     }).join('');
 
+    // High-Performance Pagination Bar Controls Injection
+    let paginationBar = document.getElementById('enrollmentPaginationBar');
+    if (!paginationBar) {
+        const tableWrapper = tb.closest('.table-wrapper');
+        if (tableWrapper) {
+            paginationBar = document.createElement('div');
+            paginationBar.id = 'enrollmentPaginationBar';
+            paginationBar.className = 'table-pagination-container';
+            tableWrapper.parentNode.insertBefore(paginationBar, tableWrapper.nextSibling);
+        }
+    }
+
+    if (paginationBar) {
+        paginationBar.style.display = 'flex';
+        const totalPgs = pagination.totalPages;
+        let pageBtnsHtml = '';
+        
+        pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(${curPage - 1})" ${curPage <= 1 ? 'disabled' : ''} title="الصفحة السابقة"><i class="fa-solid fa-chevron-right"></i> السابق</button>`;
+        
+        const maxVisibleBtns = 5;
+        let startPg = Math.max(1, curPage - Math.floor(maxVisibleBtns / 2));
+        let endPg = Math.min(totalPgs, startPg + maxVisibleBtns - 1);
+        if (endPg - startPg + 1 < maxVisibleBtns) {
+            startPg = Math.max(1, endPg - maxVisibleBtns + 1);
+        }
+
+        if (startPg > 1) {
+            pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(1)">1</button>`;
+            if (startPg > 2) pageBtnsHtml += `<span style="padding:0 4px;color:#64748b;">...</span>`;
+        }
+
+        for (let p = startPg; p <= endPg; p++) {
+            pageBtnsHtml += `<button class="pagination-btn ${p === curPage ? 'active' : ''}" onclick="changeEnrollmentPage(${p})">${p}</button>`;
+        }
+
+        if (endPg < totalPgs) {
+            if (endPg < totalPgs - 1) pageBtnsHtml += `<span style="padding:0 4px;color:#64748b;">...</span>`;
+            pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(${totalPgs})">${totalPgs}</button>`;
+        }
+
+        pageBtnsHtml += `<button class="pagination-btn" onclick="changeEnrollmentPage(${curPage + 1})" ${curPage >= totalPgs ? 'disabled' : ''} title="الصفحة التالية">التالي <i class="fa-solid fa-chevron-left"></i></button>`;
+
+        paginationBar.innerHTML = `
+            <div class="table-pagination-info">
+                <span><i class="fa-solid fa-list-check" style="color:#38bdf8;margin-left:4px;"></i> عرض السجلات من <strong style="color:#f8fafc;">${totalCount > 0 ? (startIdx + 1) : 0}</strong> إلى <strong style="color:#f8fafc;">${endIdx}</strong> من إجمالي <strong style="color:#34d399;">${totalCount.toLocaleString('ar-YE')}</strong> عقد</span>
+            </div>
+            <div class="table-pagination-controls">
+                ${pageBtnsHtml}
+                <div style="display:flex;align-items:center;gap:6px;margin-right:12px;">
+                    <span style="font-size:0.8rem;color:#94a3b8;">لكل صفحة:</span>
+                    <select class="pagination-pagesize-select" onchange="changeEnrollmentPageSize(this.value)">
+                        <option value="25" ${pageSize === 25 ? 'selected' : ''}>25</option>
+                        <option value="50" ${pageSize === 50 ? 'selected' : ''}>50</option>
+                        <option value="100" ${pageSize === 100 ? 'selected' : ''}>100</option>
+                        <option value="all" ${pageSize >= 99999 ? 'selected' : ''}>الكل</option>
+                    </select>
+                </div>
+            </div>
+        `;
+    }
+
     // Update KPI Status Cards
     const elContracts = document.getElementById('enrTotalContracts');
     const elDiscounts = document.getElementById('enrTotalDiscounts');
@@ -1926,6 +2097,7 @@ function renderEnrollmentList() {
     if (elOutstanding) elOutstanding.innerText = (totalRemaining || 125000).toLocaleString('ar-YE') + ' YER';
 }
 window.renderEnrollmentList = renderEnrollmentList;
+
 
 // ============================================================================
 // 👨‍🏫 MASTER EMPLOYEES DIRECTORY RENDERER
@@ -8154,10 +8326,23 @@ function goTo(pageId, extraParam) {
         'pg-closings': () => typeof window.renderClosingsGrid === 'function' && window.renderClosingsGrid()
     };
 
-    if (dynamicRenderers[targetId]) {
-        try { dynamicRenderers[targetId](); } catch(e) { console.error('Renderer error on ' + targetId, e); }
-    } else if (typeof hydrateAndMountAllGrids === 'function') {
-        try { hydrateAndMountAllGrids(); } catch(e) {}
+    if (typeof safeExecuteModule === 'function') {
+        safeExecuteModule(targetId, () => {
+            if (dynamicRenderers[targetId]) {
+                dynamicRenderers[targetId]();
+            } else if (typeof hydrateAndMountAllGrids === 'function') {
+                hydrateAndMountAllGrids();
+            }
+        });
+    } else {
+        if (dynamicRenderers[targetId]) {
+            try { dynamicRenderers[targetId](); } catch(e) { 
+                console.error('Renderer error on ' + targetId, e); 
+                if (typeof isolateAndHealInterface === 'function') isolateAndHealInterface(targetId, e);
+            }
+        } else if (typeof hydrateAndMountAllGrids === 'function') {
+            try { hydrateAndMountAllGrids(); } catch(e) {}
+        }
     }
 
     if (typeof attachUniversalRowInteractions === 'function') {
@@ -9813,6 +9998,37 @@ function saveForm(type) {
         newRec.id = pfx + '-' + Date.now().toString().slice(-5);
         newRec.schoolId = window.currentSchoolId || 1;
         if (!newRec.date) newRec.date = new Date().toISOString().split('T')[0];
+
+        // ═══════════════════════════════════════════════════════════════════
+        // 🏫 SMART CAPACITY & AUTOMATED WAITLIST ENGINE (الحد الأقصى للطاقة الاستيعابية)
+        // ═══════════════════════════════════════════════════════════════════
+        if (type === 'student' || type === 'students') {
+            const secVal = document.getElementById('f_std_section')?.value || newRec.section || '';
+            const sections = window.DB.sections || [];
+            const targetSec = sections.find(s => s.id === secVal || s.code === secVal || s.name === secVal || (s.name && s.name.includes(secVal)));
+            
+            if (targetSec && targetSec.capacity) {
+                const currentEnrolled = targetSec.enrolled || 0;
+                if (currentEnrolled >= targetSec.capacity && !editId) {
+                    const siblingSec = sections.find(s => s.grade === targetSec.grade && s.id !== targetSec.id && (s.enrolled || 0) < (s.capacity || 35));
+                    let alertMsg = `⚠️ اكتملت الطاقة الاستيعابية للشعبة (${targetSec.name}) [${targetSec.capacity}/${targetSec.capacity} مقعد].\n`;
+                    if (siblingSec) {
+                        alertMsg += `💡 توجد مقاعد شاغرة في شعبة رديفة: [${siblingSec.name}].\n`;
+                    }
+                    alertMsg += `سيتم إدراج الطالب في [قائمة الانتظار الآلية - Waitlist] لحين توفر مقعد أو موازنة الشعب.`;
+                    
+                    if (typeof toast === 'function') toast(`⏳ الشعبة مكتملة (${targetSec.capacity} مقعد). تم إدراج الطالب في قائمة الانتظار!`, 2);
+                    newRec.status = 'قائمة الانتظار (انتظار مقعد) ⏳';
+                    newRec.waitlistPosition = (window.DB.students.filter(st => st.status && st.status.includes('انتظار')).length || 0) + 1;
+                } else if (!editId) {
+                    targetSec.enrolled = currentEnrolled + 1;
+                    targetSec.available = Math.max(0, targetSec.capacity - targetSec.enrolled);
+                    if (targetSec.enrolled >= targetSec.capacity) {
+                        targetSec.status = 'مكتملة العدد والطاقة 🔒';
+                    }
+                }
+            }
+        }
 
         window.DB[collKey].unshift(newRec);
     }
