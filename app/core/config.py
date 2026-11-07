@@ -1,3 +1,4 @@
+import secrets
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -11,7 +12,7 @@ class Settings:
     DEFAULT_DB_PATH = (BASE_DIR / "secure_school.db").as_posix()
     DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite+aiosqlite:///{DEFAULT_DB_PATH}")
     
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "supersecretkey_for_jwt_tokens_generation")
+    SECRET_KEY: str = os.getenv("SECRET_KEY") or secrets.token_hex(32)
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 7 days
 

@@ -12,6 +12,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css?v=1793559458">
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/js/all.min.js" defer></script>
+    <!-- Frame-Busting Defense (CWE-1021 Clickjacking Remediation) -->
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+    </script>
 </head>
 
 <body data-portal="parent">

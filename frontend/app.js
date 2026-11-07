@@ -1,3 +1,29 @@
+// ============================================================================
+// 🛡️ APPLICATION SECURITY & XSS DEFENSE SUITE (CWE-79 Remediation)
+// ============================================================================
+window.escapeHtml = function(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+};
+
+window.sanitizeInput = function(str) {
+    if (str === null || str === undefined) return '';
+    let val = String(str);
+    // Strip malicious script tags, event handlers, and dangerous iframe/object/embed vectors
+    val = val.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+             .replace(/javascript\s*:/gi, '')
+             .replace(/on\w+\s*=/gi, '')
+             .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+             .replace(/<embed\b[^>]*>/gi, '')
+             .replace(/<object\b[^>]*>/gi, '');
+    return val.trim();
+};
+
 
 // ============================================================================
 // ENTERPRISE HIGH-PERFORMANCE SUITE (Debounce, Skeleton, Optimistic UI, Virtualization)
@@ -10114,7 +10140,8 @@ function saveForm(type) {
     for (const f of fields) {
         const el = document.getElementById(f.id);
         if (el) {
-            const val = el.value ? String(el.value).trim() : '';
+            const rawVal = el.value ? String(el.value).trim() : '';
+            const val = window.sanitizeInput ? window.sanitizeInput(rawVal) : rawVal;
             if (f.required && !val) {
                 el.classList.add('is-invalid');
                 el.style.border = '2px solid #ef4444';
@@ -12011,3 +12038,33 @@ window.deleteSystemSetting = function(keyId) {
 };
 
 if (typeof window !== "undefined") { setInterval(function() { if (typeof updateAiWidgetVisibility === "function") updateAiWidgetVisibility(); }, 1200); }
+
+// ============================================================================
+// ⏱️ SESSION INACTIVITY AUTO-LOCK WATCHDOG (CWE-613 Defense)
+// ============================================================================
+(function initInactivityWatchdog() {
+    const TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+    let lastActivity = Date.now();
+
+    function updateActivity() {
+        lastActivity = Date.now();
+    }
+
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+        ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'].forEach(evt => {
+            window.addEventListener(evt, updateActivity, { passive: true });
+        });
+
+        setInterval(() => {
+            const hasSession = sessionStorage.getItem('sec_session_token') || localStorage.getItem('sec_user_session');
+            if (hasSession && (Date.now() - lastActivity > TIMEOUT_MS)) {
+                if (typeof toast === 'function') {
+                    toast('⚠️ انتهت مهلة الجلسة لعدم النشاط (30 دقيقة). تم قفل النظام لحماية بياناتك.', 1);
+                }
+                if (typeof window.logout === 'function') {
+                    window.logout();
+                }
+            }
+        }, 60000); // Check every minute
+    }
+})();
