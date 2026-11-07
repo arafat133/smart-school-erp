@@ -1,20 +1,18 @@
 @echo off
+setlocal
 chcp 65001 > nul
-title منظومة المدارس الذكية - التشغيل الدائم 24/7
+title Smart School Cloud ERP - High Availability 24/7
 color 0A
+cd /d "%~dp0"
 
-echo =======================================================================
-echo          منظومة المدارس الذكية السحابية - التشغيل الدائم 24/7
-echo                  Smart School Cloud - High Availability
-echo =======================================================================
-echo.
-echo  [✓] جاري تفعيل المراقبة الذكية وإعادة التشغيل التلقائي عند أي انقطاع...
-echo  [✓] الرابط المحلي:   http://127.0.0.1:8000/school.html
-echo  [✓] الرابط المشفر:   https://127.0.0.1:8443/school.html
-echo  [✓] سجل العمليات:    logs\system_24_7.log
-echo.
-echo =======================================================================
+if exist ".venv\Scripts\python.exe" (
+    ".venv\Scripts\python.exe" run_server.py
+) else (
+    python run_server.py
+)
 
-.venv\Scripts\python.exe run_always_on.py
-
-pause
+if %errorlevel% neq 0 (
+    echo.
+    echo Server stopped. Press any key to exit...
+    pause > nul
+)
