@@ -1301,33 +1301,271 @@ window.renderDashboard = function() {
     }
 };
 
+// ============================================================================
+// 🛡️ ENTERPRISE RBAC, PORTAL SECURITY GATE & IDOR PREVENTION ENGINE
+// ============================================================================
+
+function detectCurrentPortal() {
+    const bodyPortal = document.body && document.body.dataset && document.body.dataset.portal;
+    if (bodyPortal) return bodyPortal.toLowerCase();
+    const path = (window.location.pathname || '').toLowerCase();
+    if (path.includes('admin') || path.includes('saas')) return 'admin';
+    if (path.includes('parent')) return 'parent';
+    return 'school';
+}
+window.detectCurrentPortal = detectCurrentPortal;
+
+function checkPortalAccess(user, portal) {
+    if (!user) return { allowed: false, reason: 'NO_SESSION' };
+    const role = (user.role || '').toLowerCase();
+    const roleName = (user.roleName || '').toLowerCase();
+
+    const isSuperAdmin = role === 'saas_admin' || role === 'super_admin' || role === 'db_admin' || role === 'security_officer' || roleName.includes('مدير المنصة') || roleName.includes('مدير عام النظام') || roleName.includes('super admin');
+    const isSchoolAdmin = role === 'school_admin' || roleName.includes('مدير المدرسة') || role === 'admin';
+    const isTeacher = role === 'teacher' || roleName.includes('معلم');
+    const isStaff = role === 'staff' || roleName.includes('محاسب') || roleName.includes('إداري');
+    const isParent = role === 'parent' || roleName.includes('ولي أمر');
+
+    if (portal === 'admin') {
+        // Admin Portal (admin.html) is strictly for Platform Super Admins
+        if (isSuperAdmin) return { allowed: true };
+        return {
+            allowed: false,
+            reason: 'ROLE_MISMATCH',
+            redirect: isParent ? 'parent.html' : 'school.html',
+            message: `🚫 وصول محظور أمنياً (IDOR Blocked):\nعذراً، حسابك الحالي [${user.name || user.username}] برتبة [${user.roleName || user.role}] غير مصرح له بالدخول إلى بوابة مدير النظام العام (Super Admin)!\nتم إحباط المحاولة وتوثيقها في سجل التدقيق الأمني لحماية بيانات المنصة.`
+        };
+    }
+
+    if (portal === 'school') {
+        // School Portal (school.html) is for School Admin, Teachers, Staff, Super Admin
+        if (isSuperAdmin || isSchoolAdmin || isTeacher || isStaff) return { allowed: true };
+        if (isParent) {
+            return {
+                allowed: false,
+                reason: 'ROLE_MISMATCH',
+                redirect: 'parent.html',
+                message: `⚠️ تنبيه أمني: حسابات أولياء الأمور مخصصة لبوابة ولي الأمر فقط.\nجاري توجيهك إلى بوابتك المخصصة (parent.html)...`
+            };
+        }
+        return { allowed: false, reason: 'ROLE_MISMATCH', redirect: 'school.html', message: 'غير مصرح بالدخول' };
+    }
+
+    if (portal === 'parent') {
+        // Parent Portal (parent.html)
+        if (isParent || isSuperAdmin || isSchoolAdmin) return { allowed: true };
+        return {
+            allowed: false,
+            reason: 'ROLE_MISMATCH',
+            redirect: 'school.html',
+            message: `⚠️ تنبيه أمني: هذه البوابة مخصصة لأولياء الأمور والطلاب فقط.\nجاري تحويلك إلى بوابة المدرسة (school.html)...`
+        };
+    }
+
+    return { allowed: true };
+}
+window.checkPortalAccess = checkPortalAccess;
+
+function isPagePermittedForUser(pageId, user) {
+    if (!user) return false;
+    const role = (user.role || '').toLowerCase();
+    const roleName = (user.roleName || '').toLowerCase();
+    const isSuperAdmin = role === 'saas_admin' || role === 'super_admin' || roleName.includes('مدير المنصة') || roleName.includes('مدير عام النظام') || roleName.includes('super admin');
+    if (isSuperAdmin) return true; // Full system clearance
+
+    const isSchoolAdmin = role === 'school_admin' || roleName.includes('مدير المدرسة') || role === 'admin';
+    const isTeacher = role === 'teacher' || roleName.includes('معلم');
+    const isStaff = role === 'staff' || roleName.includes('محاسب');
+    const isParent = role === 'parent' || roleName.includes('ولي أمر');
+
+    // SaaS exclusive pages are forbidden for school staff & parents
+    const saasPages = ['pg-saas-admin', 'pg-saas-schools', 'pg-saas-db', 'pg-saas-backups', 'pg-saas-subscriptions', 'pg-saas-servers'];
+    if (saasPages.includes(pageId)) return false;
+
+    // Parent restrictions
+    if (isParent) {
+        const parentAllowed = ['pg-parent-dashboard', 'pg-parent-fees', 'pg-parent-attendance', 'pg-parent-grades', 'pg-parent-homework', 'pg-change-password'];
+        return parentAllowed.includes(pageId);
+    }
+
+    // Teacher restrictions: no access to financial books, general journal, DB management, system settings, or user admin
+    if (isTeacher) {
+        const restrictedForTeacher = [
+            'pg-db-management', 'pg-system-settings', 'pg-users', 'pg-operation-lock',
+            'pg-chart-accounts', 'pg-vouchers', 'pg-journal', 'pg-cashboxes', 'pg-cost-centers',
+            'pg-account-ceiling', 'pg-posting', 'pg-payroll', 'pg-student-account'
+        ];
+        if (restrictedForTeacher.includes(pageId)) return false;
+    }
+
+    // Staff / Accountant restrictions: cannot access DB management, operation lock, or core system settings
+    if (isStaff) {
+        const restrictedForStaff = ['pg-db-management', 'pg-operation-lock', 'pg-system-settings'];
+        if (restrictedForStaff.includes(pageId)) return false;
+    }
+
+    return true;
+}
+window.isPagePermittedForUser = isPagePermittedForUser;
+
+function enforceSecurityGate() {
+    const portal = detectCurrentPortal();
+    const lw = document.getElementById('loginWrapper');
+    const al = document.getElementById('appLayout');
+
+    // 1. Validate active authenticated session (Strict check: MUST have token and saved user)
+    let user = null;
+    try {
+        const token = sessionStorage.getItem('sec_session_token');
+        const saved = sessionStorage.getItem('sec_user') || localStorage.getItem('sec_user_session');
+        if (token && saved) {
+            user = JSON.parse(saved);
+        }
+    } catch(e) {}
+
+    // 2. If NO active session, enforce login screen (DO NOT auto-login or fabricate fake session!)
+    if (!user) {
+        window.me = null;
+        if (lw) lw.style.display = 'flex';
+        if (al) al.style.display = 'none';
+        return false;
+    }
+
+    // 3. Check Portal Authorization (Stop IDOR cross-portal breaches)
+    const check = checkPortalAccess(user, portal);
+    if (!check.allowed) {
+        if (typeof addAudit === 'function') {
+            addAudit('محاولة وصول محظورة (IDOR Blocked)', `المستخدم ${user.name || user.username} (${user.roleName || user.role}) حاول الدخول لبوابة [${portal}] بدون تصريح.`);
+        }
+        alert(check.message);
+        if (check.redirect) {
+            window.location.replace(check.redirect);
+        } else {
+            if (lw) lw.style.display = 'flex';
+            if (al) al.style.display = 'none';
+        }
+        return false;
+    }
+
+    // 4. Session is valid and authorized
+    window.me = user;
+    if (lw) lw.style.display = 'none';
+    if (al) {
+        al.style.display = 'flex';
+        al.style.minHeight = '100vh';
+    }
+
+    const uNameDisp = document.getElementById('userNameDisplay');
+    if (uNameDisp) uNameDisp.textContent = user.name || user.username;
+
+    const activeSchoolDisp = document.getElementById('activeSchoolDisplay');
+    if (activeSchoolDisp) activeSchoolDisp.textContent = user.schoolName || 'مدرسة المتفوقين الأهلية';
+
+    if (typeof applyRBACPermissions === 'function') applyRBACPermissions(user);
+    if (typeof updateAiWidgetVisibility === 'function') updateAiWidgetVisibility();
+
+    // 5. Restore Route
+    const currentHash = window.location.hash ? window.location.hash.replace('#', '').trim() : '';
+    if (currentHash && currentHash !== 'pg-dashboard' && typeof window.goTo === 'function') {
+        window.goTo(currentHash);
+    } else {
+        if (user.role === 'parent' && typeof window.goTo === 'function') {
+            window.goTo('pg-parent-dashboard');
+        } else if (user.role === 'saas_admin' && typeof window.goTo === 'function') {
+            window.goTo('pg-saas-admin');
+        } else if (typeof window.renderDashboard === 'function') {
+            window.renderDashboard();
+        }
+    }
+
+    return true;
+}
+window.enforceSecurityGate = enforceSecurityGate;
+
+// ============================================================================
+// 📱 SIDEBAR TOGGLE & INTERFACE NAMES CONTROLLER
+// ============================================================================
+
+function toggleSidebar(forceState) {
+    const isMobile = window.innerWidth <= 992;
+    const al = document.getElementById('appLayout');
+    const sb = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+
+    if (isMobile) {
+        if (!sb) return;
+        const isOpen = (forceState !== undefined) ? forceState : !sb.classList.contains('open');
+        if (isOpen) {
+            sb.classList.add('open');
+            if (backdrop) backdrop.classList.add('active');
+        } else {
+            sb.classList.remove('open');
+            if (backdrop) backdrop.classList.remove('active');
+        }
+    } else {
+        if (!al) return;
+        const isCollapsed = (forceState !== undefined) ? forceState : !al.classList.contains('sidebar-collapsed');
+        if (isCollapsed) {
+            al.classList.add('sidebar-collapsed');
+            try { localStorage.setItem('sidebar_collapsed', '1'); } catch(e){}
+            if (typeof toast === 'function') toast('ℹ️ تم تصغير القائمة الجانبية (إخفاء أسماء الواجهات)');
+        } else {
+            al.classList.remove('sidebar-collapsed');
+            try { localStorage.setItem('sidebar_collapsed', '0'); } catch(e){}
+            if (typeof toast === 'function') toast('✅ تم توسيع القائمة الجانبية (إظهار كافة أسماء الواجهات)');
+        }
+    }
+}
+window.toggleSidebar = toggleSidebar;
+
+function initSidebarControls() {
+    if (typeof document === 'undefined' || !document.body) return;
+    // Ensure mobile frosted backdrop exists
+    if (!document.getElementById('sidebarBackdrop')) {
+        const bd = document.createElement('div');
+        bd.className = 'sidebar-backdrop';
+        bd.id = 'sidebarBackdrop';
+        bd.onclick = () => toggleSidebar(false);
+        document.body.appendChild(bd);
+    }
+
+    // Toggle button in header (Menu / Hamburger button)
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    if (menuBtn) {
+        menuBtn.setAttribute('title', 'إظهار / إخفاء أسماء الواجهات (تصغير وتوسيع القائمة)');
+        menuBtn.onclick = (e) => {
+            e.preventDefault();
+            toggleSidebar();
+        };
+    }
+
+    // Close button inside sidebar
+    const closeBtn = document.getElementById('sidebarCloseBtn');
+    if (closeBtn) {
+        closeBtn.onclick = (e) => {
+            e.preventDefault();
+            toggleSidebar(false);
+        };
+    }
+
+    // Restore desktop preference
+    if (window.innerWidth > 992) {
+        try {
+            const pref = localStorage.getItem('sidebar_collapsed');
+            const al = document.getElementById('appLayout');
+            if (pref === '1' && al) {
+                al.classList.add('sidebar-collapsed');
+            }
+        } catch(e){}
+    }
+}
+window.initSidebarControls = initSidebarControls;
+
 // ==================== 🚀 AUTO-LOAD & INITIALIZATION ENGINE ====================
 (function initMasterApp() {
     function boot() {
-        // 1. Session Restoration
-        try {
-            const saved = localStorage.getItem('sec_user_session') || sessionStorage.getItem('sec_user');
-            if (saved) {
-                const user = JSON.parse(saved);
-                window.me = user;
-                const lw = document.getElementById('loginWrapper');
-                const al = document.getElementById('appLayout');
-                if (lw) lw.style.display = 'none';
-                if (al) al.style.display = 'flex';
-                
-                const uNameDisp = document.getElementById('userNameDisplay');
-                if (uNameDisp) uNameDisp.textContent = user.name || user.username;
-                
-                if (typeof applyRBACPermissions === 'function') applyRBACPermissions(user);
-            }
-        } catch(e) {}
-
-        // 2. Render Dashboard immediately
-        if (typeof window.renderDashboard === 'function') {
-            window.renderDashboard();
-        }
-
-        // 3. Attach Universal Row Interactions
+        enforceSecurityGate();
+        initSidebarControls();
         if (typeof window.attachUniversalRowInteractions === 'function') {
             window.attachUniversalRowInteractions();
         }
@@ -1338,78 +1576,18 @@ window.renderDashboard = function() {
     } else {
         boot();
     }
-
-    // Safety fallback run after 200ms
-    setTimeout(boot, 200);
+    setTimeout(boot, 150);
 })();
 
-// ==================== 🚀 AUTO-LOAD & INSTANT ROUTE RECOVERY ENGINE ====================
-(function initMasterApp() {
-    function boot() {
-        // 1. Session Restoration or Default Active Admin Session
-        let user = null;
-        try {
-            const saved = localStorage.getItem('sec_user_session') || sessionStorage.getItem('sec_user');
-            if (saved) {
-                user = JSON.parse(saved);
-            }
-        } catch(e) {}
-
-        if (!user) {
-            user = {
-                id: 'usr_1',
-                username: 'admin',
-                name: 'أ. خالد العنسي (المدير العام)',
-                role: 'school_admin',
-                roleName: 'مدير المدرسة',
-                schoolId: 1,
-                schoolName: 'مدرسة المتفوقين الأهلية النموذجية',
-                permissions: { students: true, finance: true, accounting: true, control: true }
-            };
-            try {
-                localStorage.setItem('sec_user_session', JSON.stringify(user));
-            } catch(e) {}
+// Listen to Hash Changes to prevent URL manipulation / IDOR
+if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash ? window.location.hash.replace('#', '').trim() : '';
+        if (hash && typeof window.goTo === 'function') {
+            window.goTo(hash);
         }
-
-        window.me = user;
-        const lw = document.getElementById('loginWrapper');
-        const al = document.getElementById('appLayout');
-        if (lw) lw.style.display = 'none';
-        if (al) al.style.display = 'flex';
-        
-        const uNameDisp = document.getElementById('userNameDisplay');
-        if (uNameDisp) uNameDisp.textContent = user.name || user.username;
-        
-        const activeSchoolDisp = document.getElementById('activeSchoolDisplay');
-        if (activeSchoolDisp) activeSchoolDisp.textContent = user.schoolName || 'مدرسة المتفوقين الأهلية';
-
-        if (typeof applyRBACPermissions === 'function') applyRBACPermissions(user);
-
-        // 2. Hash Route Recovery
-        const currentHash = window.location.hash ? window.location.hash.replace('#', '').trim() : '';
-        if (currentHash && currentHash !== 'pg-dashboard' && typeof window.goTo === 'function') {
-            window.goTo(currentHash);
-        } else {
-            if (typeof window.renderDashboard === 'function') {
-                window.renderDashboard();
-            }
-        }
-
-        // 3. Attach Universal Row Interactions
-        if (typeof window.attachUniversalRowInteractions === 'function') {
-            window.attachUniversalRowInteractions();
-        }
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-    } else {
-        boot();
-    }
-
-    // Safety fallback
-    setTimeout(boot, 100);
-})();
+    });
+}
 
 // Universal In-Table Realtime Search Filter
 function filterTable(tbodyId, query) {
@@ -1428,66 +1606,6 @@ function filterTable(tbodyId, query) {
 }
 window.filterTable = filterTable;
 
-// ==================== ⚡ IMMEDIATE ZERO-CLICK SYSTEM BOOT ====================
-(function immediateAutoBoot() {
-    function ensureLayoutVisible() {
-        const lw = document.getElementById('loginWrapper');
-        const al = document.getElementById('appLayout');
-        const sb = document.getElementById('sidebar');
-        
-        if (lw) lw.style.display = 'none';
-        if (al) {
-            al.style.display = 'flex';
-            al.style.minHeight = '100vh';
-        }
-        if (sb) {
-            sb.style.display = 'flex';
-            sb.style.visibility = 'visible';
-            sb.style.opacity = '1';
-        }
-
-        const user = {
-            id: 'usr_1',
-            username: 'admin',
-            name: 'أ. خالد العنسي (المدير العام)',
-            role: 'school_admin',
-            roleName: 'مدير المدرسة',
-            schoolId: 1,
-            schoolName: 'مدرسة المتفوقين الأهلية النموذجية',
-            permissions: { students: true, finance: true, accounting: true, control: true }
-        };
-        window.me = user;
-        
-        try {
-            localStorage.setItem('sec_user_session', JSON.stringify(user));
-        } catch(e) {}
-
-        const uNameDisp = document.getElementById('userNameDisplay');
-        if (uNameDisp) uNameDisp.textContent = user.name;
-        
-        const activeSchoolDisp = document.getElementById('activeSchoolDisplay');
-        if (activeSchoolDisp) activeSchoolDisp.textContent = user.schoolName;
-
-        // Render Dashboard or Hash Page
-        const hash = window.location.hash ? window.location.hash.replace('#', '').trim() : '';
-        if (hash && hash !== 'pg-dashboard' && typeof window.goTo === 'function') {
-            window.goTo(hash);
-        } else {
-            if (typeof window.renderDashboard === 'function') {
-                window.renderDashboard();
-            }
-        }
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', ensureLayoutVisible);
-    } else {
-        ensureLayoutVisible();
-    }
-    setTimeout(ensureLayoutVisible, 50);
-    setTimeout(ensureLayoutVisible, 300);
-})();
-
 // ============================================================================
 // 👥 USERS DIRECTORY & STUDENT REGISTRATION REAL-TIME LINKING ENGINE
 // ============================================================================
@@ -1497,6 +1615,20 @@ function ensureInitialUsersAndStudents() {
 
     if (!window.DB.users || window.DB.users.length < 5) {
         window.DB.users = [
+            {
+                id: 'USR-SAAS-01',
+                username: 'superadmin',
+                password: '123',
+                name: 'م. أحمد الشامي (مدير عام المنصة)',
+                role: 'saas_admin',
+                roleName: 'مدير المنصة (Super Admin)',
+                phone: '777999888',
+                nationalId: '10009990001',
+                email: 'superadmin@school-erp.cloud',
+                status: 'نشط 🟢',
+                allowedPagesCount: 'كافة واجهات السيرفر والمنصة (Super Admin) 🛡️',
+                date: '2026-08-01'
+            },
             {
                 id: 'USR-101',
                 username: 'admin',
@@ -7772,10 +7904,11 @@ function handleLoginSubmit(e) {
         }
 
         const allUsers = (window.DB && window.DB.users) ? window.DB.users : [
-            { id: 'usr_1', username: 'admin', password: '123', name: 'أ. خالد العنسي (المدير العام)', role: 'school_admin', roleName: 'مدير المدرسة', status: 'نشط' },
-            { id: 'usr_2', username: 'teacher', password: '123', name: 'أ. عبد الرحمن باعباد', role: 'teacher', roleName: 'معلم', status: 'نشط' },
-            { id: 'usr_3', username: 'staff', password: '123', name: 'أ. سارة المحاسبة', role: 'staff', roleName: 'محاسب وموظف', status: 'نشط' },
-            { id: 'usr_4', username: 'parent', password: '123', name: 'الشيخ باعباد (ولي أمر)', role: 'parent', roleName: 'ولي أمر', status: 'نشط' }
+            { id: 'usr_super', username: 'superadmin', password: '123', name: 'م. أحمد الشامي (مدير عام المنصة)', role: 'saas_admin', roleName: 'مدير النظام (Super Admin)', status: 'نشط 🟢' },
+            { id: 'usr_1', username: 'admin', password: '123', name: 'أ. خالد العنسي (المدير العام)', role: 'school_admin', roleName: 'مدير المدرسة', status: 'نشط 🟢' },
+            { id: 'usr_2', username: 'teacher', password: '123', name: 'أ. عبد الرحمن باعباد', role: 'teacher', roleName: 'معلم', status: 'نشط 🟢' },
+            { id: 'usr_3', username: 'staff', password: '123', name: 'أ. سارة المحاسبة', role: 'staff', roleName: 'محاسب وموظف', status: 'نشط 🟢' },
+            { id: 'usr_4', username: 'parent', password: '123', name: 'الشيخ باعباد (ولي أمر)', role: 'parent', roleName: 'ولي أمر', status: 'نشط 🟢' }
         ];
 
         const userMatch = allUsers.find(u => 
@@ -7842,6 +7975,21 @@ function handleLoginSubmit(e) {
         const portalAttr = (document.body && document.body.dataset && document.body.dataset.portal) ? document.body.dataset.portal : '';
         const path = window.location.pathname.toLowerCase();
         const isAdminPortal = portalAttr === 'admin' || path.includes('admin') || path.includes('saas');
+
+        // 🛡️ STRICT PORTAL AUTHORIZATION VERIFICATION (IDOR & Spoofing Guard)
+        const isSuperAdminRole = userMatch.role === 'saas_admin' || userMatch.role === 'super_admin' || String(userMatch.roleName).includes('مدير المنصة') || String(userMatch.roleName).includes('مدير عام النظام') || (userMatch.username === 'admin' && isAdminPortal);
+        
+        if (isAdminPortal && !isSuperAdminRole) {
+            throw new Error(`🚫 وصول محظور أمنياً: الحساب (${uName}) مسجل كـ [${userMatch.roleName || userMatch.role}] ومخصص لبوابة المدرسة فقط. ليس لديك تصريح دخول للمركز السحابي لمدير عام النظام (Super Admin).`);
+        }
+
+        if (portalAttr === 'parent' && !(userMatch.role === 'parent' || String(userMatch.roleName).includes('ولي أمر') || isSuperAdminRole)) {
+            throw new Error(`⚠️ هذه البوابة مخصصة لأولياء الأمور والطلاب فقط.`);
+        }
+
+        if (!isAdminPortal && portalAttr !== 'parent' && (userMatch.role === 'parent' || String(userMatch.roleName).includes('ولي أمر'))) {
+            throw new Error(`⚠️ حسابات أولياء الأمور غير مصرح لها بالدخول إلى إدارة المدرسة. يرجى الدخول عبر بوابة ولي الأمر (parent.html).`);
+        }
         const rawSchoolVal = document.getElementById('schoolId')?.value || '1';
         const selectedSchoolId = isAdminPortal ? 'ALL' : (parseInt(rawSchoolVal) || 1);
         const selectedSchoolName = isAdminPortal ? 'المركز السحابي الموحد (كافة المدارس الـ 30)' : (document.getElementById('schoolId')?.options[document.getElementById('schoolId')?.selectedIndex]?.text || 'مدرسة المتفوقين الأهلية');
@@ -7971,6 +8119,8 @@ function logout() {
     try {
         sessionStorage.clear();
         localStorage.removeItem('sec_user_session');
+        window.me = null;
+        try { history.replaceState(null, null, window.location.pathname); } catch(e){}
     } catch(e){}
     const lw = document.getElementById('loginWrapper');
     const al = document.getElementById('appLayout');
@@ -8177,6 +8327,25 @@ function goTo(pageId, extraParam) {
     let targetId = aliasMap[target] || target;
     if (!targetId.startsWith('pg-') && document.getElementById('pg-' + targetId)) {
         targetId = 'pg-' + targetId;
+    }
+
+    // 🛡️ IDOR & Access Control Guard: Verify user has permission to open this page
+    if (typeof isPagePermittedForUser === 'function') {
+        const currentUser = window.me;
+        if (currentUser && !isPagePermittedForUser(targetId, currentUser)) {
+            const roleName = currentUser.roleName || currentUser.role || 'المستخدم الحالي';
+            const msg = `⛔ غير مصرح أمنياً: لا تملك صلاحية للوصول إلى واجهة [${targetId}]. تم حظر الطلب بحسب سياسة الأمان الخاصة برتبتك (${roleName}).`;
+            if (typeof toast === 'function') toast(msg, 1);
+            if (typeof addAudit === 'function') {
+                addAudit('محاولة وصول محظورة لواجهة (IDOR Blocked)', `المستخدم ${currentUser.name || currentUser.username} (${roleName}) حاول فتح الواجهة ${targetId}`);
+            }
+            return;
+        }
+    }
+
+    // Auto-close mobile sidebar when navigating
+    if (typeof toggleSidebar === 'function' && window.innerWidth <= 992) {
+        toggleSidebar(false);
     }
 
     // Hide all pages

@@ -299,20 +299,26 @@ i.fa-solid, i.fa-regular, i.fa-brands, i.fas, i.far, i.fab {
 }
 
 .btn-menu {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border);
-    color: var(--text-muted);
-    width: 34px;
-    height: 34px;
+    color: var(--text-primary);
+    width: 38px;
+    height: 38px;
     border-radius: var(--radius-sm);
-    display: none;
+    display: inline-flex !important; /* Always visible on desktop & mobile to toggle interface names */
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.22s ease;
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 .btn-menu:hover {
-    color: var(--text-primary);
-    background: var(--bg-card-hover);
+    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
 }
 
 .breadcrumb {
@@ -447,7 +453,7 @@ i.fa-solid, i.fa-regular, i.fa-brands, i.fas, i.far, i.fab {
     padding: 1px 6px;
 }
 
-/* Sidebar */
+/* Sidebar & Collapsible Interfaces Menu */
 .sidebar {
     width: var(--sidebar-w);
     background: var(--bg-sidebar);
@@ -459,7 +465,59 @@ i.fa-solid, i.fa-regular, i.fa-brands, i.fas, i.far, i.fab {
     position: sticky;
     top: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 105;
+    transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s ease, right 0.28s ease;
+}
+
+/* Desktop Collapsed Sidebar State (Toggled by btn-menu to show/hide interface names) */
+.app-layout.sidebar-collapsed .sidebar {
+    width: 72px !important;
+}
+.app-layout.sidebar-collapsed .sidebar-header h2,
+.app-layout.sidebar-collapsed .sidebar-header .btn-sidebar-close,
+.app-layout.sidebar-collapsed .sidebar-nav .nav-section,
+.app-layout.sidebar-collapsed .sidebar-nav .nav-item span,
+.app-layout.sidebar-collapsed .sidebar-nav .nav-item i.fa-chevron-down,
+.app-layout.sidebar-collapsed .sub-menu {
+    display: none !important;
+}
+.app-layout.sidebar-collapsed .sidebar-header {
+    justify-content: center;
+    padding: 16px 8px;
+}
+.app-layout.sidebar-collapsed .sidebar-header .sidebar-logo {
+    margin: 0 auto;
+}
+.app-layout.sidebar-collapsed .sidebar-nav .nav-item {
+    justify-content: center;
+    padding: 12px 0;
+    margin: 3px 6px;
+    border-radius: 8px;
+    position: relative;
+}
+.app-layout.sidebar-collapsed .sidebar-nav .nav-item i {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+/* Mobile Frosted Glass Backdrop */
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 104;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+.sidebar-backdrop.active {
+    display: block;
+    opacity: 1;
 }
 
 .sidebar-header {
